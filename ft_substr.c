@@ -1,5 +1,3 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include "libft.h"
 
 int	ft_strlen2(char	*str)

@@ -56,7 +56,7 @@ endif
 all : $(NAME)
 
 $(NAME) : $(OBJ_FILES)
-	ar -rcvs $(NAME) $(OBJ_FILES)
+	ar -rc $(NAME) $(OBJ_FILES)
 
 %.o : %.c
 	$(CC) -c $(CFLAG) $< -o ${<:.c=.o}

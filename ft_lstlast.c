@@ -1,5 +1,4 @@
 #include "libft.h"
-#include <stdlib.h>
 
 t_list *ft_lstlast(t_list *lst)
 {

@@ -1,12 +1,17 @@
 #ifndef LIBFT_H
 # define LIBFT_H
+
+#include <stdlib.h>
+#include <unistd.h>
+#include <limits.h>
+
 typedef struct s_list
 {
     void          *content;
     struct s_list *next;
 }              t_list;
 
-#include <stdlib.h>
+
 int	ft_strlen(char	*str);
 void ft_lstdelone(t_list *lst, void (*del)(void *));
 t_list *ft_lstnew(void *content);

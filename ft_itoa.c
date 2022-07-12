@@ -9,8 +9,7 @@
 /*   Updated: 2022/07/06 14:41:55 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdio.h>
-#include <stdlib.h>
+#include "libft.h"
 
 int cnt_len(int n)
 {

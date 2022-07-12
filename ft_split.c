@@ -9,9 +9,7 @@
 /*   Updated: 2022/06/08 22:12:44 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <stdlib.h>
-#include <stdio.h>
-// #include "libft.h"
+#include "libft.h"
 
 int get_len(char* s, char c)
 {
