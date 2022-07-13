@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:38:41 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 16:50:54 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/13 19:18:02 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	//     return 0;
 	// }
 
-	if (des_p == src_p || len == 0)
+	if (des_p == src_p)
 		return (dst);
 	if (des_p <= src_p)
 	{
