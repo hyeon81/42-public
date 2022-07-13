@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeokim2 <hyeokim2@student.42seoul.kr      +#+  +:+       +#+        */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 14:23:05 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/06 14:23:15 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/13 14:01:37 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_atoi(const char *str)
 {
-	int	i;
+	int					i;
 	unsigned long long	num;
-	int	sign;
+	int					sign;
 
 	i = 0;
 	sign = 1;
@@ -30,19 +30,12 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	if (str[i] == '-' || str[i] == '+')
-		return (0);
-	
+		return (0);	
 	while (str[i] >= '0' && str[i] <= '9')
 	{	
 		num = num * 10 + (str[i] - '0');
 		i++;
 	}
-
-	// if (LLONG_MAX < num * sign)
-	// 	return (-1);
-	// if (LLONG_MIN > num * sign) 
-	// 	return (0);
-
 	return (num * sign);
 }
 

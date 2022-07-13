@@ -1,42 +1,52 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/13 13:38:41 by hyeokim2          #+#    #+#             */
+/*   Updated: 2022/07/13 16:50:54 by hyeokim2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-void *ft_memmove(void *dst, const void *src, size_t len)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	size_t i;
-    unsigned char *des_p;
-    unsigned char *src_p;
+	size_t			i;
+	unsigned char	*des_p;
+	unsigned char	*src_p;
 
-    i = 0;
-    des_p = (unsigned char*)dst;
-    src_p = (unsigned char*)src;
+	i = 0;
+	des_p = (unsigned char *)dst;
+	src_p = (unsigned char *)src;
 
-    // if (!des_p && !src_p)
-    // {
-    //     return 0;
-    // }
+	// if (!des_p && !src_p)
+	// {
+	//     return 0;
+	// }
 
-    if (des_p == src_p || len == 0)
-        return dst;
-
-    if (des_p <= src_p)
-    {
-        while (i < len)
-        {
-            des_p[i] = src_p[i];
-            i++;
-        }
-    }
-
-    //자리가 모자람
-    else
-    {
-        while (len > 0)
-        {
-            des_p[len - 1] = src_p[len - 1];
-            len--;
-        }
-    }
-    return (des_p);
+	if (des_p == src_p || len == 0)
+		return (dst);
+	if (des_p <= src_p)
+	{
+		while (i < len)
+		{
+			des_p[i] = src_p[i];
+			i++;
+		}
+	}
+	//자리가 모자람
+	else
+	{
+		while (len > 0)
+		{
+			des_p[len - 1] = src_p[len - 1];
+			len--;
+		}
+	}
+	return (des_p);
 }
 
 // int main()

@@ -1,23 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/07/13 13:33:13 by hyeokim2          #+#    #+#             */
+/*   Updated: 2022/07/13 16:19:16 by hyeokim2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-void *ft_calloc(size_t count, size_t size)
+void	*ft_calloc(size_t count, size_t size)
 {
-    unsigned char *ptr;
-    size_t i;
+	unsigned char	*ptr;
+	size_t			i;
 
-    i = 0;
-    ptr = malloc(count * size);
-    if (ptr == 0)
-        return 0;
-    while (i < count * size)
-    {
-        ptr[i] = 0;
-        i++;
-    }
-    return (ptr);
+	i = 0;
+	ptr = malloc(count * size);
+	if (ptr == 0)
+		return (0);
+	while (i < count * size)
+	{
+		ptr[i] = 0;
+		i++;
+	}
+	return (ptr);
 }
-
-
 // int main ()
 // {
 //     int arr1[5] = {1, 2, 3, 4, 5};
