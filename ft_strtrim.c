@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:41:50 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 17:11:16 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/13 17:56:20 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,9 @@ int	search_set(char c, char *set)
 	return (0);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+int	search_s_idx(const char *s1, const char *set)
 {
-	char	*str;
-	int		i;
-	int		start;
-	int		end;
+	int i;
 
 	i = 0;
 	while (s1[i] != '\0')
@@ -40,15 +37,34 @@ char	*ft_strtrim(char const *s1, char const *set)
 			break ;
 		i++;
 	}
-	start = i;
-	i = ft_strlen((char *)s1);
+	return (i);
+}
+
+int	search_e_idx(const char *s1, const char *set, int start)
+{
+	int i;
+
+	i = start;
+	while (s1[i] != 0)
+		i++;
 	while (start < i - 1)
 	{
 		if (search_set(s1[i - 1], (char *) set) == 0)
 			break ;
 		i--;
 	}
-	end = i - 1;
+	return (i - 1);
+}
+
+char	*ft_strtrim(char const *s1, char const *set)
+{
+	char	*str;
+	int		i;
+	int		start;
+	int		end;
+
+	start = search_s_idx(s1, set);
+	end = search_e_idx(s1, set, start);
 	str = (char *)malloc(sizeof(char) * (end - start + 2));
 	if (!str)
 		return (0);
@@ -64,5 +80,5 @@ char	*ft_strtrim(char const *s1, char const *set)
 }
 
 // int main() {
-//     printf("%s", ft_strtrim("", "1234"));
+//     printf("%s", ft_strtrim("1232355", "1234"));
 // }

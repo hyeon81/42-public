@@ -6,11 +6,12 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 14:24:44 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 17:24:13 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/13 18:03:21 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+// #include <stdio.h>
 
 int	cnt_len(int n)
 {
@@ -32,16 +33,16 @@ int	cnt_len(int n)
 	return (len);
 }
 
-void	convert_minus(char *arr, int n)
+void	convert_minus(char *arr, int *n, int *len)
 {
 	arr[0] = '-';
-	if (n == -2147483648)
+	if ((*n) == -2147483648)
 	{
 		arr[10] = '8';
-		n = n / 10;
-		len--;
+		(*n) = (*n) / 10;
+		(*len)--;
 	}
-	n = n * -1;
+	(*n) = (*n) * -1;
 }
 
 char	*ft_itoa(int n)
@@ -53,8 +54,9 @@ char	*ft_itoa(int n)
 	arr = (char *)malloc(sizeof(char) * (len + 1));
 	if (!arr)
 		return (0);
+	arr[len] = '\0';
 	if (n < 0)
-		convert_minus(arr, n);
+		convert_minus(arr, &n, &len);
 	while (n > 9)
 	{
 		arr[len - 1] = n % 10 + '0';
@@ -67,5 +69,5 @@ char	*ft_itoa(int n)
 
 // int main (void)
 // {
-// 	printf("%s", ft_itoa(-2147483648));
+// 	printf("%s", ft_itoa(34934090));
 // }
