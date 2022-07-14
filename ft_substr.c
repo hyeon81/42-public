@@ -12,16 +12,6 @@
 
 #include "libft.h"
 
-int	ft_strlen2(char	*str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
-}
-
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
@@ -29,7 +19,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 
 	// if (!s)
 	//     return 0;
-	if (start >= (unsigned int)ft_strlen2((char *)s))
+	if (start >= (unsigned int)ft_strlen((char *)s))
 	{
 		str = (char *)malloc(1);
 		str[0] = '\0';
