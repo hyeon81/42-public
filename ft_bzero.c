@@ -27,13 +27,13 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-int main ()
-{
-	int ptr[4] = {1,2,3,4};
-	ft_bzero(ptr, 25);
+// int main ()
+// {
+// 	int ptr[4] = {1,2,3,4};
+// 	ft_bzero(ptr, 25);
 
-	for(int i = 0; i < 4; i++)
-	{
-		printf("%d", ptr[i]);
-	}
-}
+// 	for(int i = 0; i < 4; i++)
+// 	{
+// 		printf("%d", ptr[i]);
+// 	}
+// }

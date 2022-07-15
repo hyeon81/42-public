@@ -73,3 +73,8 @@ bonus:
 	make WITH_BONUS=1 all
 
 .PHONY:	all clean fclean bonus re
+
+so:
+	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRCS)
+	gcc -nostartfiles -shared -o libft.so $(OBJS)
+
