@@ -6,16 +6,11 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:40:52 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 16:53:33 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/16 12:30:06 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-// void ft_putchar (unsigned int n, char *str)
-// {
-//     write(1, &str[n], 1);
-// }
 
 void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
@@ -28,8 +23,3 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 		i++;
 	}
 }
-
-// int main ()
-// {
-//     ft_striteri("abcdefg", ft_putchar);
-// }

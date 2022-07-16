@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:37:12 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 14:13:14 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/16 15:02:44 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	t_list	*curr;
-
-	curr = lst;
-	while (curr != 0)
+	if (lst == 0)
+		return ;
+	while (lst != 0)
 	{
-		f(curr->content);
-		curr = curr->next;
+		f(lst->content);
+		lst = lst->next;
 	}
 }

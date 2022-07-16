@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:36:50 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 16:43:12 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/16 15:28:57 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		return ;
 	}
 	while (curr -> next != 0)
-	{
 		curr = curr -> next;
-	}
 	curr -> next = new;
-	new -> next = 0;
 }

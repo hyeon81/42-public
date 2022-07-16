@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 14:23:05 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 18:25:19 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/16 12:24:56 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,3 @@ int	ft_atoi(const char *str)
 	}
 	return (num * sign);
 }
-
-// int main()
-// {
-// 	char *str1 = "1234abcde";
-// 	char *str2 = "-1234a";	
-// 	char *str3 = "-+1234ab";
-// 	char *str4 = "+12345ab";
-// 	char *str5 = "   12345ab";
-// 	char *str6 = "ab";
-
-// 	printf("%d : %d\n", ft_atoi(str1), atoi(str1));	
-// 	printf("%d : %d\n", ft_atoi(str2), atoi(str2));	
-// 	printf("%d : %d\n", ft_atoi(str3), atoi(str3));	
-// 	printf("%d : %d\n", ft_atoi(str4), atoi(str4));	
-// 	printf("%d : %d\n", ft_atoi(str5), atoi(str5));	
-// 	printf("%d : %d\n", ft_atoi(str6), atoi(str6));	
-// 	printf("%d : %d\n", ft_atoi("-2147483648"), atoi("-2147483648"));
-// }

@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:38:52 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 16:51:36 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/16 12:27:57 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,3 @@ void	ft_putendl_fd(char *s, int fd)
 	}
 	write(fd, "\n", 1);
 }
-
-// int main ()
-// {
-//     ft_putendl_fd("abcded", 1);
-// }

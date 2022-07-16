@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:38:59 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 16:52:10 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/16 12:28:12 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,3 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putnbr_fd(-n, fd);
 	}
 }
-
-// int main ()
-// {
-//     ft_putnbr_fd(-432521, 2);
-// }

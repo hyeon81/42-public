@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:40:37 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 16:52:40 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/16 12:29:13 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,7 @@ char	*ft_strchr(const char *s, int c)
 			return ((char *)&s[i]);
 		i++;
 	}
-	//c가 null일때?
-	if (s[i] == c)
+	if (c == 0)
 		return ((char *)&s[i]);
 	return (0);
 }
-
-// int main ()
-// {
-//     char s[] = "1234567";
-//     printf("%s", strchr(s, '0'));
-// }

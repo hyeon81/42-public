@@ -6,12 +6,11 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/06 14:24:44 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 18:03:21 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/16 12:45:58 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-// #include <stdio.h>
 
 int	cnt_len(int n)
 {
@@ -66,8 +65,3 @@ char	*ft_itoa(int n)
 	arr[len - 1] = n + '0';
 	return (arr);
 }
-
-// int main (void)
-// {
-// 	printf("%s", ft_itoa(34934090));
-// }

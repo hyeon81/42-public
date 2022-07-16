@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:41:50 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 17:56:20 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/16 15:25:21 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	search_set(char c, char *set)
 
 int	search_s_idx(const char *s1, const char *set)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s1[i] != '\0')
@@ -42,7 +42,7 @@ int	search_s_idx(const char *s1, const char *set)
 
 int	search_e_idx(const char *s1, const char *set, int start)
 {
-	int i;
+	int	i;
 
 	i = start;
 	while (s1[i] != 0)
@@ -78,7 +78,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	str[i] = '\0';
 	return (str);
 }
-
-// int main() {
-//     printf("%s", ft_strtrim("1232355", "1234"));
-// }

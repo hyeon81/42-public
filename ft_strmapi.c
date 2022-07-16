@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:41:29 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 16:55:17 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/16 12:57:48 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,3 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	str[i] = '\0';
 	return (str);
 }
-
-// int main ()
-// {
-//     printf("%s", ft_strmapi("abcdefg", ft_add_one));
-// }

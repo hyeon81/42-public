@@ -6,13 +6,13 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:40:29 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 16:52:18 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/16 15:55:44 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	get_len(char	*s, char c)
+int	ft_get_len(char	*s, char c)
 {
 	int	i;
 	int	len;
@@ -32,7 +32,7 @@ int	get_len(char	*s, char c)
 	return (len);
 }
 
-char	*make_arr(char *s, char c, int i)
+char	*ft_make_arr(char *s, char c, int i)
 {
 	char	*arr;
 	int		idx;
@@ -55,13 +55,27 @@ char	*make_arr(char *s, char c, int i)
 	return (arr);
 }
 
+char	**ft_free_all(char **s, int idx)
+{
+	int	i;
+
+	i = 0;
+	while (i < idx)
+	{
+		free(s[i]);
+		i++;
+	}
+	free(s);
+	return (0);
+}
+
 char	**ft_split(char const *s, char c)
 {
 	char	**arr;
 	int		i;
 	int		idx;
 
-	arr = (char **)malloc(sizeof(char *) * (get_len((char *)s, c) + 1));
+	arr = (char **)malloc(sizeof(char *) * (ft_get_len((char *)s, c) + 1));
 	if (!arr)
 		return (0);
 	i = 0;
@@ -72,7 +86,9 @@ char	**ft_split(char const *s, char c)
 			i++;
 		if (s[i] != c && s[i] != 0)
 		{
-			arr[idx] = make_arr((char *)s, c, i);
+			arr[idx] = ft_make_arr((char *)s, c, i);
+			if (arr[idx] == 0)
+				return (ft_free_all(arr, idx));
 			idx++;
 		}
 		while (s[i] != c && s[i] != 0)
@@ -81,10 +97,3 @@ char	**ft_split(char const *s, char c)
 	arr[idx] = 0;
 	return (arr);
 }
-
-// int main()
-// {
-// 	char *string = "      split       this for   me  !       ";
-// 	char **result = ft_split(string, ' ');
-// 	printf("%s", result[0]);
-// }

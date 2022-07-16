@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:41:39 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 16:57:02 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/16 12:57:55 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,3 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	}
 	return (0);
 }
-
-// int main()
-// {
-//     char *s1 = "12345689234";
-//     char *s2 = "234";
-
-//     printf("%s : %s\n", ft_strnstr(s1, s2, 10), strnstr(s1, s2, 10));
-//     printf("%s : %s\n", ft_strnstr(s1, "89", 2), strnstr(s1, "89", 2));
-//     printf("%s : %s\n", ft_strnstr(s1, "89", 10), strnstr(s1, "89", 10));
-//     printf("%s : %s\n", ft_strnstr(s1, "89", 0), strnstr(s1, "89", 0));
-//     printf("%s : %s\n", ft_strnstr(s1, "", 10), strnstr(s1, "", 10));
-// }

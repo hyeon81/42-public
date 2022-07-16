@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:38:41 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/13 19:18:02 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/16 13:09:55 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,16 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	unsigned char	*des_p;
 	unsigned char	*src_p;
 
-	i = 0;
+	i = -1;
 	des_p = (unsigned char *)dst;
 	src_p = (unsigned char *)src;
-
-	// if (!des_p && !src_p)
-	// {
-	//     return 0;
-	// }
-
 	if (des_p == src_p)
-		return (dst);
+		return (des_p);
 	if (des_p <= src_p)
 	{
-		while (i < len)
-		{
+		while (++i < len)
 			des_p[i] = src_p[i];
-			i++;
-		}
 	}
-	//자리가 모자람
 	else
 	{
 		while (len > 0)
@@ -48,14 +38,3 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	}
 	return (des_p);
 }
-
-// int main()
-// {
-//     char src[6]="abcded";
-//     char dst1[10]="1234567890";
-//     char dst2[4]="1234";
-
-//     printf("%s: %s\n", ft_memmove(dst1, src, 6), memmove(dst1, src, 6));
-//     printf("%s: %s\n", ft_memmove(dst1, src, 2), memmove(dst1, src, 2));
-//     printf("%s: %s\n", ft_memmove(dst2, src, 4), memmove(dst2, src, 4));
-// }
