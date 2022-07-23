@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 12:58:38 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/23 15:56:33 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/23 16:57:00 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ char *get_next_line(int fd)
 		//할당 실패한 것도 체크해줘야하나?
 		if (!backup)
 			return (0);
-	//개행문자가 있는지 없는지 검사 (strchr)
+	//개행문자가 있는지 없는지 검사 (strchr) // 널있는지도 체크해야하나?
 		line_idx = ft_strchr(backup, '\n');
 		if (line_idx >= 0)
 		{
