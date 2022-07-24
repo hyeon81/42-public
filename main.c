@@ -18,12 +18,12 @@ int main() {
 	line = get_next_line(fd);
     while (line)
     {
-    	printf("Gnl %d line : %s", i++, line);	
-        free(line);	
+    	printf("Gnl %d line : %s\n", i++, line);	
+        // free(line);	
     }
     printf("\n");
     
-    free(line);
+    // free(line);
 	close(fd);
 	
     return (0);
