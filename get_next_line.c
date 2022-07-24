@@ -52,18 +52,18 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-char	*ft_strdup(const char *s1, int idx)
+char	*ft_strdup_line(const char *s1, int start, int end)
 {
-	int		i;
 	char	*arr;
+	int	i = 0;
 
-	i = 0;
-	arr = (char *)malloc(sizeof(char) * (idx));
+	arr = (char *)malloc(sizeof(char) * (start - end + 1));
 	if (!arr)
 		return (0);
-	while (i < idx)
+	while ((s1[start] != 0) && (start <= end))
 	{
-		arr[i] = s1[i];
+		arr[i] = s1[start];
+		start++;
 		i++;
 	}
 	arr[i] = '\0';
@@ -113,7 +113,7 @@ char *get_next_line(int fd)
 	//파일 읽기
 	if ((fd < 0) || (BUFFER_SIZE <= 0))
 		return (0);
-	backup = ft_strdup("", 1);
+	backup = ft_strdup_line("", 1, 1);
 	while (read(fd, buf, BUFFER_SIZE) > 0)
 	{
 		line_idx = read(fd, buf, BUFFER_SIZE);
@@ -129,10 +129,9 @@ char *get_next_line(int fd)
 		if (line_idx >= 0)
 		{
 			//완성된 문자열은 line에 저장
-			line = ft_strdup(backup, line_idx);
-			//backup은 이제 안 쓰니까 free?
-			free(backup);
-			backup = 0;
+			line = ft_strdup_line(backup, 0, line_idx);
+			//backup엔 나머지 친구들을 저장
+			backup = ft_strdup_line(backup, line_idx, ft_strlen(backup))
 			return (line);
 		}
 	}
