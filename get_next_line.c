@@ -140,17 +140,20 @@ char *get_next_line(int fd)
 		{
 			line = ft_split_line(backup, 0, newline_idx);
 			backup = ft_split_line(backup, newline_idx + 1, ft_strlen(backup));
+			// printf("make line\n");
 			return (line);
 		}
 	}
 	if (line_size == 0)
 	{
 		line = ft_return_last(backup, buf, line_size);
+		// printf("make last line\n");
 		free(backup);
 		backup = 0;
 		return (line);
 	}
 	free(backup);
+	// printf("make finish\n");
 	backup = 0;
 	return (0);
 }
