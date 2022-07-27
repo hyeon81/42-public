@@ -11,6 +11,7 @@
 // /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 int	ft_strlen(char *s)
 {
@@ -52,12 +53,8 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	if (s1 == 0)
-		s1 = ft_strdup("");
-	if (s2 == 0)
-		s2 = ft_strdup("");
 	str = (char *)malloc(sizeof(char) * 
-	(ft_strlen((char *)s1) + ft_strlen((char *)s2) + 1));
+	(ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
 		return (0);
 	while (s1[i] != 0)
@@ -87,7 +84,7 @@ char	*ft_split_line(const char *s1, int start, int end)
 		return (0);
 	while ((s1[start] != 0) && (start <= end))
 	{
-		arr[i] = s1[start]; //backup[1]은 아무것도 없음
+		arr[i] = s1[start];
 		start++;
 		i++;
 	}
@@ -109,25 +106,49 @@ int	ft_strchr(const char *s, int c)
 	return (-1);
 }
 
-char *ft_return_last(char *backup, char* buf, int line_size)
+char *ft_return_last(char **backup)
 {
-	if (backup[0] == '\0')
+	char *temp;
+	char *line;
+	int newline_idx;
+	
+	if (*backup[0] == '\0')
+	{
+		// printf("case1; %s\n", *backup);
+		free(*backup);
+		*backup = 0;
 		return (0);
-	buf[line_size] = '\0';
-	backup = ft_strjoin(backup, buf);
-	return (backup);
-}
+	}
+	// buf[line_size] = '\0';
+	// printf("-------return last--------\n");
+	// printf("buf: %s\n", buf);
+	// printf("backup: %s\n", *backup);
+	// *backup = temp;
+	// printf("temp: %s\n", temp);
 
-#include <stdio.h>
+	if ((newline_idx = ft_strchr(*backup, '\n')) >= 0)
+	{
+		line = ft_split_line(*backup, 0, newline_idx);
+		temp = ft_split_line(*backup, newline_idx + 1, ft_strlen(*backup));
+		free(*backup);
+		*backup = temp;
+		return (line);
+	}
+	temp = ft_strdup(*backup);
+	free(*backup);
+	*backup = 0;
+	return (temp);
+}
 
 char *get_next_line(int fd)
 {
 	char buf[BUFFER_SIZE + 1];
 	static char *backup;
-	char *line; 
+	char *line;
+	char *temp;
 	int line_size;
 	int newline_idx;
-
+ 
 	if (((fd < 0) || (fd > 256)) || (BUFFER_SIZE <= 0))
 		return (0);
 	if (!backup)
@@ -135,25 +156,19 @@ char *get_next_line(int fd)
 	while ((line_size = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[line_size] = '\0';
-		backup = ft_strjoin(backup, buf);
+		temp = ft_strjoin(backup, buf);
+		free(backup);
+		backup = temp;
 		if ((newline_idx = ft_strchr(backup, '\n')) >= 0)
 		{
 			line = ft_split_line(backup, 0, newline_idx);
-			backup = ft_split_line(backup, newline_idx + 1, ft_strlen(backup));
-			// printf("make line\n");
+			temp = ft_split_line(backup, newline_idx + 1, ft_strlen(backup));
+			free(backup);
+			backup = temp;
 			return (line);
 		}
 	}
-	if (line_size == 0)
-	{
-		line = ft_return_last(backup, buf, line_size);
-		// printf("make last line\n");
-		free(backup);
-		backup = 0;
-		return (line);
-	}
-	free(backup);
-	// printf("make finish\n");
-	backup = 0;
-	return (0);
+	line = ft_return_last(&backup);
+	return (line);
+
 }

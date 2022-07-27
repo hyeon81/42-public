@@ -15,25 +15,13 @@ int main() {
     	printf("\nError in open");
         return (0);
     }
-	// line = get_next_line(fd);
-    // printf("Gnl %d line : %s\n", i++, line);
-    // free(line);	
-    // line = get_next_line(fd);
-    // printf("Gnl %d line : %s\n", i++, line);
-    // free(line);	
-    // line = get_next_line(fd);
-    // printf("Gnl %d line : %s\n", i++, line);
-    // free(line);	
-    
-    while ((line = get_next_line(fd)))
+    while (i < 20)
     {
+        line = get_next_line(fd);
     	printf("Gnl %d line : %s\n", i++, line);	
         free(line);	
     }
-    // printf("finished\n");
-    printf("Gnl %d line : %s\n", i++, line);	
     
-    free(line);
 	close(fd);
 	
     return (0);
