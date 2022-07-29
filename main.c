@@ -17,7 +17,7 @@ int main() {
     }
     while (i < 20)
     {
-        line = get_next_line(fd);
+        line = get_next_line(0);
     	printf("Gnl %d line : %s\n", i++, line);	
         free(line);	
     }

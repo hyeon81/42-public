@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/27 18:56:30 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/27 21:08:32 by hyeokim2         ###   ########.fr       */
+/*   Created: 2022/07/29 20:15:49 by hyeokim2          #+#    #+#             */
+/*   Updated: 2022/07/29 20:15:50 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void	ft_free(char **s1, char **s2, int flag)
 		*s1 = 0;
 }
 
-char	*ft_split_line(const char *s1, int start, int end)
+char	*ft_split_line(char *s1, int start, int end)
 {
 	char	*arr;
 	int		i;
 
 	i = 0;
-	arr = (char *)malloc(sizeof(char) * (end - start + 1));
+	arr = (char *)malloc(sizeof(char) * (end - start + 2));
 	if (!arr)
 		return (0);
 	while ((s1[start] != 0) && (start <= end))
@@ -40,12 +40,14 @@ char	*ft_split_line(const char *s1, int start, int end)
 	return (arr);
 }
 
-char	*ft_return_last(char **backup)
+char	*ft_return_last(char **backup, char **buf)
 {
 	char	*temp;
 	char	*line;
 	int		newline_idx;
 
+	if (buf)
+		ft_free(buf, 0, 0);
 	if (*backup[0] == '\0')
 	{
 		ft_free(backup, 0, 0);
@@ -64,13 +66,13 @@ char	*ft_return_last(char **backup)
 	return (temp);
 }
 
-char	*ft_make_line(char **backup, char *buf)
+char	*ft_make_line(char **backup, char **buf)
 {
 	char	*temp;
 	char	*line;
 	int		newline_idx;
 
-	temp = ft_strjoin(*backup, buf);
+	temp = ft_strjoin(*backup, *buf);
 	ft_free(backup, &temp, 1);
 	if (ft_strchr(*backup, '\n') >= 0)
 	{	
@@ -85,23 +87,27 @@ char	*ft_make_line(char **backup, char *buf)
 
 char	*get_next_line(int fd)
 {
-	char		buf[BUFFER_SIZE + 1];
+	char		*buf;
 	static char	*backup;
 	int			line_idx;
 	char		*line;
 
 	if ((fd < 0) || (BUFFER_SIZE <= 0) || (fd > 256))
 		return (0);
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!backup)
 		backup = ft_strdup("");
 	line_idx = read(fd, buf, BUFFER_SIZE);
 	while (line_idx > 0)
 	{
 		buf[line_idx] = '\0';
-		line = ft_make_line(&backup, buf);
-		if (!(line == 0))
+		line = ft_make_line(&backup, &buf);
+		if (line != 0)
+		{
+			ft_free(&buf, 0, 0);
 			return (line);
+		}
 		line_idx = read(fd, buf, BUFFER_SIZE);
 	}
-	return (ft_return_last(&backup));
+	return (ft_return_last(&backup, &buf));
 }

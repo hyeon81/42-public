@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 12:58:42 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/27 19:29:57 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/07/29 19:44:03 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
-int	ft_strchr(const char *s, int c)
+int	ft_strchr(char *s, int c)
 {
 	int	i;
 
