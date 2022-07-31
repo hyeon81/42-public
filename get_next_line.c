@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <limits.h>
 
 void	ft_free(char **s1, char **s2, int flag)
 {
@@ -88,20 +89,20 @@ char	*ft_make_line(char **backup, char **buf)
 char	*get_next_line(int fd)
 {
 	char		*buf;
-	static char	*backup;
+	static char	*backup[OPEN_MAX];
 	int			line_idx;
 	char		*line;
 
 	if ((fd < 0) || (BUFFER_SIZE <= 0) || (fd > 256))
 		return (0);
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!backup)
-		backup = ft_strdup("");
+	if (!backup[fd])
+		backup[fd] = ft_strdup("");
 	line_idx = read(fd, buf, BUFFER_SIZE);
 	while (line_idx > 0)
 	{
 		buf[line_idx] = '\0';
-		line = ft_make_line(&backup, &buf);
+		line = ft_make_line(&backup[fd], &buf);
 		if (line != 0)
 		{
 			ft_free(&buf, 0, 0);
@@ -109,5 +110,5 @@ char	*get_next_line(int fd)
 		}
 		line_idx = read(fd, buf, BUFFER_SIZE);
 	}
-	return (ft_return_last(&backup, &buf));
+	return (ft_return_last(&backup[fd], &buf));
 }

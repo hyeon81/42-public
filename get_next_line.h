@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+# define OPEN_MAX 2560
 char	*get_next_line(int fd);
 char	*ft_make_line(char **backup, char **buf);
 char	*ft_return_last(char **backup, char **buf);
