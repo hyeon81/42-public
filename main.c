@@ -32,5 +32,7 @@ int main() {
 	close(fd1);
 	close(fd2);
 	
+    system("leaks a.out");
+    printf("%ld", sysconf(_SC_OPEN_MAX));
     return (0);
 }

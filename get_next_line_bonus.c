@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 18:56:30 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/29 20:17:49 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/08/01 15:11:19 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*get_next_line(int fd)
 	int			line_idx;
 	char		*line;
 
-	if ((fd < 0) || (BUFFER_SIZE <= 0) || (fd > 256))
+	if ((fd < 0) || (BUFFER_SIZE <= 0) || (fd > OPEN_MAX))
 		return (0);
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!backup[fd])

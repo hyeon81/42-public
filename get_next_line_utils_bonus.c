@@ -6,11 +6,11 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 20:05:48 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/29 20:08:48 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/08/01 12:36:40 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	ft_strlen(char *s)
 {

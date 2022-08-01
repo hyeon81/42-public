@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 12:58:46 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/07/29 19:56:36 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/08/01 14:27:11 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# define OPEN_MAX 2560
 char	*get_next_line(int fd);
 char	*ft_make_line(char **backup, char **buf);
 char	*ft_return_last(char **backup, char **buf);
