@@ -1,4 +1,5 @@
 #include "ft_printf.h"
+#include <unistd.h>
 
 void	ft_print_ui(unsigned int n)
 {
@@ -9,7 +10,7 @@ void	ft_print_ui(unsigned int n)
 		if (n > 9)
 		{
 			c = n % 10 + '0';
-			ft_putnbr(n / 10);
+			ft_print_ui(n / 10);
 			write (1, &c, 1);
 		}
 		else
@@ -19,3 +20,9 @@ void	ft_print_ui(unsigned int n)
 		}
 	}
 }
+
+// int main()
+// {
+// 	ft_print_ui(329243);
+// 	return (0);
+// }
