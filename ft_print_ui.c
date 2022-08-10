@@ -6,13 +6,13 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 17:19:46 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/08/10 17:19:48 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/08/10 17:44:48 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_print_ui(unsigned int n, int* res)
+void	ft_print_ui(unsigned int n, int	*res)
 {
 	char	c;
 

@@ -6,13 +6,13 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 15:51:27 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/08/10 17:36:34 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/08/10 17:48:01 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	ft_putstr(char *s, int* res)
+void	ft_putstr(char *s, int	*res)
 {
 	int	i;
 

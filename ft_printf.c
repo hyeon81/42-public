@@ -6,15 +6,15 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 15:53:07 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/08/10 17:27:13 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/08/10 17:55:59 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int ft_check_flag(va_list args, const char c)
+int	ft_check_flag(va_list args, const char c)
 {
-	int res;
+	int	res;
 
 	res = 0;
 	if (c == 'c')
@@ -37,12 +37,14 @@ int ft_check_flag(va_list args, const char c)
 	return (res);
 }
 
-int ft_printf(const char *str, ...)
+int	ft_printf(const char *str, ...)
 {
-	va_list args;
-	int i = 0;
-	int ret = 0;
+	va_list	args;
+	int		i;
+	int		ret;
 
+	i = 0;
+	ret = 0;
 	va_start(args, str);
 	while (str[i] != 0)
 	{

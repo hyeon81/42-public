@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/10 15:51:33 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/08/10 16:53:10 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/08/10 17:44:00 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 void	ft_print_hex(unsigned int n, char flag, int *res)
 {
 	int		c;
-    char    *hex;
+	char	*hex;
 
-    if (flag == 'x')
-        hex = "0123456789abcdef";
-    else if (flag == 'X')
-        hex = "0123456789ABCDEF";
+	if (flag == 'x')
+		hex = "0123456789abcdef";
+	else if (flag == 'X')
+		hex = "0123456789ABCDEF";
 	if (n >= 0)
 	{
 		if (n >= 16)
