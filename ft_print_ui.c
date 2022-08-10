@@ -1,28 +1,32 @@
-#include "ft_printf.h"
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_print_ui.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/10 17:19:46 by hyeokim2          #+#    #+#             */
+/*   Updated: 2022/08/10 17:19:48 by hyeokim2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	ft_print_ui(unsigned int n)
+#include "ft_printf.h"
+
+void	ft_print_ui(unsigned int n, int* res)
 {
 	char	c;
 
-	if (n >= 0)
+	if (n > 9)
 	{
-		if (n > 9)
-		{
-			c = n % 10 + '0';
-			ft_print_ui(n / 10);
-			write (1, &c, 1);
-		}
-		else
-		{
-			c = n % 10 + '0';
-			write (1, &c, 1);
-		}
+		c = n % 10 + '0';
+		ft_print_ui(n / 10, res);
+		write (1, &c, 1);
+		(*res)++;
+	}
+	else
+	{
+		c = n % 10 + '0';
+		write (1, &c, 1);
+		(*res)++;
 	}
 }
-
-// int main()
-// {
-// 	ft_print_ui(329243);
-// 	return (0);
-// }

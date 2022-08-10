@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_print_hex.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/10 15:51:33 by hyeokim2          #+#    #+#             */
+/*   Updated: 2022/08/10 16:53:10 by hyeokim2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-void	ft_print_hex(unsigned int n, char flag)
+void	ft_print_hex(unsigned int n, char flag, int *res)
 {
-	char	c;
+	int		c;
     char    *hex;
 
     if (flag == 'x')
@@ -11,16 +23,17 @@ void	ft_print_hex(unsigned int n, char flag)
         hex = "0123456789ABCDEF";
 	if (n >= 0)
 	{
-		if (n > 16)
+		if (n >= 16)
 		{
 			c = n % 16;
-			ft_putnbr(n / 16);
+			ft_print_hex(n / 16, flag, res);
 			write (1, &hex[c], 1);
+			(*res)++;
 		}
 		else
 		{
-			c = n % 16;
-			write (1, &hex[c], 1);
+			write (1, &hex[n], 1);
+			(*res)++;
 		}
 	}
 }

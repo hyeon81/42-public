@@ -1,37 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/10 15:53:07 by hyeokim2          #+#    #+#             */
+/*   Updated: 2022/08/10 17:27:13 by hyeokim2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-#include <stdarg.h> // va_list, va_start, va_arg, va_end가 정의된 헤더 파일
-#include <unistd.h>
-#include <string.h>
-#include <stdio.h>
-
-void ft_check_flag(va_list args, const char c)
+int ft_check_flag(va_list args, const char c)
 {
 	int res;
 
 	res = 0;
 	if (c == 'c')
-		res += ft_putchar(va_arg(args, int));
+		ft_putchar(va_arg(args, int), &res);
 	else if (c == 's')
-		res += ft_putstr(va_arg(args, char *));
+		ft_putstr(va_arg(args, char *), &res);
 	else if (c == 'p')
-		res += ft_print_ptr(va_arg(args, unsigned long long));
+		ft_print_ptr(va_arg(args, void *), &res);
 	else if (c == 'd' || c == 'i')
-		res += ft_putnbr(va_arg(args, int));
+		ft_putnbr(va_arg(args, int), &res);
 	else if (c == 'u')
-		res += ft_print_ui(va_arg(args, unsigned int));
+		ft_print_ui(va_arg(args, unsigned int), &res);
 	else if (c == 'x' || c == 'X')
-		res += ft_print_hex(va_arg(args, unsigned int), c);
+		ft_print_hex(va_arg(args, unsigned int), c, &res);
 	else if (c == '%')
-		res += ft_print_percent();
-	retrun (res);
+	{
+		write(1, "%", 1);
+		res += 1;
+	}
+	return (res);
 }
 
 int ft_printf(const char *str, ...)
 {
 	va_list args;
 	int i = 0;
-	int res = 0;
+	int ret = 0;
 
 	va_start(args, str);
 	while (str[i] != 0)
@@ -39,16 +49,12 @@ int ft_printf(const char *str, ...)
 		if (str[i] == '%')
 		{
 			i++;
-			ft_check_flag(args, str[i]);
+			ret += ft_check_flag(args, str[i]);
 		}
 		else
-			ft_putchar(str[i]);
+			ft_putchar(str[i], &ret);
 		i++;
 	}
 	va_end(args);
-}
-int main()
-{
-	
-	return (0);
+	return (ret);
 }
