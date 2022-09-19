@@ -6,12 +6,12 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 20:15:49 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/19 19:50:28 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/19 21:25:46 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-int render_map(char *map, int m_width, int m_height);
+int render_map(char *map);
 
 void	ft_free(char **s1, char **s2, int flag)
 {
@@ -156,7 +156,7 @@ int main() {
 		m_height++;
         free(line);
     }
-	render_map(m_line, m_width, m_height);
+	render_map(m_line);
 	// printf("map_line: %s, \n map_w: %d, map_h: %d", map_l, map_w, map_h);
 	close(fd);
     // system("leaks a.out");
