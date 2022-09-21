@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 20:15:49 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/19 21:25:46 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/21 20:28:55 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ int main() {
         return (0);
     }
 	line = get_next_line(fd);
+	printf("Gnl line : %s\n", line);
 	m_line = ft_strdup(line);
 	m_width = ft_strlen(line);
 	free(line);
