@@ -6,11 +6,11 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 12:58:42 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/19 16:08:46 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/22 21:48:40 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "so_long.h"
 
 int	ft_strlen(char *s)
 {
@@ -82,4 +82,11 @@ int	ft_strchr(char *s, int c)
 		i++;
 	}
 	return (-1);
+}
+
+int	occur_error(int flag)
+{
+	if (flag == -1)
+		printf("Error!\n");
+	exit(0);
 }

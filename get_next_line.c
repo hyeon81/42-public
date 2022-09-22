@@ -6,14 +6,12 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 20:15:49 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/22 19:31:31 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/22 21:16:04 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
 #include "so_long.h"
 
-int render_map(t_vars *vars);
 void	ft_free(char **s1, char **s2, int flag)
 {
 	free(*s1);
