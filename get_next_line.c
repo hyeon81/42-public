@@ -6,13 +6,33 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 20:15:49 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/21 20:28:55 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:27:11 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-int render_map(char *map);
+typedef struct	s_vars {
+	void	*mlx;
+	void	*win;
+	char	*map;
+	int		w;
+	int		h;
+	int		total;
+	int     img_width;
+	int     img_height;
+	int		escape_x;
+	int		escape_y;
+	int     pos;
+	int		item;
+	int		get_item;
+	int		move_count;
+	void    *img;
+	void	*img3;
+	void	*bg;
+	void	*img4;
+}				t_vars;
 
+int render_map(t_vars *vars);
 void	ft_free(char **s1, char **s2, int flag)
 {
 	free(*s1);
@@ -119,6 +139,25 @@ char	*get_next_line(int fd)
 #include <stdlib.h>
 #include <unistd.h>
 
+int occur_error()
+{
+	printf("Error!\n");
+	exit(0);
+}
+
+//지도 에러 체크
+int check_valid(t_vars *vars)
+{
+	int i = 0;
+	while (i < vars->w)
+	{
+		if (vars->map[i] != '1')
+			occur_error();
+		if 
+	}	
+}
+
+//지도 파싱
 int main() {
 	char*	line;
 	int		fd;
@@ -126,6 +165,7 @@ int main() {
 	int		m_height;
 	int		m_width;
 	char*	temp;
+	t_vars vars;
 
 	m_height = 1;
     if (!(fd = open("testmap.ber", O_RDONLY)))
@@ -157,7 +197,8 @@ int main() {
 		m_height++;
         free(line);
     }
-	render_map(m_line);
+	vars.map = m_line;
+	render_map(&vars);
 	// printf("map_line: %s, \n map_w: %d, map_h: %d", map_l, map_w, map_h);
 	close(fd);
     // system("leaks a.out");
