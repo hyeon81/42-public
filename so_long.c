@@ -92,7 +92,6 @@ int close(int keycode, t_vars* vars)
 
 int render_map(t_vars *vars)
 {
-	//맵 렌더하기 전에 맵 유효성 검사하기
 	void *img1;
 	vars->item = 0;
 	vars->get_item = 0;

@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 20:15:49 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/22 17:31:42 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:08:09 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,17 +115,11 @@ char	*get_next_line(int fd)
 	return (ft_return_last(&backup, &buf));
 }
 
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 void make_map(t_vars *vars, char *m_line)
 {
 	int i = 0;
 	int	j = 0;
 	int m = 0;
-
 	vars->map = (char **)malloc(sizeof(char *) * (vars->h + 1));
 	while (i < vars->h)
 	{
@@ -168,6 +162,7 @@ int occur_error()
 void check_valid(t_vars *vars)
 {
 	int j = 0;
+	//P가 있는지 체크
 	while (j < vars->h)
 	{
 		int i = 0;
@@ -175,10 +170,48 @@ void check_valid(t_vars *vars)
 		{
 			if (!(vars->map[j][i] == 'P' || vars->map[j][i] == 'E' || vars->map[j][i] == '1' || vars->map[j][i] == '0' || vars->map[j][i] == 'C'))
 				occur_error();
+			if (vars->map[j][i] == 'P')
+				vars->p++;
+			if (vars->map[j][i] == 'C')
+				vars->c++;
+			if (vars->map[j][i] == 'E')
+				vars->e++;
 			i++;
 		}
 		j++;
-	}	
+	}
+	if (vars->p != 1 || vars->c < 1 || vars->e != 1)
+		occur_error();
+}
+
+void check_wall_wrap(t_vars *vars)
+{
+	int j = 0;
+	while (j < vars->h)
+	{
+		int i = 0;
+		while (i < vars->w)
+		{
+			if (vars->map[0][i] != '1')
+				occur_error();
+			if (vars->map[j][0] != '1')
+				occur_error();
+			if (vars->map[vars->h - 1][i] != '1')
+				occur_error();
+			if (vars->map[j][vars->w - 1] != '1')
+				occur_error();
+			i++;
+		}
+		j++;
+	}
+}
+
+void init_value(t_vars *vars)
+{
+	vars->h = 1;
+	vars->p = 0;
+	vars->c = 0;
+	vars->e = 0;
 }
 
 //지도 파싱
@@ -190,7 +223,8 @@ int main()
 	char*	temp;
 	t_vars vars;
 
-	vars.h = 1;
+	//init_value 함수로 초기화해주기
+	init_value(&vars);
     if (!(fd = open("testmap.ber", O_RDONLY)))
     {
     	printf("Error\n");
@@ -222,6 +256,7 @@ int main()
     }
 	make_map(&vars, m_line);
 	check_valid(&vars);
+	check_wall_wrap(&vars);
 	render_map(&vars);
 	// printf("map_line: %s, \n map_w: %d, map_h: %d", map_l, map_w, map_h);
 	close(fd);

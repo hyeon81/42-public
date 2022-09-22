@@ -4,6 +4,7 @@
 #include <mlx.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
 
 typedef struct	s_vars {
 	void	*mlx;
@@ -25,6 +26,9 @@ typedef struct	s_vars {
 	void	*img3;
 	void	*bg;
 	void	*img4;
+    int     p;
+    int     c;
+    int     e;
 }				t_vars;
 
 #endif
