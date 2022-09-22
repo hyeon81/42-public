@@ -6,31 +6,12 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 20:15:49 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/22 15:27:11 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:31:42 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-typedef struct	s_vars {
-	void	*mlx;
-	void	*win;
-	char	*map;
-	int		w;
-	int		h;
-	int		total;
-	int     img_width;
-	int     img_height;
-	int		escape_x;
-	int		escape_y;
-	int     pos;
-	int		item;
-	int		get_item;
-	int		move_count;
-	void    *img;
-	void	*img3;
-	void	*bg;
-	void	*img4;
-}				t_vars;
+#include "so_long.h"
 
 int render_map(t_vars *vars);
 void	ft_free(char **s1, char **s2, int flag)
@@ -139,6 +120,44 @@ char	*get_next_line(int fd)
 #include <stdlib.h>
 #include <unistd.h>
 
+void make_map(t_vars *vars, char *m_line)
+{
+	int i = 0;
+	int	j = 0;
+	int m = 0;
+
+	vars->map = (char **)malloc(sizeof(char *) * (vars->h + 1));
+	while (i < vars->h)
+	{
+		vars->map[i] = (char *)malloc(sizeof(char) * (vars->w + 1));
+		i++;
+	}
+	i = 0;
+	while (i < vars->h)
+	{
+		j = 0;
+		while (j < vars->w)
+		{
+			vars->map[i][j] = m_line[m];
+			m++;
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while (i < vars->h)
+	{
+		j = 0;
+		while (j < vars->w)
+		{
+			printf("%c", vars->map[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+}
+
 int occur_error()
 {
 	printf("Error!\n");
@@ -146,28 +165,32 @@ int occur_error()
 }
 
 //지도 에러 체크
-int check_valid(t_vars *vars)
+void check_valid(t_vars *vars)
 {
-	int i = 0;
-	while (i < vars->w)
+	int j = 0;
+	while (j < vars->h)
 	{
-		if (vars->map[i] != '1')
-			occur_error();
-		if 
+		int i = 0;
+		while (i < vars->w)
+		{
+			if (!(vars->map[j][i] == 'P' || vars->map[j][i] == 'E' || vars->map[j][i] == '1' || vars->map[j][i] == '0' || vars->map[j][i] == 'C'))
+				occur_error();
+			i++;
+		}
+		j++;
 	}	
 }
 
 //지도 파싱
-int main() {
+int main() 
+{
 	char*	line;
 	int		fd;
 	char*	m_line;
-	int		m_height;
-	int		m_width;
 	char*	temp;
 	t_vars vars;
 
-	m_height = 1;
+	vars.h = 1;
     if (!(fd = open("testmap.ber", O_RDONLY)))
     {
     	printf("Error\n");
@@ -176,7 +199,7 @@ int main() {
 	line = get_next_line(fd);
 	printf("Gnl line : %s\n", line);
 	m_line = ft_strdup(line);
-	m_width = ft_strlen(line);
+	vars.w = ft_strlen(line);
 	free(line);
 	
     while (line)
@@ -186,7 +209,7 @@ int main() {
 		if (line == 0)
 			break;
 		//라인이 유효한지 확인
-		if (m_width != ft_strlen(line))
+		if (vars.w != ft_strlen(line))
 		{
 			printf("Error!\n");
 			return (0);
@@ -194,10 +217,11 @@ int main() {
 		//읽은 라인을 배열에 넣어줌
 		temp = ft_strjoin(m_line, line);
 		ft_free(&m_line, &temp, 1);
-		m_height++;
+		(vars.h)++;
         free(line);
     }
-	vars.map = m_line;
+	make_map(&vars, m_line);
+	check_valid(&vars);
 	render_map(&vars);
 	// printf("map_line: %s, \n map_w: %d, map_h: %d", map_l, map_w, map_h);
 	close(fd);
