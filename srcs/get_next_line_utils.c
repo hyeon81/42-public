@@ -83,24 +83,3 @@ int	ft_strchr(char *s, int c)
 	}
 	return (-1);
 }
-
-int	error_occur(int flag)
-{
-	if (flag == -1)
-		printf("You escape!");
-	if (flag == -2)
-		printf("Error! argument is only one\n");
-	if (flag == -3)
-		printf("Error! map is not surrounded by wall\n");
-	if (flag == 0)
-		printf("Error! Element is not enough\n");
-	if (flag == 1)
-		printf("Error! P should be one\n");
-	if (flag == 2)
-		printf("Error! C does not exist\n");
-	if (flag == 3)
-		printf("Error! E should be one\n");
-	system("leaks so_long");
-	exit(0);
-	return (0);
-}

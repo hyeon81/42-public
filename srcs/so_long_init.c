@@ -12,11 +12,6 @@
 
 #include "so_long.h"
 
-void	ft_put_image(t_vars *vars, void *img, int x, int y)
-{
-	mlx_put_image_to_window(vars->mlx, vars->win, img, x * 48, y * 48);
-}
-
 void	make_map(t_vars *vars, char *m_line, int i, int j)
 {
 	int	m;

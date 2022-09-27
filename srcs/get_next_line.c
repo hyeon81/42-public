@@ -14,17 +14,6 @@
 
 void	ft_free(char **s1, char **s2, int flag)
 {
-	int	i;
-
-	i = 0;
-	if (flag > 1 && s2 == 0)
-	{
-		while (i < flag)
-		{
-			free(s1[i]);
-			i++;
-		}
-	}
 	free(*s1);
 	if (flag == 1)
 		*s1 = *s2;
