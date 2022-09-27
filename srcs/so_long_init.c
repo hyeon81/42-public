@@ -23,10 +23,7 @@ void	make_map(t_vars *vars, char *m_line, int i, int j)
 	{
 		vars->map[i] = (char *)malloc(sizeof(char) * (vars->w + 1));
 		if (!(vars->map[i]))
-		{
 			ft_free(vars->map, 0, vars->h);
-			exit(0);
-		}
 	}
 	i = -1;
 	m = -1;
@@ -35,6 +32,20 @@ void	make_map(t_vars *vars, char *m_line, int i, int j)
 		j = -1;
 		while (++j < vars->w)
 			vars->map[i][j] = m_line[++m];
+	}
+	free(m_line);
+}
+
+void	check_square(t_vars *vars)
+{
+	int i;
+
+	i = 0;
+	while (i < vars->h)
+	{
+		if (vars->w != ft_strlen(vars->map[i]))
+			error_occur(-4);
+		i++;
 	}
 }
 

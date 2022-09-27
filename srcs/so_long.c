@@ -124,7 +124,7 @@ int	main(int argc, char *argv[])
 	make_window(&vars);
 	render_map(&vars, -1, -1);
 	mlx_key_hook(vars.win, make_move, &vars);
-	mlx_hook(vars.win, 17, 0, error_occur, &vars);
+	mlx_hook(vars.win, 17, 0, ft_free_exit, &vars);
 	mlx_loop(vars.mlx);
 	return (0);
 }
