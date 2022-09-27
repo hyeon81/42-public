@@ -17,7 +17,7 @@ MLX_INC	= -I $(MLX)
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	$(CC) -o $(CFLAG) $(OBJS) -L $(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -g3 -o $(NAME)
+	$(CC) -o $(CFLAG) $(OBJS) -L $(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 
 %.o : %.c
 	$(CC) $(CFLAG) -I $(HEADERS) -c $< -o $@ -g3

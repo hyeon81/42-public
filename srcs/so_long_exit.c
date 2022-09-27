@@ -5,24 +5,18 @@ void	ft_put_image(t_vars *vars, void *img, int x, int y)
 	mlx_put_image_to_window(vars->mlx, vars->win, img, x * 48, y * 48);
 }
 
-//end free
-void	ft_exit_free(char **map, char *m_line, int flag)
+void	ft_exit_free(t_vars* var)
 {
 	int i;
 
 	i = 0;
-	if (m_line)
-		free(m_line);
-	if (flag == 1)
-	{	
-		while (!(map[i]))
-		{
-			free(map[i]);
-			i++;
-		}
+	while (vars->map[i])
+	{
+		free(vars->map[i]);
+		i++;
 	}
-	free(map);
-	map = 0;
+	free(vars->map);
+	vars->map = 0;
 	exit(0);
 } 
 

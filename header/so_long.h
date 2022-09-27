@@ -42,6 +42,8 @@ typedef struct s_vars
 	int		e;
 }				t_vars;
 
+void	ft_exit_free(t_vars	*var);
+void	check_square(t_vars *vars);
 void	ft_put_image(t_vars *vars, void *img, int x, int y);
 int		error_occur(int flag);
 char	*read_line(int fd, t_vars *vars);

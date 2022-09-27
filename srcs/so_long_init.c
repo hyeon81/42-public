@@ -12,30 +12,6 @@
 
 #include "so_long.h"
 
-void	make_map(t_vars *vars, char *m_line, int i, int j)
-{
-	int	m;
-
-	vars->map = (char **)malloc(sizeof(char *) * (vars->h + 1));
-	if (!(vars->map))
-		exit(0);
-	while (++i < vars->h)
-	{
-		vars->map[i] = (char *)malloc(sizeof(char) * (vars->w + 1));
-		if (!(vars->map[i]))
-			ft_free(vars->map, 0, vars->h);
-	}
-	i = -1;
-	m = -1;
-	while (++i < vars->h)
-	{
-		j = -1;
-		while (++j < vars->w)
-			vars->map[i][j] = m_line[++m];
-	}
-	free(m_line);
-}
-
 void	check_square(t_vars *vars)
 {
 	int i;
@@ -128,4 +104,34 @@ char	*read_line(int fd, t_vars *vars)
 		free(line);
 	}
 	return (m_line);
+}
+
+void	make_map(t_vars *vars, char *m_line, int i, int j)
+{
+	int	m;
+
+	vars->map = (char **)malloc(sizeof(char *) * (vars->h + 1));
+	if (!(vars->map))
+	{
+		free(m_line);
+		exit(0);
+	}
+	while (++i < vars->h)
+	{
+		vars->map[i] = (char *)malloc(sizeof(char) * (vars->w + 1));
+		if (!(vars->map[i]))
+		{
+			ft_free(vars);
+			free(m_line);
+		}
+	}
+	i = -1;
+	m = -1;
+	while (++i < vars->h)
+	{
+		j = -1;
+		while (++j < vars->w)
+			vars->map[i][j] = m_line[++m];
+	}
+	free(m_line);
 }
