@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 11:33:12 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/28 13:41:07 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/28 18:18:14 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_exit(t_vars	*vars)
 void	error_occur(int flag)
 {
 	if (flag == -2)
-		printf("Error! argument is only one\n");
+		printf("Error! this is argument error or fd error\n");
 	if (flag == -3)
 		printf("Error! map is not surrounded by wall\n");
 	if (flag == -4)

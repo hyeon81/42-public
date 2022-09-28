@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 11:33:04 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/28 13:32:21 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/28 18:04:28 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ char	*read_line(int fd, t_vars *vars)
 
 	vars->h = 1;
 	line = get_next_line(fd);
+	if (line == 0)
+		exit(0);
 	m_line = ft_strdup(line);
 	vars->w = ft_strlen(line);
 	free(line);
@@ -120,7 +122,7 @@ void	make_map(t_vars *vars, char *m_line, int i, int j)
 		j = -1;
 		while (++j < vars->w)
 			vars->map[i][j] = m_line[++m];
-		vars->map[i][j + 1] = 0;
+		vars->map[i][j] = 0;
 	}
 	vars->map[i] = 0;
 	free(m_line);
