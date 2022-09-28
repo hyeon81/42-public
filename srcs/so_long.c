@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 14:40:12 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/26 21:00:06 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/28 13:34:26 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	make_new_pos(t_vars *vars, int add_y, int add_x)
 	if (vars->map[vars->pos_y + add_y][vars->pos_x + add_x] == 'E')
 	{
 		if (vars->c <= vars->get_item)
-			error_occur(-1);
+			ft_exit(vars);
 		else if (vars->c > vars->get_item)
 			printf("You need to get all fish\n");
 	}
@@ -59,7 +59,7 @@ void	make_new_pos(t_vars *vars, int add_y, int add_x)
 int	make_move(int keycode, t_vars *vars)
 {
 	if (keycode == 53)
-		exit(0);
+		ft_exit(vars);
 	if (!(keycode == 13 || keycode == 0 || keycode == 1 || keycode == 2))
 		return (0);
 	if (keycode == 13)
@@ -124,7 +124,7 @@ int	main(int argc, char *argv[])
 	make_window(&vars);
 	render_map(&vars, -1, -1);
 	mlx_key_hook(vars.win, make_move, &vars);
-	mlx_hook(vars.win, 17, 0, ft_free_exit, &vars);
+	mlx_hook(vars.win, 17, 0, ft_exit, &vars);
 	mlx_loop(vars.mlx);
 	return (0);
 }

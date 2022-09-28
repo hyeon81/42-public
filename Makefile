@@ -2,11 +2,11 @@ NAME = so_long
 
 CC = cc
 
-CFLAG = -Wall -Wextra -Werror
+CFLAG = -Wall -Wextra -Werror -g3
 
 HEADERS = ./header
 
-SRCS = srcs/so_long.c srcs/so_long_init.c srcs/get_next_line.c srcs/get_next_line_utils.c
+SRCS = srcs/so_long.c srcs/so_long_init.c srcs/get_next_line.c srcs/get_next_line_utils.c srcs/so_long_exit.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -20,7 +20,7 @@ $(NAME) : $(OBJS)
 	$(CC) -o $(CFLAG) $(OBJS) -L $(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 
 %.o : %.c
-	$(CC) $(CFLAG) -I $(HEADERS) -c $< -o $@ -g3
+	$(CC) $(CFLAG) -I $(HEADERS) -c $< -o $@ 
 
 clean:
 	rm -f $(OBJS)

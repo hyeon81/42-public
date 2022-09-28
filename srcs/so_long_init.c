@@ -1,29 +1,16 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   so_long_init.c									 :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: hyeokim2 <hyeokim2@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2022/09/22 21:13:18 by hyeokim2		  #+#	#+#			 */
-/*   Updated: 2022/09/22 21:41:34 by hyeokim2		 ###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long_init.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/28 11:33:04 by hyeokim2          #+#    #+#             */
+/*   Updated: 2022/09/28 13:32:21 by hyeokim2         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-void	check_square(t_vars *vars)
-{
-	int i;
-
-	i = 0;
-	while (i < vars->h)
-	{
-		if (vars->w != ft_strlen(vars->map[i]))
-			error_occur(-4);
-		i++;
-	}
-}
 
 void	check_valid(t_vars *vars, int i, int j)
 {
@@ -82,6 +69,12 @@ void	check_wall_wrap(t_vars *vars)
 	}
 }
 
+void	ft_check_sqaure(char *line, int width)
+{
+	if (width != ft_strlen(line))
+		error_occur(-4);
+}
+
 char	*read_line(int fd, t_vars *vars)
 {
 	char	*line;
@@ -98,6 +91,7 @@ char	*read_line(int fd, t_vars *vars)
 		line = get_next_line(fd);
 		if (line == 0)
 			break ;
+		ft_check_sqaure(line, vars->w);
 		temp = ft_strjoin(m_line, line);
 		ft_free(&m_line, &temp, 1);
 		(vars->h)++;
@@ -112,18 +106,12 @@ void	make_map(t_vars *vars, char *m_line, int i, int j)
 
 	vars->map = (char **)malloc(sizeof(char *) * (vars->h + 1));
 	if (!(vars->map))
-	{
-		free(m_line);
 		exit(0);
-	}
 	while (++i < vars->h)
 	{
 		vars->map[i] = (char *)malloc(sizeof(char) * (vars->w + 1));
 		if (!(vars->map[i]))
-		{
-			ft_free(vars);
-			free(m_line);
-		}
+			exit(0);
 	}
 	i = -1;
 	m = -1;
@@ -132,6 +120,8 @@ void	make_map(t_vars *vars, char *m_line, int i, int j)
 		j = -1;
 		while (++j < vars->w)
 			vars->map[i][j] = m_line[++m];
+		vars->map[i][j + 1] = 0;
 	}
+	vars->map[i] = 0;
 	free(m_line);
 }
