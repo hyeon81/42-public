@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 21:13:20 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/28 13:39:23 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/28 21:24:30 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,12 @@ typedef struct s_vars
 	int		e;
 }				t_vars;
 
+void	value_init(t_vars *vars);
 int		ft_exit(t_vars	*vars);
+void	ft_exit_free(t_vars *vars);
 void	ft_check_sqaure(char *line, int width);
 void	ft_put_image(t_vars *vars, void *img, int x, int y);
-void	error_occur(int flag);
+void	error_occur(int flag, t_vars *vars);
 char	*read_line(int fd, t_vars *vars);
 void	check_wall_wrap(t_vars *vars);
 void	check_valid(t_vars *vars, int i, int j);
@@ -53,5 +55,8 @@ void	render_map(t_vars *vars, int x, int y);
 int		make_move(int keycode, t_vars *vars);
 void	make_new_pos(t_vars *vars, int add_y, int add_x);
 void	make_window(t_vars *vars);
+char	*ft_strrchr(const char *s, int c);
+int		ft_strncmp(const char *s1, const char *s2, unsigned int n);
+void	check_suffix(char *filename);
 
 #endif

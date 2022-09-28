@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 12:58:42 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/26 20:14:11 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/28 20:06:56 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_strlen(char *s)
 	int	i;
 
 	i = 0;
+	if (!s)
+		return (0);
 	while (s[i] != 0)
 		i++;
 	return (i);
@@ -29,6 +31,8 @@ char	*ft_strdup(char *s1)
 	char	*arr;
 
 	i = 0;
+	if (!s1)
+		return (0);
 	len = ft_strlen(s1);
 	arr = (char *)malloc(sizeof(char) * (len + 1));
 	if (!arr)

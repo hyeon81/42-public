@@ -2,11 +2,11 @@ NAME = so_long
 
 CC = cc
 
-CFLAG = -Wall -Wextra -Werror -g3
+CFLAG = -Wall -Wextra -Werror -g3 -fsanitize=address
 
 HEADERS = ./header
 
-SRCS = srcs/so_long.c srcs/so_long_init.c srcs/get_next_line.c srcs/get_next_line_utils.c srcs/so_long_exit.c
+SRCS = srcs/so_long.c srcs/so_long_init.c srcs/get_next_line.c srcs/get_next_line_utils.c srcs/so_long_exit.c srcs/check_suffix.c
 
 OBJS = $(SRCS:.c=.o)
 
