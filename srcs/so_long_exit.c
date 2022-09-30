@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 11:33:12 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/28 21:23:50 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/30 12:55:01 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	error_occur(int flag, t_vars *vars)
 		printf("Error! map is not surrounded by wall\n");
 	if (flag == -4)
 		printf("Error! map is not square\n");
+	if (flag == -5)
+		printf("Error! this is empty file\n");
 	if (flag == 0)
 		printf("Error! Element is not enough\n");
 	if (flag == 1)
@@ -65,11 +67,8 @@ void	error_occur(int flag, t_vars *vars)
 	exit(0);
 }
 
-void	value_init(t_vars *vars)
+void	ft_free_m_line(char *m_line)
 {
-	vars->p = 0;
-	vars->c = 0;
-	vars->e = 0;
-	vars->get_item = 0;
-	vars->move_count = 0;
+	free(m_line);
+	m_line = 0;
 }

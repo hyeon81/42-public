@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 11:33:04 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/28 21:22:53 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/30 12:52:11 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,31 +99,23 @@ char	*read_line(int fd, t_vars *vars)
 	return (m_line);
 }
 
-void	make_map(t_vars *vars, char *m_line, int i, int j)
+void	make_map(t_vars *vars, char *m_line, int i)
 {
-	int	m;
-
 	vars->map = (char **)malloc(sizeof(char *) * (vars->h + 1));
 	if (!(vars->map))
 	{
-		free(m_line);
+		ft_free_m_line(m_line);
 		exit(0);
 	}
 	while (++i < vars->h)
 	{
 		vars->map[i] = (char *)malloc(sizeof(char) * (vars->w + 1));
 		if (!(vars->map[i]))
+		{
+			ft_free_m_line(m_line);
 			ft_exit_free(vars);
+			exit(0);
+		}
 	}
-	i = -1;
-	m = -1;
-	while (++i < vars->h)
-	{
-		j = -1;
-		while (++j < vars->w)
-			vars->map[i][j] = m_line[++m];
-		vars->map[i][j] = 0;
-	}
-	vars->map[i] = 0;
-	free(m_line);
+	insert_map(vars, m_line);
 }

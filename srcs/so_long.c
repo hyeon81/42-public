@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 14:40:12 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/28 21:24:43 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/30 12:47:17 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,14 +115,14 @@ int	main(int argc, char *argv[])
 
 	check_suffix(argv[1]);
 	fd = open(argv[1], O_RDONLY);
-	if (argc != 2 || fd == -1)
+	if (argc != 2 || fd < 0)
 		error_occur(-2, 0);
 	value_init(&vars);
 	m_line = read_line(fd, &vars);
 	close(fd);
 	if (!m_line)
 		error_occur(-2, 0);
-	make_map(&vars, m_line, -1, -1);
+	make_map(&vars, m_line, -1);
 	check_wall_wrap(&vars);
 	check_valid(&vars, 0, 0);
 	make_window(&vars);

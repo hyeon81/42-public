@@ -2,7 +2,7 @@ NAME = so_long
 
 CC = cc
 
-CFLAG = -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAG = -Wall -Wextra -Werror -g3 #-fsanitize=address
 
 HEADERS = ./header
 
@@ -11,8 +11,6 @@ SRCS = srcs/so_long.c srcs/so_long_init.c srcs/get_next_line.c srcs/get_next_lin
 OBJS = $(SRCS:.c=.o)
 
 MLX_DIR = ./minilibx_opengl_20191021
-
-MLX_INC	= -I $(MLX)
 
 all : $(NAME)
 

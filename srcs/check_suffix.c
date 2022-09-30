@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 19:25:39 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/28 20:49:42 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/09/30 12:46:13 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,32 @@ void	check_suffix(char *filename)
 		error_occur(-2, 0);
 	if (ft_strncmp(suffix, ".ber", 5) != 0)
 		error_occur(-2, 0);
+}
+
+void	value_init(t_vars *vars)
+{
+	vars->p = 0;
+	vars->c = 0;
+	vars->e = 0;
+	vars->get_item = 0;
+	vars->move_count = 0;
+}
+
+void	insert_map(t_vars *vars, char *m_line)
+{
+	int	i;
+	int	m;
+	int	j;
+
+	i = -1;
+	m = -1;
+	while (++i < vars->h)
+	{
+		j = -1;
+		while (++j < vars->w)
+			vars->map[i][j] = m_line[++m];
+		vars->map[i][j] = 0;
+	}
+	vars->map[i] = 0;
+	ft_free_m_line(m_line);
 }
