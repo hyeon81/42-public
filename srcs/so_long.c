@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 14:40:12 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/09/30 12:47:17 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/10/04 13:21:50 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	main(int argc, char *argv[])
 	value_init(&vars);
 	m_line = read_line(fd, &vars);
 	close(fd);
-	if (!m_line)
+	if (m_line[0] == '\0')
 		error_occur(-2, 0);
 	make_map(&vars, m_line, -1);
 	check_wall_wrap(&vars);

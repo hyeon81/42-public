@@ -2,7 +2,7 @@ NAME = so_long
 
 CC = cc
 
-CFLAG = -Wall -Wextra -Werror #-g3 -fsanitize=address
+CFLAG = -Wall -Wextra -Werror
 
 HEADERS = ./header
 
