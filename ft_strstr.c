@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <pipex.h>
-
-size_t	ft_strlen(const char *str);
+#include "pipex.h"
 
 char	*ft_strstr(const char *haystack, const char *needle)
 {
@@ -23,7 +21,7 @@ char	*ft_strstr(const char *haystack, const char *needle)
 		return ((char *)haystack);
 	i = 0;
 	j = 0;
-	int len = ft_strlen(haystack);
+	int len = ft_strlen((char *)haystack);
 	while ((haystack[i] != 0) && (i < len))
 	{
 		j = 0;
@@ -31,7 +29,7 @@ char	*ft_strstr(const char *haystack, const char *needle)
 		{
 			j++;
 			if (needle[j] == 0)
-				return ((char *)&haystack[i]);
+				return ((char *)&haystack[i + j]);
 		}
 		i++;
 	}

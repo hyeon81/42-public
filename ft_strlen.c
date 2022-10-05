@@ -9,10 +9,9 @@
 /*   Updated: 2022/10/04 22:11:48 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "pipex.h"
 
-#include <pipex.h>
-
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen(char *str)
 {
 	int	i;
 
