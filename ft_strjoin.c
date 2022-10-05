@@ -1,39 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strstr.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/13 13:41:39 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/04 22:16:00 by hyeokim2         ###   ########.fr       */
+/*   Created: 2022/07/13 13:41:06 by hyeokim2          #+#    #+#             */
+/*   Updated: 2022/07/13 16:54:53 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pipex.h>
 
-size_t	ft_strlen(const char *str);
-
-char	*ft_strstr(const char *haystack, const char *needle)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	i;
-	size_t	j;
+	char	*str;
+	int		i;
+	int		j;
 
-	if (needle[0] == 0)
-		return ((char *)haystack);
 	i = 0;
 	j = 0;
-	int len = ft_strlen(haystack);
-	while ((haystack[i] != 0) && (i < len))
+	str = (char *)malloc(sizeof(char) * \
+	(ft_strlen((char *)s1) + ft_strlen((char *)s2) + 1));
+	if (!str)
+		return (0);
+	while (s1[i] != 0)
 	{
-		j = 0;
-		while ((haystack[i + j] == needle[j]) && (i + j < len))
-		{
-			j++;
-			if (needle[j] == 0)
-				return ((char *)&haystack[i]);
-		}
+		str[j] = s1[i];
+		j++;
 		i++;
 	}
-	return (0);
+	i = 0;
+	while (s2[i] != 0)
+	{
+		str[j] = s2[i];
+		j++;
+		i++;
+	}
+	str[j] = '\0';
+	return (str);
 }

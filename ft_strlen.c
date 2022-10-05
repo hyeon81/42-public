@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include <pipex.h>
 
 size_t	ft_strlen(const char *str)
 {
