@@ -54,29 +54,29 @@ int main(int ac, char **av, char **envp)
 	}
 
 	//file1 오픈
-	int infile
+	int infile;
 	infile = open(av[1], O_RDONLY);
 	//--어떻게 읽어서 보내지?
 
 	//명령어를 가지고 다음 파이프로 이동(stdout을 stdin으로?)
 	int fd1[2];
-	if (pipe(fd) == -1)
+	if (pipe(fd1) == -1)
 		// 에러 처리
 	pid_t pid = fork();
 	if (pid == -1)
 		// 에러 처리
 	if (pid == 0)
 	{
-		dup2(fd[1], 1);
-		close(fd[0]);
+		dup2(fd1[1], 1);
+		close(fd1[0]);
 		// int res = execve()?
 	}
-	dup2(fd[0], 0);
-	close(fd[1]);
+	dup2(fd1[0], 0);
+	close(fd1[1]);
 	// ...?
 
 	//명령어가 맞다면? execve로 실행
-	printf("real_path = %s, av_cmd = %s\n", real_path, av_cmd[0]);
+	// printf("real_path = %s, av_cmd = %s\n", real_path, av_cmd[0]);
 	execve(real_path, av_cmd, envp);
 	printf("execve failed to run ls\n");
 
