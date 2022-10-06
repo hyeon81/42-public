@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "pipex.h"
+# include <sys/wait.h>
 // #include <errno.h>
 // #include <string.h>
 
@@ -50,14 +51,23 @@ char *ft_search_path(char **envp, char *first_cmd)
 	return(real_path);
 }
 
-int make_fork(int *fd, char *real_path, char **cmd, char **envp, int outfile_fd)
+int make_fork(char *real_path, char **cmd, char **envp)
 {
 	char *res;
 	int stat;
+	int fd[2];
+	pid_t pid;
+
 	res = malloc(1000);
 	ft_memset(res, 0, 1000);
-	
-	pid_t pid;
+	//파이프 생성
+	// if (pipe(fd) == -1)
+	// {
+	// 	write(2, "run error\n", 11);
+	// 	return (1);
+	// }
+
+	pipe(fd);
 	pid = fork();
 
 	// 에러 처리
@@ -72,12 +82,13 @@ int make_fork(int *fd, char *real_path, char **cmd, char **envp, int outfile_fd)
 		close(fd[0]);
 		execve(real_path, cmd, envp);
 	}
-	wait(&stat);
 	if (pid > 0)
 	{
 		//부모 프로세서가 처리
-		dup2(outfile_fd, 0);
+		dup2(fd[0], 0);
 		close(fd[1]);
+		waitpid(pid, NULL, 0);
+
 	}
 	return (0);
 }
@@ -87,7 +98,6 @@ int main(int ac, char **av, char **envp)
 	char **cmd;
 	char *real_path;
 	char *res;
-	int fd[2];
 	int file1;
 	int file2;	
 	int i;
@@ -105,30 +115,19 @@ int main(int ac, char **av, char **envp)
 		return (1);
 	}
 
-	//파이프 생성
-	if (pipe(fd) == -1)
-	{
-		write(2, "run error\n", 11);
-		return (1);
-	}
 	dup2(file1, 0);
+	// dup2(file2, 1);
 	i = 0;
-	/*while (i < ac - 3)
-	{
-		cmd = ft_search_cmd(av[i + 2]);
-		real_path = ft_search_path(envp, cmd[0]);
-		// printf("\ncmd: %s, real_path: %s\n\n", cmd[1], real_path);
-		make_fork(fd, real_path, cmd, envp, file2);
-		i++;
-	}*/
 	while (i < 2)
 	{
 		cmd = ft_search_cmd(av[i + 2]);
 		real_path = ft_search_path(envp, cmd[0]);
 		// printf("\ncmd: %s, real_path: %s\n\n", cmd[1], real_path);
-		make_fork(fd, real_path, cmd, envp, file2);
+		make_fork(real_path, cmd, envp);
 		i++;
 	}
+	read(0, res, 1000);
+	write(1, res, 1000);
 	close(file1);
 	close(file2);
 	return (0);
