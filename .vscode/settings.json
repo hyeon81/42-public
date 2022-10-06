@@ -2,6 +2,8 @@
     "files.associations": {
         "unistd.h": "c",
         "pipex.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "errno.h": "c",
+        "stdio.h": "c"
     }
 }
