@@ -1,12 +1,10 @@
 NAME = pipex
 
-CC = cc
+CC = gcc
 
-CFLAG = -Wall -Wextra -Werror -fsanitize=
+CFLAG = -Wall -Wextra -Werror 
 
-SRCS = ./pipex.c ./pipex_util.c ./ft_split.c
-
-HEADERS = pipex.h
+SRCS = pipex.c pipex_util.c ft_split.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -16,7 +14,7 @@ $(NAME) : $(OBJS)
 	$(CC) -o $(CFLAG) $(OBJS) -o $(NAME)
 
 %.o : %.c
-	$(CC) $(CFLAG) -I $(HEADERS) -c $< -o $@ 
+	$(CC) $(CFLAG) -c $< -o $@ 
 
 clean:
 	rm -f $(OBJS)

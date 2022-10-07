@@ -1,0 +1,5 @@
+total 117
+-rwxrwxrwx 1 hyeon hyeon   355 Oct  8 01:54 Makefile
+-rwxrwxrwx 1 hyeon hyeon 50592 Oct  7 21:52 a.out
+drwxrwxrwx 1 hyeon hyeon   512 Oct  7 00:28 a.out.dSYM
+-rwxrwxrwx 1 hyeon hyeon   436 Oct  7 00:28 main.c
