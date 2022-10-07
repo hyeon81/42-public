@@ -2,9 +2,11 @@ NAME = pipex
 
 CC = cc
 
-CFLAG = -Wall -Wextra -Werror
+CFLAG = -Wall -Wextra -Werror -fsanitize=
 
-SRCS = 
+SRCS = ./pipex.c ./pipex_util.c ./ft_split.c
+
+HEADERS = pipex.h
 
 OBJS = $(SRCS:.c=.o)
 

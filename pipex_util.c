@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 11:49:24 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/06 15:30:52 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/10/07 19:11:03 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 size_t	ft_strlen(char *str)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (str[i] != '\0')
@@ -60,7 +60,7 @@ char	*ft_strstr(const char *haystack, const char *needle)
 		return ((char *)haystack);
 	i = 0;
 	j = 0;
-	int len = ft_strlen((char *)haystack);
+	size_t len = ft_strlen((char *)haystack);
 	while ((haystack[i] != 0) && (i < len))
 	{
 		j = 0;
