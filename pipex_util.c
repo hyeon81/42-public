@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 11:49:24 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/07 19:11:03 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/10/11 19:41:48 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,33 +46,27 @@ size_t	ft_strlen(char *str)
 	size_t	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i] != '\0')
 		i++;
 	return (i);
 }
 
-char	*ft_strstr(const char *haystack, const char *needle)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t	i;
-	size_t	j;
+	size_t			i;
 
-	if (needle[0] == 0)
-		return ((char *)haystack);
 	i = 0;
-	j = 0;
-	size_t len = ft_strlen((char *)haystack);
-	while ((haystack[i] != 0) && (i < len))
+	if (n <= 0)
+		return (0);
+	while ((s1[i] && s2[i]) && (i < n - 1))
 	{
-		j = 0;
-		while ((haystack[i + j] == needle[j]) && (i + j < len))
-		{
-			j++;
-			if (needle[j] == 0)
-				return ((char *)&haystack[i + j]);
-		}
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		i++;
 	}
-	return (0);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
 size_t	ft_double_strlen(char **str)
@@ -85,17 +79,24 @@ size_t	ft_double_strlen(char **str)
 	return (i);
 }
 
-void	*ft_memset(void *b, int c, size_t len)
+void	ft_free(char **s1, char **s2)
 {
-	unsigned char	*b_ptr;
-	size_t			i;
+	int	i;
 
-	b_ptr = (unsigned char *)b;
 	i = 0;
-	while (i < len)
+	if (s1)
 	{
-		b_ptr[i] = (unsigned char)c;
-		i++;
+		while (s1[i])
+		{
+			free(s1[i]);
+			i++;
+		}
+		free(s1);
+		s1 = 0;
 	}
-	return (b_ptr);
+	else
+	{
+		free(*s2);
+		*s2 = 0;
+	}
 }

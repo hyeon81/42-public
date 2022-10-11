@@ -1,0 +1,5 @@
+total 352
+-rw-r--r--   1 hyeokim2  2022_seoul    369 Oct 11 18:18 Makefile
+-rwxr-xr-x   1 hyeokim2  2022_seoul  50592 Oct  7 19:13 a.out
+drwxr-xr-x   3 hyeokim2  2022_seoul    102 Oct  6 19:53 a.out.dSYM
+-rw-r--r--   1 hyeokim2  2022_seoul    422 Oct  6 16:08 main.c
