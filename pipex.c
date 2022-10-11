@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 16:43:39 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/11 21:01:33 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/10/11 22:05:45 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,7 @@ int	main(int ac, char **av, char **envp)
 	int	file1;
 	int	file2;	
 
-	if (ac != 5)
-	{
-		write(2, "Error: argument should be 4\n", 29);
-		exit (1);
-	}
-	check_argv(ac, av, &file1, &file2);
+	check_argv(ac, av[1], &file1, &file2);
 	dup2(file1, 0);
 	dup2(file2, 1);
 	close(file1);
