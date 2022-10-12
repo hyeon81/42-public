@@ -6,7 +6,7 @@ CFLAG = -Wall -Wextra -Werror -g3
 
 SRCS = ./pipex.c ./pipex_util.c ./pipex_argv.c ./ft_split.c
 
-BONUS = ./pipex_bonus.c ./pipex_util.c ./pipex_argv.c ./ft_split.c
+BONUS = ./pipex_bonus.c ./pipex_util.c ./pipex_argv.c ./ft_split.c ./get_next_line2.c ./get_next_line_utils.c ./pipex_here_doc.c 
 
 HEADERS = pipex.h
 
