@@ -12,11 +12,34 @@
 
 #include "pipex.h"
 
+int	ft_search_quote(int idx, char quote)
+{
+	while (av[idx])
+	{
+		if (av[idx] == quote)
+			return (idx);
+		idx++;
+	}
+	return (-1);
+}
 char	**ft_search_cmd(char *av)
 {
 	char	**cmd;
+	int		s_idx;
+	int		e_idx;
+	char	quote;
 
-	cmd = ft_split(av, ' ');
+	s_idx = 0;
+	quote = NULL;
+	while (av[s_idx])
+	{
+		if (!quote && (av[s_idx] == '\'' || av[s_idx] == '\"'))
+			quote = av[s_idx];
+		if (quote)
+			e_idx = ft_search_quote(i + 1, quote);
+		s_idx++;
+	}
+	cmd = ft_split(av, ' ', i, idx,);
 	return (cmd);
 }
 
