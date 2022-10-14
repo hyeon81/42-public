@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 16:43:39 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/12 21:48:22 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/10/14 21:21:55 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,14 @@ int	ft_exit(char *str, int code)
 	exit(code);
 }
 
-void	ft_putstr_err(char *s1, char *s2)
+void	ft_file_open(char *filename1, char *filename2, int *file1, int *file2)
 {
-	int	i;
-
-	if (!s1 || !s2)
-		return ;
-	i = 0;
-	while (s1[i] != 0)
-	{
-		write(2, &s1[i], 1);
-		i++;
-	}
-	i = 0;
-	while (s2[i] != 0)
-	{
-		write(2, &s2[i], 1);
-		i++;
-	}
+	*file1 = open(filename1, O_RDONLY);
+	*file2 = open(filename2, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (*file1 < 0)
+		ft_exit(filename1, 1);
+	if (*file2 < 0)
+		ft_exit(filename2, 1);
 }
 
 void	make_exec(char *av, char **envp)
@@ -44,7 +34,9 @@ void	make_exec(char *av, char **envp)
 	char	*real_path;
 
 	cmd = ft_search_cmd(av);
-	real_path = ft_search_path(envp, cmd[0]);
+	real_path = 0;
+	if (cmd)
+		real_path = ft_search_path(envp, cmd[0]);
 	if (real_path == 0)
 	{
 		ft_putstr_err(cmd[0], ": command not found\n");
@@ -63,7 +55,7 @@ int	make_fork(char *av, char **envp)
 		ft_exit("pipe_error", 1);
 	pid = fork();
 	if (pid < 0)
-		ft_exit("pipe_error", 1);
+		ft_exit("fork_error", 1);
 	if (pid == 0)
 	{
 		dup2(fd[1], 1);
@@ -98,5 +90,5 @@ int	main(int ac, char **av, char **envp)
 	close(file2);
 	make_fork(av[2], envp);
 	make_exec(av[3], envp);
-	return (1);
+	return (0);
 }

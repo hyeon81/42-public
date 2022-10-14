@@ -2,7 +2,7 @@ NAME = pipex
 
 CC = cc
 
-CFLAG = -Wall -Wextra -Werror -g3
+CFLAG = -Wall -Wextra -Werror #-fsanitize=address
 
 SRCS = ./pipex.c ./pipex_util.c ./pipex_argv.c ./ft_split.c
 

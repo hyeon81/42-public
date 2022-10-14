@@ -6,40 +6,19 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 19:46:27 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/12 21:46:54 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/10/14 19:06:24 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	ft_search_quote(int idx, char quote)
-{
-	while (av[idx])
-	{
-		if (av[idx] == quote)
-			return (idx);
-		idx++;
-	}
-	return (-1);
-}
 char	**ft_search_cmd(char *av)
 {
 	char	**cmd;
-	int		s_idx;
-	int		e_idx;
-	char	quote;
 
-	s_idx = 0;
-	quote = NULL;
-	while (av[s_idx])
-	{
-		if (!quote && (av[s_idx] == '\'' || av[s_idx] == '\"'))
-			quote = av[s_idx];
-		if (quote)
-			e_idx = ft_search_quote(i + 1, quote);
-		s_idx++;
-	}
-	cmd = ft_split(av, ' ', i, idx,);
+	if (!av)
+		return (0);
+	cmd = ft_split(av, ' ');
 	return (cmd);
 }
 
@@ -73,11 +52,11 @@ char	*ft_search_path(char **envp, char *first_cmd)
 		return (first_cmd);
 	splited_path = search_origin_path(envp);
 	path_count = ft_double_strlen(splited_path);
-	temp_path = ft_strjoin("/", first_cmd);
+	temp_path = ft_strjoin("/", first_cmd, 0, 0);
 	i = 0;
 	while (i < path_count)
 	{
-		cmd_path = ft_strjoin(splited_path[i], temp_path);
+		cmd_path = ft_strjoin(splited_path[i], temp_path, 0, 0);
 		if (access(cmd_path, F_OK) == 0)
 			break ;
 		else
@@ -89,15 +68,22 @@ char	*ft_search_path(char **envp, char *first_cmd)
 	return (cmd_path);
 }
 
-void	ft_file_open(char *filename1, char *filename2, int *file1, int *file2)
+void	ft_putstr_err(char *s1, char *s2)
 {
-	*file1 = open(filename1, O_RDONLY);
-	if (ft_strncmp(filename1, "here_doc.tmp", 12) == 0)
-		*file2 = open(filename2, O_RDWR | O_CREAT | O_APPEND, 0644);
-	else
-		*file2 = open(filename2, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (*file1 < 0)
-		ft_exit(filename1, 1);
-	if (*file2 < 0)
-		ft_exit(filename2, 1);
+	int	i;
+
+	if (!s1 || !s2)
+		return ;
+	i = 0;
+	while (s1[i] != 0)
+	{
+		write(2, &s1[i], 1);
+		i++;
+	}
+	i = 0;
+	while (s2[i] != 0)
+	{
+		write(2, &s2[i], 1);
+		i++;
+	}
 }
