@@ -10,6 +10,7 @@
         "stdio.h": "c",
         "*.a": "c",
         "ratio": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "ios": "c"
     }
 }

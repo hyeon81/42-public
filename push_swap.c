@@ -6,59 +6,27 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:01:48 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/24 19:31:07 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/10/25 21:48:35 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
 
-void remove_node(t_node *head, t_node *tail) 
+void ft_exit()
 {
-	t_node *node = head -> next;
-	head -> next = node -> next;
-
-	t_node *next = node -> next;
-	next -> prev = head;
-
-	free(node);
-}
-
-void insert_node(int data, t_node *head, t_node *tail)
-{
-	t_node *node = (t_node *)malloc(sizeof(t_node));
-	node->data = data;
-
-	t_node *cur;
-	cur = head -> next;
-	while (cur != tail)
-	{
-		cur = cur -> next;
-	}
-	// t_node *prev = cur -> prev;
-	cur -> prev -> next = node;
-	node -> prev = cur -> prev;
-	cur -> prev = node;
-	node -> next = cur;    
+	write(2, "Error\n", 6);
+	exit(1);
 }
 
 void show (t_node *head, t_node *tail)
 {
-	t_node *cur = head -> next;
-	while (cur != tail)
+	t_node *curr = head -> next;
+	while (curr != tail)
 	{
-		printf("%d\n", cur -> data);
-		cur = cur -> next;
+		printf("%d\n", curr -> data);
+		curr = curr -> next;
 	} 
-}
-
-void ft_s(t_node *head, char c)
-{
-	int temp;
-
-	temp = head->next->next->data;
-	head->next->next->data = head->next->data;
-	head->next->data = temp;
 }
 
 void is_sorted(int arr[], int len)
@@ -74,8 +42,7 @@ void is_sorted(int arr[], int len)
 			val = arr[i];
 		i++;
 	}
-	write(1, "array is sorted", 15);
-	exit (0);
+	exit(0);
 }
 
 void is_overlapped(int arr[], int len)
@@ -89,10 +56,7 @@ void is_overlapped(int arr[], int len)
 		{
 			// printf("%d, %d, %d, %d\n", i, j, arr[i], arr[j]);
 			if (arr[i] == arr[j])
-			{
-				write(1, "number is overlapped", 20);
-				exit (0);
-			}
+				ft_exit();
 			j++;
 		}
 		i++;
@@ -115,47 +79,72 @@ void ft_init_stack(t_stack *stack)
 	stack->b_head->prev = stack->b_head;
 	stack->b_tail->next = stack->b_tail;
 	stack->b_tail->prev = stack->b_head;
+
+	stack->a_head->type = 1;
+	stack->b_head->type = 1;
+	stack->a_tail->type = 1;
+	stack->b_tail->type = 1;
+}
+
+int list_is_sorted(t_node *head, t_node *tail)
+{
+	t_node *curr;
+	curr = head->next;
+	int val = curr->data;
+	curr = curr -> next;
+
+	while (curr != tail)
+	{
+		if (val > curr->data)
+			return (0);
+		else
+			val = curr->data;
+		curr = curr -> next;
+	}
+	return (1);
 }
 
 int main(int ac, char **av)
 {
 	t_stack stack;
+	int size;
 	int arr[ac - 1];
 	int i = 0;
 
+	size = ac - 1;
 	//예외 처리 필요
 	if (ac < 2)
-	{
-		write(1, "Argument Error\n", 15);
-		exit(1);
-	}
-	ft_memset(arr, 0, ac - 1);
-	while (i < ac - 1)
+		ft_exit();
+	ft_memset(arr, 0, size);
+	while (i < size)
 	{
 		arr[i] = ft_atoi(av[i + 1]);
 		i++;
 	}
 	//중복된 값 없는지 체크
-	is_overlapped(arr, ac - 1);
+	is_overlapped(arr, size);
 	//정렬되어있는지 체크
-	is_sorted(arr, ac - 1);
-
-	// i = 0;
-	// while (i < ac - 1)
-	// {
-	// 	printf("%d\n", arr[i]);
-	// 	i++;
-	// }
-	//양방향 링크드 리스트 사용
-
+	is_sorted(arr, size);
 
 	i = 0;
 	ft_init_stack(&stack);
-	while (i < ac - 1)
+	while (i < size)
 	{
-		insert_node(arr[i], stack.a_head, stack.a_tail);
+		insert_node_bottom(arr[i], stack.a_tail);
 		i++;
 	}
+
+	//push_swap
+	if (size <= 3)
+	{
+		while(!list_is_sorted(stack.a_head, stack.a_tail))
+		{
+			
+		}
+	}
+	
 	show(stack.a_head, stack.a_tail);
+	printf("===================\n");
+	show(stack.b_head, stack.b_tail);
 	return (0);
 }

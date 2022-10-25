@@ -6,17 +6,11 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 16:32:03 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/24 16:32:07 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/10/25 21:29:27 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void ft_atoi_exit()
-{
-	write(1, "Error\n", 6);
-	exit(1);
-}
 
 int	ft_atoi(const char *str)
 {
@@ -28,7 +22,7 @@ int	ft_atoi(const char *str)
 	sign = 1;
 	num = 0;
 	if (!str)
-		ft_atoi_exit();
+		ft_exit();
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
@@ -36,16 +30,16 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	if (ft_isdigit(str[i]) == 0)
-		ft_atoi_exit();
+		ft_exit();
 	while (ft_isdigit(str[i]) == 1)
 	{	
 		num = num * 10 + (str[i] - '0');
 		i++;
 	}
 	if (str[i] != '\0')
-		ft_atoi_exit();
+		ft_exit();
 	num = num * sign;
 	if (num > 2147483647 || num < -2147483648)
-		ft_atoi_exit();
+		ft_exit();
 	return (num);
 }
