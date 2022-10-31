@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:06:23 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/25 21:33:04 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/10/31 19:15:18 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,22 @@ void insert_node_bottom(int data, t_node *tail);
 void remove_node_top(t_node *head);
 void remove_node_bottom(t_node *tail);
 void ft_exit();
+
+//command list
+void sa(t_node *a_head);
+void sb(t_node *b_head);
+void ss(t_stack *stack);
+void ft_s(t_node *head);
+void pa(t_stack *stack);
+void pb(t_stack *stack);
+void ft_p(t_node *head1, t_node *head2);
+void ra(t_node *a_head, t_node *a_tail);
+void rb(t_node *b_head, t_node *b_tail);
+void rr(t_stack *stack);
+void ft_r(t_node *head, t_node *tail);
+void rra(t_node *a_head, t_node *a_tail);
+void rrb(t_node *b_head, t_node *b_tail);
+void rrr(t_stack *stack);
+void ft_rr(t_node *head, t_node *tail);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:01:48 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/25 21:48:35 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/10/31 20:02:13 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void ft_init_stack(t_stack *stack)
 	stack->b_tail->type = 1;
 }
 
-int list_is_sorted(t_node *head, t_node *tail)
+int is_sorted_list(t_node *head, t_node *tail)
 {
 	t_node *curr;
 	curr = head->next;
@@ -102,6 +102,39 @@ int list_is_sorted(t_node *head, t_node *tail)
 		curr = curr -> next;
 	}
 	return (1);
+}
+
+void sort_three_list(t_node *head, t_node *tail)
+{
+	int data0;
+	int data1;
+	int data2;
+
+	data0 = head->next->data;
+	data1 = head->next->next->data;
+	data2 = tail->prev->data;
+
+	if ((data0 > data1) && (data1 > data2) && (data0 > data2))
+	{
+		sa(head);
+		rra(head, tail);
+	}
+	//3 1 2
+	else if ((data0 > data1) && (data2 > data1) && (data0 > data2))
+		ra(head, tail);
+	//2 1 3
+	else if ((data0 > data1) && (data1 < data2) && (data0 < data2))
+		sa(head);
+	//2 3 1
+	else if ((data0 < data1) && (data1 > data2) && (data0 > data2))
+		rra(head, tail);
+	//1 3 2
+	else if ((data0 < data1) && (data1 > data2) && (data0 < data2))
+	{
+		sa(head);
+		ra(head, tail);
+	}
+	
 }
 
 int main(int ac, char **av)
@@ -135,13 +168,17 @@ int main(int ac, char **av)
 	}
 
 	//push_swap
-	if (size <= 3)
+	//under 3
+	if (size == 2)
 	{
-		while(!list_is_sorted(stack.a_head, stack.a_tail))
-		{
-			
-		}
+		if (stack.a_head->data > stack.a_head->next->data)
+			sa(stack.a_head);
 	}
+	if (size == 3)
+	{
+		sort_three_list(stack.a_head, stack.a_tail);
+	}
+	
 	
 	show(stack.a_head, stack.a_tail);
 	printf("===================\n");
