@@ -19,8 +19,12 @@ void rr(t_stack *stack)
 void ft_r(t_node *head, t_node *tail)
 {
     int temp;
+    int i_temp;
 
+    // if (head->next->index == -1)
+    //     return ;
     temp = head->next->data;
+    i_temp = head->next->index;
     remove_node_top(head);
-    insert_node_bottom(temp, tail);
+    insert_node_bottom(temp, i_temp, tail);
 }

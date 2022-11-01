@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 21:51:02 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/25 21:51:03 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/01 21:14:24 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void remove_node_bottom(t_node *tail)
 	free(node);
 }
 
-void insert_node_top(int data, t_node *head)
+void insert_node_top(int data, int index, t_node *head)
 {
-	t_node *node = ft_lstnew(data);
+	t_node *node = ft_lstnew(data, index);
 	t_node *curr;
 	curr = head -> next;
 	// while (cur != tail)
@@ -47,9 +47,9 @@ void insert_node_top(int data, t_node *head)
 	node -> next = curr;    
 }
 
-void insert_node_bottom(int data, t_node *tail)
+void insert_node_bottom(int data, int index, t_node *tail)
 {
-	t_node *node = ft_lstnew(data);
+	t_node *node = ft_lstnew(data, index);
 	t_node *curr;
 	// curr = head -> next;
 	curr = tail -> prev;

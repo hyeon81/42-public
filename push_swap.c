@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:01:48 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/31 20:02:13 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/01 21:30:33 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,43 @@ void is_overlapped(int arr[], int len)
 	}
 }
 
+void make_index_arr(int arr[], int *i_arr, int size)
+{
+	int i = 0;
+	int j = 0;
+	int sorted[size];
+	ft_memset(sorted, 0, size);
+	ft_memset(i_arr, 0, size);
+	while (i < size)
+	{
+		sorted[i] = arr[i];
+		i++;
+	}
+	quick_sort(sorted, 0, size - 1);
+	i = 0;
+	while (i < size)
+	{
+		j = 0;
+		while (j < size)
+		{
+			if (arr[i] == sorted[j])
+				i_arr[i] = j;
+			j++;
+		}
+		i++;
+	}
+	/*for(int i = 0; i < size; i++)
+	{
+		printf("sorted: %d\n", index[i]);
+	}*/
+}
+
 void ft_init_stack(t_stack *stack)
 {
-	stack->a_head = ft_lstnew(0);
-	stack->a_tail = ft_lstnew(0);
-	stack->b_head = ft_lstnew(0);
-	stack->b_tail = ft_lstnew(0);
+	stack->a_head = ft_lstnew(0, -1);
+	stack->a_tail = ft_lstnew(0, -1);
+	stack->b_head = ft_lstnew(0, -1);
+	stack->b_tail = ft_lstnew(0, -1);
 
 	stack->a_head->next = stack->a_tail;
 	stack->a_head->prev = stack->a_head;
@@ -79,11 +110,6 @@ void ft_init_stack(t_stack *stack)
 	stack->b_head->prev = stack->b_head;
 	stack->b_tail->next = stack->b_tail;
 	stack->b_tail->prev = stack->b_head;
-
-	stack->a_head->type = 1;
-	stack->b_head->type = 1;
-	stack->a_tail->type = 1;
-	stack->b_tail->type = 1;
 }
 
 int is_sorted_list(t_node *head, t_node *tail)
@@ -159,13 +185,22 @@ int main(int ac, char **av)
 	//정렬되어있는지 체크
 	is_sorted(arr, size);
 
-	i = 0;
+	int i_arr[size];
+	make_index_arr(arr, i_arr, size);
+	stack.size = size;
 	ft_init_stack(&stack);
-	while (i < size)
-	{
-		insert_node_bottom(arr[i], stack.a_tail);
-		i++;
-	}
+	
+	i = 0;
+	// while (i < size)
+	// {
+	// 	insert_node_bottom(arr[i], i_arr[i], stack.a_tail);
+	// 	printf("index: %d\n", stack.a_tail->prev->index);
+	// 	printf("index arr: %d\n", i_arr[i]);
+	// 	printf("data: %d\n", stack.a_tail->prev->data);
+	// 	printf("arr: %d\n", arr[i]);
+	// 	printf("========================\n");
+	// 	i++;
+	// }
 
 	//push_swap
 	//under 3
@@ -178,7 +213,6 @@ int main(int ac, char **av)
 	{
 		sort_three_list(stack.a_head, stack.a_tail);
 	}
-	
 	
 	show(stack.a_head, stack.a_tail);
 	printf("===================\n");

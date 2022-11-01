@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 17:38:54 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/31 19:04:40 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/01 21:24:21 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void ft_s(t_node *head)
 {
 	int temp;
 
-	if (head->next->type)
-		return ;
+	// if (head->next->index == -1)
+	// 	return ;
 	temp = head->next->next->data;
 	head->next->next->data = head->next->data;
 	head->next->data = temp;

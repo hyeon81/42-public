@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:06:23 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/31 19:15:18 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/01 21:23:40 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@
 
 typedef struct s_node
 {
-    int type;
     int data;
+    int index;
     struct s_node *prev;
     struct s_node *next;
 } t_node;
 
 typedef struct s_stack
 {
+    int size;
     t_node *a_head;
     t_node *a_tail;
     t_node *b_head;
@@ -36,13 +37,14 @@ typedef struct s_stack
 int	ft_atoi(const char *str);
 int	ft_isdigit(int c);
 void	*ft_memset(void *b, int c, size_t len);
-t_node	*ft_lstnew(int data);
+t_node	*ft_lstnew(int data, int index);
 void command_list(char c1, char c2, t_stack *stack);
-void insert_node_top(int data, t_node *head);
-void insert_node_bottom(int data, t_node *tail);
+void insert_node_top(int data, int index, t_node *head);
+void insert_node_bottom(int data, int index, t_node *tail);
 void remove_node_top(t_node *head);
 void remove_node_bottom(t_node *tail);
 void ft_exit();
+void quick_sort(int arr[], int left, int right);
 
 //command list
 void sa(t_node *a_head);
