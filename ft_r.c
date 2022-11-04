@@ -1,30 +1,31 @@
 #include "push_swap.h"
 
-void ra(t_node *a_head, t_node *a_tail)
+void ra(t_stack *stack)
 {
-    ft_r(a_head, a_tail);
+    ft_r(stack->a_head, stack->a_tail);
+    ft_putstr("ra\n");
 }
 
-void rb(t_node *b_head, t_node *b_tail)
+void rb(t_stack *stack)
 {
-    ft_r(b_head, b_tail);
+    ft_r(stack->b_head, stack->b_tail);
+    ft_putstr("rb\n");
 }
 
 void rr(t_stack *stack)
 {
     ft_r(stack->a_head, stack->a_tail);
     ft_r(stack->b_head, stack->b_tail);
+    ft_putstr("rr\n");
 }
 
 void ft_r(t_node *head, t_node *tail)
 {
     int temp;
-    int i_temp;
 
-    // if (head->next->index == -1)
-    //     return ;
-    temp = head->next->data;
-    i_temp = head->next->index;
+    if (head->next->index == -1)
+        return ;
+    temp = head->next->index;
     remove_node_top(head);
-    insert_node_bottom(temp, i_temp, tail);
+    insert_node_bottom(temp, tail);
 }

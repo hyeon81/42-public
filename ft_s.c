@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 17:38:54 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/01 21:24:21 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/04 16:06:06 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,20 @@
 void sa(t_node *a_head)
 {
     ft_s(a_head);
+	ft_putstr("sa\n");
 }
 
 void sb(t_node *b_head)
 {
     ft_s(b_head);
+	ft_putstr("sb\n");
 }
 
 void ss(t_stack *stack)
 {
     ft_s(stack->a_head);
     ft_s(stack->b_head);
+	ft_putstr("ss\n");
 }
 
 void ft_s(t_node *head)
@@ -34,7 +37,7 @@ void ft_s(t_node *head)
 
 	// if (head->next->index == -1)
 	// 	return ;
-	temp = head->next->next->data;
-	head->next->next->data = head->next->data;
-	head->next->data = temp;
+	temp = head->next->next->index;
+	head->next->next->index = head->next->index;
+	head->next->index = temp;
 }

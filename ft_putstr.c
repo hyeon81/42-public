@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/13 13:37:32 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/04 19:29:40 by hyeokim2         ###   ########.fr       */
+/*   Created: 2022/07/06 14:05:23 by hyeokim2          #+#    #+#             */
+/*   Updated: 2022/11/04 16:01:50 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-t_node	*ft_lstnew(int index)
+void	ft_putstr(char *s)
 {
-	t_node	*curr;
+	int	i;
 
-	curr = (t_node *)malloc(sizeof(t_node));
-	if (!curr)
-		return (0);
-	curr -> next = NULL;
-	curr -> prev = NULL;
-	curr -> index = index;
-	
-	return (curr);
+	i = 0;
+
+	while (s[i] != 0)
+	{
+		write(1, &s[i], 1);
+		i++;
+	}
 }
