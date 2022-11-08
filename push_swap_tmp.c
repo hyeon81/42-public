@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   push_swap_tmp.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:01:48 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/08 20:08:33 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/08 21:52:11 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,59 +63,80 @@ void sort_three_list(t_stack *stack)
 
 void a_to_b(t_stack *stack, int i, int chunk)
 {
-	int j;
 	int top;
+	int num;
+	i = 1;
 	
-	j = 0;
-	while (i < stack->size)
+	num = chunk;
+	while (i < stack->size - 2)
 	{
-		top = stack->a_head->next->index;
-		if (top <= i)
+		while (i < num)
 		{
-			pb(stack);
-			i++;
+			top = stack->a_head->next->index;
+			if (top == -1)
+				break;
+			// if (top == stack->size - 1 || top == stack->size - 1 - chunk)
+			// {
+			// 	if (stack->a_head->next->next->next->index == -1 && (top == stack->size - 1 - chunk))
+			// 		break;
+			// 	ra(stack);
+			// }
+			else if (top <= num)
+			{
+				pb(stack);
+				i++;
+			}
+			else if (top <= num + chunk)
+			{
+				pb(stack);
+				rb(stack);
+				i++;
+			}
+			else
+			{
+				ra(stack);
+			}
 		}
-		else if (top <= chunk + i)
-		{
-			pb(stack);
-			rb(stack);
-			i++;
-		}
-		else if (top > chunk + i)
-		{
-			ra(stack);
-		}
+		num += chunk;
 	}
 }
 
-void b_to_a(t_stack *stack)
-{
-	int max = stack->size - 1;
-	int top;
-	t_node *curr;
-	int i = 0;
-	while (max >= 0)
-	{
-		curr = stack->b_head->next;
-		while (curr->next != 0)
-		{
-			if (curr->index == max)
-				break;
-			curr = curr -> next;
-			i++;
-		}
-		top = stack->b_head->next->index;
-		if (top == max)
-		{
-			pa(stack);
-			max--;
-		}
-		else if (i > (stack->size / 2))
-			rrb(stack);
-		else
-			rb(stack);
-	}
-}
+// void b_to_a(t_stack *stack)
+// {
+// 	int chunk = stack->size / 10;
+// 	int num = stack->size - 1;
+
+	
+// }
+
+// void b_to_a(t_stack *stack)
+// {
+// 	int max = stack->size - 1;
+// 	int top;
+// 	t_node *curr;
+// 	int i = 0;
+// 	while (max >= 0)
+// 	{
+// 		curr = stack->b_head->next;
+// 		while (curr->next != 0)
+// 		{
+// 			if (curr->index == max)
+// 				break;
+// 			curr = curr -> next;
+// 			i++;
+// 		}
+// 		top = stack->b_head->next->index;
+// 		if (top == max)
+// 		{
+// 			pa(stack);
+// 			max--;
+// 		}
+// 		else if (i > (stack->size / 2))
+// 			rrb(stack);
+// 		else
+// 			rb(stack);
+// 	}
+// }
 
 int main(int ac, char **av)
 {
@@ -184,13 +205,10 @@ int main(int ac, char **av)
 		sort_three_list(&stack);
 		return (0);
 	}
-	// a_to_b(&stack, 0, 15);
-	printf("===================\n");
-	// show(stack.b_head, stack.b_tail);
-	printf("===================\n");
+	a_to_b(&stack, 0, stack.size / 10);
 	// b_to_a(&stack);
-	// show(stack.a_head, stack.a_tail);
-	// printf("===================\n");
-	// show(stack.b_head, stack.b_tail);
+	show(stack.a_head, stack.a_tail);
+	printf("===================\n");
+	show(stack.b_head, stack.b_tail);
 	return (0);
 }
