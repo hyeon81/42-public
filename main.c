@@ -11,7 +11,7 @@ int main() {
 	srand((unsigned)time(NULL));
 
 	for (i = 0; i < SIZE; i++) {	// 로또번호 뽑기
-		rotto[i] = (rand() % 100) + 1;
+		rotto[i] = (rand() % 500) + 1;
 		for (j = 0; j < i; j++) {
 			if (rotto[i] == rotto[j]) i--;
 		}

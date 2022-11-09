@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:01:48 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/08 20:08:33 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/09 22:10:11 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,56 +61,156 @@ void sort_three_list(t_stack *stack)
 	
 }
 
-void a_to_b(t_stack *stack, int i, int chunk)
+void sort_four_list(t_stack *stack)
 {
-	int j;
+	t_node *curr;
+	int min;
 	int top;
 	
-	j = 0;
+	// printf("here");
+	min = stack->a_head->next->index;
+	curr = stack->a_head->next;
+	while (curr->index != -1)
+	{
+		if (min > curr->index)
+			min = curr->index;
+		curr = curr -> next;
+	}
+	// printf("min: %d\n", min);
+	while (1)
+	{
+		top = stack->a_head->next->index;
+		if (top == min)
+		{
+			pb(stack);
+			break;
+		}
+		ra(stack);
+	}
+	sort_three_list(stack);
+	pa(stack);
+	// show(stack->a_head, stack->a_tail);
+}
+
+void sort_five_list(t_stack *stack)
+{
+	t_node *curr;
+	int min;
+	int top;
+	int i = 0;
+	// printf("here");
+	while (i < 2)
+	{
+		min = stack->a_head->next->index;
+		curr = stack->a_head->next;
+		while (curr->index != -1)
+		{
+			if (min > curr->index)
+				min = curr->index;
+			curr = curr -> next;
+		}
+		// printf("min: %d\n", min);
+		while (1)
+		{
+			top = stack->a_head->next->index;
+			if (top == min)
+			{
+				pb(stack);
+				break;
+			}
+			ra(stack);
+		}
+		i++;
+	}
+	sort_three_list(stack);
+	pa(stack);
+	pa(stack);
+	// show(stack->a_head, stack->a_tail);
+}
+
+void a_to_b(t_stack *stack, int i, int chunk)
+{
+	int top;
+	int rb_flag = 0;
+	
 	while (i < stack->size)
 	{
 		top = stack->a_head->next->index;
+		if (top > chunk + i)
+		{
+			if (rb_flag)
+			{
+				rr(stack);
+				rb_flag = 0;
+			}
+			else
+				ra(stack);
+		}
+		if (rb_flag)
+		{
+			rb(stack);
+			rb_flag = 0;
+		}
 		if (top <= i)
 		{
 			pb(stack);
 			i++;
 		}
-		else if (top <= chunk + i)
+		if (top > i && top <= chunk + i)
 		{
 			pb(stack);
-			rb(stack);
+			rb_flag = 1;
 			i++;
-		}
-		else if (top > chunk + i)
-		{
-			ra(stack);
 		}
 	}
 }
 
 void b_to_a(t_stack *stack)
 {
+	t_node *curr;
 	int max = stack->size - 1;
 	int top;
-	t_node *curr;
 	int i = 0;
+	int num = 1;
+	curr = stack->b_head->next;
+	while (curr->next != 0)
+	{
+		if (curr->index == max)
+			break;
+		curr = curr -> next;
+		i++;
+	}
 	while (max >= 0)
 	{
-		curr = stack->b_head->next;
-		while (curr->next != 0)
-		{
-			if (curr->index == max)
-				break;
-			curr = curr -> next;
-			i++;
-		}
 		top = stack->b_head->next->index;
+		if (top == max - num && num <= 2)
+		{
+			pa(stack);
+			ra(stack);
+			num++;
+		}
 		if (top == max)
 		{
 			pa(stack);
-			max--;
+			max = max - num;
+			while (num > 1)
+			{
+				rra(stack);
+				num--;
+			}
+			if (stack->a_head->next->index > stack->a_head->next->next->index && stack->a_head->next->next->index != -1)
+				sa(stack->a_head);
+			i = 0;
+			curr = stack->b_head->next;
+			while (curr->next != 0)
+			{
+				if (curr->index == max)
+				break;
+				curr = curr -> next;
+				i++;
+			}
 		}
-		else if (i > (stack->size / 2))
+		else if (i > (max / 2))
 			rrb(stack);
 		else
 			rb(stack);
@@ -184,13 +284,23 @@ int main(int ac, char **av)
 		sort_three_list(&stack);
 		return (0);
 	}
-	// a_to_b(&stack, 0, 15);
-	printf("===================\n");
-	// show(stack.b_head, stack.b_tail);
-	printf("===================\n");
-	// b_to_a(&stack);
-	// show(stack.a_head, stack.a_tail);
+	if (size == 4)
+	{
+		sort_four_list(&stack);
+		return (0);
+	}
+	if (size == 5)
+	{
+		sort_five_list(&stack);
+		return (0);
+	}
+	a_to_b(&stack, 0, 15);
 	// printf("===================\n");
 	// show(stack.b_head, stack.b_tail);
+	// printf("===================\n");
+	b_to_a(&stack);
+	show(stack.a_head, stack.a_tail);
+	printf("===================\n");
+	show(stack.b_head, stack.b_tail);
 	return (0);
 }
