@@ -131,36 +131,24 @@ void sort_five_list(t_stack *stack)
 void a_to_b(t_stack *stack, int i, int chunk)
 {
 	int top;
-	int rb_flag = 0;
 	
 	while (i < stack->size)
 	{
 		top = stack->a_head->next->index;
-		if (top > chunk + i)
-		{
-			if (rb_flag)
-			{
-				rr(stack);
-				rb_flag = 0;
-			}
-			else
-				ra(stack);
-		}
-		if (rb_flag)
-		{
-			rb(stack);
-			rb_flag = 0;
-		}
 		if (top <= i)
 		{
 			pb(stack);
 			i++;
 		}
-		if (top > i && top <= chunk + i)
+		else if (top > i && top <= chunk + i)
 		{
 			pb(stack);
-			rb_flag = 1;
+			rb(stack);
 			i++;
+		}
+		else if (top > chunk + i)
+		{
+			ra(stack);
 		}
 	}
 }
@@ -180,7 +168,7 @@ void b_to_a(t_stack *stack)
 		curr = curr -> next;
 		i++;
 	}
-	while (max >= 0)
+	while (max >= 95)
 	{
 		top = stack->b_head->next->index;
 		if (top == max - num && num <= 2)
@@ -295,7 +283,7 @@ int main(int ac, char **av)
 		return (0);
 	}
 	a_to_b(&stack, 0, 15);
-	// printf("===================\n");
+	printf("==========b_to_a=========\n");
 	// show(stack.b_head, stack.b_tail);
 	// printf("===================\n");
 	b_to_a(&stack);
