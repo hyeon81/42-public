@@ -131,37 +131,41 @@ void sort_five_list(t_stack *stack)
 void a_to_b(t_stack *stack, int i, int chunk)
 {
 	int top;
-	int length;
+	int	length;
 
 	length = stack->size - 1;
-	printf("length: %d\n", length);
 	while (stack->size != 0)
 	{
 		top = stack->a_head->next->index;
 		if (top <= i)
 		{
-			printf("top1: %d | ", top);
 			pb(stack);
 			i++;
 		}
 		else if (top > i && top <= chunk + i)
 		{
-			printf("top2: %d | ", top);
 			pb(stack);
 			rb(stack);
 			i++;
 		}
 		else if (top > (i + chunk))
 		{
-			printf("top3: %d | ", top);
 			if (i < stack->size / 2 && i >= 0)
-				ra(stack);
+				rra(a);
 			else
-				rra(stack);
+				ra(a);
 		}
 		length--;
 	}
 }
+
+// void sort_b(t_stack *stack)
+// {
+// 	if (i > (max / 2))
+// 		rrb(stack);
+// 	else
+// 		rb(stack);
+// }
 
 void b_to_a(t_stack *stack)
 {
@@ -208,10 +212,6 @@ void b_to_a(t_stack *stack)
 				i++;
 			}
 		}
-		else if (i > (max / 2))
-			rrb(stack);
-		else
-			rb(stack);
 	}
 }
 
@@ -294,12 +294,12 @@ int main(int ac, char **av)
 	}
 	int x = stack.size;
 	int chunk = 0.000000053 * (x * x) + 0.03 * x + 14.5;
-	a_to_b(&stack, 0, chunk);
-	// printf("==========b_to_a=========\n");
+	// a_to_b(&stack, 0, chunk);
+	show(stack.a_head, stack.a_tail);
+	printf("==========b_to_a=========\n");
 	// show(stack.b_head, stack.b_tail);
 	// printf("===================\n");
 	// b_to_a(&stack);
-	// show(stack.a_head, stack.a_tail);
 	// printf("===================\n");
 	show(stack.b_head, stack.b_tail);
 	return (0);

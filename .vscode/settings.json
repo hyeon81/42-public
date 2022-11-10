@@ -23,6 +23,7 @@
         "set": "c",
         "unordered_map": "c",
         "unordered_set": "c",
-        "utility": "c"
+        "utility": "c",
+        "push_swap copyc": "c"
     }
 }
