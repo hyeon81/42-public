@@ -14,12 +14,16 @@
 
 void sa(t_node *a_head)
 {
+	if (a_head->next->index == -1)
+		return ;
     ft_s(a_head);
 	ft_putstr("sa\n");
 }
 
 void sb(t_node *b_head)
 {
+	if (b_head->next->index == -1)
+		return ;
     ft_s(b_head);
 	ft_putstr("sb\n");
 }
@@ -35,8 +39,6 @@ void ft_s(t_node *head)
 {
 	int temp;
 
-	// if (head->next->index == -1)
-	// 	return ;
 	temp = head->next->next->index;
 	head->next->next->index = head->next->index;
 	head->next->index = temp;

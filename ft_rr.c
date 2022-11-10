@@ -14,12 +14,16 @@
 
 void rra(t_stack *stack)
 {
+    if (stack-> a_head -> next -> index == -1)
+        return ;
     ft_rr(stack->a_head, stack->a_tail);
     ft_putstr("rra\n");
 }
 
 void rrb(t_stack *stack)
 {
+    if (stack-> b_head -> next -> index == -1)
+        return ;
     ft_rr(stack->b_head, stack->b_tail);
     ft_putstr("rrb\n");
 }
@@ -37,8 +41,6 @@ void ft_rr(t_node *head, t_node *tail)
     int temp;
 
     curr = head -> next;
-    // if (curr->index == -1)
-    //     return ;
     while (curr->next != tail)
     {
         curr = curr -> next;
