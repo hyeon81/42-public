@@ -1,17 +1,17 @@
 #include "push_swap.h"
 
-void is_sorted(int arr[], int len)
+void is_sorted(t_stack *stack)
 {
-	int i = 1;
-	int val = arr[0];
+	t_node *curr = stack->a_head->next->next;
+	int val = stack->a_head->next->index;
 
-	while (i < len)
+	while (curr != stack->a_tail)
 	{
-		if (val > arr[i])
+		if (val > curr->index)
 			return ;
 		else
-			val = arr[i];
-		i++;
+			val = curr->index;
+		curr = curr->next;
 	}
 	exit(0);
 }
@@ -50,4 +50,9 @@ int is_sorted_list(t_node *head, t_node *tail)
 		curr = curr -> next;
 	}
 	return (1);
+}
+
+void check_valid(t_stack *stack)
+{
+
 }

@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:06:23 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/04 20:40:44 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/13 22:00:31 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	ft_atoi(const char *str);
 int	ft_isdigit(int c);
 void	*ft_memset(void *b, int c, size_t len);
 t_node	*ft_lstnew(int index);
+t_node	*ft_init_lstnew(int data, int index);
 void ft_putstr(char *s);
 char	**ft_split(char const *s, char c);
 
@@ -48,8 +49,11 @@ void is_overlapped(int arr[], int len);
 int is_sorted_list(t_node *head, t_node *tail);
 
 //init
-void make_index_arr(int arr[], int *i_arr, int size);
+int *make_index_arr(t_stack *stack, int *arr);
 void ft_init_stack(t_stack *stack);
+int *make_arr(t_stack *stack);
+void make_argv(int ac, char **av, t_stack *stack);
+void make_index(t_stack *stack);
 
 //utils
 void ft_exit();
@@ -60,6 +64,7 @@ void insert_node_top(int index, t_node *head);
 void insert_node_bottom(int index, t_node *tail);
 void remove_node_top(t_node *head);
 void remove_node_bottom(t_node *tail);
+void insert_new_node(int data, int index, t_node *tail);
 
 //command list
 void sa(t_node *a_head);

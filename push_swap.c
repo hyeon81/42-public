@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:01:48 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/13 19:52:05 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/13 22:05:02 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void ft_exit()
 void show (t_node *head, t_node *tail)
 {
 	t_node *curr = head -> next;
+
 	while (curr != tail)
 	{
 		printf("%d\n", curr -> index);
@@ -28,298 +29,18 @@ void show (t_node *head, t_node *tail)
 	} 
 }
 
-void sort_three_list(t_stack *stack)
-{
-	int index0;
-	int index1;
-	int index2;
-
-	index0 = stack->a_head->next->index;
-	index1 = stack->a_head->next->next->index;
-	index2 = stack->a_tail->prev->index;
-
-	if ((index0 > index1) && (index1 > index2) && (index0 > index2))
-	{
-		sa(stack->a_head);
-		rra(stack);
-	}
-	//3 1 2
-	else if ((index0 > index1) && (index2 > index1) && (index0 > index2))
-		ra(stack);
-	//2 1 3
-	else if ((index0 > index1) && (index1 < index2) && (index0 < index2))
-		sa(stack->a_head);
-	//2 3 1
-	else if ((index0 < index1) && (index1 > index2) && (index0 > index2))
-		rra(stack);
-	//1 3 2
-	else if ((index0 < index1) && (index1 > index2) && (index0 < index2))
-	{
-		sa(stack->a_head);
-		ra(stack);
-	}
-	
-}
-
-void sort_four_list(t_stack *stack)
-{
-	t_node *curr;
-	int min;
-	int top;
-	
-	min = stack->a_head->next->index;
-	curr = stack->a_head->next;
-	while (curr->index != -1)
-	{
-		if (min > curr->index)
-			min = curr->index;
-		curr = curr -> next;
-	}
-	while (1)
-	{
-		top = stack->a_head->next->index;
-		if (top == min)
-		{
-			pb(stack);
-			break;
-		}
-		ra(stack);
-	}
-	sort_three_list(stack);
-	pa(stack);
-}
-
-void sort_five_list(t_stack *stack)
-{
-	t_node *curr;
-	int min;
-	int top;
-	int i = 0;
-	int j;
-	while (i < 2)
-	{
-		j = 0;
-		min = stack->a_head->next->index;
-		curr = stack->a_head->next;
-		while (curr->index != -1)
-		{
-			if (min > curr->index)
-			{
-				min = curr->index;
-				j++;
-			}
-			curr = curr -> next;
-		}
-		while (1)
-		{
-			top = stack->a_head->next->index;
-			if (top == min)
-			{
-				pb(stack);
-				break;
-			}
-			if (j < 2)
-				ra(stack);
-			else
-				rra(stack);
-		}
-		i++;
-	}
-	sort_three_list(stack);
-	pa(stack);
-	pa(stack);
-}
-
-void a_to_b(t_stack *stack, int i, int chunk)
-{
-	int top;
-	int length;
-
-	length = stack->size;
-	while (i < length)
-	{
-		top = stack->a_head->next->index;
-		if (top <= i)
-		{
-			pb(stack);
-			i++;
-		}
-		else if (top > i && top <= chunk + i)
-		{
-			pb(stack);
-			i++;
-			rb(stack);
-		}
-		else if (top > (i + chunk))
-		{
-			if (i < length / 2)
-				rra(stack);
-			else
-				ra(stack);
-		}
-	}
-}
-
-int	sort_b(t_stack *stack, int max)
-{
-	t_node *curr;
-	int	i;
-	int sub = 0;
-	int j = 0;
-
-	i = 0;
-	int size = max + 1;
-	curr = stack->b_head->next;
-	if (curr->index == max)
-		return (0);
-	while (i < size)
-	{
-		if (curr->index == max)
-			break;
-		i++;
-		curr = curr -> next;
-	}
-	curr = stack->b_head->next;
-	while (j < size && curr->index != max)
-	{
-		if (curr -> index == max - 1)
-			sub = j;
-		j++;
-		curr = curr -> next;
-	}
-	if (i < size / 2) //중간값보다 작음
-	{
-		while (i > 0)
-		{
-			if (i == sub && sub < i)
-			{
-				pa(stack);
-				ra(stack);
-				sub = -1;
-			}
-			rb(stack);
-			i--;
-		}
-	}
-
-	else if (i >= size / 2)//중간값보다 큼
-	{
-		i = size - i;
-		// sub = size - sub;
-		while (i > 0)
-		{
-			// if (i == sub && sub < i)
-			// {
-				// pa(stack);
-				// ra(stack);
-				// sub = -1;
-			// }
-			rrb(stack);
-			i--;
-		}
-	}
-	// return (sub);
-	return (0);
-}
-
-void	b_to_a(t_stack *stack)
-{
-	int	max;
-	int sub;
-
-	max = stack->size - 1;
-	while (max >= 0)
-	{
-		sub = sort_b(stack, max);
-		pa(stack);
-		if (sub == -1)
-		{
-			max--;
-			rra(stack);
-		}
-		max--;
-	}
-}
-
 int main(int ac, char **av)
 {
 	t_stack stack;
-	int size = 0;
-	int i;
-	int idx;
+	int chunk;
 
-	//예외 처리 필요
-	if (ac < 2) //인자가 없음
-		ft_exit();
-	i = 1;
-	idx = 0;
 	ft_init_stack(&stack);
-	while (i < ac)
-	{
-		char **tmp_arr;
-		tmp_arr = ft_split(av[i], ' ');
-		idx = 0;
-		while (tmp_arr[idx] != 0)
-		{
-			insert_node_bottom(ft_atoi(tmp_arr[idx]), stack.a_tail);
-			idx++;
-			size++;
-		}
-		i++;
-	}
-	
-	int arr[size];
-	int idx_arr[size];
-	ft_memset(arr, 0, size);
-	t_node *curr;
-	curr = stack.a_head->next;
-	i = 0;
-	while (i < size)
-	{
-		arr[i] = curr->index;
-		curr = curr->next;
-		i++;
-	}
-	//중복된 값 없는지 체크
-	is_overlapped(arr, size);
-	//정렬되어있는지 체크
-	is_sorted(arr, size);
-	make_index_arr(arr, idx_arr, size);
-	stack.size = size;
-
-	i = 0;
-	curr = stack.a_head->next;
-	while (i < size)
-	{
-		curr->index = idx_arr[i];
-		curr = curr->next;
-		i++;
-	}
-	//push_swap
-	//under 3
-	if (size == 2)
-	{
-		if (stack.a_head->index > stack.a_head->next->index)
-			sa(stack.a_head);
-		return (0);
-	}
-	if (size == 3)
-	{
-		sort_three_list(&stack);
-		return (0);
-	}
-	if (size == 4)
-	{
-		sort_four_list(&stack);
-		return (0);
-	}
-	if (size == 5)
-	{
-		sort_five_list(&stack);
-		return (0);
-	}
-	int x = stack.size;
-	int chunk = 0.000000053 * (x * x) + 0.03 * x + 14.5;
+	make_argv(ac, av, &stack);
+	make_index(&stack);
+	show(stack.a_head, stack.a_tail);
+	if (ac < 7)
+		sort_under_five(&stack);
+	chunk = 0.000000053 * (stack.size * stack.size) + 0.03 * stack.size + 14.5;
 	a_to_b(&stack, 0, chunk);
 	// show(stack.b_head, stack.b_tail);
 	// printf("===================\n");

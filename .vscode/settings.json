@@ -24,6 +24,8 @@
         "unordered_map": "c",
         "unordered_set": "c",
         "utility": "c",
-        "push_swap copyc": "c"
+        "push_swap copyc": "c",
+        "iterator": "c",
+        "chrono": "c"
     }
 }
