@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:01:48 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/14 21:13:43 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/14 21:41:35 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,19 @@ void	show(t_stack *a)
 		printf("%d\n", curr -> index);
 		curr = curr -> next;
 	}
+}
+
+void	sort_over_five(t_stack *a, t_stack *b)
+{
+	int	chunk;
+
+	chunk = 0.000000053 * (a->size * a->size) + 0.03 * a->size + 14.5;
+	if (a->size == 500)
+		chunk = 30;
+	if (a->size == 100)
+		chunk = 15;
+	a_to_b(a, b, 0, chunk);
+	b_to_a(a, b);
 }
 
 int	main(int ac, char **av)

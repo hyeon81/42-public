@@ -6,20 +6,16 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:43:52 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/14 21:21:09 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/14 21:55:04 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	check_descending(t_stack *a, int idx)
+int	check_descending(t_stack *a, int idx, int i, int down)
 {
 	t_node	*curr;
-	int		down;
-	int		i;
 	int		val;
-	double	down_res;
-	int		j;
 
 	curr = a->head->next;
 	while (idx != 0 && curr != a->tail)
@@ -27,24 +23,28 @@ int	check_descending(t_stack *a, int idx)
 		curr = curr->next;
 		idx--;
 	}
-	down_res = 0;
-	j = 0;
-	i = 0;
-	down = 0;
 	val = curr->index;
 	curr = curr->next;
 	while (i < 10 && curr != a->tail)
 	{
 		if (val > curr->index)
 			down++;
-		i++;
 		val = curr->index;
 		curr = curr->next;
+		i++;
 	}
-	j++;
 	if ((down / 10) > 0.5)
 		return (1);
 	return (0);
+}
+
+void	pb_and_change_value(t_stack *a, t_stack *b, int *i, int *size)
+{
+	pb(a, b);
+	if (*i >= 0)
+		(*i)++;
+	if (*size >= 0)
+		(*size)--;
 }
 
 void	a_to_b(t_stack *a, t_stack *b, int i, int chunk)
@@ -55,22 +55,16 @@ void	a_to_b(t_stack *a, t_stack *b, int i, int chunk)
 
 	size = a->size - 1;
 	if (i % 10 == 0)
-		res = check_descending(a, i);
+		res = check_descending(a, i, 0, 0);
 	while (i < a->size)
 	{
 		top = a->head->next->index;
 		if (top <= i)
-		{
-			pb(a, b);
-			size--;
-			i++;
-		}
+			pb_and_change_value(a, b, &i, &size);
 		else if (top > i && top <= chunk + i)
 		{
-			pb(a, b);
+			pb_and_change_value(a, b, &i, &size);
 			rb(b);
-			size--;
-			i++;
 		}
 		else if (top > (i + chunk))
 		{
@@ -78,10 +72,6 @@ void	a_to_b(t_stack *a, t_stack *b, int i, int chunk)
 				rra(a);
 			else
 				ra(a);
-			// if (i < size / 2)
-			// 	rra(a);
-			// else
-			// 	ra(a);
 		}
 	}
 }
@@ -125,17 +115,4 @@ void	b_to_a(t_stack *a, t_stack *b)
 		pa(a, b);
 		max--;
 	}
-}
-
-void	sort_over_five(t_stack *a, t_stack *b)
-{
-	int	chunk;
-
-	chunk = 0.000000053 * (a->size * a->size) + 0.03 * a->size + 14.5;
-	if (a->size == 500)
-		chunk = 29;
-	if (a->size == 100)
-		chunk = 15;
-	a_to_b(a, b, 0, chunk);
-	b_to_a(a, b);
 }

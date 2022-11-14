@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 12:06:23 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/14 21:14:01 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/14 21:26:04 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	make_b(t_stack *b, int max, int i);
 void	b_to_a(t_stack *a, t_stack *b);
 void	sort_under_five(t_stack *a, t_stack *b);
 void	sort_over_five(t_stack *a, t_stack *b);
-int		check_descending(t_stack *a, int idx);
+int	check_descending(t_stack *a, int idx, int i, int down);
 
 //command list
 void	sa(t_stack *a);
