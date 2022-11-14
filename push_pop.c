@@ -6,65 +6,71 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 21:51:02 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/13 21:46:47 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/14 19:57:51 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void remove_node_top(t_node *head) 
+void	remove_node_top(t_node *head)
 {
-	t_node *node = head -> next;
+	t_node	*node;
+	t_node	*next;
+
+	node = head -> next;
+	next = node -> next;
 	head -> next = node -> next;
-
-	t_node *next = node -> next;
 	next -> prev = head;
-
 	free(node);
 }
 
-void remove_node_bottom(t_node *tail)
+void	remove_node_bottom(t_node *tail)
 {
-	t_node *node = tail -> prev;
+	t_node	*node;
+	t_node	*prev;
+
+	node = tail -> prev;
+	prev = node -> prev;
 	tail -> prev = node -> prev;
-
-	t_node *prev = node -> prev;
 	prev -> next = tail;
-
 	free(node);
 }
 
-void insert_node_top(int index, t_node *head)
+void	insert_node_top(int index, t_node *head)
 {
-	t_node *node = ft_lstnew(index);
-	t_node *curr;
+	t_node	*node;
+	t_node	*curr;
+
+	node = ft_lstnew(index);
 	curr = head -> next;
 	curr -> prev -> next = node;
 	node -> prev = curr -> prev;
 	curr -> prev = node;
-	node -> next = curr;    
+	node -> next = curr;
 }
 
-void insert_node_bottom(int index, t_node *tail)
+void	insert_node_bottom(int index, t_node *tail)
 {
-	t_node *node = ft_lstnew(index);
-	t_node *curr;
-	
+	t_node	*node;
+	t_node	*curr;
+
+	node = ft_lstnew(index);
 	curr = tail -> prev;
 	curr -> next -> prev = node;
 	node -> next = curr -> next;
 	curr -> next = node;
-	node -> prev = curr;    
+	node -> prev = curr;
 }
 
-void insert_new_node(int data, int index, t_node *tail)
+void	insert_new_node(int data, int index, t_node *tail)
 {
-	t_node *node = ft_init_lstnew(data, index);
-	t_node *curr;
-	
+	t_node	*node;
+	t_node	*curr;
+
+	node = ft_init_lstnew(data, index);
 	curr = tail -> prev;
 	curr -> next -> prev = node;
 	node -> next = curr -> next;
 	curr -> next = node;
-	node -> prev = curr;   
+	node -> prev = curr;
 }

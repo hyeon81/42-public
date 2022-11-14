@@ -1,26 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_p.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/14 19:43:25 by hyeokim2          #+#    #+#             */
+/*   Updated: 2022/11/14 19:58:42 by hyeokim2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void pa(t_stack *stack)
+void	pa(t_stack *a, t_stack *b)//b to a
 {
-    if (stack->b_head->next->index == -1)
-        return ;
-    ft_p(stack->a_head, stack->b_head);
-    ft_putstr("pa\n");
+	if (b->head->next == b->tail)
+		return ;
+	ft_p(b, a);
+	ft_putstr("pa\n");
 }
 
-void pb(t_stack *stack)
+void	pb(t_stack *a, t_stack *b)//a to b
 {
-    if (stack->a_head->next->index == -1)
-        return ;
-    ft_p(stack->b_head, stack->a_head);
-    ft_putstr("pb\n");
+	if (a->head->next == a->tail)
+		return ;
+	ft_p(a, b);
+	ft_putstr("pb\n");
 }
 
-void ft_p(t_node *head1, t_node *head2)
+void	ft_p(t_stack *pop, t_stack *push)
 {
-    int temp;
+	int	temp;
 
-    temp = head2->next->index;
-    remove_node_top(head2);
-    insert_node_top(temp, head1);
+	temp = pop->head->next->index;
+	remove_node_top(pop->head);
+	insert_node_top(temp, push->head);
 }

@@ -6,46 +6,42 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 17:46:39 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/04 16:06:32 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/14 19:44:52 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void rra(t_stack *stack)
+void	rra(t_stack *a)
 {
-    if (stack-> a_head -> next -> index == -1)
-        return ;
-    ft_rr(stack->a_head, stack->a_tail);
-    ft_putstr("rra\n");
+	if (a->head->next == a->tail)
+		return ;
+	ft_rr(a);
+	ft_putstr("rra\n");
 }
 
-void rrb(t_stack *stack)
+void	rrb(t_stack *b)
 {
-    if (stack-> b_head -> next -> index == -1)
-        return ;
-    ft_rr(stack->b_head, stack->b_tail);
-    ft_putstr("rrb\n");
+	if (b->head->next == b->tail)
+		return ;
+	ft_rr(b);
+	ft_putstr("rrb\n");
 }
 
-void rrr(t_stack *stack)
+void	rrr(t_stack *a, t_stack *b)
 {
-    ft_rr(stack->a_head, stack->a_tail);
-    ft_rr(stack->b_head, stack->b_tail);
-    ft_putstr("rrr\n");
+	if (a->head->next == a->tail || b->head->next == b->tail)
+		return ;
+	ft_rr(a);
+	ft_rr(b);
+	ft_putstr("rrr\n");
 }
 
-void ft_rr(t_node *head, t_node *tail)
+void	ft_rr(t_stack *s)
 {
-    t_node *curr;
-    int temp;
+	int	temp;
 
-    curr = head -> next;
-    while (curr->next != tail)
-    {
-        curr = curr -> next;
-    }
-    temp = curr->index;
-    remove_node_bottom(tail);
-    insert_node_top(temp, head);
+	temp = s->tail->prev->index;
+	remove_node_bottom(s->tail);
+	insert_node_top(temp, s->head);
 }

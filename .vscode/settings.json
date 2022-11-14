@@ -26,6 +26,7 @@
         "utility": "c",
         "push_swap copyc": "c",
         "iterator": "c",
-        "chrono": "c"
+        "chrono": "c",
+        "limits": "c"
     }
 }

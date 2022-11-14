@@ -6,54 +6,48 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:43:06 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/13 20:43:32 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/14 20:05:04 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void sort_three_list(t_stack *stack)
+void	sort_three_list(t_stack *a)
 {
-	int index0;
-	int index1;
-	int index2;
+	int	one;
+	int	two;
+	int	three;
 
-	index0 = stack->a_head->next->index;
-	index1 = stack->a_head->next->next->index;
-	index2 = stack->a_tail->prev->index;
-
-	if ((index0 > index1) && (index1 > index2) && (index0 > index2))
+	one = a->head->next->index;
+	two = a->head->next->next->index;
+	three = a->tail->prev->index;
+	if ((one > two) && (two > three) && (one > three))
 	{
-		sa(stack->a_head);
-		rra(stack);
+		sa(a);
+		rra(a);
 	}
-	//3 1 2
-	else if ((index0 > index1) && (index2 > index1) && (index0 > index2))
-		ra(stack);
-	//2 1 3
-	else if ((index0 > index1) && (index1 < index2) && (index0 < index2))
-		sa(stack->a_head);
-	//2 3 1
-	else if ((index0 < index1) && (index1 > index2) && (index0 > index2))
-		rra(stack);
-	//1 3 2
-	else if ((index0 < index1) && (index1 > index2) && (index0 < index2))
+	else if ((one > two) && (three > two) && (one > three))// 3 1 2
+		ra(a);
+	else if ((one > two) && (two < three) && (one < three))// 2 1 3
+		sa(a);
+	else if ((one < two) && (two > three) && (one > three))// 2 3 1
+		rra(a);
+	else if ((one < two) && (two > three) && (one < three))// 1 3 2
 	{
-		sa(stack->a_head);
-		ra(stack);
+		sa(a);
+		ra(a);
 	}
-	
 }
 
-void sort_four_list(t_stack *stack)
+void	sort_four_list(t_stack *a, t_stack *b)
 {
-	t_node *curr;
-	int min;
-	int top;
-	
-	min = stack->a_head->next->index;
-	curr = stack->a_head->next;
-	while (curr->index != -1)
+	t_node	*curr;
+	int		min;
+	int		top;
+
+	min = a->head->next->index;
+	curr = a->head->next;
+	while (curr != a->tail)
 	{
 		if (min > curr->index)
 			min = curr->index;
@@ -61,72 +55,79 @@ void sort_four_list(t_stack *stack)
 	}
 	while (1)
 	{
-		top = stack->a_head->next->index;
+		top = a->head->next->index;
 		if (top == min)
 		{
-			pb(stack);
-			break;
+			pb(a, b);
+			break ;
 		}
-		ra(stack);
+		ra(a);
 	}
-	sort_three_list(stack);
-	pa(stack);
+	sort_three_list(a);
+	pa(a, b);
 }
 
-void sort_five_list(t_stack *stack)
+void	make_min(t_stack *a, t_stack *b, int min, int i)
 {
-	t_node *curr;
-	int min;
-	int top;
-	int i = 0;
-	int j;
-	while (i < 2)
+	int		top;
+
+	top = 0;
+	while (top != -1)
 	{
-		j = 0;
-		min = stack->a_head->next->index;
-		curr = stack->a_head->next;
-		while (curr->index != -1)
+		top = a->head->next->index;
+		if (top == min)
+		{
+			pb(a, b);
+			break ;
+		}
+		if (i < 2)
+			ra(a);
+		else
+			rra(a);
+	}
+}
+
+void	sort_five_list(t_stack *a, t_stack *b)
+{
+	int		i;
+	int		idx;
+	int		min;
+	t_node	*curr;
+
+	i = -1;
+	idx = 0;
+	while (++i < 2)
+	{
+		curr = a->head->next;
+		min = a->head->next->index;
+		while (curr != a->tail)
 		{
 			if (min > curr->index)
 			{
 				min = curr->index;
-				j++;
+				idx++;
 			}
-			curr = curr -> next;
+			curr = curr->next;
 		}
-		while (1)
-		{
-			top = stack->a_head->next->index;
-			if (top == min)
-			{
-				pb(stack);
-				break;
-			}
-			if (j < 2)
-				ra(stack);
-			else
-				rra(stack);
-		}
-		i++;
+		make_min(a, b, min, idx);
 	}
-	sort_three_list(stack);
-	pa(stack);
-	pa(stack);
+	sort_three_list(a);
+	pa(a, b);
+	pa(a, b);
 }
 
-void sort_under_five(t_stack *stack)
+void	sort_under_five(t_stack *a, t_stack *b)
 {
-	if (stack->size == 2)
+	if (a->size == 2)
 	{
-		if (stack->a_head->index > stack->a_head->next->index)
-			sa(stack->a_head);
+		if (a->head->next->index > a->head->next->next->index)
+			sa(a);
 	}
-	else if (stack->size == 3)
-		sort_three_list(&stack);
-	else if (stack->size == 4)
-		sort_four_list(&stack);
-	else if (stack->size == 5)
-		sort_five_list(&stack);
+	else if (a->size == 3)
+		sort_three_list(a);
+	else if (a->size == 4)
+		sort_four_list(a, b);
+	else if (a->size == 5)
+		sort_five_list(a, b);
 	exit(0);
 }
-

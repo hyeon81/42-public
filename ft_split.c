@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/13 13:40:29 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/04 19:16:58 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/14 19:51:25 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	**ft_free_all(char **s, int idx)
 	return (0);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	char	**arr;
 	int		i;

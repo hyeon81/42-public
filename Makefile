@@ -4,8 +4,8 @@ CC = cc
 
 CFLAG = -Wall -Wextra -Werror
 
-SRCS = ft_atoi.c ft_isdigit.c ft_lstnew.c ft_init_lstnew.c ft_memset.c ft_p.c ft_putstr.c ft_r.c ft_rr.c ft_s.c \
-ft_split.c init.c push_pop.c push_swap.c quick_sort.c valid.c
+SRCS = ft_p.c ft_r.c ft_rr.c ft_s.c sort_under_five.c sort_over_five.c\
+ft_split.c init.c push_pop.c main.c utils.c
 
 HEADERS = push_swap.h
 

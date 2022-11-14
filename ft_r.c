@@ -1,35 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_r.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/14 19:58:01 by hyeokim2          #+#    #+#             */
+/*   Updated: 2022/11/14 19:58:01 by hyeokim2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void ra(t_stack *stack)
+void	ra(t_stack *a)
 {
-    if (stack->a_head->next->index == -1)
-        return ;
-    ft_r(stack->a_head, stack->a_tail);
-    ft_putstr("ra\n");
+	if (a->head->next == a->tail)
+		return ;
+	ft_r(a);
+	ft_putstr("ra\n");
 }
 
-void rb(t_stack *stack)
+void	rb(t_stack *b)
 {
-    if (stack->b_head->next->index == -1)
-        return ;
-    ft_r(stack->b_head, stack->b_tail);
-    ft_putstr("rb\n");
+	if (b->head->next == b->tail)
+		return ;
+	ft_r(b);
+	ft_putstr("rb\n");
 }
 
-void rr(t_stack *stack)
+void	rr(t_stack *a, t_stack *b)
 {
-    if (stack->b_head->next->index == -1 || stack->a_head->next->index == -1)
-        return ;
-    ra(stack);
-    rb(stack);
-    ft_putstr("rr\n");
+	if (a->head->next == a->tail || b->head->next == b->tail)
+		return ;
+	ra(a);
+	rb(b);
+	ft_putstr("rr\n");
 }
 
-void ft_r(t_node *head, t_node *tail)
+void	ft_r(t_stack *s)
 {
-    int temp;
+	int	temp;
 
-    temp = head->next->index;
-    remove_node_top(head);
-    insert_node_bottom(temp, tail);
+	temp = s->head->next->index;
+	remove_node_top(s->head);
+	insert_node_bottom(temp, s->tail);
 }
