@@ -12,29 +12,32 @@
 
 #include "push_swap.h"
 
-void	rra(t_stack *a)
+void	rra(t_stack *a, int flag)
 {
 	if (a->head->next == a->tail)
 		return ;
 	ft_rr(a);
-	ft_putstr("rra\n");
+	if (flag == 1)
+		ft_putstr("rra\n");
 }
 
-void	rrb(t_stack *b)
+void	rrb(t_stack *b, int flag)
 {
 	if (b->head->next == b->tail)
 		return ;
 	ft_rr(b);
-	ft_putstr("rrb\n");
+	if (flag == 1)
+		ft_putstr("rrb\n");
 }
 
-void	rrr(t_stack *a, t_stack *b)
+void	rrr(t_stack *a, t_stack *b, int flag)
 {
 	if (a->head->next == a->tail || b->head->next == b->tail)
 		return ;
 	ft_rr(a);
 	ft_rr(b);
-	ft_putstr("rrr\n");
+	if (flag == 1)
+		ft_putstr("rrr\n");
 }
 
 void	ft_rr(t_stack *s)

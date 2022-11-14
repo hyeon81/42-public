@@ -1,21 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/24 12:06:23 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/14 21:26:04 by hyeokim2         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#ifndef PUSH_SWAP_BONUS_H
+# define PUSH_SWAP_BONUS_H
 
-# include <stdlib.h>
-# include <unistd.h>
 # include <stdio.h>
+# include "get_next_line.h"
 
 typedef struct s_node
 {
@@ -42,6 +30,7 @@ void	ft_putstr(char *s);
 t_node	*ft_lstnew(int index);
 t_node	*ft_init_lstnew(int data, int index);
 char	**ft_split(char *s, char c);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
 
 //init
 void	ft_init_stack(t_stack *a, t_stack *b);
@@ -59,14 +48,6 @@ void	insert_node_bottom(int index, t_node *tail);
 void	remove_node_top(t_node *head);
 void	remove_node_bottom(t_node *tail);
 void	insert_new_node(int data, int index, t_node *tail);
-
-//sort
-void	a_to_b(t_stack *a, t_stack *b, int i, int chunk);
-void	make_b(t_stack *b, int max, int i);
-void	b_to_a(t_stack *a, t_stack *b);
-void	sort_under_five(t_stack *a, t_stack *b);
-void	sort_over_five(t_stack *a, t_stack *b);
-int	check_descending(t_stack *a, int idx, int i, int down);
 
 //command list
 void	sa(t_stack *a, int flag);

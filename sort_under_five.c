@@ -23,19 +23,19 @@ void	sort_three_list(t_stack *a)
 	three = a->tail->prev->index;
 	if ((one > two) && (two > three) && (one > three))
 	{
-		sa(a);
-		rra(a);
+		sa(a, 1);
+		rra(a, 1);
 	}
 	else if ((one > two) && (three > two) && (one > three))// 3 1 2
-		ra(a);
+		ra(a, 1);
 	else if ((one > two) && (two < three) && (one < three))// 2 1 3
-		sa(a);
+		sa(a, 1);
 	else if ((one < two) && (two > three) && (one > three))// 2 3 1
-		rra(a);
+		rra(a, 1);
 	else if ((one < two) && (two > three) && (one < three))// 1 3 2
 	{
-		sa(a);
-		ra(a);
+		sa(a, 1);
+		ra(a, 1);
 	}
 }
 
@@ -58,13 +58,13 @@ void	sort_four_list(t_stack *a, t_stack *b)
 		top = a->head->next->index;
 		if (top == min)
 		{
-			pb(a, b);
+			pb(a, b, 1);
 			break ;
 		}
-		ra(a);
+		ra(a, 1);
 	}
 	sort_three_list(a);
-	pa(a, b);
+	pa(a, b, 1);
 }
 
 void	make_min(t_stack *a, t_stack *b, int min, int i)
@@ -77,13 +77,13 @@ void	make_min(t_stack *a, t_stack *b, int min, int i)
 		top = a->head->next->index;
 		if (top == min)
 		{
-			pb(a, b);
+			pb(a, b, 1);
 			break ;
 		}
 		if (i < 2)
-			ra(a);
+			ra(a, 1);
 		else
-			rra(a);
+			rra(a, 1);
 	}
 }
 

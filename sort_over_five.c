@@ -40,7 +40,7 @@ int	check_descending(t_stack *a, int idx, int i, int down)
 
 void	pb_and_change_value(t_stack *a, t_stack *b, int *i, int *size)
 {
-	pb(a, b);
+	pb(a, b, 1);
 	if (*i >= 0)
 		(*i)++;
 	if (*size >= 0)
@@ -64,14 +64,14 @@ void	a_to_b(t_stack *a, t_stack *b, int i, int chunk)
 		else if (top > i && top <= chunk + i)
 		{
 			pb_and_change_value(a, b, &i, &size);
-			rb(b);
+			rb(b, 1);
 		}
 		else if (top > (i + chunk))
 		{
 			if (res == 1)
-				rra(a);
+				rra(a, 1);
 			else
-				ra(a);
+				ra(a, 1);
 		}
 	}
 }
@@ -90,7 +90,7 @@ void	make_b(t_stack *b, int max, int i)
 	}
 	while (i < max / 2 && i > 0)
 	{
-		rb(b);
+		rb(b, 1);
 		i--;
 	}
 	if (i >= max / 2)
@@ -98,7 +98,7 @@ void	make_b(t_stack *b, int max, int i)
 		i = max - i + 1;
 		while (i > 0)
 		{
-			rrb(b);
+			rrb(b, 1);
 			i--;
 		}
 	}
@@ -112,7 +112,7 @@ void	b_to_a(t_stack *a, t_stack *b)
 	while (max >= 0)
 	{
 		make_b(b, max, 0);
-		pa(a, b);
+		pa(a, b, 1);
 		max--;
 	}
 }

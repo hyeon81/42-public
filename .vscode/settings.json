@@ -27,6 +27,7 @@
         "push_swap copyc": "c",
         "iterator": "c",
         "chrono": "c",
-        "limits": "c"
+        "limits": "c",
+        "push_swap_bonus.h": "c"
     }
 }

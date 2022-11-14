@@ -12,23 +12,25 @@
 
 #include "push_swap.h"
 
-void	pa(t_stack *a, t_stack *b)//b to a
+void	pa(t_stack *a, t_stack *b, int flag)//b to a
 {
 	if (b->head->next == b->tail)
 		return ;
 	ft_p(b, a);
-	ft_putstr("pa\n");
+	if (flag == 1)
+		ft_putstr("pa\n");
 }
 
-void	pb(t_stack *a, t_stack *b)//a to b
+void	pb(t_stack *a, t_stack *b, int flag)//a to b
 {
 	if (a->head->next == a->tail)
 		return ;
 	ft_p(a, b);
-	ft_putstr("pb\n");
+	if (flag == 1)
+		ft_putstr("pb\n");
 }
 
-void	ft_p(t_stack *pop, t_stack *push)
+void	ft_p(t_stack *pop, t_stack *push, int flag)
 {
 	int	temp;
 
