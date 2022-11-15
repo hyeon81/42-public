@@ -1,40 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_p.c                                             :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/14 19:43:25 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/15 14:41:28 by hyeokim2         ###   ########.fr       */
+/*   Created: 2022/11/15 15:17:42 by hyeokim2          #+#    #+#             */
+/*   Updated: 2022/11/15 16:58:40 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	pa(t_stack *a, t_stack *b, int flag)
+void	error_exit(void)
 {
-	if (b->head->next == b->tail)
-		return ;
-	ft_p(b, a);
-	if (flag == 1)
-		ft_putstr("pa\n");
+	write(2, "Error\n", 6);
+	exit(0);
 }
 
-void	pb(t_stack *a, t_stack *b, int flag)
+void	ft_exit(char *s)
 {
-	if (a->head->next == a->tail)
-		return ;
-	ft_p(a, b);
-	if (flag == 1)
-		ft_putstr("pb\n");
+	if (s)
+		ft_putstr(s);
+	exit(0);
 }
 
-void	ft_p(t_stack *pop, t_stack *push)
+int	ft_double_strlen(char **str)
 {
-	int	temp;
+	int	i;
 
-	temp = pop->head->next->index;
-	remove_node_top(pop->head);
-	insert_node_top(temp, push->head);
+	i = 0;
+	while (str[i] != 0)
+		i++;
+	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 19:58:01 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/14 19:58:01 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/15 13:42:23 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@ void	rr(t_stack *a, t_stack *b, int flag)
 {
 	if (a->head->next == a->tail || b->head->next == b->tail)
 		return ;
-	ra(a);
-	rb(b);
-	ft_putstr("rr\n");
+	ft_r(a);
+	ft_r(b);
+	if (flag == 1)
+		ft_putstr("rr\n");
 }
 
 void	ft_r(t_stack *s)

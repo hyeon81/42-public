@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/15 13:12:03 by hyeokim2          #+#    #+#             */
+/*   Updated: 2022/11/15 15:36:54 by hyeokim2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap_bonus.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t			i;
+	size_t	i;
 
 	i = 0;
 	if (n <= 0)
@@ -16,26 +28,25 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-int	is_sorted_list(t_stack *a)
+void	check_sorted_list(t_stack *a, t_stack *b)
 {
 	t_node	*curr;
 	int		val;
 
+	if (b->head->next != b->tail)
+		ft_exit("KO\n");
 	curr = a->head->next;
 	val = curr->index;
 	curr = curr -> next;
 	while (curr != a->tail)
 	{
 		if (val > curr->index)
-		{
-			ft_putstr("K0\n");
-			exit(0);
-		}
+			ft_exit("KO\n");
 		else
 			val = curr->index;
 		curr = curr -> next;
 	}
-	return (0);
+	ft_exit("OK\n");
 }
 
 void	run_command(char *line, t_stack *a, t_stack *b)
@@ -69,29 +80,27 @@ void	run_command(char *line, t_stack *a, t_stack *b)
 void	read_line(t_stack *a, t_stack *b)
 {
 	char	*line;
-	//stdin으로 들어온 값을 읽어준다.
+
 	while (1)
 	{
 		line = get_next_line(0);
-		run_command(line);
+		if (line == NULL)
+			break ;
+		run_command(line, a, b);
 		free(line);
 	}
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-    //av를 a스택에 잘 쌓아준다.
-    t_stack	a;
+	t_stack	a;
 	t_stack	b;
 
 	ft_init_stack(&a, &b);
 	make_argv(ac, av, &a, 1);
 	make_index(&a);
 	is_overlapped(&a);
-	is_sorted(&a);
-
-	//read_line
-	read_line(a, b);
-	is_sorted_list(a);
+	read_line(&a, &b);
+	check_sorted_list(&a, &b);
 	return (0);
 }

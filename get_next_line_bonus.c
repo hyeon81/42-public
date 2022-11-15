@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line2.c                                   :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 20:15:49 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/10/12 15:53:52 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/15 14:23:18 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*ft_return_last(char **backup, char **buf)
 	{
 		newline_idx = ft_strchr(*backup, '\n');
 		line = ft_split_line(*backup, 0, newline_idx);
-		temp = ft_split_line(*backup, newline_idx + 1, ft_strlen2(*backup));
+		temp = ft_split_line(*backup, newline_idx + 1, ft_strlen(*backup));
 		ft_free(backup, &temp, 1);
 		return (line);
 	}

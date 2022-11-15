@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:48:14 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/14 19:50:36 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:26:19 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	make_argv(int ac, char **av, t_stack *a, int i)
 	idx = 0;
 	size = 0;
 	if (ac < 2)
-		exit(0);
+		ft_exit(NULL);
 	while (i < ac)
 	{
 		tmp_arr = ft_split(av[i], ' ');
@@ -50,6 +50,7 @@ void	make_argv(int ac, char **av, t_stack *a, int i)
 			idx++;
 			size++;
 		}
+		ft_free_all(tmp_arr, ft_double_strlen(tmp_arr));
 		i++;
 	}
 	a->size = size;
@@ -109,5 +110,5 @@ void	is_sorted(t_stack *a)
 			val = curr->index;
 		curr = curr -> next;
 	}
-	exit(0);
+	ft_exit(NULL);
 }

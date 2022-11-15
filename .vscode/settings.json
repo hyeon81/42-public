@@ -28,6 +28,7 @@
         "iterator": "c",
         "chrono": "c",
         "limits": "c",
-        "push_swap_bonus.h": "c"
+        "push_swap_bonus.h": "c",
+        "ostream": "c"
     }
 }
