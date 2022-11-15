@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:17:42 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/15 16:58:40 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/15 19:20:51 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	error_exit(void)
 
 void	ft_exit(char *s)
 {
-	if (s)
+	if (s != NULL)
 		ft_putstr(s);
 	exit(0);
 }
