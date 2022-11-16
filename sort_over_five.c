@@ -6,37 +6,11 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:43:52 by hyeokim2          #+#    #+#             */
-/*   Updated: 2022/11/15 17:24:33 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2022/11/16 11:53:14 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-int	check_descending(t_stack *a, int idx, int i, int down)
-{
-	t_node	*curr;
-	int		val;
-
-	curr = a->head->next;
-	while (idx != 0 && curr != a->tail)
-	{
-		curr = curr->next;
-		idx--;
-	}
-	val = curr->index;
-	curr = curr->next;
-	while (i < 10 && curr != a->tail)
-	{
-		if (val > curr->index)
-			down++;
-		val = curr->index;
-		curr = curr->next;
-		i++;
-	}
-	if ((down / 10) > 0.5)
-		return (1);
-	return (0);
-}
 
 void	pb_and_change_value(t_stack *a, t_stack *b, int *i, int *size)
 {
@@ -54,8 +28,7 @@ void	a_to_b(t_stack *a, t_stack *b, int i, int chunk)
 	int	res;
 
 	size = a->size - 1;
-	if (i % 10 == 0)
-		res = check_descending(a, i, 0, 0);
+	res = check_descending(a);
 	while (i < a->size)
 	{
 		top = a->head->next->index;
