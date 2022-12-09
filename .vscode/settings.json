@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "philo.h": "c",
+        "__mutex_base": "c",
+        "locale": "c",
+        "string": "c"
+    }
+}
