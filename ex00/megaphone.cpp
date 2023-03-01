@@ -4,22 +4,24 @@
 
 int main(int ac, char **av)
 {
-    std::string str;
-    
     if (ac == 1)
     {
         std::cout << "LOUD AND UNBEARABLE FEEDBACK NOISE" << std::endl;
         return (0);
     }
-    int i = 0;
-    int j = 0;
+    int i = 1;
+    int j;
     while (i < ac)
     {
-       str += (toupper(av[1][i]));
-       i++;
+        j = 0;
+        while (av[i][j])
+        {
+            std::cout << static_cast<char>(toupper(av[i][i]));
+            j++;
+        }
+        i++;
     }
-    int j = 0;
-    std::cout << str << std::endl;
+    std::cout << std::endl;
     
     return (0);
 }
