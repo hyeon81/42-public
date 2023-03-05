@@ -8,30 +8,39 @@ class Contact {
         std::string nickName;
         std::string phoneNumber;
         std::string darkestSecret;
-        int     idx;
     
     public:
-        Contact()
+        void addContact()
         {
             std::cout << "PLEASE INPUT FIRSTNAME: ";
-            std::cin >> firstName;
+            std::cin >> this->firstName;
             std::cout << "PLEASE INPUT LASTNAME: ";
-            std::cin >> lastName;
+            std::cin >> this->lastName;
             std::cout << "PLEASE INPUT NICKNAME: ";
-            std::cin >> nickName;
+            std::cin >> this->nickName;
             std::cout << "PLEASE INPUT PHONENUMBER: ";
-            std::cin >> phoneNumber;
+            std::cin >> this->phoneNumber;
             std::cout << "PLEASE INPUT DARKEST SECRET: ";
-            std::cin >> darkestSecret;
-        }
-
-        ~Contact()
-        {
+            std::cin >> this->darkestSecret;
         }
 };
 
 class PhoneBook {
-    Contact contacts[8];
+    private:
+        Contact contacts[8];
+        int     index;
+
+    public:
+        void showContact()
+        {
+            std::cout << "|" << this->index << "|" << this->firstName << "|" << this->lastName << "|" << this->nickName << "|" << std::endl;
+        }
+        
+        void showAllContacts()
+        {
+            std::cout << "|     index| first name| last name|  nickname|" << std::endl;
+        }  
+
 };
 
 int main()
