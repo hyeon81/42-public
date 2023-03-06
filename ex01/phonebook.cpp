@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <iomanip> 
 
 class Contact {
     private:
@@ -24,22 +25,22 @@ class Contact {
             std::cin >> this->darkestSecret;
         }
 
-        void showContact()
+        void showContact(int index)
         {
             std::cout << "|     index| first name| last name|  nickname|" << std::endl;
-            std::cout << "|" << "index" << "|" << this->firstName << "|" << this->lastName << "|" << this->nickName << "|" << std::endl;
+            std::cout << "|" << index << std::setw(10) << "|"  << this->firstName << std::setw(10) << "|" << this->lastName << std::setw(10) << "|" << this->nickName << std::setw(10) << "|" << std::endl;
         }
 };
 
 class PhoneBook {
     private:
         Contact contacts[8];
-        int     number = 0;
+        int     number;
 
     public:
         void searchContact()
         {
-            contacts[this->number % 8].showContact();
+            contacts[this->number % 8].showContact(this->number % 8);
         }
 
         void addPhonebookContact()
@@ -53,10 +54,23 @@ class PhoneBook {
             int i;
 
             i = 0;
-            while (i < 8)
+            if (this->number > 7)
             {
-                contacts[i].showContact();
-                i++;
+                // printf("here");
+                while (i < 8)
+                {
+                    contacts[i].showContact(i);
+                    i++;
+                }
+            }
+            else
+            {
+                // printf("here2");
+                while (i < this->number)
+                {
+                    contacts[i].showContact(i);
+                    i++;
+                }
             }
         }
 };
