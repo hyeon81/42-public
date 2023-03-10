@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include <iomanip> 
+#include <iomanip>
 
 class Contact {
     private:
@@ -12,7 +12,7 @@ class Contact {
         int         index;
 
     public:
-        void addContact(int index)
+        void addContact(int idx)
         {
             std::cout << "Please Input Firstname: ";
             std::cin >> this->firstName;
@@ -24,7 +24,7 @@ class Contact {
             std::cin >> this->phoneNumber;
             std::cout << "Please Input Darkest Secret: ";
             std::cin >> this->darkestSecret;
-            this->index = index;
+            this->index = idx;
         }
 
         void shortenContact(std::string str)
@@ -35,7 +35,10 @@ class Contact {
                 std::cout << "." << "|" ;
             }
             else
+            {
+                std::cout << std::right;
                 std::cout << std::setw(10) << str << "|" ;
+            }
         }
 
         void showContact()
@@ -58,29 +61,6 @@ class PhoneBook {
         int     searchIdx;
 
     public:
-        void searchContact()
-        {
-            while (1)
-            {
-                std::cout << "Please Select Index: ";
-                std::cin >> this->searchIdx;
-                if (searchIdx < 0 || searchIdx > 7 || number < searchIdx)
-                    std::cout << "Wrong Index... Please Select Valid Index" << std::endl;
-                else
-                {
-                    std::cout << std::right;
-                    std::cout << "|" ;
-                    contacts[0].shortenContact("index");
-                    contacts[0].shortenContact("first name");
-                    contacts[0].shortenContact("last name");
-                    contacts[0].shortenContact("nickname");
-                    std::cout << std::endl;
-                    contacts[this->searchIdx].showContact();
-                    break;
-                }
-            }
-        }
-
         void addPhonebookContact()
         {
             contacts[this->number % 8].addContact(this->number % 8);
@@ -91,16 +71,14 @@ class PhoneBook {
         {
             int i = 0;
 
-            std::cout << std::right;
-            std::cout << "|" ;
-            contacts[0].shortenContact("index");
-            contacts[0].shortenContact("first name");
-            contacts[0].shortenContact("last name");
-            contacts[0].shortenContact("nickname");
-            std::cout << std::endl;
-
-            if (this->number > 7)
+            if (this->number <= 0)
             {
+                std::cout << "No Contact. Please Add Contact." << std::endl;
+                return ;
+            }
+            else if (this->number > 7)
+            {
+                showLable();
                 while (i < 8)
                 {
                     contacts[i].showContact();
@@ -109,6 +87,7 @@ class PhoneBook {
             }
             else
             {
+                showLable();
                 while (i < this->number)
                 {
                     contacts[i].showContact();
@@ -116,6 +95,40 @@ class PhoneBook {
                 }
             }
             searchContact();
+        }
+
+        void showLable()
+        {
+            std::cout << std::right;
+            std::cout << "|" ;
+            contacts[0].shortenContact("index");
+            contacts[0].shortenContact("first name");
+            contacts[0].shortenContact("last name");
+            contacts[0].shortenContact("nickname");
+            std::cout << std::endl;
+        }
+
+        void searchContact()
+        {
+            while (1)
+            {
+                std::cout << "Please Select Index: ";
+                std::cin >> this->searchIdx;
+                if (!std::cin)
+                {
+                    std::cout << "Wrong Index... Please Select Valid Index" << std::endl;
+                    std::cin.clear();
+                    std::cin.ignore();
+                }
+                else if (this->searchIdx >= 0 && this->searchIdx <= 7 && this->number > this->searchIdx)
+                {
+                    showLable();
+                    contacts[this->searchIdx].showContact();
+                    break;
+                }
+                else
+                    std::cout << "Wrong Index... Please Select Valid Index" << std::endl;
+            }
         }
 };
 
