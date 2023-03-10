@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRCS = ./phonebook.cpp
 
-OBJS = $(SRCS:.c=.o)
+OBJS = $(SRCS:.cpp=.o)
 
 
 all: $(NAME)
@@ -15,7 +15,7 @@ $(NAME) : $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
 %.o: %.c
-	$(CC) $(CFLAG) -c $< -o $@ 
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 clean:
 	rm -f $(OBJS)
@@ -25,7 +25,5 @@ fclean : clean
 
 re: fclean all
 
-bonus: 
-	make all
+.PHONY:	all clean fclean re
 
-.PHONY:	all clean fclean bonus re
