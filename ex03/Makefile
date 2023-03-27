@@ -1,4 +1,4 @@
-NAME = UnnecessaryViolence
+NAME = weapon
 
 CC = c++
 
