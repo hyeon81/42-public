@@ -1,9 +1,17 @@
 #include "Zombie.hpp"
 
+void    do_test()
+{
+    Zombie stackZombie("stack");
+    Zombie *heapZombie = newZombie("heap");
+
+    stackZombie.announce();
+    randomChump("stack2");
+    heapZombie->announce();
+}
+
 int main(void)
 {
-    Zombie zombie1("zombie1");
-
-    randomChump("zombie1");
-    zombie1.announce();
+    do_test();
+    system("leaks Zombie");
 }

@@ -35,18 +35,19 @@ std::string replace_line(std::string line, std::string s1, std::string s2)
 
 int main(int ac, char **av)
 {
-    std::string filename(av[1]);
-    std::string s1(av[2]);
-    std::string s2(av[3]);
-
     if (ac != 4)
     {
         std::cout << "argument must be 3" << std::endl;
         return (1);
     }
+
+    std::string filename(av[1]);
+    std::string s1(av[2]);
+    std::string s2(av[3]);
     std::ifstream in(filename);
     std::string line;
     std::string content;
+
     if (in.is_open())
     {
         while (std::getline(in, line))

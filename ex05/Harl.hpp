@@ -4,11 +4,6 @@
 #include <iostream>
 #include <string>
 
-typedef struct s_complain {
-    std::string level;
-    void (Harl::*func)(void);
-} t_complain;
-
 class Harl{
     private:
         void debug( void );
@@ -16,7 +11,12 @@ class Harl{
         void warning( void );
         void error( void );
     public:
-        void complain( std::string level );
+        void complain(std::string level);
 };
+
+typedef struct s_complain {
+    std::string level;
+    void (Harl::*func)(void);
+} t_complain;
 
 #endif

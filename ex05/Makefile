@@ -8,6 +8,7 @@ SRCS = main.cpp Harl.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
+HEADER = Harl.hpp
 
 all: $(NAME)
 
@@ -15,7 +16,7 @@ $(NAME) : $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
 
 %.o: %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@ 
+	$(CC) $(CFLAGS) -I $(HEADER) -c $< -o $@ 
 
 clean:
 	rm -f $(OBJS)
