@@ -20,24 +20,25 @@ void Harl::error()
     std::cout << "[ERROR] This is unacceptable! I want to speak to the manager now." << std::endl;
 }
 
-void Harl::complain( std::string level )
+void Harl::complain(std::string level)
 {
-    t_complain complains[4];
+    void (Harl::*funcs[4])(void);
+    std::string levels[4]; 
 
-    complains[0].level = "DEBUG";
-    complains[0].func = &Harl::debug;
-    complains[1].level = "INFO";
-    complains[1].func = &Harl::info;
-    complains[2].level = "WARNING";
-    complains[2].func = &Harl::warning;
-    complains[3].level = "ERROR";
-    complains[3].func = &Harl::error;
+    levels[0] = "DEBUG";
+    funcs[0] = &Harl::debug;
+    levels[1] = "INFO";
+    funcs[1] = &Harl::info;
+    levels[2] = "WARNING";
+    funcs[2] = &Harl::warning;
+    levels[3] = "ERROR";
+    funcs[3] = &Harl::error;
 
     for (int i = 0; i < 4; i++)
     {
-        if (complains[i].level == level)
+        if (levels[i] == level)
         {
-            (this->*complains[i].func)();
+            (this->*funcs[i])();
             break;
         }
     }

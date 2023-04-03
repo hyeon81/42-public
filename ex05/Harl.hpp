@@ -14,9 +14,4 @@ class Harl{
         void complain(std::string level);
 };
 
-typedef struct s_complain {
-    std::string level;
-    void (Harl::*func)(void);
-} t_complain;
-
 #endif
