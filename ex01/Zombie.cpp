@@ -7,6 +7,8 @@ void Zombie::setName(std::string name)
 
 Zombie::Zombie(std::string name): name(name){}
 
+Zombie::Zombie() {}
+
 Zombie::~Zombie()
 {
     std::cout << this->name << " is destoryed!!" << std::endl;

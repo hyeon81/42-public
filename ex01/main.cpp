@@ -3,13 +3,11 @@
 int main(void)
 {
     Zombie *zombies;
-    int i = 0;
 
-    zombies = zombieHorde(2, "zombie!");
-    while (i < 2)
+    zombies = zombieHorde(5, "zom");
+    for (int i = 0; i < 5; i++)
     {
         zombies[i].announce();
-        i++;
     }
     delete[] zombies;
 }
