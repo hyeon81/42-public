@@ -8,7 +8,7 @@ Fixed::Fixed()
 
 Fixed::Fixed(int num)
 {
-    this->num = num >> this->bits;
+    this->num = num << this->bits;
     std::cout << "Int constructor called" << std::endl;
 }
 
@@ -20,6 +20,7 @@ Fixed::Fixed(float f_num)
 
 Fixed::Fixed(const Fixed &fixed) //복사 생성자
 {
+    this->num = fixed.getRawBits();
     std::cout << "Copy constructor called" << std::endl;
 }
 
@@ -27,7 +28,7 @@ Fixed &Fixed::operator = (const Fixed &fixed) // 할당 연산자 오버로딩
 {
     if (this != &fixed)
     {
-
+        this->num = fixed.getRawBits();
     }
     std::cout << "Copy assignment operator called" << std::endl;
     return (*this);
@@ -36,6 +37,16 @@ Fixed &Fixed::operator = (const Fixed &fixed) // 할당 연산자 오버로딩
 Fixed::~Fixed()
 {
     std::cout << "Destructor called" << std::endl;
+}
+
+int Fixed::getRawBits( void ) const
+{
+    return (this->num);
+}
+
+void Fixed::setRawBits( int const raw )
+{
+    this->num = raw;
 }
 
 int Fixed::toInt( void ) const
@@ -49,8 +60,8 @@ float Fixed::toFloat( void ) const
 }
 
 //연산자 오버라이딩
-std::ostream& operaotr << (std::ostream &out, const Fixed &fixed)
+std::ostream& operator << (std::ostream& os, const Fixed& fixed)
 {
-    out << fixed.toFloat();
-    return (out);
+    os << fixed.toFloat();
+    return (os);
 }
