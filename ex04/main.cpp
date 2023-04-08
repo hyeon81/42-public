@@ -48,7 +48,7 @@ int main(int ac, char **av)
     while (!in.eof())
     {
         std::getline(in, line);
-        if (!s1.empty() && !s2.empty())
+        if (!s1.empty())
             replace_line(line, s1, s2);
         newFile << line;
         if (!in.eof())

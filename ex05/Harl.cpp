@@ -22,8 +22,8 @@ void Harl::error()
 
 void Harl::complain(std::string level)
 {
-    void (Harl::*funcs[4])(void);
-    std::string levels[4]; 
+    void (Harl::*funcs[4])(void) = {&Harl::debug, &Harl::info, &Harl::warning, &Harl::error};
+    std::string levels[4] = {"DEBUG", "INFO", "WARNING", "ERROR"};
 
     levels[0] = "DEBUG";
     funcs[0] = &Harl::debug;
