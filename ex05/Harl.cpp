@@ -25,15 +25,6 @@ void Harl::complain(std::string level)
     void (Harl::*funcs[4])(void) = {&Harl::debug, &Harl::info, &Harl::warning, &Harl::error};
     std::string levels[4] = {"DEBUG", "INFO", "WARNING", "ERROR"};
 
-    levels[0] = "DEBUG";
-    funcs[0] = &Harl::debug;
-    levels[1] = "INFO";
-    funcs[1] = &Harl::info;
-    levels[2] = "WARNING";
-    funcs[2] = &Harl::warning;
-    levels[3] = "ERROR";
-    funcs[3] = &Harl::error;
-
     for (int i = 0; i < 4; i++)
     {
         if (levels[i] == level)

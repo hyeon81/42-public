@@ -26,20 +26,26 @@ int main(int ac, char **av)
         return (1);
     }
 
-    std::string filename(av[1]);
+    std::string newFile(av[1]);
     std::string s1(av[2]);
     std::string s2(av[3]);
-    std::ifstream in(filename);
+    std::ifstream in;
+    std::string content;
     std::string line;
 
+    in.open(av[1]);
     if (!in.is_open())
     {
         std::cout << "file open is failed" << std::endl;
         return (1);
     }
 
-    std::ofstream newFile(filename.append(".replace"));
-    if (!newFile.is_open())
+
+    std::ofstream out;
+    newFile.append(".replace");
+    out.open(newFile.c_str());
+
+    if (!out.is_open())
     {
         std::cout << "replace file is not created" << std::endl;
         in.close();
@@ -48,14 +54,15 @@ int main(int ac, char **av)
     while (!in.eof())
     {
         std::getline(in, line);
-        if (!s1.empty())
-            replace_line(line, s1, s2);
-        newFile << line;
+        content += line;
         if (!in.eof())
-            newFile << std::endl;
+            content += "\n";
     }
+    if (!s1.empty())
+        replace_line(content, s1, s2);
+    out << content;
     in.close();
-    newFile.close();
+    out.close();
 
     return (0);
 }
