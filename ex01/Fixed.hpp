@@ -7,13 +7,13 @@
 
 class Fixed {
     private:
-        int num;
+        int fixed_num;
         const static int bits = 8;
     
     public:
         Fixed();
         Fixed(int num);
-        Fixed(float f_num);
+        Fixed(float float_num);
         ~Fixed();
         Fixed(const Fixed &fixed);
         Fixed &operator = (const Fixed &fixed);
