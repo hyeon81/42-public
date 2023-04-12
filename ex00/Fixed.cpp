@@ -2,23 +2,23 @@
 
 Fixed::Fixed()
 {
-    this->fixed_num = 0;
     std::cout << "Default constructor called" << std::endl;
+    this->fixed_num = 0;
 }
 
 Fixed::Fixed(const Fixed &fixed) //복사 생성자
 {
-    this->fixed_num = fixed.getRawBits();
     std::cout << "Copy constructor called" << std::endl;
+    this->fixed_num = fixed.getRawBits();
 }
 
 Fixed &Fixed::operator = (const Fixed &fixed) // 할당 연산자 오버로딩
 {
+    std::cout << "Copy assignment operator called" << std::endl;
     if (this != &fixed)
     {
         this->fixed_num = fixed.getRawBits();
     }
-    std::cout << "Copy assignment operator called" << std::endl;
     return (*this);
 }
 

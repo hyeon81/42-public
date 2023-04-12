@@ -60,7 +60,7 @@ float Fixed::toFloat( void ) const
 }
 
 //연산자 오버라이딩
-std::ostream& operator << (std::ostream& os, const Fixed& fixed)
+std::ostream& operator<<(std::ostream& os, const Fixed& fixed)
 {
     os << fixed.toFloat();
     return (os);
