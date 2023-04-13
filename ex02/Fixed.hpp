@@ -22,13 +22,15 @@ class Fixed {
         int getRawBits( void ) const;
         void setRawBits( int const raw );
 
-        bool operator > (Fixed &num) const;
+        //비교연산자
+        bool operator > (Fixed &num) const; //리턴값이 bool이기 때문
         bool operator < (Fixed &num) const;
         bool operator >= (Fixed &num) const;
         bool operator <= (Fixed &num) const;
         bool operator == (Fixed &num) const;
         bool operator != (Fixed &num) const;
     
+        //계산연산자
         Fixed operator + (Fixed &num) const;
         Fixed operator - (Fixed &num) const;
         Fixed operator * (Fixed &num) const;

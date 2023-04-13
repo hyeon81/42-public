@@ -2,35 +2,34 @@
 
 Fixed::Fixed()
 {
-    this->fixed_num = 0;
     std::cout << "Default constructor called" << std::endl;
+    this->fixed_num = 0;
 }
 
 Fixed::Fixed(int num)
 {
-    this->fixed_num = num << this->bits;
     std::cout << "Int constructor called" << std::endl;
+    this->fixed_num = num << this->bits;
 }
 
 Fixed::Fixed(float float_num)
 {
-    this->fixed_num = roundf(float_num * (1 << this->bits));
     std::cout << "Float constructor called" << std::endl;
+    this->fixed_num = roundf(float_num * (1 << this->bits));
 }
 
 Fixed::Fixed(const Fixed &fixed) //복사 생성자
 {
-    this->fixed_num = fixed.getRawBits();
     std::cout << "Copy constructor called" << std::endl;
+    this->fixed_num = fixed.getRawBits();
 }
 
 Fixed &Fixed::operator = (const Fixed &fixed) // 할당 연산자 오버로딩
 {
-    if (this != &fixed)
-    {
-        this->fixed_num = fixed.getRawBits();
-    }
     std::cout << "Copy assignment operator called" << std::endl;
+     if (this == &fixed)
+        return (*this); 
+    this->fixed_num = fixed.getRawBits();
     return (*this);
 }
 

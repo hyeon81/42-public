@@ -15,10 +15,9 @@ Fixed::Fixed(const Fixed &fixed) //복사 생성자
 Fixed &Fixed::operator = (const Fixed &fixed) // 할당 연산자 오버로딩
 {
     std::cout << "Copy assignment operator called" << std::endl;
-    if (this != &fixed)
-    {
-        this->fixed_num = fixed.getRawBits();
-    }
+    if (this == &fixed)
+        return (*this); 
+    this->fixed_num = fixed.getRawBits();
     return (*this);
 }
 
