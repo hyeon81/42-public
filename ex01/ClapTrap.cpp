@@ -7,9 +7,9 @@ ClapTrap::ClapTrap()
 
 ClapTrap::ClapTrap(std::string name): name(name)
 {
-    hitPoint = 10;
-    energyPoint = 10;
-    attackDamage = 10;
+    this->hitPoint = 10;
+    this->energyPoint = 10;
+    this->attackDamage = 10;
     std::cout << "ClapTrap " << this->name << " is created" << std::endl;
 }
 
@@ -67,4 +67,10 @@ void ClapTrap::beRepaired(unsigned int amount)
     }
     else
         std::cout << "ClapTrap " << this->name << " can't be repaired: it doesn't have energy or hit point..." << std::endl;
+}
+
+void ClapTrap::getInfo()
+{
+    std::cout << "[info] name: " << this->name << " | hitPoint: " << this->hitPoint 
+    << " | energyPoint: " << this->energyPoint << " | attackDamage: " << this->attackDamage << std::endl;
 }

@@ -45,32 +45,3 @@ void ClapTrap::attack(const std::string& target)
     else
         std::cout << "ClapTrap " << this->name << " can't attack: it doesn't have energy or hit point..." << std::endl;
 }
-
-void ClapTrap::takeDamage(unsigned int amount)
-{
-    if (this->energyPoint > 0 && this->hitPoint > 0)
-    {
-        std::cout << "ClapTrap " << this->name << " is attacked. it loses " << amount << " hit points" << std::endl;
-        this->hitPoint -= amount;
-    }
-    else
-        std::cout << "ClapTrap " << this->name << "doesn't have energy or hit point..." << std::endl;
-}
-
-void ClapTrap::beRepaired(unsigned int amount)
-{
-    if (this->energyPoint > 0 && this->hitPoint > 0)
-    {
-        std::cout << "ClapTrap " << this->name << " is repaired. it gets " << amount << " hit points" << std::endl;
-        this->hitPoint += amount;
-        this->energyPoint -= 1;
-    }
-    else
-        std::cout << "ClapTrap " << this->name << " can't be repaired: it doesn't have energy or hit point..." << std::endl;
-}
-
-void ClapTrap::getInfo()
-{
-    std::cout << "[info] name: " << this->name << " | hitPoint: " << this->hitPoint 
-    << " | energyPoint: " << this->energyPoint << " | attackDamage: " << this->attackDamage << std::endl;
-}
