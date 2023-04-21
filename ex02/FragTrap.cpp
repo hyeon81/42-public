@@ -1,30 +1,30 @@
 #include "FragTrap.hpp"
 
-ScavTrap::ScavTrap()
+FragTrap::FragTrap()
 {
     this->hitPoint = 100;
-    this->energyPoint = 50;
-    this->attackDamage = 20;
-    std::cout << "ScavTrap is created" << std::endl;
+    this->energyPoint = 100;
+    this->attackDamage = 30;
+    std::cout << "[FragTrap] is created" << std::endl;
 }
 
-ScavTrap::ScavTrap(std::string name)
+FragTrap::FragTrap(std::string name)
 {
     this->name = name;
     this->hitPoint = 100;
-    this->energyPoint = 50;
-    this->attackDamage = 20;
-    std::cout << "ScavTrap " << this->name << " is created" << std::endl;
+    this->energyPoint = 100;
+    this->attackDamage = 30;
+    std::cout << "[FragTrap] " << this->name << " is created" << std::endl;
 }
 
-ScavTrap::ScavTrap(const ScavTrap &obj)
+FragTrap::FragTrap(const FragTrap &obj)
 {
     this->hitPoint = obj.hitPoint;
     this->energyPoint = obj.energyPoint;
     this->attackDamage = obj.attackDamage;
 }
 
-ScavTrap &ScavTrap:: operator=(const ScavTrap &obj)
+FragTrap &FragTrap:: operator=(const FragTrap &obj)
 {
     if (this == &obj)
         return (*this); 
@@ -34,23 +34,23 @@ ScavTrap &ScavTrap:: operator=(const ScavTrap &obj)
     return (*this);
 }
 
-ScavTrap::~ScavTrap()
+FragTrap::~FragTrap()
 {
-    std::cout << "ScavTrap " << this->name << " is destroyed" << std::endl;
+    std::cout << "[FragTrap] " << this->name << " is destroyed" << std::endl;
 }
 
-void ScavTrap::attack(const std::string& target)
+void FragTrap::attack(const std::string& target)
 {
     if (this->energyPoint > 0 && this->hitPoint > 0)
     {
-        std::cout << "ScavTrap " << this->name << " attacks " << target << " causing " << this->attackDamage << " points of damage!" << std::endl;
+        std::cout << "[FragTrap] " << this->name << " attacks " << target << " causing " << this->attackDamage << " points of damage!" << std::endl;
         this->energyPoint -= 1;
     }
-    else
-        std::cout << "ScavTrap " << this->name << " can't attack: it doesn't have energy or hit point..." << std::endl;
+    elsea
+        std::cout << "[FragTrap] " << this->name << " can't attack: it doesn't have energy or hit point..." << std::endl;
 }
 
 void FragTrap::highFivesGuys(void)
 {
-    std::cout << "FragTrap " << this->name << " gives a high five" << std::endl;
+    std::cout << "[FragTrap] " << this->name << " gives a high five" << std::endl;
 }

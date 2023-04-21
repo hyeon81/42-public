@@ -7,11 +7,11 @@
 
 class FragTrap: public ClapTrap {
     public:
-        ScavTrap();
-        ScavTrap(std::string name);
-        ScavTrap(const ScavTrap &obj);
-        ScavTrap &operator=(const ScavTrap &obj);
-        ~ScavTrap();
+        FragTrap();
+        FragTrap(std::string name);
+        FragTrap(const FragTrap &obj);
+        FragTrap &operator=(const FragTrap &obj);
+        ~FragTrap();
         void attack(const std::string& target);
         void highFivesGuys(void);
 };

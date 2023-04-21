@@ -1,26 +1,23 @@
-#ifndef CLAPTRAP_HPP
-#define CLAPTRAP_HPP
+#ifndef DiamondTrap_HPP
+#define DiamondTrap_HPP
 
 #include <string>
 #include <iostream>
+#include "FragTrap.hpp"
+#include "ScavTrap.hpp"
 
-class ClapTrap {
-    protected: 
+class DiamondTrap : public FragTrap, public ScavTrap{
+    private:
         std::string name;
-        int hitPoint;
-        int energyPoint;
-        int attackDamage;
     public:
-        ClapTrap();
-        ClapTrap(std::string name);
-        ClapTrap(const ClapTrap &obj);
-        ClapTrap &operator=(const ClapTrap &obj);
-        ~ClapTrap();
+        DiamondTrap();
+        DiamondTrap(std::string name);
+        DiamondTrap(const DiamondTrap &obj);
+        DiamondTrap &operator=(const DiamondTrap &obj);
+        ~DiamondTrap();
 
-        virtual void attack(const std::string& target);
-        void takeDamage(unsigned int amount);
-        void beRepaired(unsigned int amount);
-        void getInfo();
+        void attack(const std::string& target);
+        void whoAmI();
 };
 
 #endif

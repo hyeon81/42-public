@@ -1,26 +1,29 @@
-#include "ClapTrap.hpp"
+#include "DiamondTrap.hpp"
 
-ClapTrap::ClapTrap()
+DiamondTrap::DiamondTrap()
 {
-    std::cout << "ClapTrap is created" << std::endl;
+    std::cout << "[DiamondTrap] is created" << std::endl;
 };
 
-ClapTrap::ClapTrap(std::string name): name(name)
+DiamondTrap::DiamondTrap(std::string name)
 {
-    this->hitPoint = 10;
-    this->energyPoint = 10;
-    this->attackDamage = 10;
-    std::cout << "ClapTrap " << this->name << " is created" << std::endl;
+    hitPoint = FragTrap::hitPoint;
+    energyPoint = ScavTrap::energyPoint;
+    attackDamage = FragTrap::attackDamage;
+    
+    this->name = name;
+    ClapTrap::name = name + "_clap_name";
+    std::cout << "[DiamondTrap] " << this->name << " is created" << std::endl;
 }
 
-ClapTrap::ClapTrap(const ClapTrap &obj)
+DiamondTrap::DiamondTrap(const DiamondTrap &obj)
 {
     this->hitPoint = obj.hitPoint;
     this->energyPoint = obj.energyPoint;
     this->attackDamage = obj.attackDamage;
 }
 
-ClapTrap &ClapTrap:: operator=(const ClapTrap &obj)
+DiamondTrap &DiamondTrap:: operator=(const DiamondTrap &obj)
 {
     if (this == &obj)
         return (*this); 
@@ -30,18 +33,17 @@ ClapTrap &ClapTrap:: operator=(const ClapTrap &obj)
     return (*this);
 }
 
-ClapTrap::~ClapTrap()
+DiamondTrap::~DiamondTrap()
 {
-    std::cout << "ClapTrap " << this->name << " is destroyed" << std::endl;
+    std::cout << "[DiamondTrap] " << this->name << " is destroyed" << std::endl;
 }
 
-void ClapTrap::attack(const std::string& target)
+void DiamondTrap::whoAmI()
 {
-    if (this->energyPoint > 0 && this->hitPoint > 0)
-    {
-        std::cout << "ClapTrap " << this->name << " attacks " << target << " causing " << this->attackDamage << " points of damage!" << std::endl;
-        this->energyPoint -= 1;
-    }
-    else
-        std::cout << "ClapTrap " << this->name << " can't attack: it doesn't have energy or hit point..." << std::endl;
+    std::cout << "[DiamondTrap::whoAmI] my name is "<< this->name << " and ClapTrap name is " << ClapTrap::name << std::endl;
+}
+
+void DiamondTrap::attack(const std::string& target)
+{
+    FragTrap::attack(target);
 }

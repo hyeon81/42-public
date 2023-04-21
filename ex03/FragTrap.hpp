@@ -5,15 +5,19 @@
 #include <iostream>
 #include "ClapTrap.hpp"
 
-class FragTrap: public ClapTrap {
+class FragTrap: virtual public ClapTrap {
     public:
-        ScavTrap();
-        ScavTrap(std::string name);
-        ScavTrap(const ScavTrap &obj);
-        ScavTrap &operator=(const ScavTrap &obj);
-        ~ScavTrap();
+        FragTrap();
+        FragTrap(std::string name);
+        FragTrap(const FragTrap &obj);
+        FragTrap &operator=(const FragTrap &obj);
+        ~FragTrap();
         void attack(const std::string& target);
         void highFivesGuys(void);
+
+        static const int classHp = 1;
+        static const int classEp = 1;
+        static const int classAd = 1;
 };
 
 #endif
