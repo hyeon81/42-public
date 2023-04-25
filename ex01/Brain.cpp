@@ -2,7 +2,6 @@
 
 Brain::Brain() {
     std::cout << "[Brain] is created" << std::endl;
-    //ideas 초기화?
 }
 
 Brain:: Brain(const Brain &obj){
@@ -22,5 +21,18 @@ Brain &Brain:: operator=(const Brain &obj){
 
 Brain::~Brain(){
     std::cout << "[Brain] is destroyed" << std::endl;
+}
+
+void Brain::showIdeas()
+{
+    for (int i = 0; i < 10; i++)
+        std::cout << this->ideas[i] << " | ";
+    std::cout << std::endl;
+}
+
+void Brain::setIdeas(std::string string)
+{
+    for (int i = 0; i < 10; i++)
+        this->ideas[i] = string;
 }
 

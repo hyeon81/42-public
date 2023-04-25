@@ -4,7 +4,7 @@ Cat::Cat(): Animal("Cat"), brain(new Brain()) {
     std::cout << "[Cat] " << this->type << " is created" << std::endl;
 }
 
-Cat:: Cat(const Cat &obj){
+Cat:: Cat(const Cat &obj): brain(obj.brain){
     this->type = obj.type;
     std::cout << "[Cat] Copy constructor is called" << std::endl;
 }
