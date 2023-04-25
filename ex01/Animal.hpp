@@ -12,8 +12,8 @@ class Animal{
         Animal(const std::string type);
         Animal(const Animal &obj);
         Animal &operator=(const Animal &obj);
-        ~Animal();
-        virtual void makeSound() const;
+        virtual ~Animal();
+        void makeSound() const;
         const std::string &getType() const;
 };
 
