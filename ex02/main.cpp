@@ -4,11 +4,25 @@
 int main()
 {
     std::cout << "====basic test====" << std::endl;
+    // std::cout << "====new Animal()====" << std::endl;
+    // const Animal* meta = new Animal();
     std::cout << "====const Animal* j = new Dog()====" << std::endl;
     const Animal* j = new Dog();
     std::cout << "====const Animal* i = new Cat()====" << std::endl;
     const Animal* i = new Cat();
-    std::cout << "====delete j====" << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "====j->getType()====" << std::endl;
+    std::cout << j->getType() << " " << std::endl;
+    std::cout << "====i->getType()====" << std::endl;
+    std::cout << i->getType() << " " << std::endl;
+    std::cout << "====i->makeSound()====" << std::endl;
+    i->makeSound();
+    std::cout << "====j->makeSound()====" << std::endl;
+    j->makeSound();
+    // std::cout << "====meta->makeSound()====" << std::endl;
+    // meta->makeSound();
+        std::cout << "====delete j====" << std::endl;
     delete j;
     std::cout << "====delete i====" << std::endl;
     delete i;
@@ -48,21 +62,21 @@ int main()
     a.showBrain();
     b.showBrain();
 
-    std::cout << std::endl;
-    std::cout << "====[Cat] copy constructor test====" << std::endl;
-    std::cout << "====Cat c====" << std::endl;
-    Cat c;
-    c.setBrain("hello");
-    c.showBrain();
-    std::cout << "====Cat d(c)====" << std::endl;
-    Cat d(c); //복사생성자 생성.
-    d.setBrain("world");
-    d.showBrain();
-    c.showBrain();
-    std::cout << "====d = c====" << std::endl;    
-    c = d;
-    c.showBrain();
-    d.showBrain();
+    // std::cout << std::endl;
+    // std::cout << "====[Cat] copy constructor test====" << std::endl;
+    // std::cout << "====Cat c====" << std::endl;
+    // Cat c;
+    // c.setBrain("hello");
+    // c.showBrain();
+    // std::cout << "====Cat d(c)====" << std::endl;
+    // Cat d(c); //복사생성자 생성.
+    // d.setBrain("world");
+    // d.showBrain();
+    // c.showBrain();
+    // std::cout << "====d = c====" << std::endl;    
+    // c = d;
+    // c.showBrain();
+    // d.showBrain();
 
     while(1);
 

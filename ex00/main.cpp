@@ -15,12 +15,15 @@ int main()
     std::cout << "====i->getType()====" << std::endl;
     std::cout << i->getType() << " " << std::endl;
     std::cout << "====i->makeSound()====" << std::endl;
-    i->makeSound(); //will output the cat sound!
+    i->makeSound();
     std::cout << "====j->makeSound()====" << std::endl;
     j->makeSound();
     std::cout << "====meta->makeSound()====" << std::endl;
     meta->makeSound();
+    std::cout << "====delete_All()====" << std::endl;
+    delete meta;
+    delete j;
+    delete i;
 
-    //delete는 안해줘도 되남
     return (0);
 }
