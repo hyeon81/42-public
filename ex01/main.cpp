@@ -31,18 +31,25 @@ int main()
         std::cout << "====delete arr ["<< i << "]====" << std::endl;
         delete arr[i];
     }
-    std::cout << std::endl;
 
+    std::cout << std::endl;
     std::cout << "====[Dog] copy constructor test====" << std::endl;
     std::cout << "====Dog a====" << std::endl;
     Dog a;
     a.setBrain("hello");
     a.showBrain();
+
+    std::cout << std::endl;
     std::cout << "====Dog b(a)====" << std::endl;
-    Dog b(a); //복사생성자 생성.
+    Dog b(a);
+    b.showBrain();
+
+    std::cout << std::endl;
+    std::cout << "====b.setBrain()====" << std::endl;   
     b.setBrain("world");
     b.showBrain();
     a.showBrain();
+    std::cout << std::endl;
     std::cout << "====a = b====" << std::endl;    
     a = b;
     a.showBrain();
@@ -54,17 +61,25 @@ int main()
     Cat c;
     c.setBrain("hello");
     c.showBrain();
+
+    std::cout << std::endl;
     std::cout << "====Cat d(c)====" << std::endl;
-    Cat d(c); //복사생성자 생성.
+    Cat d(c); 
     d.setBrain("world");
     d.showBrain();
     c.showBrain();
+
+    std::cout << std::endl;
     std::cout << "====d = c====" << std::endl;    
     c = d;
     c.showBrain();
     d.showBrain();
 
-    while(1);
+    std::cout << std::endl;
+    std::cout << "====d.setBrain()====" << std::endl;   
+    d.setBrain("happy");
+    d.showBrain();
+    std::cout << std::endl;
 
     return 0;
 }

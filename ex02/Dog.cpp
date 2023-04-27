@@ -1,15 +1,11 @@
 #include "Dog.hpp"
 
-Dog::Dog() : Animal("Dog") {
-    this->brain = new Brain();
+Dog::Dog() : Animal("Dog"), brain(new Brain()) {
     std::cout << "[Dog] " << this->type << " is created" << std::endl;
 }
 
-Dog:: Dog(const Dog &obj){
+Dog:: Dog(const Dog &obj): Animal(obj.type), brain(new Brain()){
     std::cout << "[Dog] Copy constructor is called" << std::endl;
-    this->type = obj.type;
-
-    this->brain = new Brain();
     *(this->brain) = *(obj.brain);
 }
 
@@ -20,18 +16,18 @@ Dog &Dog:: operator=(const Dog &obj){
         delete this->brain;
         this->type = obj.type;
         this->brain = new Brain();
-        *(this->brain) = *(obj.brain); // Copy assignment operator is called
+        *(this->brain) = *(obj.brain);
     }
     return (*this);
 }
 
 Dog::~Dog(){
-    std::cout << "[Dog] is destroyed" << std::endl;
     delete this->brain;
+    std::cout << "[Dog] " << this->type << " is destroyed" << std::endl;
 }
 
 void Dog::makeSound() const{
-    std::cout << "[Dog] Bow wow~" << std::endl;
+    std::cout << "[Dog] bark!!!" << std::endl;
 }
 
 void Dog::showBrain(){

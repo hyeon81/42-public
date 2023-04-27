@@ -53,7 +53,7 @@ int main()
     a.setBrain("hello");
     a.showBrain();
     std::cout << "====Dog b(a)====" << std::endl;
-    Dog b(a); //복사생성자 생성.
+    Dog b(a);
     b.setBrain("world");
     b.showBrain();
     a.showBrain();
@@ -62,23 +62,26 @@ int main()
     a.showBrain();
     b.showBrain();
 
-    // std::cout << std::endl;
-    // std::cout << "====[Cat] copy constructor test====" << std::endl;
-    // std::cout << "====Cat c====" << std::endl;
-    // Cat c;
-    // c.setBrain("hello");
-    // c.showBrain();
-    // std::cout << "====Cat d(c)====" << std::endl;
-    // Cat d(c); //복사생성자 생성.
-    // d.setBrain("world");
-    // d.showBrain();
-    // c.showBrain();
-    // std::cout << "====d = c====" << std::endl;    
-    // c = d;
-    // c.showBrain();
-    // d.showBrain();
+    std::cout << std::endl;
+    std::cout << "====[Cat] copy constructor test====" << std::endl;
+    std::cout << "====Cat c====" << std::endl;
+    Cat c;
+    c.setBrain("hello");
+    c.showBrain();
+    std::cout << "====Cat d(c)====" << std::endl;
+    Cat d(c); 
+    d.setBrain("world");
+    d.showBrain();
+    c.showBrain();
+    std::cout << "====d = c====" << std::endl;    
+    c = d;
+    c.showBrain();
+    d.showBrain();
+    std::cout << "====d.setBrain()====" << std::endl;   
+    d.setBrain("happy");
+    d.showBrain();
 
-    while(1);
-
+    std::cout << std::endl;
+    
     return 0;
 }

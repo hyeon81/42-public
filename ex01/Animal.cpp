@@ -21,7 +21,7 @@ Animal &Animal:: operator=(const Animal &obj){
 }
 
 Animal::~Animal(){
-    std::cout << "[Animal] is destroyed" << std::endl;
+    std::cout << "[Animal] " <<this->type << " is destroyed" << std::endl;
 }
 
 void Animal::makeSound() const{

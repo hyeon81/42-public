@@ -4,11 +4,8 @@ Cat::Cat(): Animal("Cat"), brain(new Brain()) {
     std::cout << "[Cat] " << this->type << " is created" << std::endl;
 }
 
-Cat:: Cat(const Cat &obj) {
+Cat:: Cat(const Cat &obj): Animal(obj.type), brain(new Brain()) {
     std::cout << "[Cat] Copy constructor is called" << std::endl;
-    this->type = obj.type;
-
-    this->brain = new Brain();
     *(this->brain) = *(obj.brain);
 }
 
@@ -19,14 +16,14 @@ Cat &Cat:: operator=(const Cat &obj){
         delete this->brain;
         this->type = obj.type;
         this->brain = new Brain();
-        *(this->brain) = *(obj.brain); // Copy assignment operator is called
+        *(this->brain) = *(obj.brain);
     }
     return (*this);
 }
 
 Cat::~Cat(){
-    std::cout << "[Cat] is destroyed" << std::endl;
     delete this->brain;
+    std::cout << "[Cat] " << this->type << " is destroyed" << std::endl;
 }
 
 void Cat::makeSound() const{

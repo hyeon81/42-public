@@ -1,6 +1,8 @@
 #include "Brain.hpp"
 
 Brain::Brain() {
+    for(int i = 0; i < 100; i++)
+        this->ideas[i] = '\0';
     std::cout << "[Brain] is created" << std::endl;
 }
 
@@ -33,7 +35,7 @@ void Brain::showIdeas()
 
 void Brain::setIdeas(std::string string)
 {
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 100; i++)
         this->ideas[i] = string;
 }
 
