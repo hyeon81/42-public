@@ -14,14 +14,13 @@ WrongAnimal::WrongAnimal(const WrongAnimal &obj): type(obj.type){
 
 WrongAnimal &WrongAnimal:: operator=(const WrongAnimal &obj){
     std::cout << "[WrongAnimal] Copy assignment operator is called" << std::endl;
-    if (&obj == this)
-        return (*this);
-    this->type = obj.type;
+    if (&obj != this)
+        this->type = obj.type;
     return (*this);
 }
 
 WrongAnimal::~WrongAnimal(){
-    std::cout << "[WrongAnimal] is destroyed" << std::endl;
+    std::cout << "[WrongAnimal] " << this->type << " is destroyed" << std::endl;
 }
 
 void WrongAnimal::makeSound() const{

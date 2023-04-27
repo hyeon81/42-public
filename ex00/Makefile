@@ -1,45 +1,28 @@
-M_NAME = Animal
-
-WRONG_NAME = WrongAnimal
+NAME = Brain
 
 CPP = c++
 
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror -std=c++98 
 
-SRCS = main.cpp Animal.cpp Cat.cpp Dog.cpp
-
-WRONG_SRCS = main_wrong.cpp WrongAnimal.cpp WrongCat.cpp
+SRCS = main.cpp Animal.cpp Cat.cpp Dog.cpp WrongCat.cpp WrongAnimal.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
-WRONG_OBJS = $(WRONG_SRCS:.cpp=.o)
-
-ifdef WITH_WRONG
-		OBJ_FILES = ${WRONG_OBJS}
-		NAME = ${WRONG_NAME}
-else
-		OBJ_FILES = ${OBJS}
-		NAME = ${M_NAME}
-endif
-
 all: $(NAME)
 
-$(NAME) : $(OBJ_FILES)
-	$(CPP) -o $(CFLAGS) $(OBJ_FILES) -o $(NAME)
+$(NAME) : $(OBJS)
+	$(CPP) $(CFLAGS) -o $(NAME) $(OBJS)
 
-%.o : %.cpp
+%.o: %.cpp
 	$(CPP) $(CFLAGS) -c $< -o $@ 
 
 clean:
-	rm -f $(OBJS) $(WRONG_OBJS)
+	rm -f $(OBJS)
 
 fclean : clean
-	rm -f $(M_NAME) $(WRONG_NAME)
+	rm -f $(NAME)
 
 re: fclean all
 
-wrong: 
-	make WITH_WRONG=1 all
-
-.PHONY:	all clean fclean wrong re
+.PHONY:	all clean fclean re
 

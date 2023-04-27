@@ -14,14 +14,13 @@ Animal::Animal(const Animal &obj): type(obj.type){
 
 Animal &Animal:: operator=(const Animal &obj){
     std::cout << "[Animal] Copy assignment operator is called" << std::endl;
-    if (&obj == this)
-        return (*this);
-    this->type = obj.type;
+    if (&obj != this)
+        this->type = obj.type;
     return (*this);
 }
 
 Animal::~Animal(){
-    std::cout << "[Animal] is destroyed" << std::endl;
+    std::cout << "[Animal] " <<this->type << " is destroyed" << std::endl;
 }
 
 void Animal::makeSound() const{
