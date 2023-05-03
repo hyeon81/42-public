@@ -2,15 +2,17 @@ NAME = cub3D
 
 CC = cc
 
-CFLAG = -Wall -Wextra -Werror
+CFLAG =  -fsanitize=address #-Wall -Wextra -Werror
 
 HEADERS = ./header
 
-SRCS = srcs/cub3d.c
+SRCS = srcs/cub3d.c srcs/exec.c
 
-OBJS = $(SRCS:.c=.o)
+P_SRCS = practice.c
 
-MLX_DIR = ./minilibx_opengl_20191021
+OBJS = $(P_SRCS:.c=.o)
+
+# MLX_DIR = ./minilibx_opengl_20191021
 
 all : $(NAME)
 

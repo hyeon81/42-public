@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/03 14:33:01 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/03 20:15:33 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,29 @@
 
 # include <mlx.h>
 # include <stdlib.h>
+# include <stdio.h>
 
-enum {
-	ON_KEYDOWN = 2,
-	ON_KEYUP = 3,
-	ON_MOUSEDOWN = 4,
-	ON_MOUSEUP = 5,
-	ON_MOUSEMOVE = 6,
-	ON_EXPOSE = 12,
-	ON_DESTROY = 17
-};
+# define ROW 34
+# define COL 14
+# define ESC 53
+# define W 13
+# define A 0
+# define S 1
+# define D 2
+# define ON_DESTROY 17
+# define IMG_W 48
+# define IMG_H 48
+
+typedef struct s_img
+{
+	void		*ptr;
+	int			*data;
+	int			width;
+	int			height;
+	int			size_l;
+	int			bpp;
+	int			endian;
+}				t_img;
 
 typedef struct  s_tex
 {
@@ -36,10 +49,19 @@ typedef struct s_vars
 {
 	void	*mlx;
 	void	*win;
+	t_img	*img;
+
+	// void	*img0;
+	// void	*img1;
+	// void	*imgw;
+	// void	*imgp;
+
 	t_tex   tex[4]; //동서남북 텍스쳐
     int         f_color; //바닥 색상
     int         c_color; //천장 색상
-    char        **map; //맵 좌표
 }t_vars;
+
+int	ft_close(t_vars *vars);
+int key_hook(int keycode, t_vars *vars);
 
 #endif
