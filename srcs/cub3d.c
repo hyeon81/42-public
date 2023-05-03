@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/03 14:33:01 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/03 21:14:50 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,21 @@ int	close(t_vars *vars)
 	exit(0);
 }
 
-int	main(void)
+void	init_info(t_vars *vars , char* filename)
+{
+	ft_memset(vars, 0, sizeof(t_vars));
+	init_map(vars, filename);
+}
+
+int	main(int argc, char **argv)
 {
 	t_vars	vars;
 
+	if(check_arg(argc, argv[1]))
+		return(ERROR);
+	init_info(&vars, argv[1]);
+	//앞 뒤 양 옆  구현(key)
+	//재질과 스프라이트
 	vars.mlx = mlx_init();
 	//윈도우 생성
 	vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Hello World!");
