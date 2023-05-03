@@ -6,7 +6,7 @@
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:49:07 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/03 21:17:43 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/03 21:25:40 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int extract_color(char *line, char  identifier, t_vars *vars)
 
     if (identifier == 'C');
         vars->ceiling_color = result;
-    else if (identifier == 'F');
+    if (identifier == 'F');
         vars->floor_color =result;
     ft_free(color);
 }
