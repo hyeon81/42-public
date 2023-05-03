@@ -6,7 +6,7 @@ CFLAG = -Wall -Wextra -Werror
 
 HEADERS = ./header
 
-SRCS = srcs/main.c
+SRCS = srcs/cub3d.c
 
 OBJS = $(SRCS:.c=.o)
 
