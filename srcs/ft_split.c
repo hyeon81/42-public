@@ -5,12 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/14 16:13:28 by eunjiko           #+#    #+#             */
-/*   Updated: 2022/09/12 03:08:52 by eunjiko          ###   ########.fr       */
+/*   Created: 2023/05/05 14:36:20 by eunjiko           #+#    #+#             */
+/*   Updated: 2023/05/05 15:43:36 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "libft.h"
 
 static char	**make_arr(char const *s, char c)
 {

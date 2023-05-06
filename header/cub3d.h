@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/03 19:55:30 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/06 02:39:55 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <mlx.h>
 # include <stdlib.h>
 # include "../get_next_line/get_next_line.h"
-# include "../libft/libft.h"
 
 # define ERROR -1
 
@@ -30,7 +29,17 @@ enum {
 	ON_DESTROY = 17
 };
 
-typedef struct  s_tex
+typedef enum e_identifier_type
+{
+	NO,
+	SO,
+	WE,
+	EA,
+	F,
+	C,
+}	t_identifier_type;
+
+typedef	struct	s_tex
 {
     char		*path;
     int			*tex;
@@ -44,11 +53,31 @@ typedef struct s_vars
 	t_tex   tex[4]; //동서남북 텍스쳐
     int    	floor_color; //바닥 색상
     int 	ceiling_color; //천장 색상
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
 	int		row;
 	int 	cul;
     char	**map; //맵 좌표
 }t_vars;
 
+
 int	init_map(t_vars *vars, char *filename);
+void	*ft_memset(void *b, int c, size_t len);
+int	check_arg(int argc, char *filename);
+char	**ft_split(char const *s, char c);
+void	free_all(char ** str);
+int	ft_strncmp(const char *s1, const char *s2, size_t len);
+int	strs_len(char	**strs);
+void	*ft_calloc(size_t count, size_t size);
+
+
+
+
+
+
+
+
 
 #endif
