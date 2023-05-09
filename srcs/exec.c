@@ -1,72 +1,79 @@
 #include "cub3d.h"
 
-int	ft_close(t_vars *vars)
+void init_raycast(t_vars *vars, int x)
 {
-	//창 뿌수고 종료
-	mlx_destroy_window(vars->mlx, vars->win);
-	exit(0);
+	vars->cameraX = 2 * x / (double)vars->width - 1; //카메라 평면에서 차지하는 x좌표
+	vars->rayDirX = vars->dirX + vars->planeX * vars->cameraX; //광선의 방향 벡터
+	vars->rayDirY = vars->dirY + vars->planeY * vars->cameraX;
+	vars->mapX = (int)vars->posX;
+	vars->mapY = (int)vars->posY;
 }
 
-int key_hook(int keycode, t_vars *vars)
+void make_raycast(t_vars *vars)
 {
-	if (keycode == ESC)
-		ft_close(vars);
-	else if (keycode == W)
-		printf("press W\n");
-	else if (keycode == A)
-		printf("press A\n");
-	else if (keycode == S)
-		printf("press S\n");
-	else if (keycode == D)
-		printf("press D\n");
+	int x;
+
+	x = 0;
+	while (x < vars->width)
+	{
+		init_raycast(vars, x);
+		
+		x++;
+	}
+}
+
+int make_move(int keycode, t_vars *vars)
+{
+	if (keycode == W)
+	{
+
+	}
+	if (keycode == S)
+	{
+
+	}
+	if (keycode == A)
+	{
+		
+	}
+	if (keycode == D)
+	{
+		
+	}
+}
+
+int main_loop(t_vars *vars)
+{
+	check_hit(vars);
+
 	return (0);
 }
 
-// int render_map(t_vars *vars)
-// {
-// 	int map[COL][ROW]={
-// 		{-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-// 		{-1,-1,-1,-1,-1,-1,-1,-1,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 		{-1,-1,-1,-1,-1,-1,-1,-1,1,0,1,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 		{-1,-1,-1,-1,-1,-1,-1,-1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 		{1,1,1,1,1,1,1,1,1,0,1,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 		{1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1},
-// 		{1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,-1,-1,-1,-1},
-// 		{1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,0,1,0,1,0,0,1,0,0,0,1,-1,-1,-1,-1},
-// 		{1,1,0,0,0,0,0,0,1,1,0,1,0,1,0,1,1,1,0,0,0,0,0,0,1,0,0,0,1,-1,-1,-1,-1},
-// 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,0,1,-1,-1,-1,-1},
-// 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1,0,1,0,0,1,0,0,0,1,-1,-1,-1,-1},
-// 		{1,1,0,0,0,0,0,1,1,1,0,1,0,1,0,1,1,1,1,1,0,1,1,1,1,0,2,0,1,1,1,-1,-1},
-// 		{1,1,1,1,0,1,1,1,-1,1,1,1,0,1,0,1,-1,1,0,1,1,1,1,0,1,0,0,0,1,-1,-1,-1,-1},
-// 		{1,1,1,1,1,1,1,1,-1,1,1,1,1,1,1,1,-1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-1,-1,-1}
-// 	}; //w는 빈곳, 1은 벽, 0은 공간, n은 스폰위치와 방향. (wesn으로 구성)
+int init_vars(t_vars *vars)
+{
+	/* raycast */
+    vars->posX = 22;
+    vars->posY = 12;
+    vars->dirX = -1;
+    vars->dirY = 0; 
+    vars->planeX = 0;
+    vars->planeY = 0.66; 
+    vars->time = 0; 
+    vars->oldTime = 0; 
+    vars->moveSpeed = 0.5;
+    vars->rotateSpeed = 0.3;
 
-// 	int img_w = 48;
-// 	int img_h = 48;
-// 	//이미지 생성
-// 	vars->img1 = mlx_xpm_file_to_image(vars->mlx, "./asset/fence.xpm", &img_w, &img_h);
-// 	vars->img0 = mlx_xpm_file_to_image(vars->mlx, "./asset/field.xpm", &img_w, &img_h);
-// 	vars->imgw = mlx_xpm_file_to_image(vars->mlx, "./asset/fence2.xpm", &img_w, &img_h);
-// 	vars->imgp = mlx_xpm_file_to_image(vars->mlx, "./asset/cat.xpm", &img_w, &img_h);
+	/* info */
+    vars->width = 640;
+    vars->height = 480;
+	vars->tex[0].tex = 0x90F564;
+	vars->tex[1].tex = 0x7178F5;
+	vars->tex[2].tex = 0xF5F558;
+	vars->tex[3].tex = 0xF540E9;
 
-// 	int x = 0;
-// 	int y = 0;
-// 	while (y < COL)
-// 	{
-// 		x = 0;
-// 		while (x < ROW)
-// 		{
-// 			if (map[y][x] == 0)
-// 				mlx_put_image_to_window(vars->mlx, vars->win, vars->img0, x * 48, y * 48);
-// 			else if (map[y][x] == 1)
-// 				mlx_put_image_to_window(vars->mlx, vars->win, vars->img1, x * 48, y * 48);
-// 			else if (map[y][x] == 2)
-// 				mlx_put_image_to_window(vars->mlx, vars->win, vars->imgp, x * 48, y * 48);
-// 			else
-// 				mlx_put_image_to_window(vars->mlx, vars->win, vars->imgw, x * 48, y * 48);
-// 			x++;
-// 		}
-// 		y++;
-// 	}
-// 	return (0);
-// }
+	/* mlx */
+    vars->mlx = mlx_init();
+	vars->win = mlx_new_window(vars->mlx, vars->width, vars->height, "Cub3d");
+
+    return (0);
+}

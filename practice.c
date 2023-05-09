@@ -39,18 +39,9 @@ int	ft_close(t_vars *vars)
 	exit(0);
 }
 
-double posX = 22, posY = 12;  //플레잉어의 초기 위치 벡터
-double dirX = -1, dirY = 0; //플레이어의 초기 방향 벡터
-double planeX = 0, planeY = 0.66; //플레이어의 카메라 평면
-double time = 0; //time of current frame
-double oldTime = 0; //time of previous frame.
-//둘의 시간차를 통해 특정 키를 눌렀을때 (일정한 속도로 움직이기 위해) 이동거리를 결정하고 FPS를 측정하는데 사용
-
-int w = 640;
-int h = 480;
-
-void	verLine(t_vars *vars, int x, int y1, int y2, int color)
+void	make_draw(t_vars *vars, int x, int y1, int y2, int color)
 {
+    mlx_clear_window(vars->mlx, vars->win);
 	int	y;
 
 	y = y1;
@@ -61,28 +52,28 @@ void	verLine(t_vars *vars, int x, int y1, int y2, int color)
 	}
 }
 
-void make_draw(t_vars *vars)
+void check_hit(t_vars *vars)
 {
-    for(int x = 0; x < w; x++)
+    for(int x = 0; x < vars->width; x++)
     {
         //calculate ray position and direction
-        double cameraX = 2 * x / (double)w - 1; //x-coordinate in camera space
+        double cameraX = 2 * x / (double)vars->width - 1; //x-coordinate in camera space
         //for문의 x값(화면의 수직선)이 위치가 카메라평면에서 차지하는 x좌표 입니다. 
         //for문의 x값이 0이면 (스크린의 왼쪽 끝이면) cameraX = -1
         //for문의 x값이 w/2이면 (스크린의 중앙이면) cameraX = 0
         //for문의 x값이 w이면 (스크린의 오른쪽 끝이면) cameraX = 1
-        double rayDirX = dirX + planeX * cameraX; //광선의 방향 벡터
-        double rayDirY = dirY + planeY * cameraX;
+        double rayDirX = vars->dirX + vars->planeX * cameraX; //광선의 방향 벡터
+        double rayDirY = vars->dirY + vars->planeY * cameraX;
 
         //우리가 있는 맵의 박스?
-        int mapX = (int)posX;
-        int mapY = (int)posY;
+        int mapX = (int)vars->posX;
+        int mapY = (int)vars->posY;
 
         //length of ray from current position to next x or y-side
         double sideDistX;
         double sideDistY;
 
-        double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
+        double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX); //1e30 이건 어디서 나온 숫자여
         double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
 
         //what direction to step in x or y-direction (either +1 or -1)
@@ -95,22 +86,22 @@ void make_draw(t_vars *vars)
         if(rayDirX < 0)
         {
             stepX = -1;
-            sideDistX = (posX - mapX) * deltaDistX;
+            sideDistX = (vars->posX - mapX) * deltaDistX;
         }
         else
         {
             stepX = 1;
-            sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+            sideDistX = (mapX + 1.0 - vars->posX) * deltaDistX;
         }
         if(rayDirY < 0)
         {
             stepY = -1;
-            sideDistY = (posY - mapY) * deltaDistY;
+            sideDistY = (vars->posY - mapY) * deltaDistY;
         }
         else
         {
             stepY = 1;
-            sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+            sideDistY = (mapY + 1.0 - vars->posY) * deltaDistY;
         }
         //perform DDA
         while(hit == 0)
@@ -138,13 +129,13 @@ void make_draw(t_vars *vars)
         else          perpWallDist = (sideDistY - deltaDistY);
 
         //Calculate height of line to draw on screen
-        int lineHeight = (int)(h / perpWallDist);
+        int lineHeight = (int)(vars->height / perpWallDist);
 
         //calculate lowest and highest pixel to fill in current stripe
-        int drawStart = -lineHeight / 2 + h / 2;
+        int drawStart = -lineHeight / 2 + vars->height / 2;
         if(drawStart < 0) drawStart = 0;
-        int drawEnd = lineHeight / 2 + h / 2;
-        if(drawEnd >= h) drawEnd = h - 1;
+        int drawEnd = lineHeight / 2 + vars->height / 2;
+        if(drawEnd >= vars->height) drawEnd = vars->height - 1;
 
         //choose wall color
         int color;
@@ -161,13 +152,13 @@ void make_draw(t_vars *vars)
         if(side == 1) {color = color / 2;}
 
         //draw the pixels of the stripe as a vertical line
-        verLine(vars, x, drawStart, drawEnd, color);
+        make_draw(vars, x, drawStart, drawEnd, color);
     }
 }
 
 int make_move(int keycode, t_vars *vars)
 {
-	if (key == W)
+	if (keycode == W)
 	{
 		if (!worldMap[(int)(vars->posX + vars->dirX * vars->moveSpeed)][(int)(vars->posY)])
 			vars->posX += vars->dirX * vars->moveSpeed;
@@ -175,7 +166,7 @@ int make_move(int keycode, t_vars *vars)
 			vars->posY += vars->dirY * vars->moveSpeed;
 	}
 	//move backwards if no wall behind you
-	if (key == K_S)
+	if (keycode == S)
 	{
 		if (!worldMap[(int)(vars->posX - vars->dirX * vars->moveSpeed)][(int)(vars->posY)])
 			vars->posX -= vars->dirX * vars->moveSpeed;
@@ -183,7 +174,7 @@ int make_move(int keycode, t_vars *vars)
 			vars->posY -= vars->dirY * vars->moveSpeed;
 	}
 	//rotate to the right
-	if (key == K_D)
+	if (keycode == D)
 	{
 		//both camera direction and camera plane must be rotated
 		double oldDirX = vars->dirX;
@@ -194,7 +185,7 @@ int make_move(int keycode, t_vars *vars)
 		vars->planeY = oldPlaneX * sin(-vars->rotSpeed) + vars->planeY * cos(-vars->rotSpeed);
 	}
 	//rotate to the left
-	if (key == K_A)
+	if (keycode == A)
 	{
 		//both camera direction and camera plane must be rotated
 		double oldDirX = vars->dirX;
@@ -204,17 +195,34 @@ int make_move(int keycode, t_vars *vars)
 		vars->planeX = vars->planeX * cos(vars->rotSpeed) - vars->planeY * sin(vars->rotSpeed);
 		vars->planeY = oldPlaneX * sin(vars->rotSpeed) + vars->planeY * cos(vars->rotSpeed);
 	}
-	if (key == K_ESC)
+	if (keycode == ESC)
 		exit(0);
-    mlx_clear_window(info->mlx, info->win);
-	main_loop(info);
 	return (0);
 }
 
 int main_loop(t_vars *vars)
 {
-    make_draw(vars);
-    make_move(vars);
+    check_hit(vars);
+    return (0);
+}
+
+int init_vars(t_vars *vars)
+{
+    vars->posX = 22;
+    vars->posY = 12;
+    vars->dirX = -1;
+    vars->dirY = 0; 
+    vars->planeX = 0;
+    vars->planeY = 0.66; 
+    vars->time = 0; 
+    vars->oldTime = 0; 
+    vars->moveSpeed = 0.5;
+    vars->rotSpeed = 0.3;
+    vars->width = 640;
+    vars->height = 480;
+    vars->mlx = mlx_init();
+	vars->win = mlx_new_window(vars->mlx, vars->width, vars->height, "Cub3d");
+
     return (0);
 }
 
@@ -222,10 +230,9 @@ int main(void)
 {
     t_vars vars;
 
-    vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, w, h, "Cub3d");
-    // mlx_hook(vars.win, ON_DESTROY, 0, &ft_close, &vars); //x 눌렀을때
-	// mlx_key_hook(vars.win, &key_hook, &vars); //키보드 이벤트 감지
+    init_vars(&vars);
+    mlx_hook(vars.win, ON_DESTROY, 0, &ft_close, &vars); //x 눌렀을때
+	mlx_key_hook(vars.win, &make_move, &vars); //키보드 이벤트 감지
     mlx_loop_hook(vars.mlx, &main_loop, &vars);
     mlx_loop(vars.mlx);
 
