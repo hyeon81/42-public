@@ -39,21 +39,6 @@ int	ft_close(t_vars *vars)
 	exit(0);
 }
 
-int key_hook(int keycode, t_vars *vars)
-{
-	if (keycode == ESC)
-		ft_close(vars);
-	else if (keycode == W)
-		printf("press W\n");
-	else if (keycode == A)
-		printf("press A\n");
-	else if (keycode == S)
-		printf("press S\n");
-	else if (keycode == D)
-		printf("press D\n");
-	return (0);
-}
-
 double posX = 22, posY = 12;  //플레잉어의 초기 위치 벡터
 double dirX = -1, dirY = 0; //플레이어의 초기 방향 벡터
 double planeX = 0, planeY = 0.66; //플레이어의 카메라 평면
@@ -180,9 +165,50 @@ void make_draw(t_vars *vars)
     }
 }
 
-int make_move()
+int make_move(int keycode, t_vars *vars)
 {
-
+	if (key == W)
+	{
+		if (!worldMap[(int)(vars->posX + vars->dirX * vars->moveSpeed)][(int)(vars->posY)])
+			vars->posX += vars->dirX * vars->moveSpeed;
+		if (!worldMap[(int)(vars->posX)][(int)(vars->posY + vars->dirY * vars->moveSpeed)])
+			vars->posY += vars->dirY * vars->moveSpeed;
+	}
+	//move backwards if no wall behind you
+	if (key == K_S)
+	{
+		if (!worldMap[(int)(vars->posX - vars->dirX * vars->moveSpeed)][(int)(vars->posY)])
+			vars->posX -= vars->dirX * vars->moveSpeed;
+		if (!worldMap[(int)(vars->posX)][(int)(vars->posY - vars->dirY * vars->moveSpeed)])
+			vars->posY -= vars->dirY * vars->moveSpeed;
+	}
+	//rotate to the right
+	if (key == K_D)
+	{
+		//both camera direction and camera plane must be rotated
+		double oldDirX = vars->dirX;
+		vars->dirX = vars->dirX * cos(-vars->rotSpeed) - vars->dirY * sin(-vars->rotSpeed);
+		vars->dirY = oldDirX * sin(-vars->rotSpeed) + vars->dirY * cos(-vars->rotSpeed);
+		double oldPlaneX = vars->planeX;
+		vars->planeX = vars->planeX * cos(-vars->rotSpeed) - vars->planeY * sin(-vars->rotSpeed);
+		vars->planeY = oldPlaneX * sin(-vars->rotSpeed) + vars->planeY * cos(-vars->rotSpeed);
+	}
+	//rotate to the left
+	if (key == K_A)
+	{
+		//both camera direction and camera plane must be rotated
+		double oldDirX = vars->dirX;
+		vars->dirX = vars->dirX * cos(vars->rotSpeed) - vars->dirY * sin(vars->rotSpeed);
+		vars->dirY = oldDirX * sin(vars->rotSpeed) + vars->dirY * cos(vars->rotSpeed);
+		double oldPlaneX = vars->planeX;
+		vars->planeX = vars->planeX * cos(vars->rotSpeed) - vars->planeY * sin(vars->rotSpeed);
+		vars->planeY = oldPlaneX * sin(vars->rotSpeed) + vars->planeY * cos(vars->rotSpeed);
+	}
+	if (key == K_ESC)
+		exit(0);
+    mlx_clear_window(info->mlx, info->win);
+	main_loop(info);
+	return (0);
 }
 
 int main_loop(t_vars *vars)

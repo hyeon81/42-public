@@ -52,10 +52,23 @@ typedef struct s_vars
 	void	*win;
 	t_img	*img;
 
+	/* 이미지 */
 	// void	*img0;
 	// void	*img1;
 	// void	*imgw;
 	// void	*imgp;
+
+	/* info */
+	double posX;
+	double posY;
+	double dirX;
+	double dirY;
+	double planeX;
+	double planeY;
+	void	*mlx;
+	void	*win;
+	double	moveSpeed;
+	double	rotSpeed;
 
 	t_tex   tex[4]; //동서남북 텍스쳐
     int         f_color; //바닥 색상
