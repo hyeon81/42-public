@@ -6,7 +6,7 @@
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:49:07 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/10 21:09:00 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/10 21:29:00 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,41 @@ int	count_id(int num, int *check)
 	return (0);
 }
 
-int	init_color(char *value)
+int	init_color(char *value, t_vars *vars, int type, int *id)
 {
 	char	**tmp;
+	int		res;
 
 	tmp = ft_split(value, ',');
-	
+	res = 0;
 	if(strs_len(tmp) != 3)
-		return(ERROR); 에러 체크
+		return(ERROR);
+	if(type == C)
+		vars->ceiling_color = res;
+	if(type == F)
+		vars->floor_color = res;
+	*id = type;
 	return (0);
 }
+int	parse_color( char* color, char *value, t_vars *vars, int *id)
+{	
+	if (ft_strncmp(color, "F", 2) == 0)
+	{
+		if(init_color(value, vars, F, id) == ERROR)
+			return(ERROR);
+	}
+	else if (ft_strncmp(color, "C", 2) == 0)
+	{
+		if(init_color(value, vars, C, id) == ERROR)
+			return(ERROR);
+	}
+	else
+		return (ERROR);
+	return(0);
+}
 
-void	parse_identifier(char *value, int identifier, t_vars *vars, int *id)
+void	parse_direction(char *value, int identifier, t_vars *vars, int *id)
+
 {	
 	*id = identifier;
 
@@ -61,10 +84,6 @@ void	parse_identifier(char *value, int identifier, t_vars *vars, int *id)
 		vars->west = value;
 	else if (*id == EA)
 		vars->east = value;
-	else if (*id == F)
-		vars->floor_color = init_color(value);
-	else if (*id == C)
-		vars->ceiling_color = init_color(value);
 }
 
 int	is_identifier(char	*line, t_vars *vars, int *count, int *check)
@@ -80,21 +99,16 @@ int	is_identifier(char	*line, t_vars *vars, int *count, int *check)
 	if (strs_len(identifier) != 2 || identifier[1] == NULL)
 		return (ERROR);
 	if (ft_strncmp(identifier[0], "NO", 3) == 0)//들어온 인자와  identifier가 일치 하다면 밑에서 쓰일 id(flag check 용도)와 함께 파싱함수로 들어감
-		parse_identifier(identifier[1], NO, vars, &id);
+		parse_direction(identifier[1], NO, vars, &id);
 	else if (ft_strncmp(identifier[0], "SO", 3) == 0)
-		parse_identifier(identifier[1], SO, vars, &id);
+		parse_direction(identifier[1], SO, vars, &id);
 	else if (ft_strncmp(identifier[0], "WE", 3) == 0)
-		parse_identifier(identifier[1], WE, vars, &id);
+		parse_direction(identifier[1], WE, vars, &id);
 	else if (ft_strncmp(identifier[0], "EA", 3) == 0)
-		parse_identifier(identifier[1], EA, vars, &id);
-	else if (ft_strncmp(identifier[0], "F", 2) == 0)
-	{
-		parse_identifier(identifier[1], F, vars, &id);
-	}
-	else if (ft_strncmp(identifier[0], "C", 2) == 0)
-		parse_identifier(identifier[1], C, vars, &id);
+		parse_direction(identifier[1], EA, vars, &id);
 	else
-		return (ERROR);
+		if (parse_color(identifier[0], identifier[1] ,vars, &id)== ERROR)
+			return(ERROR);
 	(*count)++; // identifier가 들어왔다는건 어쨋든 파싱을 한다는것이기에 하나씩 올려줌
 	if (count_id(id, check) == ERROR) //id당 하나만 들어왔는지 체크 아니면 에러
 		return(ERROR);
