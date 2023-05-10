@@ -6,9 +6,11 @@
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 14:36:20 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/05 15:43:36 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/10 15:49:25 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "cub3d.h"
 
 static char	**make_arr(char const *s, char c)
 {

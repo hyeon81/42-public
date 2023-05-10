@@ -3,13 +3,13 @@ NAME = cub3D
 CC = cc
 
 # CFLAG = -Wall -Wextra -Werror
-CFLAG =
+CFLAG = -fsanitize=address -g
 
 
 HEADERS = ./header
 
-SRCS = srcs/cub3d.c srcs/init_map.c srcs/util.c \
-	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c  
+SRCS = srcs/cub3d.c srcs/init_map.c srcs/util.c srcs/ft_split.c \
+	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c 
 
 OBJS = $(SRCS:.c=.o)
 

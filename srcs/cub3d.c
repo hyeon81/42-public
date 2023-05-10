@@ -6,18 +6,39 @@
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/05 18:26:55 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/10 20:37:19 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "stdio.h"
 
+void	print_err(char	*str)
+{
+	write(1, str, ft_strlen(str)); // ㅇㅔ러를 내보내야하나
+	// exit(-1);
+}
+
 // int	close(t_vars *vars)
 // {
 // 	//창 뿌수고 종료
 // 	mlx_destroy_window(vars->mlx, vars->win);
 // 	exit(0);
+// }
+
+// void print_map(t_vars *vars)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	printf("north = %s\n", vars->north);
+// 	printf("south = %s\n", vars->south);
+// 	printf("west = %s\n", vars->west);
+// 	printf("east = %s\n", vars->east);
+
+// 	// printf("----map-----\n");
+// 	// while(vars->map[i])
+// 	// 	printf("%s\n", vars->map[i]);
 // }
 
 void	init_info(t_vars	*vars , char	*filename)
@@ -30,11 +51,13 @@ int	main(int argc, char **argv)
 {
 	t_vars	vars;
 
-	if (check_arg(argc, argv[1]))
+	if (argc != 2 || check_arg(argc, argv[1]))
 	{
+		print_err("Invalid filetype\n");
 		return (ERROR);
 	}
 	init_info(&vars, argv[1]);
+	// print_map(&vars);
 	//앞 뒤 양 옆  구현(key)
 	//재질과 스프라이트
 	// vars.mlx = mlx_init();

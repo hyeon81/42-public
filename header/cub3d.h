@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/06 02:39:55 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/10 19:47:08 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,23 @@ typedef enum e_identifier_type
 	C,
 }	t_identifier_type;
 
-typedef	struct	s_tex
-{
-    char		*path;
-    int			*tex;
-	//width / height
-}               t_tex;
+// typedef	struct	s_tex
+// {
+//     char		*path;
+//     int			*tex;
+// 	//width / height
+// }               t_tex;
 
+//raycast
+
+//parse
+
+//graphic
 typedef struct s_vars
 {
 	void	*mlx;
 	void	*win;
-	t_tex   tex[4]; //동서남북 텍스쳐
+	// t_tex   tex[4]; //동서남북 텍스쳐
     int    	floor_color; //바닥 색상
     int 	ceiling_color; //천장 색상
 	char	*north;
@@ -58,26 +63,20 @@ typedef struct s_vars
 	char	*west;
 	char	*east;
 	int		row;
-	int 	cul;
+	int 	col;
     char	**map; //맵 좌표
 }t_vars;
+
 
 
 int	init_map(t_vars *vars, char *filename);
 void	*ft_memset(void *b, int c, size_t len);
 int	check_arg(int argc, char *filename);
 char	**ft_split(char const *s, char c);
-void	free_all(char ** str);
+static char	**free_all(char **arr);
 int	ft_strncmp(const char *s1, const char *s2, size_t len);
 int	strs_len(char	**strs);
 void	*ft_calloc(size_t count, size_t size);
-
-
-
-
-
-
-
-
+void	print_err(char	*str);
 
 #endif
