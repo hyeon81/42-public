@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/09 21:33:44 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/10 21:50:20 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@
 # define S 1
 # define D 2
 # define ON_DESTROY 17
-# define IMG_W 48
-# define IMG_H 48
+# define IMG_W 64
+# define IMG_H 64
+# define WIDTH 480
+# define HEIGHT 360
 
 typedef struct s_img
 {
@@ -38,28 +40,11 @@ typedef struct s_img
 	int			endian;
 }				t_img;
 
-typedef struct  s_tex
-{
-    char		*path;
-    int			*tex;
-}               t_tex;
-
-typedef struct s_dda
-{
-	
-}t_dda;
-
 typedef struct s_vars
 {
 	void	*mlx;
 	void	*win;
-	t_img	*img;
-
-	/* 이미지 */
-	// void	*img0;
-	// void	*img1;
-	// void	*imgw;
-	// void	*imgp;
+	t_img	img[4];
 
 	/* info */
 	double posX; //플레잉어의 초기 위치 벡터
@@ -80,6 +65,20 @@ typedef struct s_vars
 	double	rayDirY;
 	int		mapX;
 	int		mapY;
+	double	sideDistX;
+	double	sideDistY;
+	double	deltaDistX;
+	double	deltaDistY;
+	int		stepX;
+	int		stepY;
+	int		hit;
+	int		side;
+	double	perpWallDist;
+	int		lineHeight;
+	int		start;
+	int		end;
+	int		buf[HEIGHT][WIDTH];
+
 
 	int	width;
 	int	height;

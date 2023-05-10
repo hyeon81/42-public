@@ -178,22 +178,22 @@ int make_move(int keycode, t_vars *vars)
 	{
 		//both camera direction and camera plane must be rotated
 		double oldDirX = vars->dirX;
-		vars->dirX = vars->dirX * cos(-vars->rotSpeed) - vars->dirY * sin(-vars->rotSpeed);
-		vars->dirY = oldDirX * sin(-vars->rotSpeed) + vars->dirY * cos(-vars->rotSpeed);
+		vars->dirX = vars->dirX * cos(-vars->rotateSpeed) - vars->dirY * sin(-vars->rotateSpeed);
+		vars->dirY = oldDirX * sin(-vars->rotateSpeed) + vars->dirY * cos(-vars->rotateSpeed);
 		double oldPlaneX = vars->planeX;
-		vars->planeX = vars->planeX * cos(-vars->rotSpeed) - vars->planeY * sin(-vars->rotSpeed);
-		vars->planeY = oldPlaneX * sin(-vars->rotSpeed) + vars->planeY * cos(-vars->rotSpeed);
+		vars->planeX = vars->planeX * cos(-vars->rotateSpeed) - vars->planeY * sin(-vars->rotateSpeed);
+		vars->planeY = oldPlaneX * sin(-vars->rotateSpeed) + vars->planeY * cos(-vars->rotateSpeed);
 	}
 	//rotate to the left
 	if (keycode == A)
 	{
 		//both camera direction and camera plane must be rotated
 		double oldDirX = vars->dirX;
-		vars->dirX = vars->dirX * cos(vars->rotSpeed) - vars->dirY * sin(vars->rotSpeed);
-		vars->dirY = oldDirX * sin(vars->rotSpeed) + vars->dirY * cos(vars->rotSpeed);
+		vars->dirX = vars->dirX * cos(vars->rotateSpeed) - vars->dirY * sin(vars->rotateSpeed);
+		vars->dirY = oldDirX * sin(vars->rotateSpeed) + vars->dirY * cos(vars->rotateSpeed);
 		double oldPlaneX = vars->planeX;
-		vars->planeX = vars->planeX * cos(vars->rotSpeed) - vars->planeY * sin(vars->rotSpeed);
-		vars->planeY = oldPlaneX * sin(vars->rotSpeed) + vars->planeY * cos(vars->rotSpeed);
+		vars->planeX = vars->planeX * cos(vars->rotateSpeed) - vars->planeY * sin(vars->rotateSpeed);
+		vars->planeY = oldPlaneX * sin(vars->rotateSpeed) + vars->planeY * cos(vars->rotateSpeed);
 	}
 	if (keycode == ESC)
 		exit(0);
@@ -217,7 +217,7 @@ int init_vars(t_vars *vars)
     vars->time = 0; 
     vars->oldTime = 0; 
     vars->moveSpeed = 0.5;
-    vars->rotSpeed = 0.3;
+    vars->rotateSpeed = 0.3;
     vars->width = 640;
     vars->height = 480;
     vars->mlx = mlx_init();
