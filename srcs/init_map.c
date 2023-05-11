@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:49:07 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/10 21:29:00 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/12 00:41:15 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	init_color(char *value, t_vars *vars, int type, int *id)
 	*id = type;
 	return (0);
 }
+
 int	parse_color( char* color, char *value, t_vars *vars, int *id)
 {	
 	if (ft_strncmp(color, "F", 2) == 0)
@@ -115,27 +116,12 @@ int	is_identifier(char	*line, t_vars *vars, int *count, int *check)
 	return (0);
 }
 
-
 int ft_is_space(char c)
 {
 	if((c >= 9 && c <= 13) || c == ' ')
 		return(0);
 	return (1);
 }
-
-
-// int	check(char* line)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (line[i])
-// 	{
-// 		if(line[i] != '0' || line[i] != '1' || is_space(line[i]))
-// 			return(1);
-// 	}
-// 	return(0);
-// }
 
 int	parse_line(char *line, char **backup, int* mapflag, int count) // map인경우 파싱
 {
@@ -186,10 +172,7 @@ int	init_map(t_vars *vars, char *filename)
 	mapflag = 0;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-	{
-		print_err("Failed to open file.\n");//exit..?
-		return (ERROR);
-	}
+		return (print_err("Failed to open file.\n"));
 	backup = NULL;
 	check = ft_calloc(sizeof(int), 6);	
 	while (1)
@@ -208,7 +191,17 @@ int	init_map(t_vars *vars, char *filename)
 		i++;
 	}
 	printf("map = \n%s\n", backup);
-	// vars->map = backup;
 	close(fd);
+	if(backup)
+	{
+		vars->map = ft_split(backup, '\n');
+		free(backup);
+	}
+	else
+		return(print_err("map_error"));
+	i = 0;
+	while(vars->map[i])
+		printf("%s\n", vars->map[i++]);
+		i++;
 	return (0);
 }

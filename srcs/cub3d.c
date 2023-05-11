@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/10 20:37:19 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/11 22:35:44 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include "stdio.h"
 
-void	print_err(char	*str)
+int	print_err(char	*str)
 {
 	write(1, str, ft_strlen(str)); // ㅇㅔ러를 내보내야하나
+	return(ERROR);
 	// exit(-1);
 }
 

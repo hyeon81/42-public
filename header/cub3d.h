@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/10 19:47:08 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/11 22:46:31 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <mlx.h>
+// # include <mlx.h>
 # include <stdlib.h>
 # include "../get_next_line/get_next_line.h"
 
@@ -77,6 +77,8 @@ static char	**free_all(char **arr);
 int	ft_strncmp(const char *s1, const char *s2, size_t len);
 int	strs_len(char	**strs);
 void	*ft_calloc(size_t count, size_t size);
-void	print_err(char	*str);
+int	print_err(char	*str);
+
+
 
 #endif
