@@ -2,23 +2,23 @@ NAME = cub3D
 
 CC = cc
 
-CFLAG =  -fsanitize=address -Wall -Wextra -Werror
+CFLAG =  -g -fsanitize=address -Wall -Wextra -Werror
 
 HEADERS = ./header
 
-SRCS = srcs/cub3d.c srcs/exec.c
+SRCS = srcs/cub3d.c srcs/keyevent.c srcs/init.c srcs/draw.c srcs/clac.c 
 
 OBJS = $(SRCS:.c=.o)
 
-# MLX_DIR = ./minilibx_opengl_20191021
+MLX_DIR = ./minilibx_opengl_20191021
 
 all : $(NAME)
 
-# $(NAME) : $(OBJS)
-# 	$(CC) $(CFLAG) $(OBJS) -L $(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
-
 $(NAME) : $(OBJS)
-	$(CC) $(CFLAG) $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	$(CC) $(CFLAG) $(OBJS) -L $(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+
+# $(NAME) : $(OBJS)
+# 	$(CC) $(CFLAG) $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 
 %.o : %.c
 	$(CC) $(CFLAG) -Imlx -I $(HEADERS) -c $< -o $@ 
