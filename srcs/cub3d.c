@@ -6,7 +6,7 @@
 /*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/11 22:35:44 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/13 01:34:19 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ int	print_err(char	*str)
 // 	// 	printf("%s\n", vars->map[i]);
 // }
 
+// void	leaks()
+// {
+// 	system("leaks cub3D");
+// }
+
 void	init_info(t_vars	*vars , char	*filename)
 {
 	ft_memset(vars, 0, sizeof(t_vars));
@@ -52,6 +57,7 @@ int	main(int argc, char **argv)
 {
 	t_vars	vars;
 
+	// atexit(leaks);
 	if (argc != 2 || check_arg(argc, argv[1]))
 	{
 		print_err("Invalid filetype\n");
@@ -66,5 +72,7 @@ int	main(int argc, char **argv)
 	// vars.win = mlx_new_window(vars.mlx, 1920, 1080, "Hello World!");
 	// mlx_hook(vars.win, ON_DESTROY, 0, close, &vars);
 	// mlx_loop(vars.mlx);
+
+
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/11 22:46:31 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/13 02:22:45 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,14 @@ typedef enum e_identifier_type
 //parse
 
 //graphic
+
+// typedef struct s_check
+// {
+// 	방향
+// 	플래그
+// 	카운트
+// } t_check;
+
 typedef struct s_vars
 {
 	void	*mlx;
@@ -78,7 +86,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t len);
 int	strs_len(char	**strs);
 void	*ft_calloc(size_t count, size_t size);
 int	print_err(char	*str);
-
+char	**split_for_map(char const *s, char c);
 
 
 #endif

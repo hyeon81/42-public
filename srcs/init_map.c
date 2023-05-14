@@ -6,7 +6,7 @@
 /*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:49:07 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/12 00:41:15 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/13 02:25:37 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ int	init_color(char *value, t_vars *vars, int type, int *id)
 	res = 0;
 	if(strs_len(tmp) != 3)
 		return(ERROR);
+	while(tmp[i])
+	{
+		// 아토이인데 부호가 안되는...핳
+	}
 	if(type == C)
 		vars->ceiling_color = res;
 	if(type == F)
@@ -54,6 +58,36 @@ int	init_color(char *value, t_vars *vars, int type, int *id)
 	*id = type;
 	return (0);
 }
+
+static int	color_parse(char *line)
+{
+	char	**str;
+	int		rgb_r;
+	int		rgb_g;
+	int		rgb_b;
+	int		color;
+
+	str = ft_split(line, ',');
+	if (!str || !str[0] || !str[1] || !str[2] || get_strnum(str) != 3)
+	{
+		free_str(str);
+		print_err("Wrong color value\n");
+	}
+	color = 0;
+	rgb_r = change_str_to_int(str[0]); -> 8 -> 0000 0000 0000 1000 0000 0000 0000 0000 
+	rgb_g = change_str_to_int(str[1]);
+	rgb_b = change_str_to_int(str[2]);
+	color = (rgb_r << 16) + (rgb_g << 8) + rgb_b;
+	free_str(str);
+	return (color);
+}
+
+/*
+	int color => 0000 0000 r0000 0000 g0000 0000 b0000 0000
+	r g b
+	r <<< 8 
+	char 1byte 0 255 rgb -> 0-255 -> 0000 0000 0 ~ 255 1111 1111
+*/
 
 int	parse_color( char* color, char *value, t_vars *vars, int *id)
 {	
@@ -73,7 +107,6 @@ int	parse_color( char* color, char *value, t_vars *vars, int *id)
 }
 
 void	parse_direction(char *value, int identifier, t_vars *vars, int *id)
-
 {	
 	*id = identifier;
 
@@ -116,11 +149,26 @@ int	is_identifier(char	*line, t_vars *vars, int *count, int *check)
 	return (0);
 }
 
-int ft_is_space(char c)
+int ft_is_space(char c) //space만 허용하게 하는건 어떨까
 {
 	if((c >= 9 && c <= 13) || c == ' ')
 		return(0);
 	return (1);
+}
+
+
+int	check_line(char* line)
+{
+	int i = 0;
+	while(line[i])
+	{
+		if (ft_is_space(line[i]) != 0 && line[i] != '0' && line[i] != '1' && \
+			line[i] != '\n' && line[i] != 'N' && line[i] != 'S' && line[i] != 'W' &&line[i] != 'E') 
+			return(ERROR);
+		if(line[i] == 'N' || line[i] == 'S' || line[i] == 'W' || line[i] == 'E')
+			// count++:
+		i++
+	}
 }
 
 int	parse_line(char *line, char **backup, int* mapflag, int count) // map인경우 파싱
@@ -131,20 +179,22 @@ int	parse_line(char *line, char **backup, int* mapflag, int count) // map인경�
 	i = 0;
 	if(count != 4)
 		return(0);
+	//위치카운트가 1이 아니라면 에러
 	if (*mapflag == 1)
 	{
+		check_line();
 		tmp = *backup;
 		*backup = ft_strjoin(*backup, line);
 		free(tmp);
 		return (0);
 	}
-	while (line[i])//처음에 맵을 만났을 경우 맵이 시작됐다는 플래그를 주기 위해
+	while (line[i])//처음에 맵을 만났을 경우 맵이 시작됐다는 플래그를 주기 위해 //맵의 첫줄을 만나기 위한 와일문인데 맵의 첫줄은 무조건 1이여야함
 	{
 		printf("line check = %c\n", line[i]);
-		printf("1\n");
-		if (ft_is_space(line[i]) != 0 && line[i] != '0' && line[i] != '1' && line[i] != '\n') 
-			return (ERROR);
-		if (line[i] == '1')
+		// if (ft_is_space(line[i]) != 0 && line[i] != '0' && line[i] != '1' && \
+		// line[i] != '\n' && line[i] != 'N' && line[i] != 'S' && line[i] != 'W' &&line[i] != 'E') 
+		// 	return (ERROR); //위치 또한 한개가 아니라면 리턴
+		if (line[i] == '1') //1과 공백으로만 이루어져있다면 첫줄은 유효한 맵의 시작
 				*mapflag = 1;
 		i++;
 	}
@@ -194,14 +244,15 @@ int	init_map(t_vars *vars, char *filename)
 	close(fd);
 	if(backup)
 	{
-		vars->map = ft_split(backup, '\n');
+		vars->map = ft_map_split(backup, '\n');
 		free(backup);
 	}
 	else
 		return(print_err("map_error"));
 	i = 0;
 	while(vars->map[i])
+	{
 		printf("%s\n", vars->map[i++]);
-		i++;
+	}
 	return (0);
 }
