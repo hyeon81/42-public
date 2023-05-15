@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/15 21:16:15 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/15 21:47:47 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,25 +131,29 @@ static int worldMap[24][24]=
 };
 
 /* calc.c */
-void make_raycast(t_vars *vars);
+void init_loop_vars(t_vars *vars, int x);
+int	calc_step_sideDist(t_vars *v);
+int make_step(t_vars *v);
+int clac_draw_line(t_vars *v);
+int make_background(t_vars *v);
 
 /* cub3d.c */
+int draw_map(t_vars *v);
 int main_loop(t_vars *vars);
 
 /* draw.c */
-int draw_block(t_vars *v, int x, int y, int color);
-int make_draw_minimap(t_vars *v);
-int make_draw (t_vars *v, int x);
 int make_background(t_vars *v);
+int make_texX(t_vars *v);
+void make_map(t_vars *v, int x, int texX);
 
 /* init.c */
 int init_vars(t_vars *vars);
 void load_tex(t_vars *v);
 
-/* keyevent.c */
+/* move.c */
 int	ft_close(t_vars *vars);
-int key_hook(int keycode, t_vars *vars);
-int make_move(int keycode, t_vars *vars);
-
+int move_forth_back(int keycode, t_vars *v);
+int	move_left_right(int keycode, t_vars *v);
+int make_move(int keycode, t_vars *v);
 
 #endif

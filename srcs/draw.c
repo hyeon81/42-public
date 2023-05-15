@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:01 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/15 21:13:22 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/15 21:48:55 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void make_map(t_vars *v, int x, int texX)
 		y++;
     }
 }
-
 
 int make_draw(t_vars *v, int x)
 {

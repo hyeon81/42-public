@@ -83,23 +83,3 @@ int clac_draw_line(t_vars *v)
 		v->end = v->height - 1;
 	return (0);
 }
-
-
-int main_loop(t_vars *vars)
-{
-	int x;
-
-	x = 0;
-	make_background(vars);
-	/* draw screen */
-	while (x < vars->width)
-	{
-		init_loop_vars(vars, x);
-		calc_step_sideDist(vars);
-		make_step(vars);
-		clac_draw_line(vars);
-		make_draw(vars, x);
-		x++;
-	}
-	return (0);
-}
