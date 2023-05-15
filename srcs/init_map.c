@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:49:07 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/13 02:25:37 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/15 20:56:48 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,79 +31,57 @@ int	count_id(int num, int *check)
 	int	i;
 
 	check[num]++;
-	while (check[num])
-		num++;
-	if (check[num] > 1) //파싱이 한번을 초과 한 경우 에러로 거른다 
+	if (check[num] > 1) //한번을 초과해 중복했을 경우 에러를 내보낸다
 		return (ERROR);
 	return (0);
 }
 
-int	init_color(char *value, t_vars *vars, int type, int *id)
+int	init_color(char *value, t_vars *vars, int type)
 {
 	char	**tmp;
 	int		res;
+	int		num;
+	int		i;
+	int		bit;
 
-	tmp = ft_split(value, ',');
 	res = 0;
-	if(strs_len(tmp) != 3)
-		return(ERROR);
-	while(tmp[i])
+	bit = 16;
+	tmp = ft_split(value, ',');
+	if (strs_len(tmp) != 3 || !tmp[0] || !tmp[1] || !tmp[2])
+		return (ERROR);
+	while (tmp[i])
 	{
-		// 아토이인데 부호가 안되는...핳
+		num = ft_atoi(tmp[i++]);// 범위는 아토이에서 처리해줌
+		if (num < 0)
+			return (ERROR);
+		res += num << bit;
+		bit -= 8;
 	}
-	if(type == C)
+	if (type == C)
 		vars->ceiling_color = res;
-	if(type == F)
+	if (type == F)
 		vars->floor_color = res;
-	*id = type;
+	free_all(tmp);
 	return (0);
 }
 
-static int	color_parse(char *line)
-{
-	char	**str;
-	int		rgb_r;
-	int		rgb_g;
-	int		rgb_b;
-	int		color;
-
-	str = ft_split(line, ',');
-	if (!str || !str[0] || !str[1] || !str[2] || get_strnum(str) != 3)
-	{
-		free_str(str);
-		print_err("Wrong color value\n");
-	}
-	color = 0;
-	rgb_r = change_str_to_int(str[0]); -> 8 -> 0000 0000 0000 1000 0000 0000 0000 0000 
-	rgb_g = change_str_to_int(str[1]);
-	rgb_b = change_str_to_int(str[2]);
-	color = (rgb_r << 16) + (rgb_g << 8) + rgb_b;
-	free_str(str);
-	return (color);
-}
-
-/*
-	int color => 0000 0000 r0000 0000 g0000 0000 b0000 0000
-	r g b
-	r <<< 8 
-	char 1byte 0 255 rgb -> 0-255 -> 0000 0000 0 ~ 255 1111 1111
-*/
-
-int	parse_color( char* color, char *value, t_vars *vars, int *id)
+int	parse_color(char	**identifier, t_vars *vars, int *id)
 {	
-	if (ft_strncmp(color, "F", 2) == 0)
+	if (ft_strncmp(identifier[0], "F", 2) == 0)
 	{
-		if(init_color(value, vars, F, id) == ERROR)
-			return(ERROR);
+		if (init_color(identifier[1], vars, F) == ERROR)
+			return (ERROR);
+		*id = F;
 	}
-	else if (ft_strncmp(color, "C", 2) == 0)
+	else if (ft_strncmp(identifier[0], "C", 2) == 0)
 	{
-		if(init_color(value, vars, C, id) == ERROR)
-			return(ERROR);
+		if (init_color(identifier[1], vars, C) == ERROR)
+			return (ERROR);
+		*id = C;
 	}
 	else
 		return (ERROR);
-	return(0);
+	return (0);
 }
 
 void	parse_direction(char *value, int identifier, t_vars *vars, int *id)
@@ -120,15 +98,15 @@ void	parse_direction(char *value, int identifier, t_vars *vars, int *id)
 		vars->east = value;
 }
 
-int	is_identifier(char	*line, t_vars *vars, int *count, int *check)
+int	set_map(char	*line, t_vars *vars, t_check *check)
 {
 	char	**identifier;
-	int id;
+	int	id;
 
-	// if(*count > 6) 
+	// if(check->count > 6) 
 	// 	return(ERROR);
-	if(*count == 4) //이렇게 처리 하면 이 이상은 증가 할 일이 없음 애매하다잉.. 마지막 옵션이 중복이라면..? 
-		return(0);
+	if (check->count == 4)//이렇게 처리 하면 이 이상은 증가 할 일이 없음 애매하다잉.. 마지막 옵션이 중복이라면..? // 
+		return (0);
 	identifier = ft_split(line, ' '); //탭 등등 추가 해야함...? 아마도..?
 	if (strs_len(identifier) != 2 || identifier[1] == NULL)
 		return (ERROR);
@@ -140,12 +118,13 @@ int	is_identifier(char	*line, t_vars *vars, int *count, int *check)
 		parse_direction(identifier[1], WE, vars, &id);
 	else if (ft_strncmp(identifier[0], "EA", 3) == 0)
 		parse_direction(identifier[1], EA, vars, &id);
+	else if (parse_color(identifier, vars, &id)== ERROR)
+		return (ERROR);
 	else
-		if (parse_color(identifier[0], identifier[1] ,vars, &id)== ERROR)
-			return(ERROR);
-	(*count)++; // identifier가 들어왔다는건 어쨋든 파싱을 한다는것이기에 하나씩 올려줌
-	if (count_id(id, check) == ERROR) //id당 하나만 들어왔는지 체크 아니면 에러
-		return(ERROR);
+		return (ERROR);
+	check->count++;
+	if (count_id(id, check->mapsetting) == ERROR)
+		return (ERROR);
 	return (0);
 }
 
@@ -156,103 +135,161 @@ int ft_is_space(char c) //space만 허용하게 하는건 어떨까
 	return (1);
 }
 
-
-int	check_line(char* line)
-{
-	int i = 0;
-	while(line[i])
-	{
-		if (ft_is_space(line[i]) != 0 && line[i] != '0' && line[i] != '1' && \
-			line[i] != '\n' && line[i] != 'N' && line[i] != 'S' && line[i] != 'W' &&line[i] != 'E') 
-			return(ERROR);
-		if(line[i] == 'N' || line[i] == 'S' || line[i] == 'W' || line[i] == 'E')
-			// count++:
-		i++
-	}
-}
-
-int	parse_line(char *line, char **backup, int* mapflag, int count) // map인경우 파싱
+int	make_line(char *line, char **backup, t_check *check)
 {
 	int		i;
 	char	*tmp;
-
+	
 	i = 0;
-	if(count != 4)
-		return(0);
-	//위치카운트가 1이 아니라면 에러
-	if (*mapflag == 1)
+	while (line[i])
 	{
-		check_line();
-		tmp = *backup;
-		*backup = ft_strjoin(*backup, line);
-		free(tmp);
-		return (0);
-	}
-	while (line[i])//처음에 맵을 만났을 경우 맵이 시작됐다는 플래그를 주기 위해 //맵의 첫줄을 만나기 위한 와일문인데 맵의 첫줄은 무조건 1이여야함
-	{
-		printf("line check = %c\n", line[i]);
-		// if (ft_is_space(line[i]) != 0 && line[i] != '0' && line[i] != '1' && \
-		// line[i] != '\n' && line[i] != 'N' && line[i] != 'S' && line[i] != 'W' &&line[i] != 'E') 
-		// 	return (ERROR); //위치 또한 한개가 아니라면 리턴
-		if (line[i] == '1') //1과 공백으로만 이루어져있다면 첫줄은 유효한 맵의 시작
-				*mapflag = 1;
+		if (ft_is_space(line[i]) != 0 && line[i] != '0' && line[i] != '1' && \
+			line[i] != '\n' && line[i] != 'N' && line[i] != 'S' && line[i] != \
+			'W' && line[i] != 'E')
+			return (ERROR);
+		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'W' || line[i] == 'E')
+			check->path_count++;
 		i++;
 	}
-	if (!*mapflag)
-		return (0);
 	tmp = *backup;
 	*backup = ft_strjoin(*backup, line);
 	free(tmp);
-	return(0);
+	return (0);
 }
 
-int	init_map(t_vars *vars, char *filename)
+int	parse_line(char *line, char **backup, t_check *check)
 {
-	int		fd;
-	int	    i;
-	char	*backup;
-	char	*line;
-	int		mapflag;
-
-	int		count;
-	int		*check;	
+	int	i;
 
 	i = 0;
-	count = 0;
-	mapflag = 0;
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (print_err("Failed to open file.\n"));
+	if (check->count != 4)
+		return (0);
+	if (check->mapflag == 1)
+	{
+		if (make_line(line, backup, check) == ERROR)
+			return (ERROR);
+		return (0);	
+	}
+	while (line[i])
+	{
+		// printf("line check = %c\n", line[i]);
+		if (line[i++] == '1')
+		{
+			check->mapflag = 1;
+			if (make_line(line, backup, check) == ERROR)
+				return (ERROR);
+		}
+	}
+	return (0);
+}
+
+
+int read_line(t_check *check)
+{
+	char	*line;
+
 	backup = NULL;
-	check = ft_calloc(sizeof(int), 6);	
 	while (1)
 	{
 		line = get_next_line(fd);
-		printf("line = %s \n" , line);
 		if (line == NULL) // 그럼 에러일 경우엔? 다 읽었을때
 			break ;
 		if (backup == NULL)
 			backup = ft_strdup("");
-		if (parse_line(line , &backup, &mapflag, count) == ERROR)
+		if (parse_line(line , &backup, &check) == ERROR)
 			return (ERROR);
-		if (is_identifier(line, vars, &count, check) == ERROR) //파스라인 한줄로 받고 스플릿 하자
+		if (set_map(line, vars, &check) == ERROR) //파스라인 한줄로 받고 스플릿 하자
 			return (ERROR);
 		free(line);
-		i++;
 	}
-	printf("map = \n%s\n", backup);
-	close(fd);
-	if(backup)
+	return (0);
+}
+
+int	init_map(t_vars	*vars, char	*filename)
+{
+	int		fd;
+	char	*backup;
+	char	*line;
+	t_check	check;
+
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		return (print_err("Failed to open file.\n"));
+	check.mapsetting = ft_calloc(sizeof(int), 6);
+	ft_memset(vars, 0, sizeof(t_vars));
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL) // 그럼 에러일 경우엔? 다 읽었을때
+			break ;
+		if (backup == NULL)
+			backup = ft_strdup("");
+		if (parse_line(line , &backup, &check) == ERROR)
+			return (ERROR);
+		if (set_map(line, vars, &check) == ERROR) //파스라인 한줄로 받고 스플릿 하자
+			return (ERROR);
+		free(line);
+	}
+	close (fd);
+	if (backup)
 	{
 		vars->map = ft_map_split(backup, '\n');
 		free(backup);
 	}
 	else
-		return(print_err("map_error"));
-	i = 0;
+		return (print_err("map_error"));
+
+	int i = 0;
 	while(vars->map[i])
 	{
 		printf("%s\n", vars->map[i++]);
 	}
 	return (0);
 }
+
+
+
+
+
+// int	init_map(t_vars	*vars, char	*filename)
+// {
+// 	int		fd;
+// 	char	*backup;
+// 	char	*line;
+// 	t_check	check;
+
+// 	fd = open(filename, O_RDONLY);
+// 	if (fd < 0)
+// 		return (print_err("Failed to open file.\n"));
+// 	backup = NULL;
+// 	check.mapsetting = ft_calloc(sizeof(int), 6);
+// 	ft_memset(vars, 0, sizeof(t_vars));
+// 	while (1)
+// 	{
+// 		line = get_next_line(fd);
+// 		if (line == NULL) // 그럼 에러일 경우엔? 다 읽었을때
+// 			break ;
+// 		if (backup == NULL)
+// 			backup = ft_strdup("");
+// 		if (parse_line(line , &backup, &check) == ERROR)
+// 			return (ERROR);
+// 		if (set_map(line, vars, &check) == ERROR) //파스라인 한줄로 받고 스플릿 하자
+// 			return (ERROR);
+// 		free(line);
+// 	}
+// 	close (fd);
+// 	if (backup)
+// 	{
+// 		vars->map = ft_map_split(backup, '\n');
+// 		free(backup);
+// 	}
+// 	else
+// 		return (print_err("map_error"));
+
+// 	int i = 0;
+// 	while(vars->map[i])
+// 	{
+// 		printf("%s\n", vars->map[i++]);
+// 	}
+// 	return (0);
+// }
