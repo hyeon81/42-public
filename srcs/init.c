@@ -16,7 +16,6 @@ void load_img(t_vars *v, int *tex, char *path, t_img *img)
             x++;
         }
         y++;
-            
     }
 }
 
@@ -31,57 +30,72 @@ void load_tex(t_vars *v)
 	v->img.ptr = mlx_new_image(v->mlx, v->width, v->height);
 	v->img.data = (int *)mlx_get_data_addr(v->img.ptr, &v->img.bpp, &v->img.size_l, &v->img.endian);
 }
+
+void init_dir(int posDir, double *dirX, double *dirY, double *planeX, double *planeY)
+{
+    if(posDir == E)
+    {
+        *dirX = 1;
+        *dirY = 0;
+        *planeX = 0;
+        *planeY = -0.66;
+    }
+    else if (posDir == W)
+    {
+        *dirX = -1;
+        *dirY = 0;
+        *planeX = 0;
+        *planeY = 0.66;
+    }
+    else if(posDir == S)
+    {
+        *dirX = 0;
+        *dirY = -1;
+        *planeX = -0.66;
+        *planeY = 0;
+    }
+    else
+    {
+        *dirX = 0;
+        *dirY = 1;
+        *planeX = 0.66;
+        *planeY = 0;
+    }
+}
+
 int init_vars(t_vars *vars)
 {
 	/* raycast */
     vars->posX = 12;
     vars->posY = 12;
-    vars->dirX = -1;
-    vars->dirY = 0; 
-    vars->planeX = 0;
-    vars->planeY = 0.66; 
     vars->time = 0; 
     vars->oldTime = 0; 
-    vars->moveSpeed = 0.5;
-    vars->rotateSpeed = 0.1;
+    vars->moveSpeed = 0.4;
+    vars->rotateSpeed = 0.05;
 
 	/* info */
 	vars->row = 24;
 	vars->col = 24;
 	vars->width = 480;
 	vars->height = 360;
-	vars->texture[0].tex = 0x90F564;
-	vars->texture[1].tex = 0x7178F5;
-	vars->texture[2].tex = 0xF5F558;
-	vars->texture[3].tex = 0xF540E9;
 
+    vars->posDir = E;
+    init_dir(vars->posDir, &(vars->dirX), &(vars->dirY), &(vars->planeX), &(vars->planeY));
 	/* mlx */
     vars->mlx = mlx_init();
 	vars->win = mlx_new_window(vars->mlx, vars->width, vars->height, "Cub3d");
 
 	int i = 0;
 	int j;
-    
-    int x;
-    int y;
-    int color;
 
-    y = 0;
-	while (y < HEIGHT) 
-	{
-        x = 0;
-        while (x < WIDTH)
-        {
-            if (y < HEIGHT / 2)
-                color = 0x0067a3;
-            else
-                color = 0x964b00;
-		    vars->buf[y][x] = color;
-            x++;
-        }
-		y++;
-	}
 	vars->tex = (int **)malloc(sizeof(int *) * 4);
+	vars->buf = (int **)malloc(sizeof(int *) * HEIGHT);
+    i = 0;
+    while (i < HEIGHT)
+	{
+		vars->buf[i] = (int *)malloc(sizeof(int) * (WIDTH));
+		i++;
+	}
 	i = 0;
 	while (i < 4)
 	{

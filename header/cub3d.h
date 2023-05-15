@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/13 20:42:05 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/15 20:34:58 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 # include <math.h>
 
 # define ESC 53
-# define W 13
-# define A 0
-# define S 1
-# define D 2
+# define KEY_W 13
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
 # define ON_DESTROY 17
 # define IMG_W 64
 # define IMG_H 64
@@ -31,6 +31,13 @@
 # define WIDTH 480
 # define HEIGHT 360
 # define TILE_SIZE 5
+
+enum Spawn {
+	N,
+	S,
+	W,
+	E
+};
 
 typedef struct s_img
 {
@@ -42,13 +49,6 @@ typedef struct s_img
 	int			bpp;
 	int			endian;
 }				t_img;
-
-typedef struct  s_tex
-{
-    char		*path;
-    int			tex;
-}               t_tex;
-
 
 typedef struct s_vars
 {
@@ -88,9 +88,9 @@ typedef struct s_vars
 	int		lineHeight;
 	int		start;
 	int		end;
-	int		buf[HEIGHT][WIDTH];
+	int		**buf;
 	int		**tex;
-
+	int		posDir; //spawn dir
 	int	width;
 	int	height;
 	//스크린 넓이
@@ -99,7 +99,6 @@ typedef struct s_vars
 	int col;
 	//맵 크기 (row가 가로 크기, col이 세로 크기)
 
-	t_tex   texture[4]; //동서남북 텍스쳐
     int         f_color; //바닥 색상
     int         c_color; //천장 색상
 }t_vars;
@@ -142,6 +141,7 @@ int main_loop(t_vars *vars);
 int draw_block(t_vars *v, int x, int y, int color);
 int make_draw_minimap(t_vars *v);
 int make_draw (t_vars *v, int x);
+int fill_bg (t_vars *v);
 
 /* init.c */
 int init_vars(t_vars *vars);

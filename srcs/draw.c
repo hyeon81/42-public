@@ -32,7 +32,6 @@ int make_texX(t_vars *v)
     else
         wallX = v->posX + v->perpWallDist * v->rayDirX;
     wallX -= floor(wallX);
-
     int texX = (int)(wallX * (double)TEX_W);
     if (v->side == 0 && v->rayDirX > 0)
         texX = TEX_W - texX - 1;
@@ -49,14 +48,13 @@ void fill_buf(t_vars *v, int x, int texX)
     int y = v->start;
     int texY;
     int tex_num;
-    // fill_bg(v);
     while (y < v->end)
     {
 		texY = (int)texPos & (TEX_H - 1);
 		texPos += step;
-		if (v->rayDirX < 0 && v->side == 0) //east
+        if (v->rayDirX > 0 && v->side == 0) //east
 			tex_num = 0;
-		else if (v->rayDirX > 0 && v->side == 0) //west
+		else if (v->rayDirX < 0 && v->side == 0) //west
 			tex_num = 1;
 		else if (v->rayDirY < 0 && v->side == 1) //south
 			tex_num = 2;
@@ -85,6 +83,7 @@ void draw_map(t_vars *v)
     }
     mlx_put_image_to_window(v->mlx, v->win, v->img.ptr, 0, 0);
 }
+
 
 int make_draw(t_vars *v, int x)
 {

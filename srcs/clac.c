@@ -6,14 +6,9 @@ void init_loop_vars(t_vars *vars, int x)
 	vars->cameraX = 2 * x / (double)vars->width - 1; //카메라 평면에서 차지하는 x좌표
 	vars->rayDirX = vars->dirX + vars->planeX * vars->cameraX; //광선의 방향 벡터
 	vars->rayDirY = vars->dirY + vars->planeY * vars->cameraX;
-	// printf("[%d] ", x);
-	// printf("vars->cameraX: %f | ", vars->cameraX);
-	// printf("vars->rayDirX: %f | ", vars->rayDirX);
-	// printf("vars->rayDirY: %f | ", vars->rayDirY);
-	// printf("\n");
 	vars->mapX = (int)vars->posX;
 	vars->mapY = (int)vars->posY;
-	if (vars->rayDirX == 0) //언제 광선이 0이 될까요...?
+	if (vars->rayDirX == 0) 
 		vars->deltaDistX = 0;
 	else
 		vars->deltaDistX = fabs(1 / vars->rayDirX);
@@ -95,6 +90,8 @@ int main_loop(t_vars *vars)
 	int x;
 
 	x = 0;
+    fill_bg(vars);
+	/* draw screen */
 	while (x < vars->width)
 	{
 		init_loop_vars(vars, x);
@@ -102,7 +99,6 @@ int main_loop(t_vars *vars)
 		make_step(vars);
 		clac_draw_line(vars);
 		make_draw(vars, x);
-		// make_draw_minimap(vars);
 		x++;
 	}
 	return (0);
