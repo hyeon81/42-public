@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/15 20:34:58 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/15 21:16:15 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_vars
 {
 	void	*mlx;
 	void	*win;
-	t_img	img;
+	t_img	map_img;
 	t_img	mini;
 
 	/* info */
@@ -88,7 +88,6 @@ typedef struct s_vars
 	int		lineHeight;
 	int		start;
 	int		end;
-	int		**buf;
 	int		**tex;
 	int		posDir; //spawn dir
 	int	width;
@@ -141,7 +140,7 @@ int main_loop(t_vars *vars);
 int draw_block(t_vars *v, int x, int y, int color);
 int make_draw_minimap(t_vars *v);
 int make_draw (t_vars *v, int x);
-int fill_bg (t_vars *v);
+int make_background(t_vars *v);
 
 /* init.c */
 int init_vars(t_vars *vars);

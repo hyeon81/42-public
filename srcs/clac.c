@@ -90,7 +90,7 @@ int main_loop(t_vars *vars)
 	int x;
 
 	x = 0;
-    fill_bg(vars);
+	make_background(vars);
 	/* draw screen */
 	while (x < vars->width)
 	{

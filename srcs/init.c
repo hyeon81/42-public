@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/15 20:54:12 by hyeokim2          #+#    #+#             */
+/*   Updated: 2023/05/15 21:13:45 by hyeokim2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void load_img(t_vars *v, int *tex, char *path, t_img *img)
@@ -27,8 +39,8 @@ void load_tex(t_vars *v)
     load_img(v, v->tex[1], "./texture/wall_2.xpm", &img);
     load_img(v, v->tex[2], "./texture/wall_3.xpm", &img);
     load_img(v, v->tex[3], "./texture/wall_4.xpm", &img);
-	v->img.ptr = mlx_new_image(v->mlx, v->width, v->height);
-	v->img.data = (int *)mlx_get_data_addr(v->img.ptr, &v->img.bpp, &v->img.size_l, &v->img.endian);
+	v->map_img.ptr = mlx_new_image(v->mlx, v->width, v->height);
+	v->map_img.data = (int *)mlx_get_data_addr(v->map_img.ptr, &v->map_img.bpp, &v->map_img.size_l, &v->map_img.endian);
 }
 
 void init_dir(int posDir, double *dirX, double *dirY, double *planeX, double *planeY)
@@ -89,13 +101,6 @@ int init_vars(t_vars *vars)
 	int j;
 
 	vars->tex = (int **)malloc(sizeof(int *) * 4);
-	vars->buf = (int **)malloc(sizeof(int *) * HEIGHT);
-    i = 0;
-    while (i < HEIGHT)
-	{
-		vars->buf[i] = (int *)malloc(sizeof(int) * (WIDTH));
-		i++;
-	}
 	i = 0;
 	while (i < 4)
 	{

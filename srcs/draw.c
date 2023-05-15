@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/15 20:54:01 by hyeokim2          #+#    #+#             */
+/*   Updated: 2023/05/15 21:13:22 by hyeokim2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
-int fill_bg (t_vars *v)
+int make_background(t_vars *v)
 {
     int x;
     int y;
@@ -16,7 +28,7 @@ int fill_bg (t_vars *v)
                 color = 0x0067a3;
             else
                 color = 0x964b00;
-		    v->buf[y][x] = color;
+		    v->map_img.data[y * WIDTH + x] = color;
             x++;
         }
 		y++;
@@ -40,7 +52,7 @@ int make_texX(t_vars *v)
     return (texX);
 }
 
-void fill_buf(t_vars *v, int x, int texX)
+void make_map(t_vars *v, int x, int texX)
 {
     double step = 1.0 * TEX_H / v->lineHeight;
     double texPos = (v->start - (v->height / 2) + (v->lineHeight / 2)) * step;
@@ -60,28 +72,9 @@ void fill_buf(t_vars *v, int x, int texX)
 			tex_num = 2;
 		else //north
 			tex_num = 3;
-		v->buf[y][x] = v->tex[tex_num][TEX_H * texY + texX];
+		v->map_img.data[y * WIDTH + x] = v->tex[tex_num][TEX_H * texY + texX];
 		y++;
     }
-}
-
-void draw_map(t_vars *v)
-{
-    int y;
-    int x;
-
-    y = 0;
-    while (y < HEIGHT)
-    {
-        x = 0;
-        while (x < WIDTH)
-        {
-            v->img.data[y * WIDTH + x] = v->buf[y][x];
-            x++;
-        }
-        y++;
-    }
-    mlx_put_image_to_window(v->mlx, v->win, v->img.ptr, 0, 0);
 }
 
 
@@ -90,7 +83,6 @@ int make_draw(t_vars *v, int x)
     int texX;
 
     texX = make_texX(v);
-    fill_buf(v, x, texX);
-    draw_map(v);
+    make_map(v, x, texX);
     return (0);
 }
