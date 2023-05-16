@@ -6,7 +6,7 @@
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/15 20:28:26 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/16 16:09:59 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,41 +16,41 @@
 int	print_err(char	*str)
 {
 	write(1, str, ft_strlen(str)); // ㅇㅔ러를 내보내야하나
-	return(ERROR);
-	// exit(-1);
+	return(-1);
+	exit(-1);
 }
 
-// int	close(t_vars *vars)
-// {
-// 	//창 뿌수고 종료
-// 	mlx_destroy_window(vars->mlx, vars->win);
-// 	exit(0);
-// }
-
-// void print_map(t_vars *vars)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	printf("north = %s\n", vars->north);
-// 	printf("south = %s\n", vars->south);
-// 	printf("west = %s\n", vars->west);
-// 	printf("east = %s\n", vars->east);
-
-// 	// printf("----map-----\n");
-// 	// while(vars->map[i])
-// 	// 	printf("%s\n", vars->map[i]);
-// }
-
-// void	leaks()
-// {
-// 	system("leaks cub3D");
-// }
-
-void	init_info(t_vars	*vars , char	*filename)
+int	exit_with_err(char	*str)
 {
+	write(1, str, ft_strlen(str));
+	exit(-1);
+}
+
+int	check_arg(int argc, char *filename)
+{
+	int	name_len;
+
+	name_len = ft_strlen(filename);
+	if (name_len <= 4)
+		return (ERROR);
+	if (filename[name_len - 1] != 'b' || filename[name_len - 2] != 'u' \
+	|| filename[name_len - 3] != 'c' || filename[name_len - 4] != '.')
+		return (ERROR);
+	return (0);
+}
+
+
+void	init_info(t_vars	*vars, char	*filename)
+{
+	int		fd;
+	t_check	check;
+
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		exit_with_err("Failed to open file.\n");
+	check.mapset = ft_calloc(sizeof(int), 6);
 	ft_memset(vars, 0, sizeof(t_vars));
-	init_map(vars, filename);
+	init_map(vars, fd, &check);
 }
 
 int	main(int argc, char **argv)
@@ -59,11 +59,9 @@ int	main(int argc, char **argv)
 
 	// atexit(leaks);
 	if (argc != 2 || check_arg(argc, argv[1]))
-	{
-		print_err("Invalid filetype\n");
-		return (ERROR);
-	}
+		exit_with_err("Invalid filetype\n");
 	init_info(&vars, argv[1]);
+
 	// print_map(&vars);
 	//앞 뒤 양 옆  구현(key)
 	//재질과 스프라이트

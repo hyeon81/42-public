@@ -6,7 +6,7 @@
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/15 20:57:02 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/16 16:03:36 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ typedef enum e_identifier_type
 
 typedef struct s_check
 {
-	int *mapsetting; //중복 체크
-	int *mapsetting;
+	int *mapset;
 	int path_count;
 	int count;
 	int mapflag;
@@ -85,17 +84,21 @@ typedef struct s_vars
 
 
 
-int	init_map(t_vars *vars, char *filename);
-void	*ft_memset(void *b, int c, size_t len);
-int	check_arg(int argc, char *filename);
-char	**ft_split(char const *s, char c);
-static char	**free_all(char **arr);
-int	ft_strncmp(const char *s1, const char *s2, size_t len);
-int	strs_len(char	**strs);
-void	*ft_calloc(size_t count, size_t size);
-int	print_err(char	*str);
-char	**split_for_map(char const *s, char c);
-int	ft_atoi(const char *str);
+int			init_map(t_vars	*vars, int fd, t_check *check);
+void		*ft_memset(void *b, int c, size_t len);
+int			check_arg(int argc, char *filename);
+char		**ft_split(char const *s, char c);
+char	**free_all(char **arr);
+int			ft_strncmp(const char *s1, const char *s2, size_t len);
+int			strs_len(char	**strs);
+void		*ft_calloc(size_t count, size_t size);
+int			print_err(char	*str);
+char		**split_for_map(char const *s, char c);
+int			ft_atoi(const char *str);
+int 		set_map(char	*line, t_vars *vars, t_check *check);
+
+
+
 
 
 

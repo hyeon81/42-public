@@ -6,7 +6,7 @@
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 14:36:20 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/10 15:49:25 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/16 16:03:41 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*ft_strdup_for_split(char const *str, int len)
 	return (copy);
 }
 
-static char	**free_all(char **arr)
+char	**free_all(char **arr)
 {
 	int	i;
 

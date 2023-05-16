@@ -6,127 +6,12 @@
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:49:07 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/15 20:56:48 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/16 17:20:21 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "stdio.h"
-
-int	check_arg(int argc, char *filename)
-{
-	int	name_len;
-
-	name_len = ft_strlen(filename);
-	if (name_len <= 4)
-		return (ERROR);
-	if (filename[name_len - 1] != 'b' || filename[name_len - 2] != 'u' \
-	|| filename[name_len - 3] != 'c' || filename[name_len - 4] != '.')
-		return (ERROR);
-	return (0);
-}
-
-int	count_id(int num, int *check)
-{
-	int	i;
-
-	check[num]++;
-	if (check[num] > 1) //한번을 초과해 중복했을 경우 에러를 내보낸다
-		return (ERROR);
-	return (0);
-}
-
-int	init_color(char *value, t_vars *vars, int type)
-{
-	char	**tmp;
-	int		res;
-	int		num;
-	int		i;
-	int		bit;
-
-	res = 0;
-	bit = 16;
-	tmp = ft_split(value, ',');
-	if (strs_len(tmp) != 3 || !tmp[0] || !tmp[1] || !tmp[2])
-		return (ERROR);
-	while (tmp[i])
-	{
-		num = ft_atoi(tmp[i++]);// 범위는 아토이에서 처리해줌
-		if (num < 0)
-			return (ERROR);
-		res += num << bit;
-		bit -= 8;
-	}
-	if (type == C)
-		vars->ceiling_color = res;
-	if (type == F)
-		vars->floor_color = res;
-	free_all(tmp);
-	return (0);
-}
-
-int	parse_color(char	**identifier, t_vars *vars, int *id)
-{	
-	if (ft_strncmp(identifier[0], "F", 2) == 0)
-	{
-		if (init_color(identifier[1], vars, F) == ERROR)
-			return (ERROR);
-		*id = F;
-	}
-	else if (ft_strncmp(identifier[0], "C", 2) == 0)
-	{
-		if (init_color(identifier[1], vars, C) == ERROR)
-			return (ERROR);
-		*id = C;
-	}
-	else
-		return (ERROR);
-	return (0);
-}
-
-void	parse_direction(char *value, int identifier, t_vars *vars, int *id)
-{	
-	*id = identifier;
-
-	if (*id == NO)
-		vars->north = value;
-	else if (*id == SO)
-		vars->south = value;
-	else if (*id == WE)
-		vars->west = value;
-	else if (*id == EA)
-		vars->east = value;
-}
-
-int	set_map(char	*line, t_vars *vars, t_check *check)
-{
-	char	**identifier;
-	int	id;
-
-	// if(check->count > 6) 
-	// 	return(ERROR);
-	if (check->count == 4)//이렇게 처리 하면 이 이상은 증가 할 일이 없음 애매하다잉.. 마지막 옵션이 중복이라면..? // 
-		return (0);
-	identifier = ft_split(line, ' '); //탭 등등 추가 해야함...? 아마도..?
-	if (strs_len(identifier) != 2 || identifier[1] == NULL)
-		return (ERROR);
-	if (ft_strncmp(identifier[0], "NO", 3) == 0)//들어온 인자와  identifier가 일치 하다면 밑에서 쓰일 id(flag check 용도)와 함께 파싱함수로 들어감
-		parse_direction(identifier[1], NO, vars, &id);
-	else if (ft_strncmp(identifier[0], "SO", 3) == 0)
-		parse_direction(identifier[1], SO, vars, &id);
-	else if (ft_strncmp(identifier[0], "WE", 3) == 0)
-		parse_direction(identifier[1], WE, vars, &id);
-	else if (ft_strncmp(identifier[0], "EA", 3) == 0)
-		parse_direction(identifier[1], EA, vars, &id);
-	else if (parse_color(identifier, vars, &id)== ERROR)
-		return (ERROR);
-	else
-		return (ERROR);
-	check->count++;
-	if (count_id(id, check->mapsetting) == ERROR)
-		return (ERROR);
-	return (0);
-}
+#include <stdio.h>
 
 int ft_is_space(char c) //space만 허용하게 하는건 어떨까
 {
@@ -162,7 +47,7 @@ int	parse_line(char *line, char **backup, t_check *check)
 	int	i;
 
 	i = 0;
-	if (check->count != 4)
+	if (check->count != 6)
 		return (0);
 	if (check->mapflag == 1)
 	{
@@ -172,7 +57,6 @@ int	parse_line(char *line, char **backup, t_check *check)
 	}
 	while (line[i])
 	{
-		// printf("line check = %c\n", line[i]);
 		if (line[i++] == '1')
 		{
 			check->mapflag = 1;
@@ -183,73 +67,54 @@ int	parse_line(char *line, char **backup, t_check *check)
 	return (0);
 }
 
-
-int read_line(t_check *check)
+void	print(t_vars *vars)
 {
-	char	*line;
-
-	backup = NULL;
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (line == NULL) // 그럼 에러일 경우엔? 다 읽었을때
-			break ;
-		if (backup == NULL)
-			backup = ft_strdup("");
-		if (parse_line(line , &backup, &check) == ERROR)
-			return (ERROR);
-		if (set_map(line, vars, &check) == ERROR) //파스라인 한줄로 받고 스플릿 하자
-			return (ERROR);
-		free(line);
-	}
-	return (0);
+	int	i = 0;
+	while (vars->map[i])
+		printf("%s\n", vars->map[i++]);
+	printf("north = %s\n", vars->north);
+	printf("south = %s\n", vars->south);
+	printf("west = %s\n", vars->west);
+	printf("east = %s\n", vars->east);
+	printf("floorcolor = %d\n", vars->floor_color);
+	printf("ceiling_color = %d\n", vars->ceiling_color);
 }
 
-int	init_map(t_vars	*vars, char	*filename)
+int	init_map(t_vars	*vars, int fd, t_check *check)
 {
-	int		fd;
 	char	*backup;
 	char	*line;
-	t_check	check;
 
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (print_err("Failed to open file.\n"));
-	check.mapsetting = ft_calloc(sizeof(int), 6);
-	ft_memset(vars, 0, sizeof(t_vars));
 	while (1)
 	{
 		line = get_next_line(fd);
-		if (line == NULL) // 그럼 에러일 경우엔? 다 읽었을때
+		//printf("line = %s", line);
+		if (line == NULL)
 			break ;
 		if (backup == NULL)
 			backup = ft_strdup("");
-		if (parse_line(line , &backup, &check) == ERROR)
+		if (parse_line(line, &backup, check) == ERROR)
 			return (ERROR);
-		if (set_map(line, vars, &check) == ERROR) //파스라인 한줄로 받고 스플릿 하자
+		printf("count = %d\n", check->count);
+		if (set_map(line, vars, check) == ERROR) //파스라인 한줄로 받고 스플릿 하자
+		{
+			printf("error\n");
 			return (ERROR);
-		free(line);
+		}
+		free (line);
 	}
-	close (fd);
+	close(fd);
+	free(check->mapset);
 	if (backup)
 	{
-		vars->map = ft_map_split(backup, '\n');
+		vars->map = split_for_map(backup, '\n');
 		free(backup);
 	}
 	else
 		return (print_err("map_error"));
-
-	int i = 0;
-	while(vars->map[i])
-	{
-		printf("%s\n", vars->map[i++]);
-	}
+	print(vars);
 	return (0);
 }
-
-
-
-
 
 // int	init_map(t_vars	*vars, char	*filename)
 // {
@@ -293,3 +158,25 @@ int	init_map(t_vars	*vars, char	*filename)
 // 	}
 // 	return (0);
 // }
+
+
+// 0 : 빈 공간
+// 1 : 벽
+// 공백 : 존재하지 않는 공간
+// N, S, W or E : 플레이어의 초기 위치 및 시점
+// 위 4가지 요소 이외의 정보가 있다면 유효하지 않은 map이다.
+// map은 벽으로 둘러쌓여 있어야 한다.
+// map 정보는 파일의 가장 마지막에 있어야 한다.
+// 플레이어의 위치 정보(N, S, W or E)는 하나만 존재해야 한다.
+// 플레이어의 위치 기준 동서남북엔 0 또는 1만 올 수 있다.
+// 공백 기준 동서남북엔 공백 또는 1만 올 수 있다.
+// -> 공백은 오직 1하고만 맞닿을 수 있다.
+
+
+// Map : 한 줄 단위로 유효한 map인지 확인한다.
+// 테두리가 벽(1)으로 둘러 쌓여있는지
+// 0, 1, 공백, pos(플레이어의 초기 위치 및 시선)로만 이루어져 있는지
+// pos정보는 하나만 있는지
+// 나머지 정보는 배열에 옮겨 담고 확인
+// map의 가로 최댓값, 세로 최댓값 구하기
+// map의 정보를 linked list에 저장
