@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:49:07 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/16 17:20:21 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/17 02:14:24 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ int	make_line(char *line, char **backup, t_check *check)
 	i = 0;
 	while (line[i])
 	{
-		if (ft_is_space(line[i]) != 0 && line[i] != '0' && line[i] != '1' && \
+		if (line[i] != ' ' && line[i] != '0' && line[i] != '1' && \
 			line[i] != '\n' && line[i] != 'N' && line[i] != 'S' && line[i] != \
-			'W' && line[i] != 'E')
-			return (ERROR);
+			'W' && line[i] != 'E') //공백부분도 맵이니 띄어쓰기만 가능 
+			exit_with_err("나다임다\n");
 		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'W' || line[i] == 'E')
 			check->path_count++;
 		i++;
@@ -52,16 +52,23 @@ int	parse_line(char *line, char **backup, t_check *check)
 	if (check->mapflag == 1)
 	{
 		if (make_line(line, backup, check) == ERROR)
-			return (ERROR);
+			exit_with_err("make_line1\n");
 		return (0);	
 	}
+	/*
+	1. 개행인경우 : \n
+	2. 이상한놈인 경우
+	3. map
+	*/
+
 	while (line[i])
 	{
-		if (line[i++] == '1')
+		if (ft_is_space(line[i++]) != 0) //공백이 아닌걸 만나면 
 		{
 			check->mapflag = 1;
 			if (make_line(line, backup, check) == ERROR)
-				return (ERROR);
+				exit_with_err("make_line2\n");
+			break ;
 		}
 	}
 	return (0);
@@ -70,6 +77,7 @@ int	parse_line(char *line, char **backup, t_check *check)
 void	print(t_vars *vars)
 {
 	int	i = 0;
+	printf("------map------\n");
 	while (vars->map[i])
 		printf("%s\n", vars->map[i++]);
 	printf("north = %s\n", vars->north);
@@ -78,6 +86,7 @@ void	print(t_vars *vars)
 	printf("east = %s\n", vars->east);
 	printf("floorcolor = %d\n", vars->floor_color);
 	printf("ceiling_color = %d\n", vars->ceiling_color);
+	printf("---------------\n");
 }
 
 int	init_map(t_vars	*vars, int fd, t_check *check)
@@ -85,20 +94,20 @@ int	init_map(t_vars	*vars, int fd, t_check *check)
 	char	*backup;
 	char	*line;
 
+	backup = NULL;
+
 	while (1)
 	{
 		line = get_next_line(fd);
-		//printf("line = %s", line);
 		if (line == NULL)
 			break ;
 		if (backup == NULL)
 			backup = ft_strdup("");
 		if (parse_line(line, &backup, check) == ERROR)
-			return (ERROR);
-		printf("count = %d\n", check->count);
+			exit_with_err("parse_line error\n");
 		if (set_map(line, vars, check) == ERROR) //파스라인 한줄로 받고 스플릿 하자
 		{
-			printf("error\n");
+			write(1, "error\n", 6);
 			return (ERROR);
 		}
 		free (line);
@@ -180,3 +189,13 @@ int	init_map(t_vars	*vars, int fd, t_check *check)
 // 나머지 정보는 배열에 옮겨 담고 확인
 // map의 가로 최댓값, 세로 최댓값 구하기
 // map의 정보를 linked list에 저장
+
+
+/*
+
+F ,,
+F 12,  11  11 , 34
+F 1,2,3
+F -1,23,123
+
+*/
