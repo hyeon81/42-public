@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/15 21:47:47 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/16 17:23:06 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,11 @@
 # define KEY_S 1
 # define KEY_D 2
 # define ON_DESTROY 17
-# define IMG_W 64
-# define IMG_H 64
 # define TEX_W 64
 # define TEX_H 64
 # define WIDTH 480
 # define HEIGHT 360
-# define TILE_SIZE 5
+# define TILE_SIZE 4
 
 enum Spawn {
 	N,
@@ -50,14 +48,38 @@ typedef struct s_img
 	int			endian;
 }				t_img;
 
+typedef struct s_coord
+{
+	double x;
+	double y;
+}t_coord;
+
+typedef struct s_raycast
+{
+	t_coord sideDist;
+	t_coord deltaDist;
+	t_coord mapPos;
+	t_coord step;
+	t_coord rayDir;
+	
+	double	perpWallDist;
+	int		lineHeight;
+	int		start;
+	int		end;
+}t_raycast;
+
 typedef struct s_vars
 {
 	void	*mlx;
 	void	*win;
 	t_img	map_img;
-	t_img	mini;
+	int		**tex;
 
 	/* info */
+	t_coord pos;
+	t_coord dir;
+	t_coord plane;
+
 	double posX; //플레잉어의 초기 위치 벡터
 	double posY; 
 	double dirX; //플레이어의 초기 방향 벡터
@@ -66,8 +88,8 @@ typedef struct s_vars
 	double planeY;
 	double	moveSpeed;
 	double	rotateSpeed;
-	double	time;
-	double	oldTime; //time of previous frame.
+	// double	time;
+	// double	oldTime; //time of previous frame.
 	//둘의 시간차를 통해 특정 키를 눌렀을때 (일정한 속도로 움직이기 위해) 이동거리를 결정하고 FPS를 측정하는데 사용
 
 	/* raycast */
@@ -88,7 +110,6 @@ typedef struct s_vars
 	int		lineHeight;
 	int		start;
 	int		end;
-	int		**tex;
 	int		posDir; //spawn dir
 	int	width;
 	int	height;
@@ -145,6 +166,7 @@ int main_loop(t_vars *vars);
 int make_background(t_vars *v);
 int make_texX(t_vars *v);
 void make_map(t_vars *v, int x, int texX);
+int make_draw(t_vars *v, int x);
 
 /* init.c */
 int init_vars(t_vars *vars);
@@ -155,5 +177,8 @@ int	ft_close(t_vars *vars);
 int move_forth_back(int keycode, t_vars *v);
 int	move_left_right(int keycode, t_vars *v);
 int make_move(int keycode, t_vars *v);
+
+/* minimap */
+int make_draw_minimap(t_vars *v);
 
 #endif

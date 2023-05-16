@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/15 21:40:17 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:58:10 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int draw_map(t_vars *v)
 {
+	make_draw_minimap(v);
     mlx_put_image_to_window(v->mlx, v->win, v->map_img.ptr, 0, 0);
 	return (0);
 }

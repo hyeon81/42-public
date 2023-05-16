@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:12 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/15 21:13:45 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/16 17:17:52 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ void load_tex(t_vars *v)
 	v->map_img.data = (int *)mlx_get_data_addr(v->map_img.ptr, &v->map_img.bpp, &v->map_img.size_l, &v->map_img.endian);
 }
 
+void set_coord(t_coord *v, double x, double y)
+{
+    v->x = x;
+    v->y = y;
+}
+
 void init_dir(int posDir, double *dirX, double *dirY, double *planeX, double *planeY)
 {
     if(posDir == E)
@@ -75,36 +81,34 @@ void init_dir(int posDir, double *dirX, double *dirY, double *planeX, double *pl
     }
 }
 
-int init_vars(t_vars *vars)
+int init_vars(t_vars *v)
 {
 	/* raycast */
-    vars->posX = 12;
-    vars->posY = 12;
-    vars->time = 0; 
-    vars->oldTime = 0; 
-    vars->moveSpeed = 0.4;
-    vars->rotateSpeed = 0.05;
+    v->posX = 12;
+    v->posY = 12;
+    v->moveSpeed = 0.4;
+    v->rotateSpeed = 0.05;
 
 	/* info */
-	vars->row = 24;
-	vars->col = 24;
-	vars->width = 480;
-	vars->height = 360;
+	v->row = 24;
+	v->col = 24;
+	v->width = 480;
+	v->height = 360;
 
-    vars->posDir = E;
-    init_dir(vars->posDir, &(vars->dirX), &(vars->dirY), &(vars->planeX), &(vars->planeY));
+    v->posDir = W;
+    init_dir(v->posDir, &(v->dirX), &(v->dirY), &(v->planeX), &(v->planeY));
 	/* mlx */
-    vars->mlx = mlx_init();
-	vars->win = mlx_new_window(vars->mlx, vars->width, vars->height, "Cub3d");
+    v->mlx = mlx_init();
+	v->win = mlx_new_window(v->mlx, v->width, v->height, "Cub3d");
 
 	int i = 0;
 	int j;
 
-	vars->tex = (int **)malloc(sizeof(int *) * 4);
+	v->tex = (int **)malloc(sizeof(int *) * 4);
 	i = 0;
 	while (i < 4)
 	{
-		vars->tex[i] = (int *)malloc(sizeof(int) * (TEX_H * TEX_W));
+		v->tex[i] = (int *)malloc(sizeof(int) * (TEX_H * TEX_W));
 		i++;
 	}
 	i = 0;
@@ -113,7 +117,7 @@ int init_vars(t_vars *vars)
 		j = 0;
 		while (j < TEX_W * TEX_H)
 		{
-			vars->tex[i][j] = 0;
+			v->tex[i][j] = 0;
 			j++;
 		}
 		i++;

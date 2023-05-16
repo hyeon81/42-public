@@ -1,22 +1,25 @@
 #include "cub3d.h"
 
 
-void init_loop_vars(t_vars *vars, int x)
+void init_loop_vars(t_vars *v, int x)
 {
-	vars->cameraX = 2 * x / (double)vars->width - 1; //카메라 평면에서 차지하는 x좌표
-	vars->rayDirX = vars->dirX + vars->planeX * vars->cameraX; //광선의 방향 벡터
-	vars->rayDirY = vars->dirY + vars->planeY * vars->cameraX;
-	vars->mapX = (int)vars->posX;
-	vars->mapY = (int)vars->posY;
-	if (vars->rayDirX == 0) 
-		vars->deltaDistX = 0;
-	else
-		vars->deltaDistX = fabs(1 / vars->rayDirX);
-	if (vars->rayDirY == 0)
-		vars->deltaDistY = 0;
-	else
-		vars->deltaDistY = fabs(1 / vars->rayDirY);
-	vars->hit = 0;
+	//calculate ray position and direction
+	v->cameraX = 2 * x / (double)v->width - 1; //카메라 평면에서 차지하는 x좌표
+	v->rayDirX = v->dirX + v->planeX * v->cameraX; //광선의 방향 벡터
+	v->rayDirY = v->dirY + v->planeY * v->cameraX;
+	v->mapX = (int)v->posX;
+	v->mapY = (int)v->posY;
+	v->deltaDistX = fabs(1 / v->rayDirX);
+	v->deltaDistY = fabs(1 / v->rayDirY);
+	// if (v->rayDirX == 0) 
+	// 	v->deltaDistX = 1e30; //뭘까 이 숫자..
+	// else
+	// 	v->deltaDistX = fabs(1 / v->rayDirX);
+	// if (v->rayDirY == 0)
+	// 	v->deltaDistY = 1e30;
+	// else
+	// 	v->deltaDistY = fabs(1 / v->rayDirY);
+	v->hit = 0;
 }
 
 int	calc_step_sideDist(t_vars *v)
@@ -46,7 +49,7 @@ int	calc_step_sideDist(t_vars *v)
 
 int make_step(t_vars *v)
 {
-	while (v->hit == 0)
+	while (1)
 	{
 		if (v->sideDistX < v->sideDistY)
 		{
@@ -60,8 +63,8 @@ int make_step(t_vars *v)
 			v->mapY += v->stepY;
 			v->side = 1;
 		}
-		if (worldMap[v->mapX][v->mapY] > 0)
-			v->hit = 1;
+		if (worldMap[v->mapX][v->mapY] == 1)
+			break;
 	}
 	return (0);
 }
