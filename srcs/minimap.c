@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:53:55 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/16 16:31:29 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/16 21:42:02 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int draw_block(t_vars *v, int x, int y, int color)
 		j = 0;
 		while (j < TILE_SIZE)
 		{
-			v->map_img.data[(y  + i) * WIDTH + x + j] = color;
+			v->map_img.data[(y + i) * WIDTH + x + j] = color;
 			j++;
 		}
 		i++;
@@ -46,7 +46,7 @@ int make_draw_minimap(t_vars *v)
 		{
 			if (worldMap[i][j] == 1)
 				draw_block(v, j, i, 0x808080);
-			else if ((int)v->posY == i && (int)v->posX == j)
+			else if ((int)v->pos.y == i && (int)v->pos.x == j)
 				draw_block(v, j, i, 0xA63641);
 			else
 				draw_block(v, j, i, 0xFFFFFF);

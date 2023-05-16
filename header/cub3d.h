@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/16 17:23:06 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/16 21:31:20 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define HEIGHT 360
 # define TILE_SIZE 4
 
-enum Spawn {
+enum e_spawn {
 	N,
 	S,
 	W,
@@ -50,22 +50,28 @@ typedef struct s_img
 
 typedef struct s_coord
 {
-	double x;
-	double y;
+	double	x;
+	double	y;
 }t_coord;
 
 typedef struct s_raycast
 {
-	t_coord sideDist;
-	t_coord deltaDist;
-	t_coord mapPos;
-	t_coord step;
-	t_coord rayDir;
-	
-	double	perpWallDist;
-	int		lineHeight;
+	t_coord	*pos;
+	t_coord	*dir;
+	t_coord	*plane;
+	t_coord	side_dist;
+	t_coord	delta_dist;
+	t_coord	step;
+	t_coord	ray_dir;
+	int		map_x;
+	int		map_y;
+	double	camera_x;
+	int		side;
+	double	prep_dist;
+	int		line_h;
 	int		start;
 	int		end;
+	int		tex_x;
 }t_raycast;
 
 typedef struct s_vars
@@ -74,53 +80,16 @@ typedef struct s_vars
 	void	*win;
 	t_img	map_img;
 	int		**tex;
-
-	/* info */
-	t_coord pos;
-	t_coord dir;
-	t_coord plane;
-
-	double posX; //플레잉어의 초기 위치 벡터
-	double posY; 
-	double dirX; //플레이어의 초기 방향 벡터
-	double dirY;
-	double planeX;//플레이어의 카메라 평면
-	double planeY;
-	double	moveSpeed;
-	double	rotateSpeed;
-	// double	time;
-	// double	oldTime; //time of previous frame.
-	//둘의 시간차를 통해 특정 키를 눌렀을때 (일정한 속도로 움직이기 위해) 이동거리를 결정하고 FPS를 측정하는데 사용
-
-	/* raycast */
-	double	cameraX;
-	double	rayDirX;
-	double	rayDirY;
-	int		mapX;
-	int		mapY;
-	double	sideDistX;
-	double	sideDistY;
-	double	deltaDistX;
-	double	deltaDistY;
-	int		stepX;
-	int		stepY;
-	int		hit;
-	int		side;
-	double	perpWallDist;
-	int		lineHeight;
-	int		start;
-	int		end;
-	int		posDir; //spawn dir
-	int	width;
-	int	height;
-	//스크린 넓이
-
-	int row;
-	int col;
-	//맵 크기 (row가 가로 크기, col이 세로 크기)
-
-    int         f_color; //바닥 색상
-    int         c_color; //천장 색상
+	t_coord	pos;
+	t_coord	dir;
+	t_coord	plane;
+	int		pos_dir;
+	int		width;
+	int		height;
+	int		row;
+	int		col;
+	int		f_color;
+	int		c_color;
 }t_vars;
 
 static int worldMap[24][24]=
@@ -151,34 +120,37 @@ static int worldMap[24][24]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-/* calc.c */
-void init_loop_vars(t_vars *vars, int x);
-int	calc_step_sideDist(t_vars *v);
-int make_step(t_vars *v);
-int clac_draw_line(t_vars *v);
-int make_background(t_vars *v);
-
 /* cub3d.c */
-int draw_map(t_vars *v);
-int main_loop(t_vars *vars);
+int		main_loop(t_vars *v);
+
+/* calc.c */
+void	init_loop_vars(t_raycast *r, int x);
+void	calc_step_side_dist(t_raycast *r);
+void	shoot_ray(t_raycast *r);
+void	clac_draw_line(t_raycast *r);
+void	calc_ray(t_raycast *r, int x);
 
 /* draw.c */
-int make_background(t_vars *v);
-int make_texX(t_vars *v);
-void make_map(t_vars *v, int x, int texX);
-int make_draw(t_vars *v, int x);
+void	clac_draw_line(t_raycast *r);
+void	calc_tex_x(t_raycast *r);
+void	set_map(t_raycast *r, int x, t_img *map_img, int **tex);
+void	set_background(t_img *map_img, int floor, int ceiling);
+int		set_draw(t_raycast *r);
 
 /* init.c */
-int init_vars(t_vars *vars);
-void load_tex(t_vars *v);
+int		init_vars(t_vars *vars);
+void	load_tex(t_vars *v);
 
 /* move.c */
-int	ft_close(t_vars *vars);
-int move_forth_back(int keycode, t_vars *v);
-int	move_left_right(int keycode, t_vars *v);
-int make_move(int keycode, t_vars *v);
+int		ft_close(t_vars *vars);
+int		move_forth_back(int keycode, t_vars *v);
+int		move_left_right(int keycode, t_vars *v);
+int		make_move(int keycode, t_vars *v);
 
 /* minimap */
-int make_draw_minimap(t_vars *v);
+int		make_draw_minimap(t_vars *v);
+
+/* utils */
+void	set_coord(t_coord *v, double x, double y);
 
 #endif

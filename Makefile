@@ -2,11 +2,11 @@ NAME = cub3D
 
 CC = cc
 
-CFLAG =  -Wall -Wextra -Werror#-g -fsanitize=address
+CFLAG =  -Wall -Wextra -Werror #-g -fsanitize=address
 
 HEADERS = ./header
 
-SRCS = srcs/cub3d.c srcs/move.c srcs/init.c srcs/draw.c srcs/clac.c srcs/minimap.c
+SRCS = srcs/cub3d.c srcs/move.c srcs/init.c srcs/draw.c srcs/clac.c srcs/minimap.c srcs/utils.c
 
 OBJS = $(SRCS:.c=.o)
 

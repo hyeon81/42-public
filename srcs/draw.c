@@ -6,82 +6,99 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:01 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/16 16:01:02 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/16 21:48:05 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int make_background(t_vars *v)
+void	set_background(t_img *map_img, int floor, int ceiling)
 {
-    int x;
-    int y;
-    int color;
+	int	x;
+	int	y;
 
-    y = 0;
-	while (y < HEIGHT) 
+	y = 0;
+	while (y < HEIGHT)
 	{
-        x = 0;
-        while (x < WIDTH)
-        {
-            if (y < HEIGHT / 2)
-                color = 0x0067a3;
-            else
-                color = 0x964b00;
-		    v->map_img.data[y * WIDTH + x] = color;
-            x++;
-        }
+		x = 0;
+		while (x < WIDTH)
+		{
+			if (y < HEIGHT / 2)
+				map_img->data[y * WIDTH + x] = floor;
+			else
+				map_img->data[y * WIDTH + x] = ceiling;
+			x++;
+		}
 		y++;
 	}
-	return (0);
 }
 
-int make_texX(t_vars *v)
+void	clac_draw_line(t_raycast *r)
 {
-    double wallX;
-    if (v->side == 0)
-        wallX = v->posY + v->perpWallDist * v->rayDirY;
-    else
-        wallX = v->posX + v->perpWallDist * v->rayDirX;
-    wallX -= floor(wallX);
-    int texX = (int)(wallX * (double)TEX_W);
-    if (v->side == 0 && v->rayDirX > 0)
-        texX = TEX_W - texX - 1;
-    if (v->side == 1 && v->rayDirY < 0)
-        texX = TEX_W - texX - 1;
-    return (texX);
+	if (r->side == 0)
+		// r->prep_dist = r->side_distX - r->delta_distX;
+		r->prep_dist = (r->map_x - r->pos->x + (1 - r->step.x) / 2) \
+		/ r->ray_dir.x;
+	else
+		// r->prep_dist = r->side_distY - r->delta_distY;
+		r->prep_dist = (r->map_y - r->pos->y + (1 - r->step.y) / 2) \
+		/ r->ray_dir.y;
+	r->line_h = (int)(HEIGHT / r->prep_dist);
+	r->start = (HEIGHT / 2) - (r->line_h / 2);
+	if (r->start < 0)
+		r->start = 0;
+	r->end = (r->line_h / 2) + (HEIGHT / 2);
+	if (r->end >= HEIGHT)
+		r->end = HEIGHT - 1;
 }
 
-void make_map(t_vars *v, int x, int texX)
+void	calc_tex_x(t_raycast *r)
 {
-    double step = 1.0 * TEX_H / v->lineHeight;
-    double texPos = (v->start - (v->height / 2) + (v->lineHeight / 2)) * step;
+	double	wall_x;
 
-    int y = v->start;
-    int texY;
-    int tex_num;
-    while (y < v->end)
-    {
-		texY = (int)texPos & (TEX_H - 1);
-		texPos += step;
-        if (v->rayDirX > 0 && v->side == 0) //east
+	if (r->side == 0)
+		wall_x = r->pos->y + r->prep_dist * r->ray_dir.y;
+	else
+		wall_x = r->pos->x + r->prep_dist * r->ray_dir.x;
+	wall_x -= floor(wall_x);
+	r->tex_x = (int)(wall_x * (double)TEX_W);
+	if (r->side == 0 && r->ray_dir.x > 0)
+		r->tex_x = TEX_W - r->tex_x - 1;
+	if (r->side == 1 && r->ray_dir.y < 0)
+		r->tex_x = TEX_W - r->tex_x - 1;
+}
+
+void	set_map(t_raycast *r, int x, t_img *map_img, int **tex)
+{
+	double	step;
+	double	tex_pos;
+	int		tex_y;
+	int		tex_num;
+	int		y;
+
+	step = 1.0 * TEX_H / r->line_h;
+	tex_pos = (r->start - (HEIGHT / 2) + (r->line_h / 2)) * step;
+	y = r->start;
+	while (y < r->end)
+	{
+		tex_y = (int)tex_pos & (TEX_H - 1);
+		tex_pos += step;
+		if (r->ray_dir.x > 0 && r->side == 0) //east
 			tex_num = 0;
-		else if (v->rayDirX < 0 && v->side == 0) //west
+		else if (r->ray_dir.x < 0 && r->side == 0) //west
 			tex_num = 1;
-		else if (v->rayDirY < 0 && v->side == 1) //south
+		else if (r->ray_dir.y < 0 && r->side == 1) //south
 			tex_num = 2;
 		else //north
 			tex_num = 3;
-		v->map_img.data[y * WIDTH + x] = v->tex[tex_num][TEX_H * texY + texX];
+		map_img->data[y * WIDTH + x] = tex[tex_num][TEX_H * tex_y + r->tex_x];
 		y++;
-    }
+	}
 }
 
-int make_draw(t_vars *v, int x)
+int	set_draw(t_raycast *r)
 {
-    int texX;
-
-    texX = make_texX(v);
-    make_map(v, x, texX);
-    return (0);
+	clac_draw_line(r);
+	calc_tex_x(r);
+	return (0);
 }

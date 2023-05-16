@@ -6,41 +6,43 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/16 15:58:10 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/16 21:27:03 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int draw_map(t_vars *v)
+int	draw_map(t_vars *v)
 {
 	make_draw_minimap(v);
-    mlx_put_image_to_window(v->mlx, v->win, v->map_img.ptr, 0, 0);
+	mlx_put_image_to_window(v->mlx, v->win, v->map_img.ptr, 0, 0);
 	return (0);
 }
 
-int main_loop(t_vars *vars)
+int	main_loop(t_vars *v)
 {
-	int x;
+	t_raycast	r;
+	int			x;
 
 	x = 0;
-	make_background(vars);
-	/* draw screen */
-	while (x < vars->width)
+	r.dir = &(v->dir);
+	r.plane = &(v->plane);
+	r.pos = &(v->pos);
+	set_background(&(v->map_img), v->f_color, v->c_color);
+	while (x < v->width)
 	{
-		init_loop_vars(vars, x);
-		calc_step_sideDist(vars);
-		make_step(vars);
-		clac_draw_line(vars);
-		make_draw(vars, x);
+		calc_ray(&r, x);
+		set_draw(&r);
+		set_map(&r, x, &(v->map_img), v->tex);
 		x++;
 	}
+	draw_map(v);
 	return (0);
 }
 
-int main(void)
+int	main(void)
 {
-	t_vars vars;
+	t_vars	vars;
 
 	init_vars(&vars);
 	load_tex(&vars);
