@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 14:53:17 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 18:47:35 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@ int	draw_map(t_vars *v)
 {
 	make_draw_minimap(v);
 	mlx_put_image_to_window(v->mlx, v->win, v->map_img.ptr, 0, 0);
+
 	return (0);
 }
 
-int	main_loop(t_vars *v)
+void	main_loop(t_vars *v)
 {
 	t_raycast	r;
 	int			x;
@@ -29,7 +30,7 @@ int	main_loop(t_vars *v)
 	r.plane = &(v->plane);
 	r.pos = &(v->pos);
 	set_background(&(v->map_img), v->f_color, v->c_color);
-	while (x < v->width)
+	while (x < WIDTH)
 	{
 		calc_ray(&r, x);
 		set_draw(&r);
@@ -37,7 +38,6 @@ int	main_loop(t_vars *v)
 		x++;
 	}
 	draw_map(v);
-	return (0);
 }
 
 int	main(void)
@@ -47,8 +47,7 @@ int	main(void)
 	init_vars(&vars);
 	load_tex(&vars);
 	main_loop(&vars);
-	draw_map(&vars);
-	mlx_hook(vars.win, ON_DESTROY, 0, &ft_close, &vars);
+	mlx_hook(vars.win, ON_DESTROY, 0, &ft_exit, &vars);
 	mlx_hook(vars.win, 2, 1, &make_move, &vars);
 	mlx_loop_hook(vars.mlx, &draw_map, &vars);
 	mlx_loop(vars.mlx);

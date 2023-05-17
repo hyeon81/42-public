@@ -6,19 +6,13 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 15:48:39 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 18:33:12 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_close(t_vars *vars)
-{
-	mlx_destroy_window(vars->mlx, vars->win);
-	exit(0);
-}
-
-int	move_forth_back(int keycode, t_vars *v)
+void	move_forth_back(int keycode, t_vars *v)
 {
 	double	speed;
 
@@ -37,10 +31,9 @@ int	move_forth_back(int keycode, t_vars *v)
 		if (worldMap[(int)(v->pos.y - v->dir.y * speed)][(int)(v->pos.x)] == 0)
 			v->pos.y -= v->dir.y * speed;
 	}
-	return (0);
 }
 
-int	move_left_right(int keycode, t_vars *v)
+void	move_left_right(int keycode, t_vars *v)
 {
 	double	old_dir_x;
 	double	old_plane_x;
@@ -63,7 +56,6 @@ int	move_left_right(int keycode, t_vars *v)
 		v->plane.x = v->plane.x * cos(speed) - v->plane.y * sin(speed);
 		v->plane.y = old_plane_x * sin(speed) + v->plane.y * cos(speed);
 	}
-	return (0);
 }
 
 int	make_move(int keycode, t_vars *v)
@@ -73,9 +65,10 @@ int	make_move(int keycode, t_vars *v)
 	if (keycode == KEY_A || keycode == KEY_D)
 		move_left_right(keycode, v);
 	if (keycode == ESC)
-		exit(0);
+		ft_exit(v);
 	if (keycode == KEY_W || keycode == KEY_S || \
 	keycode == KEY_A || keycode == KEY_D)
 		main_loop(v);
+
 	return (0);
 }

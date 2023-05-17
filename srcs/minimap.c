@@ -6,13 +6,13 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:53:55 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 15:14:19 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 19:03:03 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	draw_block(t_vars *v, int x, int y, int color)
+void	draw_block(t_vars *v, int x, int y, int color)
 {
 	int	i;
 	int	j;
@@ -30,10 +30,9 @@ int	draw_block(t_vars *v, int x, int y, int color)
 		}
 		i++;
 	}
-	return (0);
 }
 
-int	make_draw_minimap(t_vars *v)
+void	make_draw_minimap(t_vars *v)
 {
 	int	i;
 	int	j;
@@ -54,5 +53,4 @@ int	make_draw_minimap(t_vars *v)
 		}
 		i++;
 	}
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:01 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 15:57:48 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 18:30:29 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,8 @@ void	set_map(t_raycast *r, int x, t_img *map_img, int **tex)
 	}
 }
 
-int	set_draw(t_raycast *r)
+void	set_draw(t_raycast *r)
 {
 	clac_draw_line(r);
 	calc_tex_x(r);
-	return (0);
 }

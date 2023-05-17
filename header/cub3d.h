@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/16 21:31:20 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 18:32:45 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
 # define KEY_S 1
 # define KEY_D 2
 # define ON_DESTROY 17
+# define WIDTH 800
+# define HEIGHT 800
 # define TEX_W 64
 # define TEX_H 64
-# define WIDTH 480
-# define HEIGHT 360
-# define TILE_SIZE 4
+# define TILE_SIZE 10
 
 enum e_spawn {
 	N,
@@ -83,9 +83,7 @@ typedef struct s_vars
 	t_coord	pos;
 	t_coord	dir;
 	t_coord	plane;
-	int		pos_dir;
-	int		width;
-	int		height;
+	int		direction;
 	int		row;
 	int		col;
 	int		f_color;
@@ -121,7 +119,7 @@ static int worldMap[24][24]=
 };
 
 /* cub3d.c */
-int		main_loop(t_vars *v);
+void	main_loop(t_vars *v);
 
 /* calc.c */
 void	init_loop_vars(t_raycast *r, int x);
@@ -135,22 +133,21 @@ void	clac_draw_line(t_raycast *r);
 void	calc_tex_x(t_raycast *r);
 void	set_map(t_raycast *r, int x, t_img *map_img, int **tex);
 void	set_background(t_img *map_img, int floor, int ceiling);
-int		set_draw(t_raycast *r);
+void	set_draw(t_raycast *r);
 
 /* init.c */
-int		init_vars(t_vars *vars);
+void	init_vars(t_vars *v);
 void	load_tex(t_vars *v);
 
 /* move.c */
-int		ft_close(t_vars *vars);
-int		move_forth_back(int keycode, t_vars *v);
-int		move_left_right(int keycode, t_vars *v);
+int		ft_exit(t_vars *vars);
 int		make_move(int keycode, t_vars *v);
 
 /* minimap */
-int		make_draw_minimap(t_vars *v);
+void	make_draw_minimap(t_vars *v);
 
 /* utils */
 void	set_coord(t_coord *v, double x, double y);
+void	ft_free(int **arr, int idx);
 
 #endif
