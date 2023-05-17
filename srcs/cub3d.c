@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 18:47:35 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 20:23:21 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,8 @@ void	main_loop(t_vars *v)
 	int			x;
 
 	x = 0;
-	r.dir = &(v->dir);
-	r.plane = &(v->plane);
-	r.pos = &(v->pos);
-	set_background(&(v->map_img), v->f_color, v->c_color);
+	r.p = v->p;
+	set_background(&(v->map_img), v->c->floor_color, v->c->ceiling_color);
 	while (x < WIDTH)
 	{
 		calc_ray(&r, x);
@@ -42,13 +40,15 @@ void	main_loop(t_vars *v)
 
 int	main(void)
 {
-	t_vars	vars;
+	t_player	p;
+	t_color		c;
+	t_vars		vars;
 
-	init_vars(&vars);
+	init_vars(&vars, &p, &c);
 	load_tex(&vars);
 	main_loop(&vars);
 	mlx_hook(vars.win, ON_DESTROY, 0, &ft_exit, &vars);
-	mlx_hook(vars.win, 2, 1, &make_move, &vars);
+	mlx_hook(vars.win, 2, 1, &make_move, &(vars));
 	mlx_loop_hook(vars.mlx, &draw_map, &vars);
 	mlx_loop(vars.mlx);
 	return (0);

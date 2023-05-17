@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:01 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 18:30:29 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 20:08:14 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void	set_background(t_img *map_img, int floor, int ceiling)
 void	clac_draw_line(t_raycast *r)
 {
 	if (r->side == 0)
-		r->prep_dist = (r->map_x - r->pos->x + (1 - r->step.x) / 2) \
+		r->prep_dist = (r->map_x - r->p->pos.x + (1 - r->step.x) / 2) \
 		/ r->ray_dir.x;
 	else
-		r->prep_dist = (r->map_y - r->pos->y + (1 - r->step.y) / 2) \
+		r->prep_dist = (r->map_y - r->p->pos.y + (1 - r->step.y) / 2) \
 		/ r->ray_dir.y;
 	r->line_h = (int)(HEIGHT / r->prep_dist);
 	r->start = (HEIGHT / 2) - (r->line_h / 2);
@@ -55,9 +55,9 @@ void	calc_tex_x(t_raycast *r)
 	double	wall_x;
 
 	if (r->side == 0)
-		wall_x = r->pos->y + r->prep_dist * r->ray_dir.y;
+		wall_x = r->p->pos.y + r->prep_dist * r->ray_dir.y;
 	else
-		wall_x = r->pos->x + r->prep_dist * r->ray_dir.x;
+		wall_x = r->p->pos.x + r->prep_dist * r->ray_dir.x;
 	wall_x -= floor(wall_x);
 	r->tex_x = (int)(wall_x * (double)TEX_W);
 	if (r->side == 0 && r->ray_dir.x < 0)

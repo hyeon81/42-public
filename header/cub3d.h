@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 18:32:45 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 20:18:08 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,40 +54,54 @@ typedef struct s_coord
 	double	y;
 }t_coord;
 
-typedef struct s_raycast
+typedef struct s_player
 {
-	t_coord	*pos;
-	t_coord	*dir;
-	t_coord	*plane;
-	t_coord	side_dist;
-	t_coord	delta_dist;
-	t_coord	step;
-	t_coord	ray_dir;
-	int		map_x;
-	int		map_y;
-	double	camera_x;
-	int		side;
-	double	prep_dist;
-	int		line_h;
-	int		start;
-	int		end;
-	int		tex_x;
-}t_raycast;
-
-typedef struct s_vars
-{
-	void	*mlx;
-	void	*win;
-	t_img	map_img;
-	int		**tex;
 	t_coord	pos;
 	t_coord	dir;
 	t_coord	plane;
 	int		direction;
-	int		row;
-	int		col;
-	int		f_color;
-	int		c_color;
+}t_player;
+
+typedef struct s_color
+{	
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
+	int		floor_color;
+	int		ceiling_color;
+}t_color;
+
+typedef struct s_raycast
+{
+	t_player	*p;
+	t_coord		side_dist;
+	t_coord		delta_dist;
+	t_coord		step;
+	t_coord		ray_dir;
+	int			map_x;
+	int			map_y;
+	double		camera_x;
+	int			side;
+	double		prep_dist;
+	int			line_h;
+	int			start;
+	int			end;
+	int			tex_x;
+}t_raycast;
+
+typedef struct s_vars
+{
+	t_img		map_img;
+	int			**tex;
+	char		**map;
+	int			row;
+	int			col;
+
+	void		*mlx;
+	void		*win;
+	t_player	*p;
+	t_color		*c;
 }t_vars;
 
 static int worldMap[24][24]=
@@ -136,7 +150,7 @@ void	set_background(t_img *map_img, int floor, int ceiling);
 void	set_draw(t_raycast *r);
 
 /* init.c */
-void	init_vars(t_vars *v);
+void	init_vars(t_vars *v, t_player *p, t_color *c);
 void	load_tex(t_vars *v);
 
 /* move.c */
@@ -147,7 +161,7 @@ int		make_move(int keycode, t_vars *v);
 void	make_draw_minimap(t_vars *v);
 
 /* utils */
-void	set_coord(t_coord *v, double x, double y);
+void	set_coord(t_coord *c, double x, double y);
 void	ft_free(int **arr, int idx);
 
 #endif
