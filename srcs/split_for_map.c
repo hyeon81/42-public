@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_for_map.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:48:32 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/17 01:43:09 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/17 21:59:02 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static char	**make_arr(char const *s, char c)
 			count++;
 		i++;
 	}
-	arr = (char **)malloc(sizeof(char *) * (count + 1));
+	arr = (char **)malloc(sizeof(char *) * (count + 2));
 	return (arr);
 }
 
@@ -91,7 +91,9 @@ char	**split_for_map(char const *s, char c)
 			arr[i] = ft_strdup_for_split(s, len);
 			if (arr[i] == NULL)
 				return ((arr));
-			s += len + 1;
+			s += len;
+			if (*s)
+				s++;
 			i++;
 	}
 	arr[i] = 0;

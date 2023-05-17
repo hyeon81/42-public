@@ -6,7 +6,7 @@
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 18:52:21 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/17 20:50:40 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ enum {
 
 typedef enum e_identifier_type
 {
-	NO,
-	SO,
-	WE,
-	EA,
-	F,
-	C,
+	NO = 'N',
+	SO = 'S',
+	WE = 'W',
+	EA = 'E',
+	F = 'F',
+	C = 'C',
 }	t_identifier_type;
 
 
@@ -64,19 +64,28 @@ typedef struct s_check
 
 }	t_check;
 
+// player 방향 ,위치
 
+typedef struct s_player
+{
+	int		x;
+	int		y;
+	int	direction;
+	// char	direction;
+}	t_player;
 
 typedef struct s_vars
 {
-	int		floor_color;
-	int		ceiling_color;
-	char	*north;
-	char	*south;
-	char	*west;
-	char	*east;
-	// int		row;
-	// int 	col;
-    char	**map;
+	t_player	player;
+	int			floor_color;
+	int			ceiling_color;
+	char		*north;
+	char		*south;
+	char		*west;
+	char		*east;
+	int		row;
+	int 	col;
+    char		**map;
 }t_vars;
 
 

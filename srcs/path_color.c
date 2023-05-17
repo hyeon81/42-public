@@ -6,7 +6,7 @@
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:32:48 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/17 17:11:04 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/17 21:10:17 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,22 @@
 
 int	check_double(int num, int *check)
 {
-	check[num]++;
-	if (check[num] > 1)
+	int flag;
+
+	if (num == NO)
+		flag = 0;
+	else if (num == SO)
+		flag = 1;
+	else if (num == EA)
+		flag = 2;
+	else if (num == WE)
+		flag = 3;
+	else if (num == F)
+		flag = 4;
+	else if (num == C)
+		flag = 5;
+	check[flag]++;
+	if (check[flag] > 1)
 		return (ERROR);
 	return (0);
 }
@@ -33,12 +47,10 @@ int	init_color(char *value, t_vars *vars, int type)
 	i = 0;
 	res = 0;
 	bit = 16;
-	tmp = ft_split(value, ',');
+	tmp = ft_split(value, ','); 
 	if (!tmp || strs_len(tmp) != 3)
 		exit_with_err("colorpasing_error\n");
-	// ex)
-	// 1, 23 , 234
-	// 1, 2  3, 234
+	// 1, 23 , 234 //공백 기준으로 들어오기때문에 신경 ㄴㄴ
 	while (tmp[i])
 	{
 		num = ft_atoi(tmp[i++]);//중간에 이상한게 들어와서 0일경우는...?  0~9 로 이루어져있는지 체크/공백이 들온다면 에러?
@@ -123,6 +135,6 @@ int set_map(char    *line, t_vars *vars, t_check *check)
 		exit_with_err("parse??\n");
 	check->count++;
 	if (check_double(id, check->mapset) == ERROR)
-		exit_with_err("check_double \n");
+		return(ERROR);
 	return (0);
 }
