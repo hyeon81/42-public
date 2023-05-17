@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_color.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:32:48 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/17 02:11:11 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/17 17:11:04 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 
 int	check_double(int num, int *check)
 {
-	int	i;
-		
 	check[num]++;
 	if (check[num] > 1)
 		return (ERROR);
