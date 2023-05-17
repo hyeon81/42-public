@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:01 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/16 21:48:05 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:57:48 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,9 @@ void	set_background(t_img *map_img, int floor, int ceiling)
 void	clac_draw_line(t_raycast *r)
 {
 	if (r->side == 0)
-		// r->prep_dist = r->side_distX - r->delta_distX;
 		r->prep_dist = (r->map_x - r->pos->x + (1 - r->step.x) / 2) \
 		/ r->ray_dir.x;
 	else
-		// r->prep_dist = r->side_distY - r->delta_distY;
 		r->prep_dist = (r->map_y - r->pos->y + (1 - r->step.y) / 2) \
 		/ r->ray_dir.y;
 	r->line_h = (int)(HEIGHT / r->prep_dist);
@@ -62,9 +60,9 @@ void	calc_tex_x(t_raycast *r)
 		wall_x = r->pos->x + r->prep_dist * r->ray_dir.x;
 	wall_x -= floor(wall_x);
 	r->tex_x = (int)(wall_x * (double)TEX_W);
-	if (r->side == 0 && r->ray_dir.x > 0)
+	if (r->side == 0 && r->ray_dir.x < 0)
 		r->tex_x = TEX_W - r->tex_x - 1;
-	if (r->side == 1 && r->ray_dir.y < 0)
+	if (r->side == 1 && r->ray_dir.y > 0)
 		r->tex_x = TEX_W - r->tex_x - 1;
 }
 
@@ -83,13 +81,13 @@ void	set_map(t_raycast *r, int x, t_img *map_img, int **tex)
 	{
 		tex_y = (int)tex_pos & (TEX_H - 1);
 		tex_pos += step;
-		if (r->ray_dir.x > 0 && r->side == 0) //east
+		if (r->ray_dir.x > 0 && r->side == 0)
 			tex_num = 0;
-		else if (r->ray_dir.x < 0 && r->side == 0) //west
+		else if (r->ray_dir.x < 0 && r->side == 0)
 			tex_num = 1;
-		else if (r->ray_dir.y < 0 && r->side == 1) //south
+		else if (r->ray_dir.y > 0 && r->side == 1)
 			tex_num = 2;
-		else //north
+		else
 			tex_num = 3;
 		map_img->data[y * WIDTH + x] = tex[tex_num][TEX_H * tex_y + r->tex_x];
 		y++;

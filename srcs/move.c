@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/16 21:34:04 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:48:39 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,17 @@ int	move_left_right(int keycode, t_vars *v)
 	speed = 0.05;
 	if (keycode == KEY_A)
 	{
-		v->dir.x = v->dir.x * cos(speed) - v->dir.y * sin(speed);
-		v->dir.y = old_dir_x * sin(speed) + v->dir.y * cos(speed);
-		v->plane.x = v->plane.x * cos(speed) - v->plane.y * sin(speed);
-		v->plane.y = old_plane_x * sin(speed) + v->plane.y * cos(speed);
-	}
-	if (keycode == KEY_D)
-	{
 		v->dir.x = v->dir.x * cos(-speed) - v->dir.y * sin(-speed);
 		v->dir.y = old_dir_x * sin(-speed) + v->dir.y * cos(-speed);
 		v->plane.x = v->plane.x * cos(-speed) - v->plane.y * sin(-speed);
 		v->plane.y = old_plane_x * sin(-speed) + v->plane.y * cos(-speed);
+	}
+	if (keycode == KEY_D)
+	{
+		v->dir.x = v->dir.x * cos(speed) - v->dir.y * sin(speed);
+		v->dir.y = old_dir_x * sin(speed) + v->dir.y * cos(speed);
+		v->plane.x = v->plane.x * cos(speed) - v->plane.y * sin(speed);
+		v->plane.y = old_plane_x * sin(speed) + v->plane.y * cos(speed);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:12 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/16 21:18:30 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:59:16 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,22 @@ void	init_dir(t_coord *dir, t_coord *plane, int pos_dir)
 	if (pos_dir == E)
 	{
 		set_coord(dir, 1, 0);
-		set_coord(plane, 0, -0.66);
+		set_coord(plane, 0, 0.66);
 	}
 	else if (pos_dir == W)
 	{
 		set_coord(dir, -1, 0);
-		set_coord(plane, 0, 0.66);
+		set_coord(plane, 0, -0.66);
 	}
-	else if (pos_dir == S)
+	else if (pos_dir == N)
 	{
 		set_coord(dir, 0, -1);
-		set_coord(plane, -0.66, 0);
+		set_coord(plane, 0.66, 0);
 	}
 	else
 	{
 		set_coord(dir, 0, 1);
-		set_coord(plane, 0.66, 0);
+		set_coord(plane, -0.66, 0);
 	}
 }
 
@@ -100,12 +100,11 @@ int	init_vars(t_vars *v)
 	v->col = 24;
 	v->width = 480;
 	v->height = 360;
-	v->pos_dir = W;
+	v->pos_dir = N;
 	v->f_color = 0x00ef91;
 	v->c_color = 0x364369;
 	init_dir(&(v->dir), &(v->plane), v->pos_dir);
 	init_array(&(v->tex));
-
 	v->mlx = mlx_init();
 	v->win = mlx_new_window(v->mlx, v->width, v->height, "Cub3d");
 	v->map_img.ptr = mlx_new_image(v->mlx, v->width, v->height);

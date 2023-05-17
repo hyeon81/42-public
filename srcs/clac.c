@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 21:32:26 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/16 21:49:49 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:44:59 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void	init_loop_vars(t_raycast *r, int x)
 {
-	//calculate ray position and direction
-	r->camera_x = 2 * x / (double)WIDTH - 1; //카메라 평면에서 차지하는 x좌표
-	r->ray_dir.x = r->dir->x + r->plane->x * r->camera_x; //광선의 방향 벡터
+	r->camera_x = 2 * x / (double)WIDTH - 1;
+	r->ray_dir.x = r->dir->x + r->plane->x * r->camera_x;
 	r->ray_dir.y = r->dir->y + r->plane->y * r->camera_x;
 	r->map_x = (int)r->pos->x;
 	r->map_y = (int)r->pos->y;
