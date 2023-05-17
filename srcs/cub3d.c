@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 20:23:21 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 20:49:53 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	draw_map(t_vars *v)
 {
 	make_draw_minimap(v);
 	mlx_put_image_to_window(v->mlx, v->win, v->map_img.ptr, 0, 0);
-
 	return (0);
 }
 
@@ -30,7 +29,7 @@ void	main_loop(t_vars *v)
 	set_background(&(v->map_img), v->c->floor_color, v->c->ceiling_color);
 	while (x < WIDTH)
 	{
-		calc_ray(&r, x);
+		calc_ray(&r, x, v->map);
 		set_draw(&r);
 		set_map(&r, x, &(v->map_img), v->tex);
 		x++;

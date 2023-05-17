@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:53:55 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 20:08:49 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 20:53:10 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	make_draw_minimap(t_vars *v)
 		j = 0;
 		while (j < v->col)
 		{
-			if (worldMap[i][j] == 1)
+			if (v->map[i][j] == '1')
 				draw_block(v, j, i, 0xFFFFFF);
 			else if ((int)v->p->pos.y == i && (int)v->p->pos.x == j)
 				draw_block(v, j, i, 0xA63641);

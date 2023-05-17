@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 21:32:26 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 20:06:58 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 20:54:45 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	calc_step_side_dist(t_raycast *r)
 	}
 }
 
-void	shoot_ray(t_raycast *r)
+void	shoot_ray(t_raycast *r, char **map)
 {
 	while (1)
 	{
@@ -71,14 +71,14 @@ void	shoot_ray(t_raycast *r)
 			r->map_y += r->step.y;
 			r->side = 1;
 		}
-		if (worldMap[r->map_y][r->map_x] == 1)
+		if (map[r->map_y][r->map_x] == '1')
 			break ;
 	}
 }
 
-void	calc_ray(t_raycast *r, int x)
+void	calc_ray(t_raycast *r, int x, char **map)
 {
 	init_loop_vars(r, x);
 	calc_step_side_dist(r);
-	shoot_ray(r);
+	shoot_ray(r, map);
 }

@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:12 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 20:19:22 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/17 21:03:10 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,21 +99,33 @@ void	init_array(int ***tex)
 void	init_vars(t_vars *v, t_player *p, t_color *c)
 {
 	/* parse */
-
-
 	p->pos.x = 1 + 0.5;
 	p->pos.y = 1 + 0.5;
 	p->direction = W;
 	c->floor_color = 0x00ef91;
 	c->ceiling_color = 0x364369;
-	v->row = 24;
+	v->row = 12;
 	v->col = 24;
-	v->p = p;
-	v->c = c;
+
+	// v->map = (char **)malloc(sizeof(char *) * 12);
+	// v->map[0] = "111111111111111111111111";
+	// v->map[1] = "100000000000000000000001";
+	// v->map[2] = "100000000000000000000001";
+	// v->map[3] = "100000000000000000000001";
+	// v->map[4] = "100000111110000101010001";
+	// v->map[5] = "100000100010000000000001";
+	// v->map[6] = "100000100010000100010001";
+	// v->map[7] = "100000100010000000000001";
+	// v->map[8] = "100000110110000101010001";
+	// v->map[9] = "100000000000000000000001";
+	// v->map[10] = "100000000000000000000001";
+	// v->map[11] = "111111111111111111111111";
 
 	/* init */
 	init_dir(&(p->dir), &(p->plane), p->direction);
 	init_array(&(v->tex));
+	v->p = p;
+	v->c = c;
 	v->mlx = mlx_init();
 	v->win = mlx_new_window(v->mlx, WIDTH, HEIGHT, "Cub3d");
 	v->map_img.ptr = mlx_new_image(v->mlx, WIDTH, HEIGHT);
