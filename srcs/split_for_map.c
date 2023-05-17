@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   split_for_map.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/14 16:13:28 by eunjiko           #+#    #+#             */
-/*   Updated: 2022/09/12 03:08:52 by eunjiko          ###   ########.fr       */
+/*   Created: 2023/05/16 15:48:32 by eunjiko           #+#    #+#             */
+/*   Updated: 2023/05/17 01:43:09 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cub3d.h"
 
 static char	**make_arr(char const *s, char c)
 {
@@ -24,14 +24,9 @@ static char	**make_arr(char const *s, char c)
 		return (NULL);
 	while (s[i])
 	{
-		if (s[i] != c)
-		{
-			while (s[i] && s[i] != c)
-				i++;
+		if (s[i] == c)
 			count++;
-		}
-		else
-			i++;
+		i++;
 	}
 	arr = (char **)malloc(sizeof(char *) * (count + 1));
 	return (arr);
@@ -65,21 +60,21 @@ static char	*ft_strdup_for_split(char const *str, int len)
 	return (copy);
 }
 
-static char	**free_all(char **arr)
-{
-	int	i;
+// static char	**free_all(char **arr)
+// {
+// 	int	i;
 
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-	return (NULL);
-}
+// 	i = 0;
+// 	while (arr[i])
+// 	{
+// 		free(arr[i]);
+// 		i++;
+// 	}
+// 	free(arr);
+// 	return (NULL);
+// }
 
-char	**ft_split(char const *s, char c)
+char	**split_for_map(char const *s, char c)
 {
 	int		i;
 	int		len;
@@ -92,17 +87,12 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	while (*s)
 	{
-		if (*s != c)
-		{
 			len = word_len(s, c);
 			arr[i] = ft_strdup_for_split(s, len);
 			if (arr[i] == NULL)
-				return (free_all(arr));
-			s += len;
+				return ((arr));
+			s += len + 1;
 			i++;
-		}
-		else
-			s++;
 	}
 	arr[i] = 0;
 	return (arr);
