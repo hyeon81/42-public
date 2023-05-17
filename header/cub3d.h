@@ -6,17 +6,16 @@
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/03 19:55:30 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/17 18:52:21 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <mlx.h>
+// # include <mlx.h>
 # include <stdlib.h>
 # include "../get_next_line/get_next_line.h"
-# include "../libft/libft.h"
 
 # define ERROR -1
 
@@ -30,25 +29,74 @@ enum {
 	ON_DESTROY = 17
 };
 
-typedef struct  s_tex
+typedef enum e_identifier_type
 {
-    char		*path;
-    int			*tex;
-	//width / height
-}               t_tex;
+	NO,
+	SO,
+	WE,
+	EA,
+	F,
+	C,
+}	t_identifier_type;
+
+
+
+// typedef	struct	s_tex
+// {
+//     char		*path;
+//     int			*tex;
+// 	//width / height
+// }               t_tex;
+
+//raycast
+
+//parse
+
+//graphic
+
+typedef struct s_check
+{
+	int	*mapset;
+	int	path_count;
+	int	count;
+	int	mapflag;
+	int	id;
+
+}	t_check;
+
+
 
 typedef struct s_vars
 {
-	void	*mlx;
-	void	*win;
-	t_tex   tex[4]; //동서남북 텍스쳐
-    int    	floor_color; //바닥 색상
-    int 	ceiling_color; //천장 색상
-	int		row;
-	int 	cul;
-    char	**map; //맵 좌표
+	int		floor_color;
+	int		ceiling_color;
+	char	*north;
+	char	*south;
+	char	*west;
+	char	*east;
+	// int		row;
+	// int 	col;
+    char	**map;
 }t_vars;
 
-int	init_map(t_vars *vars, char *filename);
+
+
+int			init_map(t_vars	*vars, int fd, t_check *check);
+void		*ft_memset(void *b, int c, size_t len);
+int			check_arg(char *filename);
+char		**ft_split(char const *s, char c);
+char		**free_all(char **arr);
+int			ft_strncmp(const char *s1, const char *s2, size_t len);
+int			strs_len(char	**strs);
+void		*ft_calloc(size_t count, size_t size);
+int			print_err(char	*str);
+int			exit_with_err(char	*str);
+char		**split_for_map(char const *s, char c);
+int			ft_atoi(const char *str);
+int 		set_map(char	*line, t_vars *vars, t_check *check);
+int			exit_with_err(char	*str);
+int			print_err(char	*str);
+void		print(t_vars *vars);
+
 
 #endif
