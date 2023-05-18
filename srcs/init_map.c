@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:49:07 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/17 21:59:46 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/18 18:19:20 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,33 +74,47 @@ int	parse_line(char *line, char **backup, t_check *check, int *direction)
 	return (0);
 }
 
-// int	check_valid(char **map, t_player *player, int *col, int *row)// 밑에 개행 없애고 가로 세로 체크
-// {
-// 	int	i;
-// 	int	j;
-// 	int tmp;
-// 	// player 위치
-// 	// col, row	
-// 	i = 0;
-// 	while (map[i])
-// 	{
-// 		j = 0;
-// 		while (map[i][j])
-// 		{
-// 			if (map[i][j] == player->direction)
-// 			{
-// 				player->x = i;
-// 				player->y = j;
-// 			}
-// 			if (tmp < j)
-// 				tmp = j;
-// 			j++;
-// 		}
-// 		tmp = j;
-// 		i++;
-// 	}
-// 	return (0);
-// }
+int	check_valid(char **map, t_player *player, int *col, int *row)// 밑에 개행 없애고 가로 세로 체크
+{
+	int	i;
+	int	j;
+	int tmp;
+	// player 위치
+	// col, row
+	i = 0;
+	tmp = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == player->direction)
+			{
+				player->x = j;
+				player->y = i;
+			}
+			if (tmp < j)
+			{
+				tmp = j;
+				printf("%d\n", tmp);
+			}
+			j++;
+		}
+		i++;
+	}
+	*col = tmp + 2;
+	*row = i;
+
+	printf("c = %c\n", player->direction);
+	printf("x = %d\n", player->x);
+	printf("y = %d\n", player->y);
+	printf("col = %d\n", *col);
+	printf("row = %d\n", *row);
+
+
+
+	return (0);
+}
 
 int	check_remove(char *line)
 {
@@ -153,7 +167,7 @@ int	save_map(char **backup, t_vars *vars, t_check *check, int *direction)
 		vars->map = split_for_map(*backup, '\n');
 		free(*backup);//free in split
 		remove_newline(vars->map, direction);
-		// check_valid(vars->map, &(vars->player), &(vars->col), &(vars->row));
+		check_valid(vars->map, &(vars->player), &(vars->col), &(vars->row));
 	}
 	else
 		return (0);
