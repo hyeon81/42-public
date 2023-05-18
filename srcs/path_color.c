@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_color.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:32:48 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/17 21:10:17 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/18 18:25:47 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int	check_double(int num, int *check)
 {
-	int flag;
+	int	flag;
 
 	if (num == NO)
 		flag = 0;
@@ -47,10 +47,9 @@ int	init_color(char *value, t_vars *vars, int type)
 	i = 0;
 	res = 0;
 	bit = 16;
-	tmp = ft_split(value, ','); 
+	tmp = ft_split(value, ',');
 	if (!tmp || strs_len(tmp) != 3)
 		exit_with_err("colorpasing_error\n");
-	// 1, 23 , 234 //공백 기준으로 들어오기때문에 신경 ㄴㄴ
 	while (tmp[i])
 	{
 		num = ft_atoi(tmp[i++]);//중간에 이상한게 들어와서 0일경우는...?  0~9 로 이루어져있는지 체크/공백이 들온다면 에러?
@@ -67,7 +66,7 @@ int	init_color(char *value, t_vars *vars, int type)
 	return (0);
 }
 
-void	parse_direction(char ** str, int identifier, t_vars *vars, int *id)
+void	parse_direction(char **str, int identifier, t_vars *vars, int *id)
 {	
 	*id = identifier;
 
