@@ -6,7 +6,7 @@
 /*   By: eunjiko <eunjiko@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:49:07 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/18 18:19:20 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/18 21:24:47 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	make_line(char *line, char **backup, t_check *check, int *direction)
 
 	i = 0;
 	while (line[i])
-	{		
+	{
 		if (line[i] != ' ' && line[i] != '0' && line[i] != '1' && \
 			line[i] != '\n' && line[i] != 'N' && line[i] != 'S' && line[i] != \
 			'W' && line[i] != 'E')
@@ -74,45 +74,76 @@ int	parse_line(char *line, char **backup, t_check *check, int *direction)
 	return (0);
 }
 
+
+int	validwall(char** map, int x, int y, char c)
+{
+
+	if (map[y][x - 1] != ' ' && map[y][x - 1] != '1')
+		return (1);
+	if (c == ' ')
+	{
+		if	((map[y][x + 1] != ' ' && map[y][x + 1] != '1') || \
+			(map[y + 1][x] != ' ' && map[y + 1][x] != '1') || \
+			(map[y - 1][x] != ' ' && map[y - 1][x] != '1'))
+			return (1);
+	}
+	return (0);
+}
+
+
 int	check_valid(char **map, t_player *player, int *col, int *row)// 밑에 개행 없애고 가로 세로 체크
 {
 	int	i;
 	int	j;
-	int tmp;
-	// player 위치
-	// col, row
+	int	tmp;
+	
 	i = 0;
 	tmp = 0;
+	while (map[0][i])//첫줄
+	{
+		if (map[0][i] != '1' && map[0][i] != ' ' && map[0][i] != '\n')
+			return (ERROR);
+		i++;
+	}
 	while (map[i])
 	{
+		if (map[i][0] && (map[i][0] != '1' && map[i][0] != ' ' && map[i][0] != '\n')) //why
+			return (ERROR);
 		j = 0;
 		while (map[i][j])
 		{
+			// if (map[i][j] == ' ' || map[i][j] == '\n')// ' '/개행일때 '상하좌우'가 1과 ' '뿐인지
+			// {	
+			// 	if (validwall(map, i, j, map[i][j]))
+			// 		return (ERROR);
+			// }
 			if (map[i][j] == player->direction)
 			{
 				player->x = j;
 				player->y = i;
 			}
 			if (tmp < j)
-			{
 				tmp = j;
-				printf("%d\n", tmp);
-			}
 			j++;
 		}
 		i++;
 	}
 	*col = tmp + 2;
 	*row = i;
+	j--;
+	i = 0;
+	// while (map[j][i])// 막줄 한줄이라면?
+	// {
+	// 	if (map[j][i] != '1' && map[j][i] != ' ' && map[j][i] != '\n')
+	// 		return (ERROR);
+	// 	i++;
+	// }
 
-	printf("c = %c\n", player->direction);
-	printf("x = %d\n", player->x);
-	printf("y = %d\n", player->y);
-	printf("col = %d\n", *col);
-	printf("row = %d\n", *row);
-
-
-
+	// printf("c = %c\n", player->direction);
+	// printf("x = %d\n", player->x);
+	// printf("y = %d\n", player->y);
+	// printf("col = %d\n", *col);
+	// printf("row = %d\n", *row);
 	return (0);
 }
 
@@ -126,7 +157,7 @@ int	check_remove(char *line)
 		if (ft_is_space(line[i++]) != 0)
 			return (0);
 	}
-	return (1); // 다 공백
+	return (1);
 }
 
 void	remove_newline(char	**map, int	*direction)
@@ -167,7 +198,8 @@ int	save_map(char **backup, t_vars *vars, t_check *check, int *direction)
 		vars->map = split_for_map(*backup, '\n');
 		free(*backup);//free in split
 		remove_newline(vars->map, direction);
-		check_valid(vars->map, &(vars->player), &(vars->col), &(vars->row));
+		if (check_valid(vars->map, &(vars->player), &(vars->col), &(vars->row)) == ERROR)
+			return (0);
 	}
 	else
 		return (0);
