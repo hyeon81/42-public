@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_color.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42seoul.kr>       +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:32:48 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/18 18:25:47 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/19 21:33:38 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	check_double(int num, int *check)
 {
 	int	flag;
 
+	flag = 0;
 	if (num == NO)
 		flag = 0;
 	else if (num == SO)
@@ -68,8 +69,16 @@ int	init_color(char *value, t_vars *vars, int type)
 
 void	parse_direction(char **str, int identifier, t_vars *vars, int *id)
 {	
-	*id = identifier;
+	// int	i;
 
+	// i = 0;
+	*id = identifier;
+	// while (str[1][i])
+	// {
+	// 	if (str[1][i] == '\n')
+	// 		str[1][i] = '\0' ;
+	// 	i++;
+	// }
 	if (*id == NO)
 		vars->north = str[1];
 	else if (*id == SO)
@@ -114,7 +123,9 @@ int set_map(char    *line, t_vars *vars, t_check *check)
 	// 	return(ERROR);
 	if (check->count == 6)//이렇게 처리 하면 이 이상은 증가 할 일이 없음 애매하다잉.. 마지막 옵션이 중복이라면..? // 
 		return (0);
-	identifier = ft_split(line, ' '); //탭 등등 추가 해야함...? 아마도..?
+	identifier = white_split(line); //탭 등등 추가 해야함...? 아마도..?
+	// identifier = ft_split(line, ' '); //탭 등등 추가 해야함...? 아마도..?
+
 	if (strs_len(identifier) != 2 || identifier[1] == NULL)
 	{
 		if (ft_strncmp(line, "\n", 2) != 0)

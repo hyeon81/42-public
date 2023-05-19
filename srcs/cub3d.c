@@ -6,7 +6,7 @@
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 21:18:46 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/19 21:20:26 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	print(t_vars *vars)
 	int	i = 0;
 	printf("------map------\n");
 	while (vars->map[i])
-		printf("%s\n", vars->map[i++]);
+	printf("%s\n", vars->map[i++]);
 	printf("north = %s\n", vars->north);
 	printf("south = %s\n", vars->south);
 	printf("west = %s\n", vars->west);
@@ -56,12 +56,23 @@ void	init_info(t_vars	*vars, char	*filename)
 		exit_with_err("ERROR : init_map\n");
 }
 
+void	leaks()
+{
+	system("leaks cub3D");
+}
+
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
 
+	atexit(leaks);
 	if (argc != 2 || check_arg(argv[1]))
 		exit_with_err("Invalid filetype\n");
 	init_info(&vars, argv[1]);
+	free_all(vars.map);
+	free(vars.north);
+	free(vars.south);
+	free(vars.west);
+	free(vars.east);
 	return (0);
 }
