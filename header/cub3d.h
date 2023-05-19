@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 21:18:49 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:19:26 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@
 # define KEY_A 0
 # define KEY_S 1
 # define KEY_D 2
+# define KEY_PRESS 2
 # define ON_DESTROY 17
 # define WIDTH 800
 # define HEIGHT 800
 # define TEX_W 64
 # define TEX_H 64
-# define TILE_SIZE 10
 
 enum e_spawn {
 	N,

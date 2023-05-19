@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 20:55:05 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/19 16:59:56 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	move_forth_back(int keycode, t_player *p, char **map)
 {
 	double	speed;
 
-	speed = 0.4;
+	speed = 0.2;
 	if (keycode == KEY_W)
 	{
 		if (map[(int)(p->pos.y)][(int)(p->pos.x + p->dir.x * speed)] == '0')
@@ -41,7 +41,7 @@ void	move_left_right(int keycode, t_player *p)
 
 	old_dir_x = p->dir.x;
 	old_plane_x = p->plane.x;
-	speed = 0.05;
+	speed = 0.03;
 	if (keycode == KEY_A)
 	{
 		p->dir.x = p->dir.x * cos(-speed) - p->dir.y * sin(-speed);
@@ -69,6 +69,5 @@ int	make_move(int keycode, t_vars *v)
 	if (keycode == KEY_W || keycode == KEY_S || \
 	keycode == KEY_A || keycode == KEY_D)
 		main_loop(v);
-
 	return (0);
 }

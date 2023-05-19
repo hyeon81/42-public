@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:53:55 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 20:53:10 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:18:56 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,16 @@ void	draw_block(t_vars *v, int x, int y, int color)
 {
 	int	i;
 	int	j;
+	int	tile_size;
 
-	x *= TILE_SIZE;
-	y *= TILE_SIZE;
+	tile_size = (int)HEIGHT / 100;
+	x *= tile_size;
+	y *= tile_size;
 	i = 0;
-	while (i < TILE_SIZE)
+	while (i < tile_size)
 	{
 		j = 0;
-		while (j < TILE_SIZE)
+		while (j < tile_size)
 		{
 			v->map_img.data[(y + i) * WIDTH + x + j] = color;
 			j++;

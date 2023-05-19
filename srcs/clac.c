@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 21:32:26 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 20:54:45 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/19 15:29:28 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	init_loop_vars(t_raycast *r, int x)
 	r->map_y = (int)r->p->pos.y;
 	r->delta_dist.x = fabs(1 / r->ray_dir.x);
 	r->delta_dist.y = fabs(1 / r->ray_dir.y);
-	// if (r->ray_dirX == 0) 
-	// 	r->delta_distX = 1e30; //뭘까 이 숫자..
+	// if (r->ray_dir.x == 0) 
+	// 	r->delta_dist.x = 1e30; //뭘까 이 숫자..
 	// else
-	// 	r->delta_distX = fabs(1 / r->ray_dirX);
-	// if (r->ray_dirY == 0)
-	// 	r->delta_distY = 1e30;
+	// 	r->delta_dist.x = fabs(1 / r->ray_dir.x);
+	// if (r->ray_dir.y == 0)
+	// 	r->delta_dist.y = 1e30;
 	// else
-	// 	r->delta_distY = fabs(1 / r->ray_dirY);
+	// 	r->delta_dist.y = fabs(1 / r->ray_dir.y);
 }
 
 void	calc_step_side_dist(t_raycast *r)

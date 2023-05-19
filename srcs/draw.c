@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:01 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 20:08:14 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/19 16:01:41 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ void	calc_tex_x(t_raycast *r)
 	wall_x -= floor(wall_x);
 	r->tex_x = (int)(wall_x * (double)TEX_W);
 	if (r->side == 0 && r->ray_dir.x < 0)
-		r->tex_x = TEX_W - r->tex_x - 1;
+		r->tex_x = TEX_W - r->tex_x;
 	if (r->side == 1 && r->ray_dir.y > 0)
-		r->tex_x = TEX_W - r->tex_x - 1;
+		r->tex_x = TEX_W - r->tex_x;
 }
 
 void	set_map(t_raycast *r, int x, t_img *map_img, int **tex)
@@ -79,7 +79,7 @@ void	set_map(t_raycast *r, int x, t_img *map_img, int **tex)
 	y = r->start;
 	while (y < r->end)
 	{
-		tex_y = (int)tex_pos & (TEX_H - 1);
+		tex_y = (int)tex_pos % TEX_H;
 		tex_pos += step;
 		if (r->ray_dir.x > 0 && r->side == 0)
 			tex_num = 0;
