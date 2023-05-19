@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/19 17:19:26 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:29:26 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,10 @@ typedef struct s_vars
 	t_color		*c;
 }t_vars;
 
-/* cub3d.c */
+/* exec.c */
 void	main_loop(t_vars *v);
+int		draw_map(t_vars *v);
+void	set_background(t_img *map_img, int floor, int ceiling);
 
 /* calc.c */
 void	init_loop_vars(t_raycast *r, int x);

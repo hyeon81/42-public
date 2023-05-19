@@ -6,32 +6,11 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:01 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/19 16:01:41 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:28:43 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	set_background(t_img *map_img, int floor, int ceiling)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			if (y < HEIGHT / 2)
-				map_img->data[y * WIDTH + x] = floor;
-			else
-				map_img->data[y * WIDTH + x] = ceiling;
-			x++;
-		}
-		y++;
-	}
-}
 
 void	clac_draw_line(t_raycast *r)
 {
