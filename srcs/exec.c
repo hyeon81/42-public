@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:25:36 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/19 17:28:50 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/19 18:11:35 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ void	main_loop(t_vars *v)
 
 	x = 0;
 	r.p = v->p;
-	set_background(&(v->map_img), v->c->floor_color, v->c->ceiling_color);
+	set_background(&(v->map_img), v->c.floor_color, v->c.ceiling_color);
 	while (x < WIDTH)
 	{
 		calc_ray(&r, x, v->map);
 		set_draw(&r);
-		set_map(&r, x, &(v->map_img), v->tex);
+		set_draw_map(&r, x, &(v->map_img), v->tex);
 		x++;
 	}
 	draw_map(v);

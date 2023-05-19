@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:01 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/19 17:28:43 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:32:53 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	calc_tex_x(t_raycast *r)
 		r->tex_x = TEX_W - r->tex_x;
 }
 
-void	set_map(t_raycast *r, int x, t_img *map_img, int **tex)
+void	set_draw_map(t_raycast *r, int x, t_img *map_img, int **tex)
 {
 	double	step;
 	double	tex_pos;

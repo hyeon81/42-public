@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/19 17:29:26 by hyeokim2         ###   ########.fr       */
+/*   Created: 2023/05/19 17:31:35 by hyeokim2          #+#    #+#             */
+/*   Updated: 2023/05/19 18:06:52 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <math.h>
+# include "../get_next_line/get_next_line.h"
+
+# define ERROR -1
 
 # define ESC 53
 # define KEY_W 13
@@ -101,7 +104,7 @@ typedef struct s_vars
 	void		*mlx;
 	void		*win;
 	t_player	*p;
-	t_color		*c;
+	t_color		c;
 }t_vars;
 
 /* exec.c */
@@ -118,12 +121,12 @@ void	calc_ray(t_raycast *r, int x, char **map);
 /* draw.c */
 void	clac_draw_line(t_raycast *r);
 void	calc_tex_x(t_raycast *r);
-void	set_map(t_raycast *r, int x, t_img *map_img, int **tex);
 void	set_background(t_img *map_img, int floor, int ceiling);
 void	set_draw(t_raycast *r);
+void	set_draw_map(t_raycast *r, int x, t_img *map_img, int **tex);
 
 /* init.c */
-void	init_vars(t_vars *v, t_player *p, t_color *c);
+void	init_vars(t_vars *v, t_player *p);
 void	load_tex(t_vars *v);
 
 /* move.c */
@@ -137,5 +140,43 @@ void	make_draw_minimap(t_vars *v);
 void	set_coord(t_coord *c, double x, double y);
 void	ft_int_free(int **arr, int idx);
 void	ft_char_free(char **arr, int idx);
+
+typedef enum e_identifier_type
+{
+	NO,
+	SO,
+	WE,
+	EA,
+	F,
+	C,
+}	t_identifier_type;
+
+typedef struct s_check
+{
+	int	*mapset;
+	int	path_count;
+	int	count;
+	int	mapflag;
+	int	id;
+
+}	t_check;
+
+
+int			init_map(t_vars	*vars, int fd, t_check *check);
+void		*ft_memset(void *b, int c, size_t len);
+int			check_arg(char *filename);
+char		**ft_split(char const *s, char c);
+char		**free_all(char **arr);
+int			ft_strncmp(const char *s1, const char *s2, size_t len);
+int			strs_len(char	**strs);
+void		*ft_calloc(size_t count, size_t size);
+int			print_err(char	*str);
+int			exit_with_err(char	*str);
+char		**split_for_map(char const *s, char c);
+int			ft_atoi(const char *str);
+int 		set_map(char	*line, t_vars *vars, t_check *check);
+int			exit_with_err(char	*str);
+int			print_err(char	*str);
+void		print(t_vars *vars);
 
 #endif

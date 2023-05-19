@@ -6,11 +6,12 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:12 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/19 16:34:58 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/19 20:48:47 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include "string.h"
 
 void	load_img(t_vars *v, int *tex, char *path, t_img *img)
 {
@@ -18,6 +19,11 @@ void	load_img(t_vars *v, int *tex, char *path, t_img *img)
 	int	y;
 
 	img->ptr = mlx_xpm_file_to_image(v->mlx, path, &img->width, &img->height);
+	if (!img->ptr)
+	{
+		write(2, "texture load failed\n", 21);
+		ft_exit(v);
+	}
 	img->data = (int *)mlx_get_data_addr(img->ptr, &img->bpp, &img->size_l, \
 	&img->endian);
 	y = 0;
@@ -39,10 +45,10 @@ void	load_tex(t_vars *v)
 {
 	t_img	img;
 
-	load_img(v, v->tex[0], "./texture/wall_1.xpm", &img);
-	load_img(v, v->tex[1], "./texture/wall_2.xpm", &img);
-	load_img(v, v->tex[2], "./texture/wall_3.xpm", &img);
-	load_img(v, v->tex[3], "./texture/wall_4.xpm", &img);
+	load_img(v, v->tex[0], v->c.east, &img);
+	load_img(v, v->tex[1], v->c.west, &img);
+	load_img(v, v->tex[2], v->c.south, &img);
+	load_img(v, v->tex[3], v->c.north, &img);
 }
 
 void	init_dir(t_coord *dir, t_coord *plane, int direction)
@@ -96,36 +102,32 @@ void	init_array(int ***tex)
 	}
 }
 
-void	init_vars(t_vars *v, t_player *p, t_color *c)
+void	init_vars(t_vars *v, t_player *p)
 {
 	/* parse */
 	p->pos.x = 3 + 0.3;
 	p->pos.y = 3 + 0.3;
 	p->direction = W;
-	c->floor_color = 0x00ef91;
-	c->ceiling_color = 0x364369;
 	v->row = 12;
 	v->col = 24;
 
-	v->map = (char **)malloc(sizeof(char *) * 12);
-	v->map[0] = "111111111111111111111111";
-	v->map[1] = "100000000000000000000001";
-	v->map[2] = "100000000000000000000001";
-	v->map[3] = "100000000000000000000001";
-	v->map[4] = "100000111110000101010001";
-	v->map[5] = "100000100010000000000001";
-	v->map[6] = "100000100010000100010001";
-	v->map[7] = "100000100010000000000001";
-	v->map[8] = "100000110110000101010001";
-	v->map[9] = "100000000000000000000001";
-	v->map[10] = "100000000000000000000001";
-	v->map[11] = "111111111111111111111111";
+	// v->map = (char **)malloc(sizeof(char *) * 12);
+	// v->map[0] = "111111111111111111111111";
+	// v->map[1] = "100000000000000000000001";
+	// v->map[2] = "100000000000000000000001";
+	// v->map[3] = "100000000000000000000001";
+	// v->map[4] = "100000111110000101010001";
+	// v->map[5] = "100000100010000000000001";
+	// v->map[6] = "100000100010000100010001";
+	// v->map[7] = "100000100010000000000001";
+	// v->map[8] = "100000110110000101010001";
+	// v->map[9] = "100000000000000000000001";
+	// v->map[10] = "100000000000000000000001";
+	// v->map[11] = "111111111111111111111111";
 
 	/* init */
 	init_dir(&(p->dir), &(p->plane), p->direction);
 	init_array(&(v->tex));
-	v->p = p;
-	v->c = c;
 	v->mlx = mlx_init();
 	v->win = mlx_new_window(v->mlx, WIDTH, HEIGHT, "Cub3d");
 	v->map_img.ptr = mlx_new_image(v->mlx, WIDTH, HEIGHT);
