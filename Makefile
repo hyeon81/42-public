@@ -8,8 +8,8 @@ CFLAG = -Wall -Wextra -Werror
 
 HEADERS = ./header
 
-SRCS = srcs/cub3d.c srcs/init_map.c srcs/util.c srcs/ft_split.c srcs/split_for_map.c  srcs/ft_atoi.c\
-	srcs/path_color.c srcs/error.c srcs/white_split.c\
+SRCS = srcs/cub3d.c srcs/save_map.c srcs/util.c srcs/ft_split.c srcs/split_for_map.c  srcs/save_num.c\
+	srcs/set_map.c srcs/error.c srcs/white_split.c srcs/check_map.c\
 	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
 
 OBJS = $(SRCS:.c=.o)

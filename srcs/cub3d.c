@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/19 21:20:26 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/21 19:46:09 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "stdio.h"
 
 void	print(t_vars *vars)
 {
@@ -49,23 +48,16 @@ void	init_info(t_vars	*vars, char	*filename)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		exit_with_err("Failed to open file.\n");
+	ft_memset(vars, 0, sizeof(t_vars));
 	ft_memset(&check, 0, sizeof(t_check));
 	check.mapset = ft_calloc(sizeof(int), 6);
-	ft_memset(vars, 0, sizeof(t_vars));
-	if (init_map(vars, fd, &check) == ERROR)
-		exit_with_err("ERROR : init_map\n");
-}
-
-void	leaks()
-{
-	system("leaks cub3D");
+	init_map(vars, fd, &check);
 }
 
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
 
-	atexit(leaks);
 	if (argc != 2 || check_arg(argv[1]))
 		exit_with_err("Invalid filetype\n");
 	init_info(&vars, argv[1]);
@@ -74,5 +66,6 @@ int	main(int argc, char **argv)
 	free(vars.south);
 	free(vars.west);
 	free(vars.east);
+	// system("leaks cub3D");
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_for_map.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:48:32 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/17 21:59:02 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/21 19:36:54 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,6 @@ static char	*ft_strdup_for_split(char const *str, int len)
 	copy[i] = '\0';
 	return (copy);
 }
-
-// static char	**free_all(char **arr)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (arr[i])
-// 	{
-// 		free(arr[i]);
-// 		i++;
-// 	}
-// 	free(arr);
-// 	return (NULL);
-// }
 
 char	**split_for_map(char const *s, char c)
 {

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   white_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:39:40 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/19 21:47:13 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/21 19:32:10 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "stdio.h"
+
 static char	**make_arr(char const *s)
 {
 	int		i;
@@ -64,20 +64,6 @@ static char	*ft_strdup_for_split(char const *str, int len)
 	copy[i] = '\0';
 	return (copy);
 }
-
-// char	**free_all(char **arr)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (arr[i])
-// 	{
-// 		free(arr[i]);
-// 		i++;
-// 	}
-// 	free(arr);
-// 	return (NULL);
-// }
 
 char	**white_split(char const *s)
 {
