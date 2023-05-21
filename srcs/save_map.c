@@ -6,7 +6,7 @@
 /*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:49:07 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/21 19:42:46 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/21 21:09:08 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	save_map(char **backup, t_vars *vars, t_check *check)
 		vars->map = split_for_map(*backup, '\n');
 		free(*backup);
 		remove_newline(vars->map);
-		check_valid(vars->map, &(vars->player), &(vars->col), &(vars->row));
+		check_valid(vars->map, vars->p, &(vars->col), &(vars->row));
 	}
 	else
 		exit_with_err("error\n");
@@ -102,7 +102,7 @@ int	init_map(t_vars	*vars, int fd, t_check *check)
 			break ;
 		if (backup == NULL)
 			backup = ft_strdup("");
-		parse_line(line, &backup, check, &(vars->player.direction));
+		parse_line(line, &backup, check, &(vars->p->direction));
 		set_map(line, vars, check);
 		free (line);
 	}
@@ -110,6 +110,5 @@ int	init_map(t_vars	*vars, int fd, t_check *check)
 	if (check->path_count != 1 )
 		exit_with_err("ERROR : init_map\n");
 	save_map(&backup, vars, check);
-	print(vars);
 	return (0);
 }
