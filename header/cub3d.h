@@ -6,7 +6,7 @@
 /*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:31:35 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/21 21:40:26 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/21 21:51:27 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,26 @@ enum e_spawn {
 	W,
 	E
 };
+
+typedef enum e_identifier_type
+{
+	NO = 'N',
+	SO = 'S',
+	WE = 'W',
+	EA = 'E',
+	F = 'F',
+	C = 'C',
+}	t_identifier_type;
+
+typedef struct s_check
+{
+	int	*mapset;
+	int	path_count;
+	int	count;
+	int	mapflag;
+	int	id;
+
+}	t_check;
 
 typedef struct s_img
 {
