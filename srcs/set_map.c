@@ -6,7 +6,7 @@
 /*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:32:48 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/21 19:44:02 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/21 21:25:34 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ int	init_color(char *value, t_vars *vars, int type)
 		i++;
 	}
 	if (type == C)
-		vars->ceiling_color = res;
+		vars->c.ceiling_color = res;
 	if (type == F)
-		vars->floor_color = res;
+		vars->c.floor_color = res;
 	free_all(tmp);
 	return (0);
 }
@@ -91,17 +91,17 @@ void	parse_direction(char **str, int identifier, t_vars *vars, int *id)
 	while (str[1][i])
 	{
 		if (str[1][i] == '\n')
-			str[1][i] = '\0' ;
+			str[1][i] = '\0';
 		i++;
 	}
 	if (*id == NO)
-		vars->north = str[1];
+		vars->c.north = str[1];
 	else if (*id == SO)
-		vars->south = str[1];
+		vars->c.south = str[1];
 	else if (*id == WE)
-		vars->west = str[1];
+		vars->c.west = str[1];
 	else if (*id == EA)
-		vars->east = str[1];
+		vars->c.east = str[1];
 	free(str[0]);
 	free(str);
 }

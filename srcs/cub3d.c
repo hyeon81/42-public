@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/21 19:46:09 by meliesf          ###   ########.fr       */
+/*   Created: 2023/05/19 17:35:28 by hyeokim2          #+#    #+#             */
+/*   Updated: 2023/05/21 21:35:34 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,16 @@ void	print(t_vars *vars)
 	printf("------map------\n");
 	while (vars->map[i])
 	printf("%s\n", vars->map[i++]);
-	printf("north = %s\n", vars->north);
-	printf("south = %s\n", vars->south);
-	printf("west = %s\n", vars->west);
-	printf("east = %s\n", vars->east);
-	printf("floorcolor = %d\n", vars->floor_color);
-	printf("ceiling_color = %d\n", vars->ceiling_color);
+	printf("north = %s\n", vars->c.north);
+	printf("south = %s\n", vars->c.south);
+	printf("west = %s\n", vars->c.west);
+	printf("east = %s\n", vars->c.east);
+	printf("floorcolor = %d\n", vars->c.floor_color);
+	printf("ceiling_color = %d\n", vars->c.ceiling_color);
 	printf("---------------\n");
+	printf("x = %f\n", vars->p->pos.x);
+	printf("y = %f\n", vars->p->pos.y);
+	printf("direction = %c\n", vars->p->direction);
 }
 
 int	check_arg(char *filename)
@@ -40,7 +43,7 @@ int	check_arg(char *filename)
 	return (0);
 }
 
-void	init_info(t_vars	*vars, char	*filename)
+void	init_info(t_vars	*vars, char	*filename, t_player *player)
 {
 	int		fd;
 	t_check	check;
@@ -50,22 +53,37 @@ void	init_info(t_vars	*vars, char	*filename)
 		exit_with_err("Failed to open file.\n");
 	ft_memset(vars, 0, sizeof(t_vars));
 	ft_memset(&check, 0, sizeof(t_check));
+	vars->p = player;
 	check.mapset = ft_calloc(sizeof(int), 6);
 	init_map(vars, fd, &check);
+}
+
+void	all_free(t_vars *vars)
+{
+	free_all(vars->map);
+	free(vars->c.north);
+	free(vars->c.south);
+	free(vars->c.west);
+	free(vars->c.east);
 }
 
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
-
+	t_player	p;
+	
 	if (argc != 2 || check_arg(argv[1]))
 		exit_with_err("Invalid filetype\n");
-	init_info(&vars, argv[1]);
-	free_all(vars.map);
-	free(vars.north);
-	free(vars.south);
-	free(vars.west);
-	free(vars.east);
+	init_info(&vars, argv[1], &p);
+	init_vars(&vars, &p);
+	load_tex(&vars);
+	main_loop(&vars);
+	mlx_hook(vars.win, ON_DESTROY, 0, &ft_exit, &vars);
+	mlx_hook(vars.win, KEY_PRESS, 1L << 0, &make_move, &(vars));
+	mlx_loop_hook(vars.mlx, &draw_map, &vars);
+	mlx_loop(vars.mlx);
+	print(&vars);
+	all_free(&vars);
 	// system("leaks cub3D");
 	return (0);
 }
