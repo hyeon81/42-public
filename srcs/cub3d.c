@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 21:18:46 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/21 19:46:09 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "stdio.h"
 
 void	print(t_vars *vars)
 {
 	int	i = 0;
 	printf("------map------\n");
 	while (vars->map[i])
-		printf("%s\n", vars->map[i++]);
+	printf("%s\n", vars->map[i++]);
 	printf("north = %s\n", vars->north);
 	printf("south = %s\n", vars->south);
 	printf("west = %s\n", vars->west);
@@ -49,11 +48,10 @@ void	init_info(t_vars	*vars, char	*filename)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		exit_with_err("Failed to open file.\n");
+	ft_memset(vars, 0, sizeof(t_vars));
 	ft_memset(&check, 0, sizeof(t_check));
 	check.mapset = ft_calloc(sizeof(int), 6);
-	ft_memset(vars, 0, sizeof(t_vars));
-	if (init_map(vars, fd, &check) == ERROR)
-		exit_with_err("ERROR : init_map\n");
+	init_map(vars, fd, &check);
 }
 
 int	main(int argc, char **argv)
@@ -63,5 +61,11 @@ int	main(int argc, char **argv)
 	if (argc != 2 || check_arg(argv[1]))
 		exit_with_err("Invalid filetype\n");
 	init_info(&vars, argv[1]);
+	free_all(vars.map);
+	free(vars.north);
+	free(vars.south);
+	free(vars.west);
+	free(vars.east);
+	// system("leaks cub3D");
 	return (0);
 }

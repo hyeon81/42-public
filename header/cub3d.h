@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:29:45 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 20:50:40 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/21 19:36:49 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 // # include <mlx.h>
 # include <stdlib.h>
+#include <stdio.h>
 # include "../get_next_line/get_next_line.h"
 
 # define ERROR -1
@@ -95,17 +96,25 @@ void		*ft_memset(void *b, int c, size_t len);
 int			check_arg(char *filename);
 char		**ft_split(char const *s, char c);
 char		**free_all(char **arr);
+int			ft_is_space(char c);
 int			ft_strncmp(const char *s1, const char *s2, size_t len);
 int			strs_len(char	**strs);
 void		*ft_calloc(size_t count, size_t size);
 int			print_err(char	*str);
 int			exit_with_err(char	*str);
 char		**split_for_map(char const *s, char c);
-int			ft_atoi(const char *str);
 int 		set_map(char	*line, t_vars *vars, t_check *check);
 int			exit_with_err(char	*str);
 int			print_err(char	*str);
 void		print(t_vars *vars);
+char		**white_split(char const *s);
+void		remove_newline(char	**map);
+int			check_valid(char **map, t_player *player, int *col, int *row);
+int			save_num(const char *str);
+
+
+
+
 
 
 #endif
