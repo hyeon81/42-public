@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_color.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:32:48 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/17 17:11:04 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/19 18:01:06 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int	init_color(char *value, t_vars *vars, int type)
 		bit -= 8;
 	}
 	if (type == C)
-		vars->ceiling_color = res;
+		vars->c.ceiling_color = res;
 	if (type == F)
-		vars->floor_color = res;
+		vars->c.floor_color = res;
 	free_all(tmp);
 	return (0);
 }
@@ -60,13 +60,13 @@ void	parse_direction(char ** str, int identifier, t_vars *vars, int *id)
 	*id = identifier;
 
 	if (*id == NO)
-		vars->north = str[1];
+		vars->c.north = str[1];
 	else if (*id == SO)
-		vars->south = str[1];
+		vars->c.south = str[1];
 	else if (*id == WE)
-		vars->west = str[1];
+		vars->c.west = str[1];
 	else if (*id == EA)
-		vars->east = str[1];
+		vars->c.east = str[1];
 	free(str[0]);
 	free(str);
 }

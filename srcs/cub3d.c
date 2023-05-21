@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/02 18:13:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/17 18:50:57 by eunjiko          ###   ########.fr       */
+/*   Created: 2023/05/19 17:35:28 by hyeokim2          #+#    #+#             */
+/*   Updated: 2023/05/19 20:49:18 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	print(t_vars *vars)
 	printf("------map------\n");
 	while (vars->map[i])
 		printf("%s\n", vars->map[i++]);
-	printf("north = %s\n", vars->north);
-	printf("south = %s\n", vars->south);
-	printf("west = %s\n", vars->west);
-	printf("east = %s\n", vars->east);
-	printf("floorcolor = %d\n", vars->floor_color);
-	printf("ceiling_color = %d\n", vars->ceiling_color);
+	printf("north = %s\n", vars->c.north);
+	printf("south = %s\n", vars->c.south);
+	printf("west = %s\n", vars->c.west);
+	printf("east = %s\n", vars->c.east);
+	printf("floorcolor = %d\n", vars->c.floor_color);
+	printf("ceiling_color = %d\n", vars->c.ceiling_color);
 	printf("---------------\n");
 }
 
@@ -58,10 +58,21 @@ void	init_info(t_vars	*vars, char	*filename)
 
 int	main(int argc, char **argv)
 {
-	t_vars	vars;
+	t_player	p;
+	t_color		c;
+	t_vars		vars;
 
 	if (argc != 2 || check_arg(argv[1]))
 		exit_with_err("Invalid filetype\n");
+	vars.p = &p;
 	init_info(&vars, argv[1]);
+	init_vars(&vars, &p);
+	load_tex(&vars);
+	main_loop(&vars);
+	mlx_hook(vars.win, ON_DESTROY, 0, &ft_exit, &vars);
+	mlx_hook(vars.win, KEY_PRESS, 1L << 0, &make_move, &(vars));
+	mlx_loop_hook(vars.mlx, &draw_map, &vars);
+	mlx_loop(vars.mlx);
+
 	return (0);
 }
