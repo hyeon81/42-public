@@ -5,13 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/19 17:35:28 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/19 20:49:18 by hyeokim2         ###   ########.fr       */
+/*   Created: 2023/05/22 15:36:17 by hyeokim2          #+#    #+#             */
+/*   Updated: 2023/05/22 15:37:47 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include "stdio.h"
 
 void	print(t_vars *vars)
 {
@@ -26,6 +25,9 @@ void	print(t_vars *vars)
 	printf("floorcolor = %d\n", vars->c.floor_color);
 	printf("ceiling_color = %d\n", vars->c.ceiling_color);
 	printf("---------------\n");
+	printf("x = %f\n", vars->p->pos.x);
+	printf("y = %f\n", vars->p->pos.y);
+	printf("direction = %c\n", vars->p->direction);
 }
 
 int	check_arg(char *filename)
@@ -41,7 +43,7 @@ int	check_arg(char *filename)
 	return (0);
 }
 
-void	init_info(t_vars	*vars, char	*filename)
+void	init_info(t_vars	*vars, char	*filename, t_player *player)
 {
 	int		fd;
 	t_check	check;
@@ -49,23 +51,30 @@ void	init_info(t_vars	*vars, char	*filename)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		exit_with_err("Failed to open file.\n");
-	ft_memset(&check, 0, sizeof(t_check));
-	check.mapset = ft_calloc(sizeof(int), 6);
 	ft_memset(vars, 0, sizeof(t_vars));
-	if (init_map(vars, fd, &check) == ERROR)
-		exit_with_err("ERROR : init_map\n");
+	ft_memset(&check, 0, sizeof(t_check));
+	vars->p = player;
+	check.mapset = ft_calloc(sizeof(int), 6);
+	init_map(vars, fd, &check);
+}
+
+void	all_free(t_vars *vars)
+{
+	free_all(vars->map);
+	free(vars->c.north);
+	free(vars->c.south);
+	free(vars->c.west);
+	free(vars->c.east);
 }
 
 int	main(int argc, char **argv)
 {
-	t_player	p;
-	t_color		c;
 	t_vars		vars;
+	t_player	p;
 
 	if (argc != 2 || check_arg(argv[1]))
 		exit_with_err("Invalid filetype\n");
-	vars.p = &p;
-	init_info(&vars, argv[1]);
+	init_info(&vars, argv[1], &p);
 	init_vars(&vars, &p);
 	load_tex(&vars);
 	main_loop(&vars);
@@ -73,6 +82,9 @@ int	main(int argc, char **argv)
 	mlx_hook(vars.win, KEY_PRESS, 1L << 0, &make_move, &(vars));
 	mlx_loop_hook(vars.mlx, &draw_map, &vars);
 	mlx_loop(vars.mlx);
+	print(&vars);
+	all_free(&vars);
+	// system("leaks cub3D");
 
 	return (0);
 }

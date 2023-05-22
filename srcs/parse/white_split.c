@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_for_map.c                                    :+:      :+:    :+:   */
+/*   white_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/16 15:48:32 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/17 01:43:09 by meliesf          ###   ########.fr       */
+/*   Created: 2023/05/19 20:39:40 by eunjiko           #+#    #+#             */
+/*   Updated: 2023/05/22 15:11:29 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static char	**make_arr(char const *s, char c)
+static char	**make_arr(char const *s)
 {
 	int		i;
 	int		count;
@@ -24,20 +24,25 @@ static char	**make_arr(char const *s, char c)
 		return (NULL);
 	while (s[i])
 	{
-		if (s[i] == c)
+		if (ft_is_space(s[i]) == 0)
+		{
+			while (s[i] && ft_is_space(s[i]) == 0)
+				i++;			
 			count++;
-		i++;
+		}
+		else
+			i++;
 	}
 	arr = (char **)malloc(sizeof(char *) * (count + 1));
 	return (arr);
 }
 
-static int	word_len(char const *str, char c)
+static int	word_len(char const *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] && str[i] != c)
+	while (str[i] && ft_is_space(str[i]) != 0)
 		i++;
 	return (i);
 }
@@ -60,21 +65,7 @@ static char	*ft_strdup_for_split(char const *str, int len)
 	return (copy);
 }
 
-// static char	**free_all(char **arr)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (arr[i])
-// 	{
-// 		free(arr[i]);
-// 		i++;
-// 	}
-// 	free(arr);
-// 	return (NULL);
-// }
-
-char	**split_for_map(char const *s, char c)
+char	**white_split(char const *s)
 {
 	int		i;
 	int		len;
@@ -82,17 +73,22 @@ char	**split_for_map(char const *s, char c)
 
 	i = 0;
 	len = 0;
-	arr = make_arr(s, c);
+	arr = make_arr(s);
 	if (arr == NULL)
 		return (NULL);
 	while (*s)
 	{
-			len = word_len(s, c);
+		if (ft_is_space(*s) != 0)
+		{
+			len = word_len(s);
 			arr[i] = ft_strdup_for_split(s, len);
 			if (arr[i] == NULL)
-				return ((arr));
-			s += len + 1;
+				return (free_all(arr));
+			s += len;
 			i++;
+		}
+		else
+			s++;
 	}
 	arr[i] = 0;
 	return (arr);

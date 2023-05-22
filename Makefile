@@ -6,9 +6,9 @@ CFLAG = #-g -fsanitize=address #-Wall -Wextra -Werror
 
 HEADERS = ./header
 
-SRCS = srcs/cub3d.c srcs/move.c srcs/init.c srcs/draw.c srcs/clac.c srcs/minimap.c srcs/utils.c srcs/exec.c\
-	srcs/init_map.c srcs/util.c srcs/ft_split.c srcs/split_for_map.c  srcs/ft_atoi.c\
-	srcs/path_color.c srcs/error.c\
+SRCS = srcs/cub3d.c srcs/exec/move.c srcs/exec/init.c srcs/exec/draw.c srcs/exec/clac.c srcs/exec/minimap.c srcs/exec/utils.c srcs/exec/exec.c\
+	srcs/parse/save_map.c srcs/parse/util.c srcs/parse/ft_split.c srcs/parse/split_for_map.c srcs/parse/save_num.c\
+	srcs/parse/set_map.c srcs/parse/error.c srcs/parse/white_split.c srcs/parse/check_map.c\
 	get_next_line/get_next_line.c get_next_line/get_next_line_utils.c\
 
 OBJS = $(SRCS:.c=.o)

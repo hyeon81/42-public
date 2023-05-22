@@ -4,7 +4,13 @@
         "cub3d.h": "c"
 =======
         "cub3d.h": "c",
+<<<<<<< HEAD
+        "get_next_line.h": "c",
+        "chrono": "c",
+        "unordered_map": "c"
+=======
         "get_next_line.h": "c"
 >>>>>>> b81f82c365fcaa95ab846df88dcccb5598ac1ce5
+>>>>>>> 23f8861d5ee294fce78785a0a7d6a3a9629dd66d
     }
 }

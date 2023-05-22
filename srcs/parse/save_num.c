@@ -1,39 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   save_num.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:48:26 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/17 00:53:17 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/21 20:21:30 by meliesf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// int	ft_atoi(const char *str)
-// {
-// 	int			idx;
-// 	long long	sign;
-// 	long long	res;
+#include "cub3d.h"
 
-// 	idx = 0;
-// 	sign = 1;
-// 	res = 0;
-// 	while ((str[idx] >= 9 && str[idx] <= 13) || str[idx] == ' ')
-// 		idx++;
-// 	if (str[idx] == '+' || str[idx] == '-')
-// 		return (-1);
-// 	while (str[idx] >= '0' && str[idx] <= '9')
-// 	{
-// 		res = res * 10 + str[idx] - '0';
-// 		if (res < 0 || res > 255) //0이상 225이하
-// 			return (-1);
-// 		idx++;
-// 	}
-// 	return ((int)(res * sign));
-// }
 
-int	ft_atoi(const char *str)
+int	save_num(const char *str)
 {
 	int			idx;
 	long long	res;
@@ -42,15 +22,19 @@ int	ft_atoi(const char *str)
 	res = 0;
 	while ((str[idx] >= 9 && str[idx] <= 13) || str[idx] == ' ')
 		idx++;
-	if (str[idx] == '+' || str[idx] == '-')
-		return (-1);
-	while (str[idx] >= '0' && str[idx] <= '9')
+	while (str[idx])
 	{
-		res = res * 10 + str[idx] - '0';
-		if (res > 255) //0이상 225이하 
-			return (-1);
+		if (str[idx] >= '0' && str[idx] <= '9')
+		{
+			res = res * 10 + str[idx] - '0';
+			if (res > 255)
+				return (exit_with_err("wrong number\n"));
+		}
+		else if (str[idx] == '\n')
+			return(res);
+		else
+			return (exit_with_err("wrong number\n"));
 		idx++;
 	}
 	return (res);
 }
-

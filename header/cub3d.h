@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/19 17:31:35 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/19 18:06:52 by hyeokim2         ###   ########.fr       */
+/*   Created: 2023/05/22 15:38:34 by hyeokim2          #+#    #+#             */
+/*   Updated: 2023/05/22 15:39:24 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,12 +143,12 @@ void	ft_char_free(char **arr, int idx);
 
 typedef enum e_identifier_type
 {
-	NO,
-	SO,
-	WE,
-	EA,
-	F,
-	C,
+	NO = 'N',
+	SO = 'S',
+	WE = 'W',
+	EA = 'E',
+	F = 'F',
+	C = 'C',
 }	t_identifier_type;
 
 typedef struct s_check
@@ -167,16 +167,20 @@ void		*ft_memset(void *b, int c, size_t len);
 int			check_arg(char *filename);
 char		**ft_split(char const *s, char c);
 char		**free_all(char **arr);
+int			ft_is_space(char c);
 int			ft_strncmp(const char *s1, const char *s2, size_t len);
 int			strs_len(char	**strs);
 void		*ft_calloc(size_t count, size_t size);
 int			print_err(char	*str);
 int			exit_with_err(char	*str);
 char		**split_for_map(char const *s, char c);
-int			ft_atoi(const char *str);
 int 		set_map(char	*line, t_vars *vars, t_check *check);
 int			exit_with_err(char	*str);
 int			print_err(char	*str);
 void		print(t_vars *vars);
+char		**white_split(char const *s);
+void		remove_newline(char	**map);
+int			check_valid(char **map, t_player *player, int *col, int *row);
+int			save_num(const char *str);
 
 #endif
