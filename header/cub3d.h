@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:38:34 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/22 17:07:52 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/22 21:42:50 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,26 @@ typedef struct s_vars
 	t_color		c;
 }t_vars;
 
+typedef enum e_identifier_type
+{
+	NO = 'N',
+	SO = 'S',
+	WE = 'W',
+	EA = 'E',
+	F = 'F',
+	C = 'C',
+}	t_identifier_type;
+
+typedef struct s_check
+{
+	int	*mapset;
+	int	path_count;
+	int	count;
+	int	mapflag;
+	int	id;
+
+}	t_check;
+
 /* exec.c */
 void	main_loop(t_vars *v);
 int		draw_map(t_vars *v);
@@ -136,46 +156,26 @@ void	set_coord(t_coord *c, double x, double y);
 void	ft_int_free(int **arr, int idx);
 void	ft_char_free(char **arr, int idx);
 
-typedef enum e_identifier_type
-{
-	NO = 'N',
-	SO = 'S',
-	WE = 'W',
-	EA = 'E',
-	F = 'F',
-	C = 'C',
-}	t_identifier_type;
-
-typedef struct s_check
-{
-	int	*mapset;
-	int	path_count;
-	int	count;
-	int	mapflag;
-	int	id;
-
-}	t_check;
-
-
-int			init_map(t_vars	*vars, int fd, t_check *check);
-void		*ft_memset(void *b, int c, size_t len);
-int			check_arg(char *filename);
-char		**ft_split(char const *s, char c);
-char		**free_all(char **arr);
-int			ft_is_space(char c);
-int			ft_strncmp(const char *s1, const char *s2, size_t len);
-int			strs_len(char	**strs);
-void		*ft_calloc(size_t count, size_t size);
-int			print_err(char	*str);
-int			exit_with_err(char	*str);
-char		**split_for_map(char const *s, char c);
-int 		set_map(char	*line, t_vars *vars, t_check *check);
-int			exit_with_err(char	*str);
-int			print_err(char	*str);
-void		print(t_vars *vars);
-char		**white_split(char const *s);
-void		remove_newline(char	**map);
-int			check_valid(char **map, t_player *player, int *col, int *row);
-int			save_num(const char *str);
+/* parse */
+int		init_map(t_vars	*vars, int fd, t_check *check);
+void	*ft_memset(void *b, int c, size_t len);
+int		check_arg(char *filename);
+char	**ft_split(char const *s, char c);
+char	**free_all(char **arr);
+int		ft_is_space(char c);
+int		ft_strncmp(const char *s1, const char *s2, size_t len);
+int		strs_len(char	**strs);
+void	*ft_calloc(size_t count, size_t size);
+int		print_err(char	*str);
+int		exit_with_err(char	*str);
+char	**split_for_map(char const *s, char c);
+int		set_map(char	*line, t_vars *vars, t_check *check);
+int		exit_with_err(char	*str);
+int		print_err(char	*str);
+void	print(t_vars *vars);
+char	**white_split(char const *s);
+void	remove_newline(char	**map);
+int		check_valid(char **map, t_player *player, int *col, int *row);
+int		save_num(const char *str);
 
 #endif
