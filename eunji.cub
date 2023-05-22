@@ -3,7 +3,7 @@ SO ./texture/wall_3.xpm
 WE ./texture/wall_2.xpm
 EA ./texture/wall_1.xpm
 
-C 134,0159,247
+C 134,255,247
 F 24,100,171
 
 
