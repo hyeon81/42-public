@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:12 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/22 14:48:55 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:37:15 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	load_img(t_vars *v, int *tex, char *path, t_img *img)
 		}
 		y++;
 	}
-	/* free */
 	mlx_destroy_image(v->mlx, img->ptr);
 }
 
@@ -52,17 +51,17 @@ void	load_tex(t_vars *v)
 
 void	init_dir(t_coord *dir, t_coord *plane, int direction)
 {
-	if (direction == E)
+	if (direction == EA)
 	{
 		set_coord(dir, 1, 0);
 		set_coord(plane, 0, 0.66);
 	}
-	else if (direction == W)
+	else if (direction == WE)
 	{
 		set_coord(dir, -1, 0);
 		set_coord(plane, 0, -0.66);
 	}
-	else if (direction == N)
+	else if (direction == NO)
 	{
 		set_coord(dir, 0, -1);
 		set_coord(plane, 0.66, 0);
@@ -103,7 +102,6 @@ void	init_array(int ***tex)
 
 void	init_vars(t_vars *v, t_player *p)
 {
-	/* init */
 	init_dir(&(p->dir), &(p->plane), p->direction);
 	init_array(&(v->tex));
 	v->mlx = mlx_init();

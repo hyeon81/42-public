@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:36:17 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/22 15:37:47 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:48:42 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,17 @@ void	all_free(t_vars *vars)
 	free(vars->c.east);
 }
 
+void	leaks(void)
+{
+	system("leaks cub3D");
+}
+
 int	main(int argc, char **argv)
 {
 	t_vars		vars;
 	t_player	p;
 
+	atexit(leaks);
 	if (argc != 2 || check_arg(argv[1]))
 		exit_with_err("Invalid filetype\n");
 	init_info(&vars, argv[1], &p);

@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:01 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/19 17:32:53 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/22 16:43:05 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ void	set_draw_map(t_raycast *r, int x, t_img *map_img, int **tex)
 	int		tex_num;
 	int		y;
 
-	step = 1.0 * TEX_H / r->line_h;
+	step = (double)TEX_H / (double)r->line_h;
 	tex_pos = (r->start - (HEIGHT / 2) + (r->line_h / 2)) * step;
 	y = r->start;
 	while (y < r->end)
 	{
-		tex_y = (int)tex_pos % TEX_H;
+		tex_y = (int)tex_pos;
 		tex_pos += step;
 		if (r->ray_dir.x > 0 && r->side == 0)
 			tex_num = 0;

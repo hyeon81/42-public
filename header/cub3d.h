@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:38:34 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/22 15:39:24 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:07:52 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,14 @@
 # define KEY_A 0
 # define KEY_S 1
 # define KEY_D 2
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
 # define KEY_PRESS 2
 # define ON_DESTROY 17
-# define WIDTH 800
-# define HEIGHT 800
+# define WIDTH 1920
+# define HEIGHT 1280
 # define TEX_W 64
 # define TEX_H 64
-
-enum e_spawn {
-	N,
-	S,
-	W,
-	E
-};
 
 typedef struct s_img
 {
