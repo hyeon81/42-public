@@ -6,7 +6,7 @@
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:49:07 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/22 16:20:07 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/22 18:51:32 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,14 @@ int	init_map(t_vars	*vars, int fd, t_check *check)
 			backup = ft_strdup("");
 		parse_line(line, &backup, check, &(vars->p->direction));
 		if (check->count == 6)
+		{
+			free(line);
 			continue ;
+		}
 		else
 			set_map(line, vars, check);
 		free (line);
 	}
-	close(fd);
 	if (check->path_count != 1)
 		exit_with_err("Invalid player\n");
 	save_map(&backup, vars, check);

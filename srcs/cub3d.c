@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/19 17:35:28 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/22 16:03:40 by eunjiko          ###   ########.fr       */
-=======
-/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:36:17 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/22 15:37:47 by hyeokim2         ###   ########.fr       */
->>>>>>> 467bae806f23bfd04195799e910171770984736a
+/*   Updated: 2023/05/22 18:55:12 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +59,7 @@ void	init_info(t_vars	*vars, char	*filename, t_player *player)
 	vars->p = player;
 	check.mapset = ft_calloc(sizeof(int), 6);
 	init_map(vars, fd, &check);
+	close(fd);
 }
 
 void	all_free(t_vars *vars)
@@ -77,15 +71,21 @@ void	all_free(t_vars *vars)
 	free(vars->c.east);
 }
 
-int	main(int argc, char **argv)
+void	leaks(void)
+{
+	system("leaks cub3D");
+}
+
+int	main(int argc, char	**argv)
 {
 	t_vars		vars;
 	t_player	p;
 
+	atexit(leaks);
 	if (argc != 2 || check_arg(argv[1]))
 		exit_with_err("Invalid filetype\n");
 	init_info(&vars, argv[1], &p);
-	print(&vars);
+	// print(&vars);
 	init_vars(&vars, &p);
 	load_tex(&vars);
 	main_loop(&vars);
@@ -94,7 +94,5 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(vars.mlx, &draw_map, &vars);
 	mlx_loop(vars.mlx);
 	all_free(&vars);
-	// system("leaks cub3D");
-
 	return (0);
 }
