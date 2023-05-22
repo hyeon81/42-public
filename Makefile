@@ -2,7 +2,7 @@ NAME = cub3D
 
 CC = cc
 
-CFLAG = #-g -fsanitize=address #-Wall -Wextra -Werror 
+CFLAG = -Wall -Wextra -Werror #-g -fsanitize=address
 
 HEADERS = ./header
 
