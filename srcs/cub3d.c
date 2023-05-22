@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:28 by hyeokim2          #+#    #+#             */
 /*   Updated: 2023/05/22 16:03:40 by eunjiko          ###   ########.fr       */
+=======
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/22 15:36:17 by hyeokim2          #+#    #+#             */
+/*   Updated: 2023/05/22 15:37:47 by hyeokim2         ###   ########.fr       */
+>>>>>>> 467bae806f23bfd04195799e910171770984736a
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +24,7 @@ void	print(t_vars *vars)
 	int	i = 0;
 	printf("------map------\n");
 	while (vars->map[i])
-	printf("%s\n", vars->map[i++]);
+		printf("%s\n", vars->map[i++]);
 	printf("north = %s\n", vars->c.north);
 	printf("south = %s\n", vars->c.south);
 	printf("west = %s\n", vars->c.west);
@@ -88,5 +95,6 @@ int	main(int argc, char **argv)
 	mlx_loop(vars.mlx);
 	all_free(&vars);
 	// system("leaks cub3D");
+
 	return (0);
 }

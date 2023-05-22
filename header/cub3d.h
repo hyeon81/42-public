@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/19 17:31:35 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/22 14:30:58 by hyeokim2         ###   ########.fr       */
+/*   Created: 2023/05/22 15:38:34 by hyeokim2          #+#    #+#             */
+/*   Updated: 2023/05/22 15:39:24 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,6 @@ enum e_spawn {
 	W,
 	E
 };
-
-typedef enum e_identifier_type
-{
-	NO = 'N',
-	SO = 'S',
-	WE = 'W',
-	EA = 'E',
-	F = 'F',
-	C = 'C',
-}	t_identifier_type;
-
-typedef struct s_check
-{
-	int	*mapset;
-	int	path_count;
-	int	count;
-	int	mapflag;
-	int	id;
-
-}	t_check;
 
 typedef struct s_img
 {
@@ -161,7 +141,27 @@ void	set_coord(t_coord *c, double x, double y);
 void	ft_int_free(int **arr, int idx);
 void	ft_char_free(char **arr, int idx);
 
-/* eunji*/
+typedef enum e_identifier_type
+{
+	NO = 'N',
+	SO = 'S',
+	WE = 'W',
+	EA = 'E',
+	F = 'F',
+	C = 'C',
+}	t_identifier_type;
+
+typedef struct s_check
+{
+	int	*mapset;
+	int	path_count;
+	int	count;
+	int	mapflag;
+	int	id;
+
+}	t_check;
+
+
 int			init_map(t_vars	*vars, int fd, t_check *check);
 void		*ft_memset(void *b, int c, size_t len);
 int			check_arg(char *filename);
