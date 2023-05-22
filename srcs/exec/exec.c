@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:25:36 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/19 18:11:35 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/22 20:05:51 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	set_background(t_img *map_img, int floor, int ceiling)
 
 int	draw_map(t_vars *v)
 {
-	make_draw_minimap(v);
 	mlx_put_image_to_window(v->mlx, v->win, v->map_img.ptr, 0, 0);
 	return (0);
 }
