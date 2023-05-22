@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   white_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:39:40 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/22 15:11:29 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/22 15:38:06 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	**make_arr(char const *s)
 		if (ft_is_space(s[i]) == 0)
 		{
 			while (s[i] && ft_is_space(s[i]) == 0)
-				i++;			
+				i++;
 			count++;
 		}
 		else

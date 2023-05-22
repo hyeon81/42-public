@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 18:49:24 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/21 21:38:09 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/22 16:14:56 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	exit_with_err(char	*str)
 {
+	write(2, "Error\n", 6);
 	write(2, str, ft_strlen(str));
 	exit(-1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:32:48 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/22 15:11:51 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/22 16:26:17 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_double(int num, int *check)
 		flag = 5;
 	check[flag]++;
 	if (check[flag] > 1)
-		exit_with_err("error\n");
+		exit_with_err("Invalid identifier\n");
 	return (0);
 }
 
@@ -48,9 +48,9 @@ int	init_color(char *value, t_vars *vars, int type)
 	bit = 16;
 	tmp = ft_split(value, ',');
 	if (!tmp || strs_len(tmp) != 3)
-		exit_with_err("color_error\n");
+		exit_with_err("Invalid identifier\n");
 	while (tmp[i])
-	{ 
+	{
 		num = save_num(tmp[i]);
 		res += num << bit;
 		bit -= 8;
@@ -76,7 +76,7 @@ int	parse_color(char	**identifier, t_vars *vars, int *id)
 		init_color(identifier[1], vars, C);
 		*id = C;
 	}
-	else 
+	else
 		return (1);
 	free_all(identifier);
 	return (0);
@@ -106,18 +106,16 @@ void	parse_direction(char **str, int identifier, t_vars *vars, int *id)
 	free(str);
 }
 
-int set_map(char    *line, t_vars *vars, t_check *check)
+int	set_map(char *line, t_vars *vars, t_check *check)
 {
 	char	**identifier;
-	int	id;
+	int		id;
 
-	if (check->count == 6)
-		return (0);
 	identifier = white_split(line);
 	if (strs_len(identifier) != 2 || identifier[1] == NULL)
 	{
 		if (ft_strncmp(line, "\n", 2) != 0)
-			exit_with_err("parsingnono\n");
+			exit_with_err("Invalid map\n");
 		free_all(identifier);
 		return (0);
 	}
@@ -130,7 +128,7 @@ int set_map(char    *line, t_vars *vars, t_check *check)
 	else if (ft_strncmp(identifier[0], "EA", 3) == 0)
 		parse_direction(identifier, EA, vars, &id);
 	else if (parse_color(identifier, vars, &id) == 1)
-		exit_with_err("parse??\n");
+		exit_with_err("Invalid identifier\n");
 	check->count++;
 	check_double(id, check->mapset);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_for_map.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:48:32 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/21 19:36:54 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/22 15:37:12 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,14 @@ char	**split_for_map(char const *s, char c)
 		return (NULL);
 	while (*s)
 	{
-			len = word_len(s, c);
-			arr[i] = ft_strdup_for_split(s, len);
-			if (arr[i] == NULL)
-				return ((arr));
-			s += len;
-			if (*s)
-				s++;
-			i++;
+		len = word_len(s, c);
+		arr[i] = ft_strdup_for_split(s, len);
+		if (arr[i] == NULL)
+			return (arr);
+		s += len;
+		if (*s)
+			s++;
+		i++;
 	}
 	arr[i] = 0;
 	return (arr);

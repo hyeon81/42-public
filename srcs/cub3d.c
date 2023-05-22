@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:35:28 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/21 21:35:34 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/22 16:03:40 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	print(t_vars *vars)
 	printf("x = %f\n", vars->p->pos.x);
 	printf("y = %f\n", vars->p->pos.y);
 	printf("direction = %c\n", vars->p->direction);
+	printf("col = %d\n", vars->col);
+	printf("row = %d\n", vars->row);
+
 }
 
 int	check_arg(char *filename)
@@ -69,12 +72,13 @@ void	all_free(t_vars *vars)
 
 int	main(int argc, char **argv)
 {
-	t_vars	vars;
+	t_vars		vars;
 	t_player	p;
-	
+
 	if (argc != 2 || check_arg(argv[1]))
 		exit_with_err("Invalid filetype\n");
 	init_info(&vars, argv[1], &p);
+	print(&vars);
 	init_vars(&vars, &p);
 	load_tex(&vars);
 	main_loop(&vars);
@@ -82,7 +86,6 @@ int	main(int argc, char **argv)
 	mlx_hook(vars.win, KEY_PRESS, 1L << 0, &make_move, &(vars));
 	mlx_loop_hook(vars.mlx, &draw_map, &vars);
 	mlx_loop(vars.mlx);
-	print(&vars);
 	all_free(&vars);
 	// system("leaks cub3D");
 	return (0);
