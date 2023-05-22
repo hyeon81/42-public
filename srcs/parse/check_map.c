@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 17:33:21 by meliesf           #+#    #+#             */
-/*   Updated: 2023/05/22 15:01:04 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/22 16:17:03 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int validwall(char **map, int x, int y, int height)
+int	validwall(char **map, int x, int y, int height)
 {
-	int width;
-	int up_width;
-	int down_width;
+	int	width;
+	int	up_width;
+	int	down_width;
+
 	width = ft_strlen(map[y]);
 	if (y == 0 || y == height - 1)
 		return (1);
@@ -37,32 +38,37 @@ int validwall(char **map, int x, int y, int height)
 	return (0);
 }
 
+void	wall_and_player(char **map, int i, int j, t_player *player)
+{
+	int	height;
+
+	height = strs_len(map);
+	if (map[i][j] == '0' || map[i][j] == player->direction)
+	{	
+		if (validwall(map, j, i, height))
+			exit_with_err("Invalid map\n");
+	}
+	if (map[i][j] == player->direction)
+	{
+		player->pos.x = (double)j + 0.3;
+		player->pos.y = (double)i + 0.3;
+	}
+}
+
 int	check_valid(char **map, t_player *player, int *col, int *row)
 {
 	int	i;
 	int	j;
 	int	tmp;
-	int height;
-	
+
 	i = 0;
 	tmp = 0;
-	i = 0;
-	height = strs_len(map);
 	while (map[i])
 	{
 		j = 0;
 		while (map[i][j])
 		{
-			if (map[i][j] == '0' || map[i][j] == player->direction)
-			{	
-					if (validwall(map, j, i, height))
-						exit_with_err("is not valid wall\n");
-			}
-			if (map[i][j] == player->direction) //플레이어 위치의 상하좌우
-			{
-				player->pos.x = (double)j + 0.3;
-				player->pos.y = (double)i + 0.3;
-			}
+			wall_and_player(map, i, j, player);
 			if (tmp < j)
 				tmp = j;
 			j++;
@@ -73,7 +79,6 @@ int	check_valid(char **map, t_player *player, int *col, int *row)
 	*row = i;
 	return (0);
 }
-
 
 int	check_remove(char *line)
 {

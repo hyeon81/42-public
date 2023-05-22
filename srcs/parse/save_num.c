@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   save_num.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:48:26 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/21 20:21:30 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/22 16:24:50 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
 
 int	save_num(const char *str)
 {
@@ -28,12 +27,12 @@ int	save_num(const char *str)
 		{
 			res = res * 10 + str[idx] - '0';
 			if (res > 255)
-				return (exit_with_err("wrong number\n"));
+				exit_with_err("Invalid color\n");
 		}
 		else if (str[idx] == '\n')
-			return(res);
+			return (res);
 		else
-			return (exit_with_err("wrong number\n"));
+			exit_with_err("Invalid color\n");
 		idx++;
 	}
 	return (res);

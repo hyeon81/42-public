@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 19:49:07 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/21 21:09:08 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/22 18:51:32 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ int	make_line(char *line, char **backup, t_check *check, int *direction)
 		if (line[i] != ' ' && line[i] != '0' && line[i] != '1' && \
 			line[i] != '\n' && line[i] != 'N' && line[i] != 'S' && line[i] != \
 			'W' && line[i] != 'E')
-			exit_with_err("ERROR : is not valid map");
+			exit_with_err("Invalid map\n");
 		if (line[i] == 'N' || line[i] == 'S' || line[i] == 'W' || \
 			line[i] == 'E')
 		{
 			*direction = line[i];
 			check->path_count++;
-			if(check->path_count > 1)
-				exit_with_err("ERROR : player is not only one\n");
+			if (check->path_count > 1)
+				exit_with_err("Player is not only one\n");
 		}
 		i++;
 	}
@@ -69,10 +69,9 @@ int	parse_line(char *line, char **backup, t_check *check, int *direction)
 		make_line(line, backup, check, direction);
 	}
 	else
-		exit_with_err("ERROR : is not valid map\n");
+		exit_with_err("Invalid map\n");
 	return (0);
 }
-
 
 int	save_map(char **backup, t_vars *vars, t_check *check)
 {
@@ -85,7 +84,7 @@ int	save_map(char **backup, t_vars *vars, t_check *check)
 		check_valid(vars->map, vars->p, &(vars->col), &(vars->row));
 	}
 	else
-		exit_with_err("error\n");
+		exit_with_err("Invalid map\n");
 	return (0);
 }
 
@@ -103,12 +102,17 @@ int	init_map(t_vars	*vars, int fd, t_check *check)
 		if (backup == NULL)
 			backup = ft_strdup("");
 		parse_line(line, &backup, check, &(vars->p->direction));
-		set_map(line, vars, check);
+		if (check->count == 6)
+		{
+			free(line);
+			continue ;
+		}
+		else
+			set_map(line, vars, check);
 		free (line);
 	}
-	close(fd);
-	if (check->path_count != 1 )
-		exit_with_err("ERROR : init_map\n");
+	if (check->path_count != 1)
+		exit_with_err("Invalid player\n");
 	save_map(&backup, vars, check);
 	return (0);
 }
