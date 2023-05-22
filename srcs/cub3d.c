@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/19 17:35:28 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/21 21:35:34 by meliesf          ###   ########.fr       */
+/*   Created: 2023/05/22 15:36:17 by hyeokim2          #+#    #+#             */
+/*   Updated: 2023/05/22 15:37:47 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print(t_vars *vars)
 	int	i = 0;
 	printf("------map------\n");
 	while (vars->map[i])
-	printf("%s\n", vars->map[i++]);
+		printf("%s\n", vars->map[i++]);
 	printf("north = %s\n", vars->c.north);
 	printf("south = %s\n", vars->c.south);
 	printf("west = %s\n", vars->c.west);
@@ -69,9 +69,9 @@ void	all_free(t_vars *vars)
 
 int	main(int argc, char **argv)
 {
-	t_vars	vars;
+	t_vars		vars;
 	t_player	p;
-	
+
 	if (argc != 2 || check_arg(argv[1]))
 		exit_with_err("Invalid filetype\n");
 	init_info(&vars, argv[1], &p);
@@ -85,5 +85,6 @@ int	main(int argc, char **argv)
 	print(&vars);
 	all_free(&vars);
 	// system("leaks cub3D");
+
 	return (0);
 }

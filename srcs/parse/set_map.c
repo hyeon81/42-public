@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/16 15:32:48 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/22 15:11:51 by hyeokim2         ###   ########.fr       */
+/*   Created: 2023/05/22 15:37:55 by hyeokim2          #+#    #+#             */
+/*   Updated: 2023/05/22 15:38:22 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	init_color(char *value, t_vars *vars, int type)
 	if (!tmp || strs_len(tmp) != 3)
 		exit_with_err("color_error\n");
 	while (tmp[i])
-	{ 
+	{
 		num = save_num(tmp[i]);
 		res += num << bit;
 		bit -= 8;
