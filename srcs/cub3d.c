@@ -5,12 +5,33 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/22 15:36:17 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/22 21:29:15 by hyeokim2         ###   ########.fr       */
+/*   Created: 2023/05/22 21:33:10 by hyeokim2          #+#    #+#             */
+/*   Updated: 2023/05/22 21:33:43 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	print(t_vars *vars)
+{
+	int	i = 0;
+	printf("------map------\n");
+	while (vars->map[i])
+		printf("%s\n", vars->map[i++]);
+	printf("north = %s\n", vars->c.north);
+	printf("south = %s\n", vars->c.south);
+	printf("west = %s\n", vars->c.west);
+	printf("east = %s\n", vars->c.east);
+	printf("floorcolor = %d\n", vars->c.floor_color);
+	printf("ceiling_color = %d\n", vars->c.ceiling_color);
+	printf("---------------\n");
+	printf("x = %f\n", vars->p->pos.x);
+	printf("y = %f\n", vars->p->pos.y);
+	printf("direction = %c\n", vars->p->direction);
+	printf("col = %d\n", vars->col);
+	printf("row = %d\n", vars->row);
+
+}
 
 int	check_arg(char *filename)
 {
@@ -38,6 +59,7 @@ void	init_info(t_vars	*vars, char	*filename, t_player *player)
 	vars->p = player;
 	check.mapset = ft_calloc(sizeof(int), 6);
 	init_map(vars, fd, &check);
+	close(fd);
 }
 
 void	all_free(t_vars *vars)
@@ -49,14 +71,21 @@ void	all_free(t_vars *vars)
 	free(vars->c.east);
 }
 
-int	main(int argc, char **argv)
+void	leaks(void)
+{
+	system("leaks cub3D");
+}
+
+int	main(int argc, char	**argv)
 {
 	t_vars		vars;
 	t_player	p;
 
+	atexit(leaks);
 	if (argc != 2 || check_arg(argv[1]))
 		exit_with_err("Invalid filetype\n");
 	init_info(&vars, argv[1], &p);
+	// print(&vars);
 	init_vars(&vars, &p);
 	load_tex(&vars);
 	main_loop(&vars);
