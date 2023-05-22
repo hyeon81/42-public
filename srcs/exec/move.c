@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:08 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/19 17:30:34 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/22 14:55:36 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ void	move_forth_back(int keycode, t_player *p, char **map)
 	speed = 0.2;
 	if (keycode == KEY_W)
 	{
-		if (map[(int)(p->pos.y)][(int)(p->pos.x + p->dir.x * speed)] == '0')
+		if (map[(int)(p->pos.y)][(int)(p->pos.x + p->dir.x * speed)] != '1')
 			p->pos.x += p->dir.x * speed;
-		if (map[(int)(p->pos.y + p->dir.y * speed)][(int)(p->pos.x)] == '0')
+		if (map[(int)(p->pos.y + p->dir.y * speed)][(int)(p->pos.x)] != '1')
 			p->pos.y += p->dir.y * speed;
 	}
 	if (keycode == KEY_S)
 	{
-		if (map[(int)(p->pos.y)][(int)(p->pos.x - p->dir.x * speed)] == '0')
+		if (map[(int)(p->pos.y)][(int)(p->pos.x - p->dir.x * speed)] != '1')
 			p->pos.x -= p->dir.x * speed;
-		if (map[(int)(p->pos.y - p->dir.y * speed)][(int)(p->pos.x)] == '0')
+		if (map[(int)(p->pos.y - p->dir.y * speed)][(int)(p->pos.x)] != '1')
 			p->pos.y -= p->dir.y * speed;
 	}
 }

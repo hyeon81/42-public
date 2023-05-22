@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   white_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 20:39:40 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/21 20:24:35 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/22 15:11:29 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	**white_split(char const *s)
 		return (NULL);
 	while (*s)
 	{
-		if (ft_is_space(s[i]) != 0)
+		if (ft_is_space(*s) != 0)
 		{
 			len = word_len(s);
 			arr[i] = ft_strdup_for_split(s, len);

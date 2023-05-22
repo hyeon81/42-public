@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 17:33:21 by meliesf           #+#    #+#             */
-/*   Updated: 2023/05/21 20:58:09 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/22 15:01:04 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int	check_valid(char **map, t_player *player, int *col, int *row)
 			}
 			if (map[i][j] == player->direction) //플레이어 위치의 상하좌우
 			{
-				player->pos.x = j;
-				player->pos.y = i;
+				player->pos.x = (double)j + 0.3;
+				player->pos.y = (double)i + 0.3;
 			}
 			if (tmp < j)
 				tmp = j;

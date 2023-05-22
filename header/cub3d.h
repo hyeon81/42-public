@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:31:35 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/21 21:51:27 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/22 14:30:58 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,26 +160,6 @@ void	make_draw_minimap(t_vars *v);
 void	set_coord(t_coord *c, double x, double y);
 void	ft_int_free(int **arr, int idx);
 void	ft_char_free(char **arr, int idx);
-
-typedef enum e_identifier_type
-{
-	NO,
-	SO,
-	WE,
-	EA,
-	F,
-	C,
-}	t_identifier_type;
-
-typedef struct s_check
-{
-	int	*mapset;
-	int	path_count;
-	int	count;
-	int	mapflag;
-	int	id;
-
-}	t_check;
 
 /* eunji*/
 int			init_map(t_vars	*vars, int fd, t_check *check);

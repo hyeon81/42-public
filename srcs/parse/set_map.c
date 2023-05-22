@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: meliesf <meliesf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:32:48 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/21 21:25:34 by meliesf          ###   ########.fr       */
+/*   Updated: 2023/05/22 15:11:51 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,7 @@ int set_map(char    *line, t_vars *vars, t_check *check)
 
 	if (check->count == 6)
 		return (0);
-	// identifier = white_split(line);
-	identifier = ft_split(line, ' '); //탭 등등 추가 해야함
+	identifier = white_split(line);
 	if (strs_len(identifier) != 2 || identifier[1] == NULL)
 	{
 		if (ft_strncmp(line, "\n", 2) != 0)
