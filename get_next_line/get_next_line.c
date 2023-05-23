@@ -6,7 +6,7 @@
 /*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 13:55:54 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/16 15:41:52 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/23 14:35:12 by eunjiko          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*get_next_line(int fd)
 	{
 		if (backup)
 			free(backup);
-		return (NULL); //exit
+		return (NULL);
 	}
 	if (!backup)
 		return (NULL);
