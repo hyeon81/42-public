@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:12 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/23 13:58:50 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:03:17 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	load_img(t_vars *v, int *tex, char *path, t_img *img)
 	img->ptr = mlx_xpm_file_to_image(v->mlx, path, &img->width, &img->height);
 	if (!img->ptr)
 	{
+		write(2, "Error\n", 6);
 		write(2, "texture load failed\n", 21);
 		ft_exit(v);
 	}

@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:25:36 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/23 13:59:57 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/23 17:58:39 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	set_background(t_img *map_img, int floor, int ceiling)
 		while (x < WIDTH)
 		{
 			if (y < HEIGHT / 2)
-				map_img->data[y * WIDTH + x] = floor;
-			else
 				map_img->data[y * WIDTH + x] = ceiling;
+			else
+				map_img->data[y * WIDTH + x] = floor;
 			x++;
 		}
 		y++;

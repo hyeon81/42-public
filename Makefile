@@ -18,12 +18,14 @@ MLX_DIR = ./minilibx_opengl_20191021
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	$(CC) $(CFLAG) $(OBJS) -L $(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	make -C $(MLX_DIR)
+	$(CC) $(CFLAG) $(OBJS) $(MLX_DIR)/libmlx.a -framework OpenGL -framework AppKit -o $(NAME)
 
 %.o : %.c
-	$(CC) $(CFLAG) -Imlx -I $(HEADERS) -c $< -o $@ 
+	$(CC) $(CFLAG) -I$(MLX_DIR) -I $(HEADERS) -c $< -o $@ 
 
 clean:
+	make clean -C $(MLX_DIR)
 	rm -f $(OBJS)
 
 fclean : clean
