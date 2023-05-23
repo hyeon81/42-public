@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 20:54:12 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/22 20:37:53 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/23 13:58:50 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,14 @@ void	init_array(int ***tex)
 	i = 0;
 	while (i < 4)
 	{
-		(*tex)[i] = (int *)malloc(sizeof(int) * (TEX_H * TEX_W));
+		(*tex)[i] = (int *)malloc(sizeof(int) * (TEX_H * TEX_W + 1));
 		i++;
 	}
 	i = 0;
 	while (i < 4)
 	{
 		j = 0;
-		while (j < TEX_W * TEX_H)
+		while (j < TEX_W * TEX_H + 1)
 		{
 			(*tex)[i][j] = 0;
 			j++;

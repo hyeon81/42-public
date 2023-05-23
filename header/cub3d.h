@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:38:34 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/22 21:42:50 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/23 13:46:26 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 # define KEY_RIGHT 124
 # define KEY_PRESS 2
 # define ON_DESTROY 17
-# define WIDTH 1920
-# define HEIGHT 1280
+# define WIDTH 800
+# define HEIGHT 800
 # define TEX_W 64
 # define TEX_H 64
 
@@ -125,7 +125,6 @@ typedef struct s_check
 /* exec.c */
 void	main_loop(t_vars *v);
 int		draw_map(t_vars *v);
-void	set_background(t_img *map_img, int floor, int ceiling);
 
 /* calc.c */
 void	init_loop_vars(t_raycast *r, int x);

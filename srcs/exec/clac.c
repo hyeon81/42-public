@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 21:32:26 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/22 20:19:34 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/23 13:30:05 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,14 @@ void	init_loop_vars(t_raycast *r, int x)
 	r->ray_dir.y = r->p->dir.y + r->p->plane.y * r->camera_x;
 	r->map_x = (int)r->p->pos.x;
 	r->map_y = (int)r->p->pos.y;
-	r->delta_dist.x = fabs(1 / r->ray_dir.x);
-	r->delta_dist.y = fabs(1 / r->ray_dir.y);
+	if (r->ray_dir.x == 0)
+		r->delta_dist.x = 1e30;
+	else
+		r->delta_dist.x = fabs(1 / r->ray_dir.x);
+	if (r->ray_dir.y == 0)
+		r->delta_dist.y = 1e30;
+	else
+		r->delta_dist.y = fabs(1 / r->ray_dir.y);
 }
 
 void	calc_step_side_dist(t_raycast *r)

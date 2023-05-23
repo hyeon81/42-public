@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 21:33:10 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/22 21:47:34 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:04:43 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,17 @@ void	all_free(t_vars *vars)
 	free(vars->c.east);
 }
 
-// void	leaks(void)
-// {
-// 	system("leaks cub3D");
-// }
+void	leaks(void)
+{
+	system("leaks cub3D");
+}
 
 int	main(int argc, char	**argv)
 {
 	t_vars		vars;
 	t_player	p;
 
-	// atexit(leaks);
+	atexit(leaks);
 	if (argc != 2 || check_arg(argv[1]))
 		exit_with_err("Invalid filetype\n");
 	init_info(&vars, argv[1], &p);
@@ -90,7 +90,7 @@ int	main(int argc, char	**argv)
 	load_tex(&vars);
 	main_loop(&vars);
 	mlx_hook(vars.win, ON_DESTROY, 0, &ft_exit, &vars);
-	mlx_hook(vars.win, KEY_PRESS, 1L << 0, &make_move, &(vars));
+	mlx_hook(vars.win, KEY_PRESS, 0, &make_move, &(vars));
 	mlx_loop_hook(vars.mlx, &draw_map, &vars);
 	mlx_loop(vars.mlx);
 	all_free(&vars);

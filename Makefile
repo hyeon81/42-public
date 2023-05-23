@@ -2,7 +2,7 @@ NAME = cub3D
 
 CC = cc
 
-CFLAG = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAG = -Wall -Wextra -Werror
 
 HEADERS = ./header
 
@@ -19,11 +19,6 @@ all : $(NAME)
 
 $(NAME) : $(OBJS)
 	$(CC) $(CFLAG) $(OBJS) -L $(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
-
-# $(NAME) : $(OBJS)
-# 	$(CC) $(CFLAG) $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
-# # $(CC) $(CFLAG) $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
-#  $(CC) $(CFLAG) $(OBJS) -o $(NAME)
 
 %.o : %.c
 	$(CC) $(CFLAG) -Imlx -I $(HEADERS) -c $< -o $@ 

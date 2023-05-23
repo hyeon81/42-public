@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/21 17:33:21 by meliesf           #+#    #+#             */
-/*   Updated: 2023/05/22 16:17:03 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/23 13:39:30 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	wall_and_player(char **map, int i, int j, t_player *player)
 	}
 	if (map[i][j] == player->direction)
 	{
-		player->pos.x = (double)j + 0.3;
-		player->pos.y = (double)i + 0.3;
+		player->pos.x = (double)j + 0.5;
+		player->pos.y = (double)i + 0.5;
 	}
 }
 
