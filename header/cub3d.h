@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:38:34 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/23 13:46:26 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:22:22 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,5 +176,6 @@ char	**white_split(char const *s);
 void	remove_newline(char	**map);
 int		check_valid(char **map, t_player *player, int *col, int *row);
 int		save_num(const char *str);
+void	all_free(t_vars *vars);
 
 #endif

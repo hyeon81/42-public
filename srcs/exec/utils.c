@@ -6,7 +6,7 @@
 /*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 19:33:18 by hyeokim2          #+#    #+#             */
-/*   Updated: 2023/05/23 14:02:59 by hyeokim2         ###   ########.fr       */
+/*   Updated: 2023/05/23 14:21:48 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	ft_char_free(char **arr, int idx)
 int	ft_exit(t_vars *v)
 {
 	ft_int_free(v->tex, 4);
+	all_free(v);
 	mlx_destroy_image(v->mlx, v->map_img.ptr);
 	mlx_destroy_window(v->mlx, v->win);
 	exit(0);
