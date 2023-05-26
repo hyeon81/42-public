@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eunjiko <eunjiko@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hyeokim2 <hyeokim2@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:32:48 by eunjiko           #+#    #+#             */
-/*   Updated: 2023/05/22 16:35:43 by eunjiko          ###   ########.fr       */
+/*   Updated: 2023/05/26 15:02:31 by hyeokim2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,16 @@ void	parse_direction(char **str, int identifier, t_vars *vars, int *id)
 			str[1][i] = '\0';
 		i++;
 	}
-	if (*id == NO)
+	if (*id == NO && vars->c.north == NULL)
 		vars->c.north = str[1];
-	else if (*id == SO)
+	else if (*id == SO && vars->c.south == NULL)
 		vars->c.south = str[1];
-	else if (*id == WE)
+	else if (*id == WE && vars->c.west == NULL)
 		vars->c.west = str[1];
-	else if (*id == EA)
+	else if (*id == EA && vars->c.east == NULL)
 		vars->c.east = str[1];
+	else
+		free(str[1]);
 	free(str[0]);
 	free(str);
 }
