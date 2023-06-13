@@ -10,17 +10,21 @@ Bureaucrat::Bureaucrat(std::string name, int grade): name(name), grade(grade)
 {
     try
     {
-        if (this->grade < 1 || this->grade > 150)
-            throw std::out_of_range("Grade must be 1-150");
-        std::cout << this->name << " is created. grade is " << this->grade << std::endl;
+        if (this->grade < 1)
+            throw GradeTooHighException();       
+        else if (this->grade > 150)
+            throw GradeTooLowException();
+        else
+            std::cout << this->name << " is created. grade is " << this->grade << std::endl;
     }
     catch (std::exception &e)
     {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
+        throw e; 
     }
 }
 
-Bureaucrat::Bureaucrat(const Bureaucrat &obj):Bureaucrat(obj.name, obj.grade)
+Bureaucrat::Bureaucrat(const Bureaucrat &obj): name(obj.name), grade(obj.grade)
 {
     std::cout << "Copy constructor called" << std::endl;
 }
@@ -42,16 +46,16 @@ Bureaucrat:: ~Bureaucrat()
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& obj)
 {
-    os << obj.getName() << ", bureaucrat grade " << obj.getGrade() << std::endl;
+    os << obj.getName() << ", bureaucrat grade " << obj.getGrade();
     return (os);
 }
 
-const std::string Bureaucrat:: getName() const
+std::string Bureaucrat:: getName() const
 {
     return (this->name);
 }
 
-const int Bureaucrat::getGrade() const
+int Bureaucrat::getGrade() const
 {
     return (this->grade);
 }
@@ -63,10 +67,12 @@ void  Bureaucrat::upGrade()
         if (this->grade <= 1)
             throw GradeTooHighException();
         this->grade--;
+        std::cout << this->name << " grade is up. now is " << this->grade << std::endl;
     }
     catch (GradeTooHighException & e)
     {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
+        throw e; 
     }
 }
 
@@ -77,10 +83,11 @@ void  Bureaucrat::downGrade()
         if (this->grade >= 150)
             throw GradeTooLowException();
         this->grade++;
+        std::cout << this->name << " grade is down. now is " << this->grade << std::endl;
     }
     catch (GradeTooLowException & e)
     {
-        std::cerr << "Error: " << e.what() << std::endl;
+        std::cerr << e.what() << std::endl;
+        throw e; 
     }
 }
-
