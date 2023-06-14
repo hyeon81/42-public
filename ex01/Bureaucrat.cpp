@@ -2,24 +2,17 @@
 
 Bureaucrat::Bureaucrat(): name("default"), grade(150)
 {
-    std::cout << this->name << " is created. grade is " << this->grade << std::endl;
+    std::cout << this->name << " is created" << std::endl;
 }
 
-//Constructor
 Bureaucrat::Bureaucrat(std::string name, int grade): name(name), grade(grade)
 {
-        if (this->grade < 1)
-            throw GradeTooHighException();       
-        else if (this->grade > 150)
-            throw GradeTooLowException();
-        else
-            std::cout << this->name << " is created. grade is " << this->grade << std::endl;
-    }
-    catch (std::exception &e)
-    {
-        std::cerr << e.what() << std::endl;
-        throw e; 
-    }
+    if (this->grade < 1)
+        throw GradeTooHighException();       
+    else if (this->grade > 150)
+        throw GradeTooLowException();
+    else
+        std::cout << this->name << " is created" << std::endl;
 }
 
 Bureaucrat::Bureaucrat(const Bureaucrat &obj): name(obj.name), grade(obj.grade)
@@ -29,7 +22,7 @@ Bureaucrat::Bureaucrat(const Bureaucrat &obj): name(obj.name), grade(obj.grade)
 
 Bureaucrat &Bureaucrat:: operator=(const Bureaucrat &obj)
 {
-    std::cout << this->name << ", bureaucrat grade " << this->grade << std::endl;
+    std::cout << "Copy assignment operator called" << std::endl;
     if (&obj != this)
     {
         this->grade = obj.grade;
@@ -55,6 +48,10 @@ std::string Bureaucrat:: getName() const
 
 int Bureaucrat::getGrade() const
 {
+ if (this->grade < 1)
+        throw GradeTooHighException();       
+    else if (this->grade > 150)
+        throw GradeTooLowException();
     return (this->grade);
 }
 
@@ -69,8 +66,7 @@ void  Bureaucrat::upGrade()
     }
     catch (GradeTooHighException & e)
     {
-        std::cerr << e.what() << std::endl;
-        throw e; 
+        std::cerr << "[upGrade] " << e.what() << std::endl;
     }
 }
 
@@ -85,7 +81,19 @@ void  Bureaucrat::downGrade()
     }
     catch (GradeTooLowException & e)
     {
-        std::cerr << e.what() << std::endl;
-        throw e; 
+        std::cerr << "[downGrade] " << e.what() << std::endl;
+    }
+}
+
+void Bureaucrat::signForm(Form &form)
+{
+    try
+    {
+        form.beSigned(*this);
+        std::cout << this->name << " signed " << form.getName() << std::endl;
+    } 
+    catch (std::exception &e)
+    {
+        std::cerr << this->name << " couldn’t sign " << form.getName() << " because " << e.what() << std::endl;
     }
 }
