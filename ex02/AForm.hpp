@@ -1,12 +1,12 @@
- #ifndef FORM
- #define FORM
+ #ifndef AFORM
+ #define AFORM
 
 #include "Bureaucrat.hpp"
 
 class Bureaucrat;
-class Form {
+class AForm {
     private:
-        Form();
+        AForm();
         const std::string name;
         bool isSigned;
         const int signGrade;
@@ -30,17 +30,17 @@ class Form {
         };
 
     public:
-        Form(std::string name, int signGrade, int execGrade);
-        Form(const Form &obj);
-        Form &operator=(const Form &obj);
-        ~Form();
+        AForm(std::string name, int signGrade, int execGrade);
+        AForm(const AForm &obj);
+        AForm &operator=(const AForm &obj);
+        ~AForm();
         std::string getName() const;
         int getSignGrade() const;
         int getExecGrade() const;
         int getIsSigned() const;
-        void beSigned(const Bureaucrat& bur);
+        virtual void beSigned(const Bureaucrat& bur) = 0;
 };
 
-std::ostream& operator<<(std::ostream& os, const Form& obj);
+std::ostream& operator<<(std::ostream& os, const AForm& obj);
 
  #endif

@@ -1,11 +1,11 @@
-#include "Form.hpp"
+#include "AForm.hpp"
 
-Form::Form(): name("default"), isSigned(false), signGrade(150), execGrade(150)
+AForm::AForm(): name("default"), isSigned(false), signGrade(150), execGrade(150)
 {
     std::cout << this->name << " is created" << std::endl;
 }
 
-Form::Form(std::string name, int signGrade, int execGrade): name(name), isSigned(false), signGrade(signGrade), execGrade(execGrade)
+AForm::AForm(std::string name, int signGrade, int execGrade): name(name), isSigned(false), signGrade(signGrade), execGrade(execGrade)
 {
     if (this->signGrade < 1 || this->execGrade < 1)
         throw GradeTooHighException();       
@@ -15,12 +15,12 @@ Form::Form(std::string name, int signGrade, int execGrade): name(name), isSigned
         std::cout << this->name << " is created" << std::endl;
 }
 
-Form::Form(const Form &obj): name(obj.name), isSigned(obj.isSigned), signGrade(obj.signGrade), execGrade(obj.execGrade)
+AForm::AForm(const AForm &obj): name(obj.name), isSigned(obj.isSigned), signGrade(obj.signGrade), execGrade(obj.execGrade)
 {
     std::cout << "Copy constructor called" << std::endl;
 }
 
-Form &Form:: operator=(const Form &obj)
+AForm &AForm:: operator=(const AForm &obj)
 {
     std::cout << "Copy assignment operator called" << std::endl;
     if (&obj != this)
@@ -32,24 +32,24 @@ Form &Form:: operator=(const Form &obj)
     return (*this);
 }
 
-Form:: ~Form()
+AForm:: ~AForm()
 {
     std::cout << this->name << " is destroyed" << std::endl;
 }
 
-std::ostream& operator<<(std::ostream& os, const Form& obj)
+std::ostream& operator<<(std::ostream& os, const AForm& obj)
 {
     os << "[name] " << obj.getName() << ", [isSigned] " << obj.getIsSigned() << \
     ", [signGrade] " << obj.getSignGrade() << ", [execGrade] " << obj.getExecGrade();
     return (os);
 }
 
-std::string Form:: getName() const
+std::string AForm:: getName() const
 {
     return (this->name);
 }
 
-int Form::getSignGrade() const
+int AForm::getSignGrade() const
 {
     if (this->signGrade < 1)
         throw GradeTooHighException();       
@@ -58,7 +58,7 @@ int Form::getSignGrade() const
     return (this->signGrade);
 }
 
-int Form::getExecGrade() const
+int AForm::getExecGrade() const
 {
     if (this->execGrade < 1)
         throw GradeTooHighException();       
@@ -67,12 +67,12 @@ int Form::getExecGrade() const
     return (this->execGrade);
 }
 
-int Form::getIsSigned() const
+int AForm::getIsSigned() const
 {
     return (this->isSigned);
 }
 
-void Form::beSigned(const Bureaucrat& bur)
+void AForm::beSigned(const Bureaucrat& bur)
 { 
     if (bur.getGrade() > this->signGrade)
         throw GradeTooLowException();
