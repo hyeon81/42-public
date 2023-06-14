@@ -2,7 +2,7 @@
 
 Bureaucrat::Bureaucrat(): name("default"), grade(150)
 {
-    std::cout << this->name << " is created" << this->grade << std::endl;
+    std::cout << this->name << " is created" << std::endl;
 }
 
 Bureaucrat::Bureaucrat(std::string name, int grade): name(name), grade(grade)
@@ -12,7 +12,7 @@ Bureaucrat::Bureaucrat(std::string name, int grade): name(name), grade(grade)
     else if (this->grade > 150)
         throw GradeTooLowException();
     else
-        std::cout << this->name << " is created" << this->grade << std::endl;
+        std::cout << this->name << " is created" << std::endl;
 }
 
 Bureaucrat::Bureaucrat(const Bureaucrat &obj): name(obj.name), grade(obj.grade)
@@ -82,5 +82,18 @@ void  Bureaucrat::downGrade()
     catch (GradeTooLowException & e)
     {
         std::cerr << "[downGrade] " << e.what() << std::endl;
+    }
+}
+
+void Bureaucrat::signForm(Form &form)
+{
+    try
+    {
+        form.beSigned(*this);
+        std::cout << this->name << " signed " << form.getName() << std::endl;
+    } 
+    catch (std::exception &e)
+    {
+        std::cerr << this->name << " couldn’t sign " << form.getName() << " because " << e.what() << std::endl;
     }
 }

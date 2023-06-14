@@ -3,12 +3,16 @@
 
 #include <string>
 #include <iostream>
+#include "Form.hpp"
+
+class Form;
 
 class Bureaucrat {
     private:
         Bureaucrat();
         const std::string name;
         int  grade;
+
         class GradeTooHighException : public std::exception
         {
             public:
@@ -33,9 +37,10 @@ class Bureaucrat {
         Bureaucrat &operator=(const Bureaucrat &obj);
         ~Bureaucrat();
         std::string getName() const;
-        int getGrade() const;
+        int   getGrade() const;
         void  upGrade();
         void  downGrade();
+        void  signForm(Form &form);
 };
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& obj);

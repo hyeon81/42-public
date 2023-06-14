@@ -1,0 +1,3 @@
+#ifdef PRESIDENTIALPARDONFORM
+
+#endif // DEBUG
