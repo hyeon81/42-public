@@ -38,7 +38,7 @@ class AForm {
         int getSignGrade() const;
         int getExecGrade() const;
         int getIsSigned() const;
-        virtual void beSigned(const Bureaucrat& bur) = 0;
+        void beSigned(const Bureaucrat& bur);
 };
 
 std::ostream& operator<<(std::ostream& os, const AForm& obj);
