@@ -2,7 +2,7 @@
 
 AForm::AForm(): name("default"), isSigned(false), signGrade(150), execGrade(150)
 {
-    std::cout << this->name << " is created" << std::endl;
+    std::cout << "[AForm] " << this->name << " is created" << std::endl;
 }
 
 AForm::AForm(std::string name, int signGrade, int execGrade): name(name), isSigned(false), signGrade(signGrade), execGrade(execGrade)
@@ -12,7 +12,7 @@ AForm::AForm(std::string name, int signGrade, int execGrade): name(name), isSign
     else if (this->signGrade > 150 || this->execGrade > 150)
         throw GradeTooLowException();
     else
-        std::cout << this->name << " is created" << std::endl;
+        std::cout << "[AForm] " << this->name << " is created" << std::endl;
 }
 
 AForm::AForm(const AForm &obj): name(obj.name), isSigned(obj.isSigned), signGrade(obj.signGrade), execGrade(obj.execGrade)
@@ -34,7 +34,7 @@ AForm &AForm:: operator=(const AForm &obj)
 
 AForm:: ~AForm()
 {
-    std::cout << this->name << " is destroyed" << std::endl;
+    std::cout << "[AForm] " << this->name << " is destroyed" << std::endl;
 }
 
 std::ostream& operator<<(std::ostream& os, const AForm& obj)
@@ -67,7 +67,7 @@ int AForm::getExecGrade() const
     return (this->execGrade);
 }
 
-int AForm::getIsSigned() const
+bool AForm::getIsSigned() const
 {
     return (this->isSigned);
 }
@@ -77,4 +77,17 @@ void AForm::beSigned(const Bureaucrat& bur)
     if (bur.getGrade() > this->signGrade)
         throw GradeTooLowException();
     this->isSigned = true;
+}
+
+void AForm::isExecutable(const Bureaucrat& executor) const
+{
+    if (!this->getIsSigned())
+        throw NotSignedException();
+    if (executor.getGrade() > this->getExecGrade())
+        throw GradeTooLowException();
+}
+
+std::string AForm::getTarget() const
+{
+    return (this->target);
 }

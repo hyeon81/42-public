@@ -2,7 +2,7 @@
 
 Bureaucrat::Bureaucrat(): name("default"), grade(150)
 {
-    std::cout << this->name << " is created" << std::endl;
+    std::cout << "[Bureaucrat] " << this->name << " is created" << std::endl;
 }
 
 Bureaucrat::Bureaucrat(std::string name, int grade): name(name), grade(grade)
@@ -12,17 +12,17 @@ Bureaucrat::Bureaucrat(std::string name, int grade): name(name), grade(grade)
     else if (this->grade > 150)
         throw GradeTooLowException();
     else
-        std::cout << this->name << " is created" << std::endl;
+        std::cout << "[Bureaucrat] " << this->name << " is created" << std::endl;
 }
 
 Bureaucrat::Bureaucrat(const Bureaucrat &obj): name(obj.name), grade(obj.grade)
 {
-    std::cout << "Copy constructor called" << std::endl;
+    std::cout << "[Bureaucrat] Copy constructor called" << std::endl;
 }
 
 Bureaucrat &Bureaucrat:: operator=(const Bureaucrat &obj)
 {
-    std::cout << "Copy assignment operator called" << std::endl;
+    std::cout << "[Bureaucrat] Copy assignment operator called" << std::endl;
     if (&obj != this)
     {
         this->grade = obj.grade;
@@ -32,7 +32,7 @@ Bureaucrat &Bureaucrat:: operator=(const Bureaucrat &obj)
 
 Bureaucrat:: ~Bureaucrat()
 {
-    std::cout << this->name << " is destroyed" << std::endl;
+    std::cout << "[Bureaucrat] " << this->name << " is destroyed" << std::endl;
 }
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& obj)
@@ -85,15 +85,26 @@ void  Bureaucrat::downGrade()
     }
 }
 
-void Bureaucrat::signForm(Form &form)
+void Bureaucrat::signForm(AForm &form)
 {
     try
     {
         form.beSigned(*this);
-        std::cout << this->name << " signed " << form.getName() << std::endl;
+        std::cout << "[Bureaucrat] " << this->name << " signed " << form.getName() << std::endl;
     } 
     catch (std::exception &e)
     {
-        std::cerr << this->name << " couldn’t sign " << form.getName() << " because " << e.what() << std::endl;
+        std::cerr << "[Bureaucrat] " << this->name << " couldn’t sign " << form.getName() << " because " << e.what() << std::endl;
+    }
+}
+
+void Bureaucrat::executeForm(AForm const &form)
+{
+    try {
+        form.execute(*this);
+        std::cout << this->name << " executed " << form.getTarget() << std::endl;
+    } catch (std::exception &e)
+    {
+        std::cerr << "[Bureaucrat] " << e.what() << std::endl;
     }
 }
