@@ -26,8 +26,9 @@ AForm &AForm:: operator=(const AForm &obj)
     if (&obj != this)
     {
         this->isSigned = obj.isSigned;
-        // this->signGrade = obj.signGrade;
-        // this->execGrade = obj.execGrade;
+        (const_cast<std::string&>(this->name)) = obj.getName();
+        (const_cast<int&>(this->signGrade)) = obj.getSignGrade();
+        (const_cast<int&>(this->execGrade)) = obj.getExecGrade();
     }
     return (*this);
 }
@@ -44,12 +45,12 @@ std::ostream& operator<<(std::ostream& os, const AForm& obj)
     return (os);
 }
 
-std::string AForm:: getName() const
+const std::string &AForm:: getName() const
 {
     return (this->name);
 }
 
-int AForm::getSignGrade() const
+const int &AForm::getSignGrade() const
 {
     if (this->signGrade < 1)
         throw GradeTooHighException();       
@@ -58,7 +59,7 @@ int AForm::getSignGrade() const
     return (this->signGrade);
 }
 
-int AForm::getExecGrade() const
+const int &AForm::getExecGrade() const
 {
     if (this->execGrade < 1)
         throw GradeTooHighException();       
@@ -87,7 +88,7 @@ void AForm::isExecutable(const Bureaucrat& executor) const
         throw GradeTooLowException();
 }
 
-std::string AForm::getTarget() const
+std::string &AForm::getTarget() const
 {
     return (this->target);
 }

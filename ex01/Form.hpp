@@ -7,6 +7,7 @@ class Bureaucrat;
 class Form {
     private:
         Form();
+        Form &operator=(const Form &obj);
         const std::string name;
         bool isSigned;
         const int signGrade;
@@ -14,29 +15,22 @@ class Form {
         class GradeTooHighException : public std::exception
         {
             public:
-            const char* what() const throw() 
-            {
-                return "Error: Grade is too high";
-            }
+            const char* what() const throw();
         };
 
         class GradeTooLowException : public std::exception
         {
             public:
-            const char * what() const throw() 
-            {
-                return "Error: Grade is too low";
-            }
+            const char * what() const throw();
         };
 
     public:
         Form(std::string name, int signGrade, int execGrade);
         Form(const Form &obj);
-        Form &operator=(const Form &obj);
         ~Form();
-        std::string getName() const;
-        int getSignGrade() const;
-        int getExecGrade() const;
+        const std::string& getName() const;
+        const int &getSignGrade() const;
+        const int &getExecGrade() const;
         int getIsSigned() const;
         void beSigned(const Bureaucrat& bur);
 };

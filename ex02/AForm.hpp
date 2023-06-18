@@ -13,6 +13,7 @@ class AForm {
 
     protected:
         AForm();
+        AForm &operator=(const AForm &obj);
         std::string target;
         class GradeTooHighException : public std::exception
         {
@@ -42,13 +43,12 @@ class AForm {
     public:
         AForm(std::string name, int signGrade, int execGrade);
         AForm(const AForm &obj);
-        AForm &operator=(const AForm &obj);
         virtual ~AForm();
-        std::string getName() const;
-        int getSignGrade() const;
-        int getExecGrade() const;
+        const std::string &getName() const;
+        const int &getSignGrade() const;
+        const int &getExecGrade() const;
         bool getIsSigned() const;
-        std::string getTarget() const;
+        std::string &getTarget() const;
         void beSigned(const Bureaucrat& bur);
         void isExecutable(const Bureaucrat& executor) const;
         virtual void execute(Bureaucrat const & executor) const = 0;

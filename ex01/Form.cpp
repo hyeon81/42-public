@@ -26,8 +26,9 @@ Form &Form:: operator=(const Form &obj)
     if (&obj != this)
     {
         this->isSigned = obj.isSigned;
-        // this->signGrade = obj.signGrade;
-        // this->execGrade = obj.execGrade;
+        (const_cast<std::string&>(this->name)) = obj.getName();
+        (const_cast<int&>(this->signGrade)) = obj.getSignGrade();
+        (const_cast<int&>(this->execGrade)) = obj.getExecGrade();
     }
     return (*this);
 }
@@ -44,12 +45,12 @@ std::ostream& operator<<(std::ostream& os, const Form& obj)
     return (os);
 }
 
-std::string Form:: getName() const
+const std::string& Form::getName() const
 {
     return (this->name);
 }
 
-int Form::getSignGrade() const
+const int& Form::getSignGrade() const
 {
     if (this->signGrade < 1)
         throw GradeTooHighException();       
@@ -58,7 +59,7 @@ int Form::getSignGrade() const
     return (this->signGrade);
 }
 
-int Form::getExecGrade() const
+const int& Form::getExecGrade() const
 {
     if (this->execGrade < 1)
         throw GradeTooHighException();       
@@ -77,4 +78,12 @@ void Form::beSigned(const Bureaucrat& bur)
     if (bur.getGrade() > this->signGrade)
         throw GradeTooLowException();
     this->isSigned = true;
+}
+
+const char* Form::GradeTooHighException::what() const throw() {
+	return "Error: Grade is too high";
+}
+
+const char* Form::GradeTooLowException::what() const throw() {
+    return "Error: Grade is too low";
 }

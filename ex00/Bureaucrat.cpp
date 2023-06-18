@@ -25,6 +25,7 @@ Bureaucrat &Bureaucrat:: operator=(const Bureaucrat &obj)
     std::cout << "Copy assignment operator called" << std::endl;
     if (&obj != this)
     {
+        (const_cast<std::string&>(this->name)) = obj.getName();
         this->grade = obj.grade;
     }
     return (*this);
@@ -41,7 +42,7 @@ std::ostream& operator<<(std::ostream& os, const Bureaucrat& obj)
     return (os);
 }
 
-std::string Bureaucrat:: getName() const
+const std::string Bureaucrat:: getName() const
 {
     return (this->name);
 }
@@ -83,4 +84,12 @@ void  Bureaucrat::downGrade()
     {
         std::cerr << "[downGrade] " << e.what() << std::endl;
     }
+}
+
+const char* Bureaucrat::GradeTooHighException::what() const throw() {
+	return "Error: Grade can't be higher than 1";
+}
+
+const char* Bureaucrat::GradeTooLowException::what() const throw() {
+	return "Error: Grade can't be less than 150";
 }
