@@ -17,17 +17,18 @@ AForm::AForm(std::string name, int signGrade, int execGrade): name(name), isSign
 
 AForm::AForm(const AForm &obj): name(obj.name), isSigned(obj.isSigned), signGrade(obj.signGrade), execGrade(obj.execGrade)
 {
-    std::cout << "Copy constructor called" << std::endl;
+    std::cout << "[AForm] Copy constructor called" << std::endl;
 }
 
 AForm &AForm:: operator=(const AForm &obj)
 {
-    std::cout << "Copy assignment operator called" << std::endl;
+    std::cout << "[AForm] Copy assignment operator called" << std::endl;
     if (&obj != this)
     {
         this->isSigned = obj.isSigned;
-        // this->signGrade = obj.signGrade;
-        // this->execGrade = obj.execGrade;
+        (const_cast<std::string&>(this->name)) = obj.getName();
+        (const_cast<int&>(this->signGrade)) = obj.getSignGrade();
+        (const_cast<int&>(this->execGrade)) = obj.getExecGrade();
     }
     return (*this);
 }
@@ -44,12 +45,12 @@ std::ostream& operator<<(std::ostream& os, const AForm& obj)
     return (os);
 }
 
-std::string AForm:: getName() const
+const std::string &AForm:: getName() const
 {
     return (this->name);
 }
 
-int AForm::getSignGrade() const
+const int &AForm::getSignGrade() const
 {
     if (this->signGrade < 1)
         throw GradeTooHighException();       
@@ -58,7 +59,7 @@ int AForm::getSignGrade() const
     return (this->signGrade);
 }
 
-int AForm::getExecGrade() const
+const int &AForm::getExecGrade() const
 {
     if (this->execGrade < 1)
         throw GradeTooHighException();       
@@ -79,15 +80,24 @@ void AForm::beSigned(const Bureaucrat& bur)
     this->isSigned = true;
 }
 
-void AForm::isExecutable(const Bureaucrat& executor) const
-{
-    if (!this->getIsSigned())
-        throw NotSignedException();
-    if (executor.getGrade() > this->getExecGrade())
-        throw GradeTooLowException();
+const char* AForm::GradeTooHighException::what() const throw() {
+	return "Error: Grade is too high";
 }
 
-std::string AForm::getTarget() const
+const char* AForm::GradeTooLowException::what() const throw() {
+    return "Error: Grade is too low";
+}
+
+const char* AForm::NotSignedException::what() const throw() {
+    return "Error: Form is Not Signed";
+}
+
+const std::string& AForm::getTarget() const
 {
     return (this->target);
+}
+
+void AForm::setIsSigned(bool isSigned)
+{
+    this->isSigned = isSigned;
 }

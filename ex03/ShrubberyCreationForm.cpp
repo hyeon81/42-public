@@ -6,7 +6,7 @@ ShrubberyCreationForm::ShrubberyCreationForm()
     std::cout << "[ShrubberyCreationForm] is created" << std::endl;
 }
 
-ShrubberyCreationForm::ShrubberyCreationForm(std::string target): AForm(target, 145, 137)
+ShrubberyCreationForm::ShrubberyCreationForm(std::string target): AForm("ShrubberyCreation", 145, 137)
 {
     this->target = target;
     std::cout << "[ShrubberyCreationForm] "  << this->target << " is created" << std::endl;
@@ -14,6 +14,7 @@ ShrubberyCreationForm::ShrubberyCreationForm(std::string target): AForm(target, 
 
 ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm &obj): AForm(obj)
 {
+    this->target = obj.getTarget();
     std::cout << "[ShrubberyCreationForm] Copy constructor called" << std::endl;
 }
 
@@ -22,7 +23,8 @@ ShrubberyCreationForm &ShrubberyCreationForm:: operator=(const ShrubberyCreation
     std::cout << "[ShrubberyCreationForm] Copy assignment operator called" << std::endl;
     if (&obj != this)
     {
-        this->target = obj.target;
+        setIsSigned(obj.getIsSigned());
+        this->target = obj.getTarget();
     }
     return (*this);
 }
@@ -63,23 +65,17 @@ void ShrubberyCreationForm::execute(Bureaucrat const & executor) const
     "                               ;%@@@@%%:;;;. \n"
     "                          ...;%@@@@@%%:;;;;,..\n";
 
-    try 
-    {
-        if (executor.getGrade() > this->getExecGrade())
-            throw GradeTooLowException();
-        
-        std::string newFile(target);
-        newFile.append("_shrubbery");
-        std::ofstream ofs;
-        ofs.open(newFile.c_str());
+    if (!this->getIsSigned())
+        throw NotSignedException();
+    if (executor.getGrade() > this->getExecGrade())
+        throw GradeTooLowException();
+    std::string newFile(target);
+    newFile.append("_shrubbery");
+    std::ofstream ofs;
+    ofs.open(newFile.c_str());
 
-        if (!ofs.is_open())
-            throw FileOpenFailedException();
-        ofs << asciiArt;
-        ofs.close();
-    } catch (std::exception & e)
-    {
-        std::cerr << "[ShrubberyCreationForm] " << e.what() << std::endl;
-        throw;
-    }
+    if (!ofs.is_open())
+        throw FileOpenFailedException();
+    ofs << asciiArt;
+    ofs.close();
 }

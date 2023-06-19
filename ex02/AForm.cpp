@@ -17,12 +17,12 @@ AForm::AForm(std::string name, int signGrade, int execGrade): name(name), isSign
 
 AForm::AForm(const AForm &obj): name(obj.name), isSigned(obj.isSigned), signGrade(obj.signGrade), execGrade(obj.execGrade)
 {
-    std::cout << "Copy constructor called" << std::endl;
+    std::cout << "[AForm] Copy constructor called" << std::endl;
 }
 
 AForm &AForm:: operator=(const AForm &obj)
 {
-    std::cout << "Copy assignment operator called" << std::endl;
+    std::cout << "[AForm] Copy assignment operator called" << std::endl;
     if (&obj != this)
     {
         this->isSigned = obj.isSigned;
@@ -80,14 +80,6 @@ void AForm::beSigned(const Bureaucrat& bur)
     this->isSigned = true;
 }
 
-void AForm::isExecutable(const Bureaucrat& executor) const
-{
-    if (!this->getIsSigned())
-        throw NotSignedException();
-    if (executor.getGrade() > this->getExecGrade())
-        throw GradeTooLowException();
-}
-
 const char* AForm::GradeTooHighException::what() const throw() {
 	return "Error: Grade is too high";
 }
@@ -98,4 +90,14 @@ const char* AForm::GradeTooLowException::what() const throw() {
 
 const char* AForm::NotSignedException::what() const throw() {
     return "Error: Form is Not Signed";
+}
+
+const std::string& AForm::getTarget() const
+{
+    return (this->target);
+}
+
+void AForm::setIsSigned(bool isSigned)
+{
+    this->isSigned = isSigned;
 }

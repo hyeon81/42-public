@@ -25,6 +25,7 @@ Bureaucrat &Bureaucrat:: operator=(const Bureaucrat &obj)
     std::cout << "[Bureaucrat] Copy assignment operator called" << std::endl;
     if (&obj != this)
     {
+        (const_cast<std::string&>(this->name)) = obj.getName();
         this->grade = obj.grade;
     }
     return (*this);
@@ -90,11 +91,12 @@ void Bureaucrat::signForm(AForm &form)
     try
     {
         form.beSigned(*this);
-        std::cout << "[Bureaucrat] " << this->name << " signed " << form.getName() << std::endl;
+        std::cout << this->name << " signed " << form.getTarget() << std::endl;
     } 
     catch (std::exception &e)
     {
-        std::cerr << "[Bureaucrat] " << this->name << " couldn’t sign " << form.getName() << " because " << e.what() << std::endl;
+        std::cerr << "[Bureaucrat::signForm] " << this->name << " couldn’t sign " << form.getName() << " because " << e.what() << std::endl;
+        throw;
     }
 }
 
@@ -105,6 +107,15 @@ void Bureaucrat::executeForm(AForm const &form)
         std::cout << this->name << " executed " << form.getTarget() << std::endl;
     } catch (std::exception &e)
     {
-        std::cerr << "[Bureaucrat] " << e.what() << std::endl;
+        std::cerr << "[Bureaucrat::executeForm] " << e.what() << std::endl;
+        throw;
     }
+}
+
+const char* Bureaucrat::GradeTooHighException::what() const throw() {
+	return "Error: Grade can't be higher than 1";
+}
+
+const char* Bureaucrat::GradeTooLowException::what() const throw() {
+	return "Error: Grade can't be less than 150";
 }

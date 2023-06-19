@@ -1,19 +1,20 @@
 #include "PresidentialPardonForm.hpp"
 
-PresidentialPardonForm::PresidentialPardonForm()
+PresidentialPardonForm::PresidentialPardonForm(): AForm()
 {
     this->target = "default";
     std::cout << "[PresidentialPardonForm] is created" << std::endl;
 }
 
-PresidentialPardonForm::PresidentialPardonForm(std::string target): AForm(target, 25, 5)
+PresidentialPardonForm::PresidentialPardonForm(std::string target): AForm("PresidentialPardon", 25, 5)
 {
     this->target = target;
-    std::cout << "[PresidentialPardonForm] "  << this->target << "is created" << std::endl;
+    std::cout << "[PresidentialPardonForm] "  << this->target << " is created" << std::endl;
 }
 
 PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm &obj): AForm(obj)
 {
+    this->target = obj.getTarget();
     std::cout << "[PresidentialPardonForm] Copy constructor called" << std::endl;
 }
 
@@ -22,7 +23,8 @@ PresidentialPardonForm &PresidentialPardonForm:: operator=(const PresidentialPar
     std::cout << "[PresidentialPardonForm] Copy assignment operator called" << std::endl;
     if (&obj != this)
     {
-        this->target = obj.target;
+        setIsSigned(obj.getIsSigned());
+        this->target = obj.getTarget();
     }
     return (*this);
 }
@@ -34,13 +36,9 @@ PresidentialPardonForm:: ~PresidentialPardonForm()
 
 void PresidentialPardonForm::execute(Bureaucrat const &executor) const
 {
-    try 
-    {
-        this->isExecutable(executor);
-        std::cout << this->target << " has been pardoned by Zaphod Beeblebrox" << std::endl;
-    } catch (std::exception & e)
-    {
-        std::cerr << "[PresidentialPardonForm] " << e.what() << std::endl;
-        throw;
-    }
+    if (!this->getIsSigned())
+        throw NotSignedException();
+    if (executor.getGrade() > this->getExecGrade())
+        throw GradeTooLowException();
+    std::cout << this->target << " has been pardoned by Zaphod Beeblebrox" << std::endl;
 }

@@ -10,6 +10,7 @@ class AForm {
         bool isSigned;
         const int signGrade;
         const int execGrade;
+        AForm &operator=(const AForm &obj);
 
     protected:
         AForm();
@@ -17,41 +18,31 @@ class AForm {
         class GradeTooHighException : public std::exception
         {
             public:
-            const char* what() const throw() 
-            {
-                return "Error: Grade is too high";
-            }
+            const char* what() const throw();
         };
         class GradeTooLowException : public std::exception
         {
             public:
-            const char * what() const throw() 
-            {
-                return "Error: Grade is too low";
-            }
+            const char * what() const throw();
         };
         class NotSignedException : public std::exception
         {
             public:
-            const char * what() const throw() 
-            {
-                return "Error: Form is Not Signed";
-            }
+            const char * what() const throw();
         };
 
     public:
         AForm(std::string name, int signGrade, int execGrade);
         AForm(const AForm &obj);
-        AForm &operator=(const AForm &obj);
         virtual ~AForm();
-        std::string getName() const;
-        int getSignGrade() const;
-        int getExecGrade() const;
+        const std::string &getName() const;
+        const int &getSignGrade() const;
+        const int &getExecGrade() const;
         bool getIsSigned() const;
-        std::string getTarget() const;
+        const std::string &getTarget() const;
         void beSigned(const Bureaucrat& bur);
-        void isExecutable(const Bureaucrat& executor) const;
         virtual void execute(Bureaucrat const & executor) const = 0;
+        void setIsSigned(bool isSigned);
 };
 
 std::ostream& operator<<(std::ostream& os, const AForm& obj);

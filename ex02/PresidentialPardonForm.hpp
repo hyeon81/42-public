@@ -5,6 +5,7 @@
 
 class PresidentialPardonForm: public AForm {
     private:
+        std::string target;
         PresidentialPardonForm();
         PresidentialPardonForm &operator=(const PresidentialPardonForm &obj);
         class FileOpenFailedException : public std::exception

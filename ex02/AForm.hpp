@@ -41,8 +41,8 @@ class AForm {
         bool getIsSigned() const;
         const std::string &getTarget() const;
         void beSigned(const Bureaucrat& bur);
-        void isExecutable(const Bureaucrat& executor) const;
         virtual void execute(Bureaucrat const & executor) const = 0;
+        void setIsSigned(bool isSigned);
 };
 
 std::ostream& operator<<(std::ostream& os, const AForm& obj);

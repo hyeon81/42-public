@@ -21,6 +21,7 @@ class ShrubberyCreationForm: public AForm {
         ShrubberyCreationForm(const ShrubberyCreationForm &obj);
         ~ShrubberyCreationForm();
         void execute(Bureaucrat const & executor) const;
+        static AForm* returnShrubberyCreationForm(std::string name);
 };
 
 #endif

@@ -7,12 +7,15 @@ Intern::Intern()
 
 Intern::Intern(const Intern &obj)
 {
+    *this = obj;
     std::cout << "[Intern] Copy constructor called" << std::endl;
 }
 
-Intern::Intern &operator=(const Intern &obj)
+Intern &Intern::operator=(const Intern &obj)
 {
     std::cout << "[Intern] Copy assignment operator called" << std::endl;
+    if (&obj != this)
+        return (*this);
     return (*this);
 }
 
@@ -21,16 +24,39 @@ Intern::~Intern()
     std::cout << "[Intern] is destroyed" << std::endl;
 }
 
-Form* Intern::makeForm(std::string name, std::string target)
+const char* Intern::NonexistentTypeException::what() const throw() {
+    return "Error: Nonexistent Type";
+}
+
+
+AForm* Intern::returnPresidentialPardonForm(std::string name)
+{
+    return (new PresidentialPardonForm(name));
+}
+
+AForm* Intern::returnRobotomyRequestForm(std::string name)
+{
+    return new RobotomyRequestForm(name);
+}
+
+AForm* Intern::returnShrubberyCreationForm(std::string name)
+{
+    return new ShrubberyCreationForm(name);
+}
+
+AForm* Intern::makeForm(std::string name, std::string target)
 {
     std::string formName[3] = {"shrubbery creation", "robotomy request", "presidential pardon"};
-    void (AForm::*funcs[3])(void) = {&AForm::ShrubberyCreationForm(target), &AForm::RobotomyRequestForm(target), &AForm::PresidentialPardonForm(target)};
+    AForm* (*funcs[3])(std::string target) = {&returnShrubberyCreationForm, &returnRobotomyRequestForm, &returnPresidentialPardonForm};
 
     for (int i = 0; i < 3; i++)
     {
         if (formName[i] == name)
         {
-            (this->*funcs[i])();
+            std::cout << "Intern creates " << name << std::endl;
+            return funcs[i](target);
         }
     }
+    throw Intern::NonexistentTypeException();
 }
+
