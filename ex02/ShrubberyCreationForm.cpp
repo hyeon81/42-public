@@ -6,7 +6,7 @@ ShrubberyCreationForm::ShrubberyCreationForm()
     std::cout << "[ShrubberyCreationForm] is created" << std::endl;
 }
 
-ShrubberyCreationForm::ShrubberyCreationForm(std::string target): AForm(target, 145, 137)
+ShrubberyCreationForm::ShrubberyCreationForm(std::string target): AForm("ShrubberyCreation", 145, 137)
 {
     this->target = target;
     std::cout << "[ShrubberyCreationForm] "  << this->target << " is created" << std::endl;

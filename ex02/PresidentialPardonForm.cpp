@@ -1,12 +1,12 @@
 #include "PresidentialPardonForm.hpp"
 
-PresidentialPardonForm::PresidentialPardonForm()
+PresidentialPardonForm::PresidentialPardonForm(): AForm()
 {
     this->target = "default";
     std::cout << "[PresidentialPardonForm] is created" << std::endl;
 }
 
-PresidentialPardonForm::PresidentialPardonForm(std::string target): AForm(target, 25, 5)
+PresidentialPardonForm::PresidentialPardonForm(std::string target): AForm("PresidentialPardon", 25, 5)
 {
     this->target = target;
     std::cout << "[PresidentialPardonForm] "  << this->target << "is created" << std::endl;
@@ -38,7 +38,7 @@ void PresidentialPardonForm::execute(Bureaucrat const &executor) const
     {
         this->isExecutable(executor);
         std::cout << this->target << " has been pardoned by Zaphod Beeblebrox" << std::endl;
-    } catch (std::exception & e)
+    } catch (std::exception &e)
     {
         std::cerr << "[PresidentialPardonForm] " << e.what() << std::endl;
         throw;

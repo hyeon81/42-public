@@ -10,7 +10,7 @@ Form::Form(std::string name, int signGrade, int execGrade): name(name), isSigned
     if (this->signGrade < 1 || this->execGrade < 1)
         throw GradeTooHighException();       
     else if (this->signGrade > 150 || this->execGrade > 150)
-        throw GradeTooLowException(); //예외처리할때 메세지 못던지나?
+        throw GradeTooLowException();
     else
         std::cout << this->name << " is created" << std::endl;
 }

@@ -88,7 +88,14 @@ void AForm::isExecutable(const Bureaucrat& executor) const
         throw GradeTooLowException();
 }
 
-std::string &AForm::getTarget() const
-{
-    return (this->target);
+const char* AForm::GradeTooHighException::what() const throw() {
+	return "Error: Grade is too high";
+}
+
+const char* AForm::GradeTooLowException::what() const throw() {
+    return "Error: Grade is too low";
+}
+
+const char* AForm::NotSignedException::what() const throw() {
+    return "Error: Form is Not Signed";
 }

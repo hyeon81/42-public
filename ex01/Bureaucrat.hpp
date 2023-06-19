@@ -31,7 +31,7 @@ class Bureaucrat {
         Bureaucrat(const Bureaucrat &obj);
         ~Bureaucrat();
         const std::string& getName() const;
-        int &getGrade() const;
+        int   getGrade() const;
         void  upGrade();
         void  downGrade();
         void  signForm(Form &form);

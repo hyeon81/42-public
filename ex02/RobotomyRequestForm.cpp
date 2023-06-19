@@ -6,7 +6,7 @@ RobotomyRequestForm::RobotomyRequestForm()
     std::cout << "[RobotomyRequestForm] is created" << std::endl;
 }
 
-RobotomyRequestForm::RobotomyRequestForm(std::string target): AForm(target, 72, 45)
+RobotomyRequestForm::RobotomyRequestForm(std::string target): AForm("RobotomyRequest", 72, 45)
 {
     this->target = target;
     std::cout << "[RobotomyRequestForm] "  << this->target << "is created" << std::endl;
@@ -38,11 +38,12 @@ void RobotomyRequestForm::execute(Bureaucrat const & executor) const
     {
         this->isExecutable(executor);
         std::cout << "make Drill..." << std::endl;
-        int random = rand() % 10;
-        std::cout << "random: " << random << std::endl;
-        if (random > 5)
-            throw RobotoMyFailedException();
-        std::cout << this->target << " has been robotomized successfully 50% of the time" << std::endl;
+        srand(time(NULL));
+        int random = rand() % 100;
+        if (random > 50)
+            std::cout << this->target << " hasn't been robotomized...:(" << std::endl;
+        else
+            std::cout << this->target << " has been robotomized successfully 50% of the time" << std::endl;
     } catch (std::exception & e)
     {
         std::cerr << "[RobotomyRequestForm] " << e.what() << std::endl;

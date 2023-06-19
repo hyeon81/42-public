@@ -10,6 +10,7 @@ int main()
         std::cout << "======== sign level is low =========" << std::endl;
         Bureaucrat a("a", 150);
         a.signForm(sform);
+        a.executeForm(sform);
         } catch (std::exception &e) {
         std::cerr << "[main] " << e.what() << std::endl;
     }
