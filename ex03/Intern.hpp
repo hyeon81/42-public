@@ -18,9 +18,9 @@ class Intern {
         Intern &operator=(const Intern &obj);
         ~Intern();
         AForm* makeForm(std::string name, std::string target);
-        static AForm* returnPresidentialPardonForm(std::string name);
-        static AForm* returnRobotomyRequestForm(std::string name);
-        static AForm* returnShrubberyCreationForm(std::string name);
+        AForm* returnPresidentialPardonForm(std::string name);
+        AForm* returnRobotomyRequestForm(std::string name);
+        AForm* returnShrubberyCreationForm(std::string name);
 };
 
 #endif
