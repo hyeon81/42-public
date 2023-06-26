@@ -33,25 +33,25 @@ void ScalarConverter::convert(std::string &value)
     char _char;
     _char = static_cast<char>(res);
     if (value == "nan")
-        std::cout << "char: " << "impossible" << std::endl;
+        std::cout << "char: impossible" << std::endl;
     else if (isprint(_char))
         std::cout << "char: " << _char << std::endl;
     else
-        std::cout << "char: " << "Non displayable" << std::endl;//informative message?
+        std::cout << "char: Non displayable" << std::endl;//informative message?
 
     //toInt
     int _int;
     _int = static_cast<int>(res);
     if (value == "nan")
-        std::cout << "char: " << "impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
     else
-        std::cout << "char: " << _int << std::endl;
+        std::cout << "int: " << _int << std::endl;
 
     //toFloat
     float _float;
     _float = static_cast<float>(res);
     if (value == "nan")
-        std::cout << "float: " << "nanf" << std::endl;
+        std::cout << "float: nanf" << std::endl;
     else if (_float == static_cast<int>(res))
         std::cout << "float: " << _float << ".0f" << std::endl;
     else
@@ -59,7 +59,7 @@ void ScalarConverter::convert(std::string &value)
 
     //toDouble
     if (value == "nan")
-        std::cout << "double: nanf" << std::endl;
+        std::cout << "double: nan" << std::endl;
     else if (res == static_cast<int>(res))
         std::cout << "double: " << res << ".0" << std::endl;
     else
