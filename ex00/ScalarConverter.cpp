@@ -1,29 +1,5 @@
 #include "ScalarConverter.hpp"
 
-ScalarConverter::ScalarConverter()
-{
-    std::cout << "[ScalarConverter] is created" << std::endl;
-}
-
-ScalarConverter::ScalarConverter(const ScalarConverter &obj)
-{
-    *this = obj;
-    std::cout << "[ScalarConverter] Copy constructor called" << std::endl;
-}
-
-ScalarConverter &ScalarConverter::operator=(const ScalarConverter &obj)
-{
-    std::cout << "[ScalarConverter] Copy assignment operator called" << std::endl;
-    if (&obj != this)
-        return (*this);
-    return (*this);
-}
-
-ScalarConverter::~ScalarConverter()
-{
-    std::cout << "[ScalarConverter] is destroyed" << std::endl;
-}
-
 void ScalarConverter::convert(std::string &value)
 {
     double res;
@@ -40,27 +16,29 @@ void ScalarConverter::convert(std::string &value)
         std::cout << "char: Non displayable" << std::endl;//informative message?
 
     //toInt
-    int _int;
-    _int = static_cast<int>(res);
-    if (value == "nan")
+    long long _int;
+    _int = static_cast<long long>(res);
+    if (value == "nan" || _int < INT_MIN || _int > INT_MAX)
         std::cout << "int: impossible" << std::endl;
     else
+    {
+        _int = static_cast<int>(res);
         std::cout << "int: " << _int << std::endl;
+    }
 
     //toFloat
     float _float;
     _float = static_cast<float>(res);
-    if (value == "nan")
-        std::cout << "float: nanf" << std::endl;
-    else if (_float == static_cast<int>(res))
-        std::cout << "float: " << _float << ".0f" << std::endl;
-    else
-        std::cout << "float: " << _float << std::endl;
+    std::cout << "float: " << _float;
+    if (_float == static_cast<int>(res))
+        std::cout << ".0";
+    std::cout << 'f' << std::endl;
+        
 
     //toDouble
-    if (value == "nan")
-        std::cout << "double: nan" << std::endl;
-    else if (res == static_cast<int>(res))
+    // if (value == "nan")
+    //     std::cout << "double: nan" << std::endl;
+    if (res == static_cast<int>(res))
         std::cout << "double: " << res << ".0" << std::endl;
     else
         std::cout << "double: " << res << std::endl;

@@ -4,14 +4,19 @@
 #include <iostream>
 #include <string>
 
+struct Data {
+    std::string name;
+};
+
 class Serializer {
-    public:
+    private:
         Serializer();
         Serializer(const Serializer &obj);
         Serializer &operator=(const Serializer &obj);
         ~Serializer();
-        uintptr_t serialize(Data* ptr);
-        Data* deserialize(uintptr_t raw);
+    public:
+        static uintptr_t serialize(Data* ptr);
+        static Data* deserialize(uintptr_t raw);
 };
 
 #endif
