@@ -17,7 +17,7 @@ void ScalarConverter::convert(std::string &value)
     
     //toChar
     _char = static_cast<char>(res);
-    if (value == "nan")
+    if (value == "nan" || res > 255)
         std::cout << "char: impossible" << std::endl;
     else if (res > 31 && res < 127)
         std::cout << "char: " << _char << std::endl;
@@ -26,10 +26,8 @@ void ScalarConverter::convert(std::string &value)
 
     //toInt
     _int = static_cast<long long>(res);
-    if (value == "nan")
+    if (value == "nan" || _int < INT_MIN || _int > INT_MAX)
         std::cout << "int: impossible" << std::endl;
-    else if (_int < INT_MIN || _int > INT_MAX)
-        std::cout << "int: overflow" << std::endl;
     else
     {
         _int = static_cast<int>(res);
