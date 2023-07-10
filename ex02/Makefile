@@ -2,9 +2,9 @@ NAME = Array
 
 CPP = c++
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+# CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCS = main.cpp Array.cpp
+SRCS = main.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
@@ -14,7 +14,7 @@ $(NAME) : $(OBJS)
 	$(CPP) $(CFLAGS) -o $(NAME) $(OBJS)
 
 %.o: %.cpp
-	$(CPP) $(CFLAGS) -c $< -o $@ 
+	$(CPP) $(CFLAGS) -c -I. $< -o $@ 
 
 clean:
 	rm -f $(OBJS)
