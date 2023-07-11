@@ -4,8 +4,10 @@
 #include <iostream>
 
 template <typename T>
-void iter(T *addr, unsigned int len, void (*fn)(T&))
+void iter(T *addr, unsigned int len, void(*fn)(const T&))
 {
+    if (!fn)
+        return ;
     for (unsigned int i = 0; i < len; i++)
     {
         fn(addr[i]);
