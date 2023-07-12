@@ -4,7 +4,7 @@
 #include <iostream>
 
 template <typename T>
-void iter(T *addr, unsigned int len, void(*fn)(const T&))
+void iter(T *addr, unsigned int len, void (*fn)(const T&))
 {
     if (!fn)
         return ;

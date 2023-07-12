@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-template <typename T> //다 붙여줘야함
-void swap(T &a, T &b){ //값 자체가 변경되어야 하므로 레퍼런스로...
+template <typename T> 
+void swap(T &a, T &b){ 
     T tmp;
     tmp = a;
     a = b;

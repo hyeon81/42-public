@@ -10,6 +10,7 @@ class Array
     public:
         Array() {
             arr = new T[0];
+            len = 1;
         }
         Array(unsigned int n) {
             arr = new T[n];
@@ -34,20 +35,26 @@ class Array
         ~Array() {
             delete[] arr;
         }
-        T& operator[] (unsigned int idx) const { 
+        T& operator[] (unsigned int idx) { 
+            if (idx > len - 1)
+                throw std::out_of_range("Error: out of range!");
+            return (this->arr[idx]);
+        }
+
+        const T& operator[] (unsigned int idx) const { 
             if (idx > len - 1)
                 throw std::out_of_range("out of range");
             return (this->arr[idx]);
         }
 
-        const T& operator[] (unsigned int idx) const{ 
-            if (idx > len - 1)
-                throw std::out_of_range("out of range");
-            return (this->arr[idx]);
-        }
-
-        unsigned int size() {
+        unsigned int size() const {
             return (this->len);
+        }
+        void showArray() const {
+            for (unsigned int i = 0; i < size(); i++) {
+               std::cout << arr[i] << " ";
+            }
+            std::cout << std::endl;
         }
 };
 

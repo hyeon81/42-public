@@ -2,11 +2,11 @@
 
 int main(void)
 {
-    int i[5] = { 1, 2, 3, 4, 5 };
+    int num[5] = { 1, 2, 3, 4, 5 };
+    char str[5] = {'a', 'b', 'c', 'd', 'e'};
 
-    // iter<int>(i, sizeof(i) / sizeof (*i), print<int>);
-    // iter(i, sizeof(i) / sizeof(*i), print<int>);
-    iter(i, sizeof(i) / sizeof(*i), print);
+    iter(num, 5, print);
+    iter(str, 5, print);
 
     return (0);
 }
