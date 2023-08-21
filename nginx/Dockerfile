@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y nginx \
 	openssl
 
 # 이거 수정하는 방법은 안넣어도 되나?
-# COPY ./conf/nginx.conf /etc/nginx/sites-available/default
+COPY ./conf/nginx.conf /etc/nginx/sites-available/default
 
 # self-signed ssl 인증서 만들기
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
