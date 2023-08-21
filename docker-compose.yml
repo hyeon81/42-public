@@ -1,0 +1,35 @@
+version: '3.1'
+
+services:
+  mariadb: #컨테이너 명
+    image: debian:bullseye #이미지 이름 
+    restart: always
+    expose:
+      - 3306
+    networks:
+      - intra
+    tty: true
+  # nginx:
+  #   image: debian:bullseye
+  #   restart: always
+  #   ports:
+  #     - 443:443
+  #   volumes:
+  #     - data:/var/www/html
+  #   networks:
+  #     - intra
+  #   tty: true
+  # wordpress:
+  #   image: debian:bullseye
+  #   restart: always
+  #   expose:
+  #     - 9000
+  #   volumes:
+  #     - data:/var/www/html
+  #   networks:
+  #     - intra
+  #   tty: true
+  
+  networks:
+    intra:
+      driver: bridge
