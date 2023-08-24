@@ -15,13 +15,5 @@ RUN service mysql start \
     && mysql -u root -e "FLUSH PRIVILEGES;" \
     # && mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MARIADB_ROOT_PASSWORD}';"
 
-# VOLUME [ "/data" ]
-
-# WORKDIR /data
-
-# CMD [ "executable" ]
-
-# ENTRYPOINT [ "executable" ]
-
 EXPOSE 3306
 
