@@ -4,46 +4,47 @@ services:
   mariadb: #컨테이너 명
     image: debian:bullseye #이미지 이름
     build:
-      context: ./requirements/mariadb
+      context: ./requirements/mariadb/.
     restart: always
     expose:
-      - 3306
+      - "3306"
     volumes:
-      - mariadb:/var/lib/mysql
+      - mariadbdb:/var/lib/mysql
     env_file:
       - .env
     networks:
       - intra
-    tty: true
   nginx:
     image: debian:bullseye
     build:
-      context: ./requirements/nginx
+      context: ./requirements/nginx/.
     restart: always
     ports:
-      - 443:443
+      - "443:443"
     volumes:
       - wordpressdb:/var/www/html
     env_file:
       - .env
     networks:
       - intra
-    tty: true
   wordpress:
     image: debian:bullseye
     build:
-      context: ./requirements/wordpress
+      context: ./requirements/wordpress/.
     restart: always
     expose:
-      - 9000
+      - "9000"
     volumes:
       - wordpressdb:/var/www/html
     env_file:
       - .env
     networks:
       - intra
-    tty: true
-  
+
 networks:
     intra:
       driver: bridge
+
+volumes:
+    mariadbdb:
+    wordpressdb:

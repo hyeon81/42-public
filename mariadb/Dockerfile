@@ -3,7 +3,7 @@ FROM debian:bullseye
 
 # mariadb 설치
 RUN apt-get update && apt-get install -y mariadb-server vim
-    # && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
     # mariadb 서버의 bind-address 주소를 주석 처리해준다. 이를 해주질 않을 경우 외부 ip에서 접근할 수 없게 된다.
 COPY ./tools/50-server.cnf /etc/mysql/mariadb.conf.d/ 
     # mysql 서비스 시작

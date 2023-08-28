@@ -18,3 +18,4 @@ cd -
 
 # run php-fpm7.3 listening for CGI request
 php-fpm7.3 -F
+
