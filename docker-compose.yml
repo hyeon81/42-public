@@ -13,12 +13,7 @@ services:
     env_file:
       - .env
     networks:
-      - inception
-    tty: true
-    expose:
-      - 3306
-
-
+      - intra
   nginx:
     build:
       context: ./requirements/nginx/.
@@ -30,10 +25,7 @@ services:
     env_file:
       - .env
     networks:
-      - inception
-    tty: true
-
-
+      - intra
   wordpress:
     build:
       context: ./requirements/wordpress/.

@@ -1,15 +1,15 @@
 FROM debian:bullseye
 
 # wordpress에 필요한 패키지 설치
-RUN apt-get update && apt-get -y install mariadb-client php7.4 php-fpm php-cli mariadb-client curl && \
+RUN apt-get update && apt-get -y install mariadb-client php8.2 php8.2-mysql php-cli mariadb-client curl && \
     rm -rf /var/lib/apt/lists/*
 
 # wordpress 다운로드하기
-ADD https://wordpress.org/latest.tar.gz /var/www/latest.tar.gz
+RUN curl -O https://wordpress.org/latest.tar.gz && tar -xzf latest.tar.gz -C /var/www/html/
 
-# 압축풀고 이동, 권한 설정
-RUN cd /var/www && tar -xvf latest.tar.gz && rm -rf latest.tar.gz && \
-    chown -R www-data:www-data /var/www/html
+# # 압축풀고 이동, 권한 설정
+# RUN cd /var/www && tar -xvf latest.tar.gz && rm -rf latest.tar.gz && \
+#     chown -R www-data:www-data /var/www/html
 
 # php fpm 설정 파일 수정 (외부에서도 php-fpm을 호출하도록)
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d

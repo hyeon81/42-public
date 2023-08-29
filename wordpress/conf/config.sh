@@ -16,4 +16,4 @@ wp core install --title=$WP_TITLE \
 wp user create $WP_USER $WP_USER_MAIL --role=author --user_pass=$WP_USER_PASSWORD --allow-root
 
 # run php-fpm7.3 listening for CGI request
-php-fpm7.3 -F
+php-fpm8.2 -F
