@@ -1,21 +1,25 @@
 version: '3.1'
 
+networks:
+  inception: {}
+
 services:
   mariadb: #컨테이너 명
-    image: debian:bullseye #이미지 이름
     build:
       context: ./requirements/mariadb/.
     restart: always
-    expose:
-      - "3306"
     volumes:
       - mariadbdb:/var/lib/mysql
     env_file:
       - .env
     networks:
-      - intra
+      - inception
+    tty: true
+    expose:
+      - 3306
+
+
   nginx:
-    image: debian:bullseye
     build:
       context: ./requirements/nginx/.
     restart: always
@@ -26,24 +30,23 @@ services:
     env_file:
       - .env
     networks:
-      - intra
+      - inception
+    tty: true
+
+
   wordpress:
-    image: debian:bullseye
     build:
       context: ./requirements/wordpress/.
     restart: always
-    expose:
-      - "9000"
     volumes:
       - wordpressdb:/var/www/html
     env_file:
       - .env
     networks:
-      - intra
-
-networks:
-    intra:
-      driver: bridge
+      - inception
+    expose:
+      - 9000
+    tty: true
 
 volumes:
     mariadbdb:

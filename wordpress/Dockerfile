@@ -1,10 +1,8 @@
-#사용할 이미지
 FROM debian:bullseye
 
 # wordpress에 필요한 패키지 설치
-RUN apt-get update && apt-get -y install mariadb-client \
-    php7.3-fpm php7.3-mysql php-cli mariadb-client curl \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get -y install mariadb-client php7.4 php-fpm php-cli mariadb-client curl && \
+    rm -rf /var/lib/apt/lists/*
 
 # wordpress 다운로드하기
 ADD https://wordpress.org/latest.tar.gz /var/www/latest.tar.gz
