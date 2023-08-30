@@ -1,15 +1,24 @@
-#사용할 이미지
+# #사용할 이미지
+# FROM debian:bullseye
+
+# COPY ./conf/50-server.cnf /conf_file
+#     # mysql 서비스 시작
+# COPY ./conf/config.sh /script.sh
+
+# # mariadb 설치
+# RUN apt-get update && apt-get install -y mariadb-server && \
+#     rm -rf /var/lib/apt/lists/* && chmod +x /script.sh
+#     # mariadb 서버의 bind-address 주소를 주석 처리해준다. 이를 해주질 않을 경우 외부 ip에서 접근할 수 없게 된다.
+
+# EXPOSE 3306
+
+# CMD ["/script.sh"]
+
 FROM debian:bullseye
 
-COPY ./conf/50-server.cnf /conf_file
-    # mysql 서비스 시작
-COPY ./conf/config.sh /script.sh
+#아무데나 옮겨도 되나?
+COPY ./script.sh /script.sh
 
-# mariadb 설치
-RUN apt-get update && apt-get install -y mariadb-server && \
-    rm -rf /var/lib/apt/lists/* && chmod +x /script.sh
-    # mariadb 서버의 bind-address 주소를 주석 처리해준다. 이를 해주질 않을 경우 외부 ip에서 접근할 수 없게 된다.
+RUN apt-get update && apt-get install -y mariadb-server && chmod +x /script.sh && rm -rf /var/lib/mysql/* && mysql_install_db && mkdir -p /run/mysqld && chown -R mysql:mysql /var/lib/mysql && chown -R mysql:mysql /run/mysqld
 
-EXPOSE 3306
-
-CMD ["/script.sh"]
+ENTRYPOINT ["/script.sh", "tail -f /dev/null"]
