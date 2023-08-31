@@ -16,9 +16,15 @@
 
 FROM debian:bullseye
 
+RUN apt-get update && apt-get install -y mariadb-server && 
+
 #아무데나 옮겨도 되나?
-COPY ./script.sh /script.sh
+COPY ./tools/script.sh /script.sh
 
-RUN apt-get update && apt-get install -y mariadb-server && chmod +x /script.sh && rm -rf /var/lib/mysql/* && mysql_install_db && mkdir -p /run/mysqld && chown -R mysql:mysql /var/lib/mysql && chown -R mysql:mysql /run/mysqld
+RUN rm -rf /etc/mysql/mariadb.conf.d/50-server.cnf
 
-ENTRYPOINT ["/script.sh", "tail -f /dev/null"]
+COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+
+RUN chmod +x /script.sh
+
+ENTRYPOINT ["/script.sh"]
