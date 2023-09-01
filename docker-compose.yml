@@ -13,7 +13,7 @@ services:
     env_file:
       - .env
     networks:
-      - intra
+      - inception
   nginx:
     build:
       context: ./requirements/nginx/.
@@ -25,11 +25,14 @@ services:
     env_file:
       - .env
     networks:
-      - intra
+      - inception
   wordpress:
     build:
       context: ./requirements/wordpress/.
     restart: always
+    depends_on:
+      - mariadb
+      - nginx
     volumes:
       - wordpressdb:/var/www/html
     env_file:

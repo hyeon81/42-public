@@ -16,7 +16,8 @@
 
 FROM debian:bullseye
 
-RUN apt-get update && apt-get install -y mariadb-server && 
+RUN apt-get update && apt-get install -y mariadb-server && \
+    rm -rf /var/lib/apt/lists/*
 
 #아무데나 옮겨도 되나?
 COPY ./tools/script.sh /script.sh
