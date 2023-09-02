@@ -4,17 +4,21 @@ networks:
   inception: {}
 
 services:
-  mariadb: #컨테이너 명
+  mariadb:
+    container_name: mariadb
     build:
       context: ./requirements/mariadb/.
     restart: always
     volumes:
-      - mariadbdb:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     env_file:
       - .env
+    expose:
+      - 3306
     networks:
       - inception
   nginx:
+    container_name: nginx
     build:
       context: ./requirements/nginx/.
     restart: always
@@ -27,12 +31,10 @@ services:
     networks:
       - inception
   wordpress:
+    container_name: wordpress
     build:
       context: ./requirements/wordpress/.
     restart: always
-    depends_on:
-      - mariadb
-      - nginx
     volumes:
       - wordpressdb:/var/www/html
     env_file:
@@ -44,5 +46,5 @@ services:
     tty: true
 
 volumes:
-    mariadbdb:
+    mariadb:
     wordpressdb:
