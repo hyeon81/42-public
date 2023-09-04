@@ -1,13 +1,15 @@
 version: '3.1'
 
 networks:
-  inception: {}
+    inception:
+        driver: bridge
 
 services:
   mariadb:
     container_name: mariadb
+    hostname: mariadb
     build:
-      context: ./requirements/mariadb/.
+      context: ./requirements/mariadb
     restart: always
     volumes:
       - mariadb:/var/lib/mysql
@@ -19,24 +21,26 @@ services:
       - inception
   nginx:
     container_name: nginx
+    hostname: nginx
     build:
-      context: ./requirements/nginx/.
+      context: ./requirements/nginx
     restart: always
     ports:
       - "443:443"
     volumes:
-      - wordpressdb:/var/www/html
+      - wordpressdb:/var/www/html/wordpress
     env_file:
       - .env
     networks:
       - inception
   wordpress:
     container_name: wordpress
+    hostname: wordpress
     build:
-      context: ./requirements/wordpress/.
+      context: ./requirements/wordpress
     restart: always
     volumes:
-      - wordpressdb:/var/www/html
+      - wordpressdb:/var/www/html/wordpress
     env_file:
       - .env
     networks:
