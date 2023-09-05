@@ -4,6 +4,8 @@ FROM debian:bullseye
 RUN apt-get update && apt-get -y install php php-mysql php-fpm php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip curl mariadb-client sudo && \
     rm -rf /var/lib/apt/lists/*
 
+RUN mkdir -p /var/www/html
+
 # wordpress 다운로드하기
 # RUN curl -o /var/www/html/latest.tar.gz -L https://wordpress.org/latest.tar.gz && cd /var/www/html && tar -xvf latest.tar.gz
 
@@ -29,6 +31,8 @@ RUN mkdir /run/php
 # php-fpm 실행
 COPY ./conf/config.sh /script.sh
 
+# RUN mkdir -p /var/www/html/wordpress/wp-content/mu-plugins
+# COPY ./conf/create-admin-user.php /var/www/html/wordpress/wp-content/mu-plugins/create-admin-user.php
 # 실행 권한 부여
 RUN chmod +x /script.sh
 
