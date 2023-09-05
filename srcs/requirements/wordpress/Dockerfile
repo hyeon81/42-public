@@ -32,6 +32,6 @@ COPY ./conf/config.sh /script.sh
 # 실행 권한 부여
 RUN chmod +x /script.sh
 
-CMD ["/script.sh"]
-
 EXPOSE 9000
+
+CMD ["/script.sh"]

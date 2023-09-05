@@ -14,7 +14,7 @@ echo "cd /var/www/html/wordpress"
 cd /var/www/html/wordpress
 
 sudo -u www-data sh -c "wp config create --dbhost=mariadb \
-                --dbname=wp_wordpressdb \
+                --dbname=wordpressdb \
                 --dbuser=hyeokim2 \
                 --dbpass=0801"
 

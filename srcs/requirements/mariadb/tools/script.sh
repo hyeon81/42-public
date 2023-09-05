@@ -11,10 +11,17 @@ chown -R mysql:mysql /run/mysqld
 service mariadb start
 
 # MySQL에 SQL 명령어를 실행하는 부분을 mysql.sql 파일로 이동
+# cat <<EOF > mysql.sql
+# CREATE DATABASE ${DB_NAME};
+# CREATE USER '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
+# GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';
+# FLUSH PRIVILEGES;
+# EOF
+
 cat <<EOF > mysql.sql
-CREATE DATABASE ${DB_NAME};
-CREATE USER '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
-GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';
+CREATE DATABASE wordpressdb;
+CREATE USER 'hyeokim2'@'%' IDENTIFIED BY '0801';
+GRANT ALL PRIVILEGES ON wordpressdb.* TO 'hyeokim2'@'%';
 FLUSH PRIVILEGES;
 EOF
 
