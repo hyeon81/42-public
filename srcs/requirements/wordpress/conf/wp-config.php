@@ -65,7 +65,7 @@ define( 'NONCE_SALT',       'put your unique phrase here' );
  * You can have multiple installations in one database if you give each
  * a unique prefix. Only numbers, letters, and underscores please!
  */
-$table_prefix = 'wp_';
+// $table_prefix = 'wp_';
 
 /**
  * For developers: WordPress debugging mode.
@@ -82,7 +82,23 @@ $table_prefix = 'wp_';
 define( 'WP_DEBUG', false );
 
 /* Add any custom values between this line and the "stop editing" line. */
+// 웹사이트 주소
+define('WP_HOME', 'http://hyeokim2.42.fr');
+define('WP_SITEURL', 'http://hyeokim2.42.fr');
 
+// 관리자 계정 추가
+if (!username_exists('superhyeokim2')) {
+    $user_id = wp_create_user('superhyeokim2', 'superhyeokim2');
+    $user = new WP_User($user_id);
+    $user->set_role('administrator');
+}
+
+// 사용자 추가
+if (!username_exists('hyeokim2')) {
+    $user_id = wp_create_user('hyeokim2', '0801');
+    $user = new WP_User($user_id);
+    $user->set_role('author');
+}
 
 
 /* That's all, stop editing! Happy publishing. */
