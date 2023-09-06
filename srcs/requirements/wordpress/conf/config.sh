@@ -13,20 +13,6 @@ echo "cd /var/www/html/wordpress"
 
 cd /var/www/html/wordpress
 
-# sudo -u www-data sh -c "wp config create --dbhost=mariadb \
-#                 --dbname=wordpressdb \
-#                 --dbuser=hyeokim2 \
-#                 --dbpass=*hyeon0801"
-
-# # WordPress 설치
-# sudo -u www-data sh -c "wp core install --title=hyeokim2blog \
-#                 --admin_user=hyeokim2 \
-#                 --admin_password=*hyeon0801 \
-#                 --admin_email=hyeokim2@42seoul.kr \
-#                 --url=hyeokim2.42.fr"
-
-# 사용자 생성
-
 # WordPress 설정
 sudo -u www-data sh -c "wp config create --dbhost=$DB_HOST \
                 --dbname=$DB_NAME \

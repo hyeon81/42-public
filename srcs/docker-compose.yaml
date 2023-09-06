@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3.8'
 
 networks:
     inception:
@@ -6,13 +6,13 @@ networks:
 
 services:
   mariadb:
-    container_name: mariadb
-    hostname: mariadb
     build:
       context: ./requirements/mariadb
     restart: always
     volumes:
-      - mariadb:/var/lib/mysql
+      - type: bind
+        source: /home/vboxuser/data/mariadb
+        target: /var/lib/mysql
     env_file:
       - .env
     expose:
@@ -20,27 +20,27 @@ services:
     networks:
       - inception
   nginx:
-    container_name: nginx
-    hostname: nginx
     build:
       context: ./requirements/nginx
     restart: always
     ports:
       - "443:443"
     volumes:
-      - wordpressdb:/var/www/html/wordpress
+      - type: bind
+        source: /home/vboxuser/data/wordpress
+        target: /var/www/html/wordpress
     env_file:
       - .env
     networks:
       - inception
   wordpress:
-    container_name: wordpress
-    hostname: wordpress
     build:
       context: ./requirements/wordpress
     restart: always
     volumes:
-      - wordpressdb:/var/www/html/wordpress
+      - type: bind
+        source: /home/vboxuser/data/wordpress
+        target: /var/www/html/wordpress
     env_file:
       - .env
     networks:
@@ -48,7 +48,3 @@ services:
     expose:
       - 9000
     tty: true
-
-volumes:
-    mariadb:
-    wordpressdb:

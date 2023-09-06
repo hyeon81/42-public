@@ -6,16 +6,8 @@ RUN apt-get update && apt-get -y install php php-mysql php-fpm php-curl php-gd p
 
 RUN mkdir -p /var/www/html
 
-# wordpress 다운로드하기
-# RUN curl -o /var/www/html/latest.tar.gz -L https://wordpress.org/latest.tar.gz && cd /var/www/html && tar -xvf latest.tar.gz
-
 # php fpm 설정 파일 수정 (외부에서도 php-fpm을 호출하도록)
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d
-
-# RUN rm -rf /var/www/html/wordpress/wp-config-sample.php && touch /var/www/html/wordpress/wp-config.php
-
-# wp-config.php 파일 수정
-# COPY ./conf/wp-config.php /var/www/html/wordpress/wp-config.php
 
 # wp-cli 설치
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar --output /usr/bin/wp --silent
@@ -31,8 +23,6 @@ RUN mkdir /run/php
 # php-fpm 실행
 COPY ./conf/config.sh /script.sh
 
-# RUN mkdir -p /var/www/html/wordpress/wp-content/mu-plugins
-# COPY ./conf/create-admin-user.php /var/www/html/wordpress/wp-content/mu-plugins/create-admin-user.php
 # 실행 권한 부여
 RUN chmod +x /script.sh
 
