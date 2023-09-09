@@ -21,7 +21,7 @@ RUN chmod +x /usr/bin/wp
 RUN mkdir /run/php
 
 # php-fpm 실행
-COPY ./conf/config.sh /script.sh
+COPY ./tool/script.sh /script.sh
 
 # 실행 권한 부여
 RUN chmod +x /script.sh

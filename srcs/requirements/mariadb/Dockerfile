@@ -1,12 +1,6 @@
 FROM debian:bullseye
 
-RUN apt-get update && apt-get install -y mariadb-server mariadb-client && rm -rf /var/lib/apt/lists/*
-
-RUN rm -rf /var/lib/mysql/* 
-
-RUN mariadb-install-db && mkdir -p /run/mysqld
-
-RUN chown -R mysql:mysql /var/lib/mysql && chown -R mysql:mysql /run/mysqld
+RUN apt-get update && apt-get upgrade && apt-get install -y mariadb-server mariadb-client && rm -rf /var/lib/apt/lists/*
 
 COPY ./tools/script.sh /script.sh
 

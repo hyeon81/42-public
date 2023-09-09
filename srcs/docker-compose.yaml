@@ -6,13 +6,12 @@ networks:
 
 services:
   mariadb:
+    container_name: mariadb
     build:
       context: ./requirements/mariadb
     restart: always
     volumes:
-      - type: bind
-        source: /home/vboxuser/data/mariadb
-        target: /var/lib/mysql
+      - "/home/hyeokim2/data/mariadb:/var/lib/mysql"
     env_file:
       - .env
     expose:
@@ -20,31 +19,28 @@ services:
     networks:
       - inception
   nginx:
+    container_name: nginx
     build:
       context: ./requirements/nginx
     restart: always
-    ports:
-      - "443:443"
     volumes:
-      - type: bind
-        source: /home/vboxuser/data/wordpress
-        target: /var/www/html/wordpress
+      - "/home/hyeokim2/data/wordpress:/var/www/html/wordpress"
     env_file:
       - .env
+    ports:
+      - "443:443"
     networks:
       - inception
   wordpress:
+    container_name: wordpress
     build:
       context: ./requirements/wordpress
     restart: always
     volumes:
-      - type: bind
-        source: /home/vboxuser/data/wordpress
-        target: /var/www/html/wordpress
+      - "/home/hyeokim2/data/wordpress:/var/www/html/wordpress"
     env_file:
       - .env
-    networks:
-      - inception
     expose:
       - 9000
-    tty: true
+    networks:
+      - inception
