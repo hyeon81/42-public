@@ -27,7 +27,7 @@ int main (int argc, char* argv[])
     server_addr.sin_family = AF_INET; // IPv4 주소 체계 사용 
     server_addr.sin_addr.s_addr = htonl(INADDR_ANY); // IP 주소 지정.  INADDR_ANY는 서버 자신의 IP주소
     server_addr.sin_port = htons(atoi(argv[1])); // 포트 번호 지정
-    
+
     // 2. bind(): 소켓에 위에서 생성한 주소 정보 할당
     // 근데 왜 ip 주소 부분에 server_addr이 들어가는 거지?
     if (bind(server_sock, (struct sockaddr*)&server_addr, sizeof(server_addr)) == -1)
@@ -37,7 +37,7 @@ int main (int argc, char* argv[])
     }
 
     // 3. listen(): 소켓을 리스닝 상태로 변경
-    if (listen(server_sock, 5) == -1) //연결 대기열 5개 생성 (왜 5개지?)
+    if (listen(server_sock, 5) == -1) //동시 연결을 받는 최대 클라이언트 수.
     {
         std::cout << "listen() error" << std::endl;
         return (-1);
@@ -52,6 +52,10 @@ int main (int argc, char* argv[])
     {
         std::cout << "accept() error" << std::endl;
         return (-1);
+    }
+    else
+    {
+        std::cout << "client accept" << std::endl;
     }
 
     // *5. close(): listen 중인 서버 측 소켓을 닫는다? (여기선 1개의 클라이언트만 받을거라)
@@ -69,6 +73,7 @@ int main (int argc, char* argv[])
         std::cout << "Message from client: " << buffer << std::endl;
         std::string msg = "Hello World!";
         write(client_sock, msg.c_str(), msg.size());
+        //어떻게 탈출? 그전까지는 그냥 받는다.
     }
     // std::string msg = "Hello World!";
     // write(client_sock, msg.c_str(), msg.size());
