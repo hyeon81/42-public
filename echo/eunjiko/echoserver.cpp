@@ -4,15 +4,14 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
-#include <sys/event.h>
+#include <sys/event.h> //kevent 구조체가 정의 되어 있음
 
 
 const int PORT = 443;
 const int BUFFER_SIZE = 1024;
 
 int main() {
-    // 소켓 생성, 그러나 아직 서버 소켓이 아님
-
+    // 소켓 생성(대기 소켓), 아직은 서버 소켓이 아님
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1) {
         perror("Socket creation failed");
@@ -41,47 +40,21 @@ int main() {
 
     std::cout << "Server listening on port " << PORT << std::endl;
 
-    // 케이큐 초기화
-    int kq = kqueue();
+    //케이큐 초기화 케이큐 디스크립터 생성
+    int kq = kqueue(); //fd를 리턴
     if (kq == -1) {
         perror("kqueue initialization failed");
         return -1;
     }
+    //kqueue()는 커널에 새로운 event queue를 만들고, fd를 return return된 fd는 후술할 kevent()에서 이벤트를 등록, 모니터링하는데 사용된다. 이 queue는 fork(2)로 자식 프로세스 분기 시 상속되지 않는다.
 
     struct kevent events[2];
+    //케이큐 등록
     EV_SET(&events[0], serverSocket, EVFILT_READ, EV_ADD, 0, 0, NULL);
-
-//     while (true) {
-//         // 클라이언트 연결 수락
-//         int clientSocket = accept(serverSocket, nullptr, nullptr);
-//         if (clientSocket == -1) {
-//             perror("Accepting client connection failed");
-//             continue;
-//         }
-
-//         // 클라이언트와 통신
-//         char buffer[BUFFER_SIZE]; 
-//         int bytesRead;
-//         //버퍼에 클라이언트가 보낸 데이터가 저장 된다
-//         //얼만큼 읽었는지가 bytesread
-//         //send로 버퍼에서 얼만큼 보낼지 지정하고 알려준다
-//         //보내고 클로즈 그리고 다음 클라이언트를 기다림
-//         while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0) {
-//             send(clientSocket, buffer, bytesRead, 0);
-//         }
-
-//         // 클라이언트 연결 종료
-//         close(clientSocket);
-//     }
-
-//     // 서버 소켓 닫기
-//     close(serverSocket);
-
-//     return 0;
-// }
 
     while (true) { // // kqueue를 사용하여 이벤트를 모니터링
         int nev = kevent(kq, events, 1, NULL, 0, NULL); 
+
         //kevent = 시스템 호출 이 호출은 이벤트를 모니터링하고 관리하는 데 사용된다
         //주로 이벤트 기반의 프로그래밍에서 다양한 이벤트(파일 디스크립터의 변화, 타이머 이벤트, 신호 등)를 감지하고 처리하는 데 사용
         //kevent 시스템 호출은 kqueue라는 이벤트 관리 메커니즘을 활용한다 이것은 특히 멀티플렉싱 및 비동기 I/O 작업에 유용하다
@@ -116,6 +89,10 @@ int main() {
             int clientSocket = events[0].ident;
             char buffer[BUFFER_SIZE];
             int bytesRead;
+            //버퍼에 클라이언트가 보낸 데이터가 저장 된다
+            //얼만큼 읽었는지가 bytesread
+            //send로 버퍼에서 얼만큼 보낼지 지정하고 알려준다
+            //보내고 클로즈 그리고 다음 클라이언트를 기다림
             while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0) {
                 // 클라이언트로부터 데이터를 읽어서 다시 클라이언트에게 전송
                 send(clientSocket, buffer, bytesRead, 0);
