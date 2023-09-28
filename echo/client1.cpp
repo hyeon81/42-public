@@ -6,13 +6,23 @@
 #include <stdlib.h>
 #include <cstdlib> 
 
+
+#include <iostream>
+#include <future>
+#include <chrono>
+
 int main(int argc, char* argv[])
 {
+
+
+
     if (argc != 3)
     {
         std::cout << "Usage: " << argv[0] << " <IP> <port>" << std::endl;
         return (-1);
     }
+
+    std::this_thread::sleep_for(std::chrono::seconds(2)); 
 
     int sock = socket(PF_INET, SOCK_STREAM, 0);
     if (sock == -1)
