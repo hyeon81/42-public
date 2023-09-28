@@ -4,7 +4,7 @@ CPP = c++
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCS = main.cpp
+SRCS = main.cpp Server.cpp Client.cpp Message.cpp Channel.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
