@@ -153,7 +153,7 @@ void Server::tmpRunServer()
 void Server::communicateClient(Client &client)
 {
     //버퍼를 읽어와서 실행한다.
-    std::istringstream iss(getReadBuf());
+    std::istringstream iss(client.getReadBuf());
 
     // 구분자로 문자열 나누기
     std::string token;

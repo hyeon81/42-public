@@ -9,6 +9,7 @@ int main(int ac, char **av)
     // ac 가 3개 이상이면 오류?
     if (ac != 3)
     {
+        //std::cerr
         std::cout << "argument is only 3" << std::endl;
         return (0);
     }
