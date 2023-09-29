@@ -1,33 +1,49 @@
 #include "Message.hpp"
 
-Message::Message(std::string msg): msg(msg)
-{
-    parseMessage(msg);
-}
+Message::Message()
+{}
 
 Message::~Message()
 {}
 
-void Message::parseMessage(std::string msg)
+void Message::parseBufToMsgs(std::string buf)
 {
-    std::stringstream ss(msg);
+    std::stringstream ss(buf);
+    std::string rawMsgs;
+    char delimiter = "\r\n";
 
-    //원하는 개수가 아닐 경우 처리 필요
-    //일단 변수에 담아주기
-    std::string command, param
-    ss >> command;
-    msg->command = command;
+    while (std::getline(ss, rawMsgs, delimiter))
+    {
+        // rawMsgs 파싱하기 (한줄씩)
+        std::stringstream mss(rawMsgs);
+        MessageInfo msg;
 
-    while (ss >> param) {
-        if ((param.size() == 2) && (param[0] == '\r') && (param[1] == '\n'))
-            break;
-        msg->params.push_back(param);
+        std::string cmd, param;
+        mss >> cmd;
+        msg.cmd = cmd;
+        while (mss >> param) {
+            msg.params.push_back(param);
+        }
+        if (msg.params.size() > 1)
+            msg.param = msg.params[0];
+        //이렇게하면 하나의 MessageInfo가 생성됨
+        this->msgs.push_back(msg);
     }
-    // this->crlf = crlf;
-    //crlf는 어케 처리하지
+    //추후에 clrf로 안 끝난 문자열도 처리고려해야 (꼭 안해도 될듯?)
 }
 
-MessageInfo &Message::getMessageInfo()
+void Message::setMsgs(std::string buf)
 {
-    return (msg);
+    this->parseBufToMsgs(buf);
+}
+
+void Message::clearMsgs()
+{
+    //messageinfo는 어떻게 없앨필요없나?
+    this->msgs.clear();
+}
+
+std::vector<MessageInfo> &Message::getMsgs()
+{
+    return (msgs);
 }

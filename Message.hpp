@@ -8,20 +8,23 @@
 #include <vector>
 
 struct MessageInfo {
-    std::string command;
+    std::string cmd;
+    std::string param;
+    bool isLast;
     std::vector<std::string> params;
 };
 
 class Message{
     private:
-        MessageInfo msg;        
-        bool crlf;
+        std::vector<MessageInfo> msgs;
     public:
-        Message(std::string msg);
+        Message();
         ~Message();
         //메세지 파싱
-        void parseMessage(std::string msg);
-        MessageInfo &getMessageInfo();
+        void parseBufToMsgs();
+        void setMsgs(std::string buf);
+        void clearMsgs();
+        std::vector<MessageInfo> &getMsgs();
 };
 
 #endif

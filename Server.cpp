@@ -156,15 +156,7 @@ void Server::communicateClient(Client &client)
     std::istringstream iss(client.getReadBuf());
 
     // 구분자로 문자열 나누기
-    std::string token;
-    char delimiter = "\r\n";
 
-    while (std::getline(iss, token, delimiter))
-    {
-        Message msg(token);
-        MessageInfo cmd = msg.getMessageInfo();
-        runCommand(cmd, client);
-    }
 }
 
 void Server::addClient(Client &client)

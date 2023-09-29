@@ -3,10 +3,12 @@
 
 #include <string>
 #include <iostream>
+#include <Message.hpp>
 
 class Client{
     private:
         int fd;
+        Message msg;
         bool isValid;
         std::string nickname;
         std::string realname;
