@@ -10,7 +10,7 @@ int main(int ac, char **av)
     if (ac != 3)
     {
         //std::cerr
-        std::cout << "argument is only 3" << std::endl;
+        std::cerr << "argument is only 3" << std::endl;
         return (0);
     }
     try 

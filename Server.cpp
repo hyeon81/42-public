@@ -2,13 +2,14 @@
 
 Server::Server(std::string port, std::string password)
 {
-    this->password = password;
     this->port = convertPort(port);
+    this->password = password;
+    std::cout << "Server constructor port:" << this->port << " pw: " << this->password << std::endl;
 }
 
-~Server::Server()
+Server::~Server()
 {
-
+    std::cout << "Server destructor" << std::endl;
 }
 
 int Server::runServer()
@@ -117,10 +118,12 @@ int Server::runServer()
                 int clientSocket = eventList[i].ident;
                 char buffer[BUFFER_SIZE];
                 int bytesRead;
-                Client &client(clientSocket);
+                /** 클라이언트 생성 **/
+                Client client(clientSocket);
                 // 클라이언트로부터 데이터를 수신하고, 그 데이터를 다시 클라이언트에게 전송
                 while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0)
                 {
+                    client.setReadBuf(buffer);
                     communicateClient(client);
                     //출력할 메세지 설정 필요
                     send(clientSocket, buffer, bytesRead, 0);
@@ -143,31 +146,20 @@ int Server::runServer()
 void Server::tmpRunServer()
 {
     int clientSocket = 10;
-    std::string buffer = "PASS 0801"
-    Client &client(clientSocket);
-
+    std::string buffer = "PASS 0801\r\nNICK test\r\nUSER test test test test\r\n"
+    /** client 생성 */
+    Client client(clientSocket);
+    /**read buffer 생성*/
+    /**얜 없어도 될 것 같기도하고...*/
     client.setReadBuf(buffer);
-    communicateClient(client);
-}
-
-void Server::communicateClient(Client &client)
-{
-    //버퍼를 읽어와서 실행한다.
-    std::istringstream iss(client.getReadBuf());
-
-    // 구분자로 문자열 나누기
-
-}
-
-void Server::addClient(Client &client)
-{
-    //PASS, NICK, USER 받기. 명령어 순서대로 안들어오면 어떡하지?
-    //PASS 명령어
-    //메세지는 커멘드를 런하는 애로 만들자 그냥 
-    Server message(client, client.getBuf());
-
-    client.setValid();
-    this->clients.insert(make_pair(fd, client));
+    /* 메세지 파싱.. */
+    client.setMsgs(buffer);
+    /* 메세지 실행. msgs의 크기만큼 */
+    std::vector<MessageInfo> msgs = client.getMsgs();
+    for (unsigned int i = 0; i < msgs.size(); i++)
+    {
+        runCommand(msgs[i], client);
+    }
 }
 
 unsigned int Server::convertPort(std::string port)

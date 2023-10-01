@@ -8,14 +8,19 @@
 
 class Channel{
     private:
+        std::string name;
         std::string topic;
         int mode;
-        std::vector<Client> clients;
-        std::string operName; //realname. 이건 변동안되나?
+        //string(realname)으로 할지, int(fd)로 할지 결정해야함
+        std::map<int, Client>clients;
+        int operatorFd;
         
     public:
         Channel();
         ~Channel();
+        setOperatorFd(int fd);
+        addClient(Client &client);
+        removeClient(Client &client);
 };
 
 #endif

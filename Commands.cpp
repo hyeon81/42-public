@@ -2,26 +2,30 @@
 
 void Server::runCommand(MessageInfo &msg, Client &client)
 {
-    void (Server::*funcs[13])(Client &client, MessageInfo &msg) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
+    try {
+        void (Server::*funcs[13])(Client &client, MessageInfo &msg) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
                                             &Server::part, &Server::names, &Server::topic, &Server::list,
                                             &Server::invite, &Server::kick, &Server::mode, &Server::privmsg,
                                             &Server::notice};
-    std::string cmds[13] = {"PASS", "NICK", "USER", "JOIN", "PART", "NAMES", "TOPIC", "LIST", "INVITE", "KICK", "MODE", "PRIVMSG", "NOTICE"};
+        std::string cmds[13] = {"PASS", "NICK", "USER", "JOIN", "PART", "NAMES", "TOPIC", "LIST", "INVITE", "KICK", "MODE", "PRIVMSG", "NOTICE"};
 
-    for (int i = 0; i < 13; i++)
-    {
-        if (cmds[i] == msg.command)
+        for (int i = 0; i < 13; i++)
         {
-            (this->*funcs[i])(client, msg);
-            return;
+            if (cmds[i] == msg.command)
+            {
+                (this->*funcs[i])(msg, client);
+                return;
+            }
         }
+        //명령어가 없을 경우. 빼도 됨.
+        throw std::runtime_error("no match command");
+    } catch (std::exception &e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
     }
-    //일치하는 명령어가 없음
-    std::cout << "no match command" << std::endl;
 }
 
 //PASS 0801
-void Server::pass(Client &client, MessageInfo &msg)
+void Server::pass(MessageInfo &msg, Client &client)
 {
     std::cout << "pass" << std::endl;
     //비밀번호가 일치하는지 확인
@@ -36,7 +40,7 @@ void Server::pass(Client &client, MessageInfo &msg)
 }
 
 //NICK root
-void Server::nick(Client &client, MessageInfo &msg)
+void Server::nick(MessageInfo &msg, Client &client)
 {
     std::cout << "nick" << std::endl;
     //닉네임이 일치하는지 확인. params가 없으면 무시.
@@ -50,7 +54,7 @@ void Server::nick(Client &client, MessageInfo &msg)
 //USER root root 127.0.0.1 :root
 //<username> <hostname> <servername> <realname>
 //1번째랑 4번째만 사용
-void Server::user(Client &client, MessageInfo &msg)
+void Server::user(MessageInfo &msg, Client &client)
 {
     std::cout << "user" << std::endl;
     //유저일때는 parmas 없어도 응답 보냄.
@@ -58,22 +62,48 @@ void Server::user(Client &client, MessageInfo &msg)
     {
         //오류 메세지 보내기
     }
-    const nickname = msg.params[0];
+    std::string username = msg.params[0];
+    if (msg.params.size() > 4)
+        std::string realname = msg.params[3];
     //인자가 덜 들어왔을때 처리 확인 필요
-    client.setUsername(nickname);
+    //username, realname이 겹칠 경우 조치 필요
+    client.setUsername(username, realname);
+    //유저가 들어왔을때 client 등록한다고 판단. pass와 nick이 먼저 들어와야함.
+    addClient(client);
 }
 
-void Server::join(Client &client, MessageInfo &msg)
+/***Channel Command ***/
+
+//JOIN #test
+void Server::join(MessageInfo &msg, Client &client)
+{
+    std::cout << "join" << std::endl;
+    //params가 있는지 확인
+    if (!msg.params.size())
+        return;
+    /** 채널이 있는지 확인. 있는 채널이면 그 채널로, 없는 채널이면 새로 생성한다.*/
+    if (isExistChannel(msg.params[0]))
+    {
+        //채널에 클라이언트 추가
+        addClientToChannel(msg.params[0], client);
+    }
+    else
+    {
+        //채널 생성
+        addChannel(msg.params[0]);
+        //채널에 클라이언트 추가
+        addClientToChannel(msg.params[0], client);
+        //해당 클라이언트를 operator로 설정
+        
+    }
+}
+
+void Server::part(MessageInfo &msg, Client &client)
 {
 
 }
 
-void Server::part(Client &client, MessageInfo &msg)
-{
-
-}
-
-void Server::names(Client &client, MessageInfo &msg)
+void Server::names(MessageInfo &msg, Client &client)
 {
 
 }
@@ -83,32 +113,32 @@ void Server::topic(Client &client, MessageInfo &msg)
 
 }
 
-void Server::list(Client &client, MessageInfo &msg)
+void Server::list(MessageInfo &msg, Client &client)
 {
 
 }
 
-void Server::invite(Client &client, MessageInfo &msg)
+void Server::invite(MessageInfo &msg, Client &client)
 {
 
 }
 
-void Server::kick(Client &client, MessageInfo &msg)
+void Server::kick(MessageInfo &msg, Client &client)
 {
 
 }
 
-void Server::mode(Client &client, MessageInfo &msg)
+void Server::mode(MessageInfo &msg, Client &client)
 {
 
 }
 
-void Server::privmsg(Client &client, MessageInfo &msg)
+void Server::privmsg(MessageInfo &msg, Client &client)
 {
 
 }
 
-void Server::notice(Client &client, MessageInfo &msg)
+void Server::notice(MessageInfo &msg, Client &client)
 {
 
 }
