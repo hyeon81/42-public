@@ -49,7 +49,8 @@ class Server{
         Client &getClientWithNickname(std::string nickname);
         void sendToChannel(std::string name, std::string msg);
         bool isOperatorClient(std::string channelName, int fd);
-        
+        void setChannelMode(std::string channelName, std::string mode);
+
         /* cmds */
         void runCommand(MessageInfo &msg, Client &client);
         void pass(MessageInfo &msg, Client &client);

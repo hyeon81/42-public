@@ -12,7 +12,7 @@ enum ChannelMode {
     KEY,
     OPER,
     LIMIT
-}
+};
 
 class Channel{
     private:
@@ -33,8 +33,8 @@ class Channel{
         std::string &getTopic();
         void setTopic(std::string topic);
         std::string &getName();
-        int &getMode();
-        void setMode(int mode);
+        std::string &getMode();
+        void setMode(std::string mode);
 
         /* client */
         void addClient(Client &client);

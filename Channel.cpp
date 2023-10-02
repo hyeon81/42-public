@@ -70,13 +70,13 @@ std::string &Channel::getName()
     return (this->name);
 }
 
-int &Channel::getMode()
+std::string &Channel::getMode()
 {
     std::cout << "Channel getMode" << std::endl;
     return (this->mode);
 }
 
-void Channel::setMode(int mode)
+void Channel::setMode(std::string mode)
 {
     std::cout << "Channel setMode" << std::endl;
     this->mode = mode;
