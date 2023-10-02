@@ -1,12 +1,16 @@
 #include "Message.hpp"
 
 Message::Message()
-{}
+{
+    std::cout << "Message constructor" << std::endl;
+}
 
 Message::~Message()
-{}
+{
+    std::align_val_t << "Message destructor" << std::endl;
+}
 
-void Message::parseBufToMsgs(std::string buf)
+void Message::setMsgs(std::string buf)
 {
     std::stringstream ss(buf);
     std::string rawMsgs;
@@ -32,14 +36,9 @@ void Message::parseBufToMsgs(std::string buf)
     //추후에 clrf로 안 끝난 문자열도 처리고려해야 (꼭 안해도 될듯?)
 }
 
-void Message::setMsgs(std::string buf)
-{
-    this->parseBufToMsgs(buf);
-}
-
 void Message::clearMsgs()
 {
-    //messageinfo는 어떻게 없앨필요없나?
+    //msgs안의 messageinfo는 어떻게 없앨필요없나?
     this->msgs.clear();
 }
 

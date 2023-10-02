@@ -19,11 +19,13 @@ class Client{
     public:
         Client(int fd);
         ~Client();
+        int getSocket();
         void setValid();
+        bool getValid();
         std::string &getReadBuf();
         void setReadBuf(std::stirng buffer);
-        void setNickname(std::string nickname);
-        
+        void setNickname(std::string nickname);      
+        void setUsername(std::string username, std::string realname); 
 };
 
 #endif

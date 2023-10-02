@@ -21,7 +21,6 @@ class Message{
         Message();
         ~Message();
         //메세지 파싱
-        void parseBufToMsgs();
         void setMsgs(std::string buf);
         void clearMsgs();
         std::vector<MessageInfo> &getMsgs();
