@@ -1,5 +1,3 @@
-#include <iosteam>
-#include <string>
 #include "Server.hpp"
 
 int main(int ac, char **av)
@@ -9,7 +7,8 @@ int main(int ac, char **av)
     // ac 가 3개 이상이면 오류?
     if (ac != 3)
     {
-        std::cout << "argument is only 3" << std::endl;
+        //std::cerr
+        std::cerr << "argument is only 3" << std::endl;
         return (0);
     }
     try 
@@ -17,7 +16,9 @@ int main(int ac, char **av)
         //서버 생성
         Server server(av[1], av[2]);
         //서버 실행
-        server.runServer();
+        // server.runServer();
+        server.tmpRunServer();
+        std::cout << "====end====" << std::endl;
     } catch (std::exception &e)
     {
         std::cerr << "exception occurs: " << e.what() << std::endl;     

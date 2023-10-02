@@ -1,34 +1,50 @@
 #include "Message.hpp"
 
-Message::Message(std::string msg): msg(msg)
+Message::Message()
 {
-    //비어있는 메세지일 경우는?
-    parseMessage(msg);
+    std::cout << "Message constructor" << std::endl;
 }
 
 Message::~Message()
-{}
-
-void Message::parseMessage(std::string msg)
 {
-    std::stringstream ss(msg);
-
-    //원하는 개수가 아닐 경우 처리 필요
-    //일단 변수에 담아주기
-    std::string command, param
-    ss >> command;
-    msg->command = command;
-
-    while (ss >> param) {
-        if ((param.size() == 2) && (param[0] == '\r') && (param[1] '\n'))
-            break;
-        msg->params.push_back(param);
-    }
-    // this->crlf = crlf;
-    //crlf는 어케 처리하지
+    std::cout << "Message destructor" << std::endl;
 }
 
-MessageInfo &Message::getMessageInfo()
+void Message::setMessageInfo(std::string buf)
 {
-    return (msg);
+    std::string delimiter = "\r\n";
+    size_t pos = 0;
+    std::string rawMsgs;
+
+    while ((pos = buf.find(delimiter)) != std::string::npos) {
+        rawMsgs = buf.substr(0, pos);
+        buf.erase(0, pos + delimiter.length());
+
+        std::cout << "rawMsgs: " << rawMsgs << std::endl;
+        // rawMsgs 파싱하기 (한줄씩)
+        std::stringstream mss(rawMsgs);
+        MessageInfo msgInfo;
+        std::string cmd, param;
+        mss >> cmd;
+        msgInfo.cmd = cmd;
+        while (mss >> param) {
+            msgInfo.params.push_back(param);
+        }
+        if (msgInfo.params.size() > 1)
+            msgInfo.param = msgInfo.params[0];
+        //이렇게하면 하나의 MessageInfo가 생성됨
+        this->msgInfo.push_back(msgInfo);
+    }
+    //추후에 clrf로 안 끝난 문자열도 처리고려해야 (꼭 안해도 될듯?)
+}
+
+void Message::clearMsgs()
+{
+    //msgInfo안의 messageinfo는 어떻게 없앨필요없나?
+    this->msgInfo.clear();
+}
+
+std::vector<MessageInfo> &Message::getMsgs()
+{
+    return (msgInfo);
 }

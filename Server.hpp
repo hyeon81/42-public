@@ -1,65 +1,76 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
+/* irc */
 #include <string>
 #include <iostream>
 #include <map>
+#include <vector>
 #include <stdexcept>
 #include "Client.hpp"
 #include "Message.hpp"
 #include "Channel.hpp"
 
-#include <iostream>
-#include <string>
+/* socket */
 #include <cstring>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
 #include <sys/event.h>
-#include <vector>
 #include <fcntl.h>
-
-struct MessageInfo {
-    std::string command;
-    std::vector<std::string> params;
-};
 
 class Server{
     private:
         unsigned int port;
         std::string password;
         std::map<int, Client>clients;
+        std::map<std::string, Channel>channels;
     
     public:
-        Server(std::string port, std::string password);
+        Server(char *port, char *password);
         ~Server();
 
         /* action*/
         int runServer();
-        void tmpRunServer()
+        void tmpRunServer();
+
+        /* Client */
         void communicateClient();
-        void addClient(Client &client)
+        void addClient(Client &client);
         void removeClient();
         void joinChannel();
     
+        /* Channel*/
+        bool isExistChannel(std::string name);
+        void addChannel(std::string name);
+        void removeChannel(std::string name);
+        void addClientToChannel(std::string name, Client &client);
+        void removeClientFromChannel(std::string name, Client &client);
+        Client &getClientWithNickname(std::string nickname);
+        void sendToChannel(std::string name, std::string msg);
+        bool isOperatorClient(std::string channelName, int fd);
+        
         /* cmds */
-        void runCommand(std::string cmd);
-        void pass(Client &client);
-        void nick(Client &client);
-        void user(Client &client);
-        void join(Client &client);
-        void part(Client &client);
-        void names(Client &client);
-        void topic(Client &client);
-        void list(Client &client);
-        void invite(Client &client);
-        void kick(Client &client);
-        void mode(Client &client);
-        void privmsg(Client &client);
-        void notice(Client &client);
+        void runCommand(MessageInfo &msg, Client &client);
+        void pass(MessageInfo &msg, Client &client);
+        void nick(MessageInfo &msg, Client &client);
+        void user(MessageInfo &msg, Client &client);
+        void join(MessageInfo &msg, Client &client);
+        void part(MessageInfo &msg, Client &client);
+        void names(MessageInfo &msg, Client &client);
+        void topic(MessageInfo &msg, Client &client);
+        void list(MessageInfo &msg, Client &client);
+        void invite(MessageInfo &msg, Client &client);
+        void kick(MessageInfo &msg, Client &client);
+        void mode(MessageInfo &msg, Client &client);
+        void privmsg(MessageInfo &msg, Client &client);
+        void notice(MessageInfo &msg, Client &client);
 
         /* utils */
-        unsigned int convertPort(std::string port);
+        unsigned int convertPort(char *port);
+
+        /* debug */
+        void showInfo();
 };
 
 #endif

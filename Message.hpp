@@ -1,27 +1,30 @@
 #ifndef MESSAGE_HPP
 #define MESSAGE_HPP
 
-#include <Client.hpp>
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <vector>
 
 struct MessageInfo {
-    std::string command;
+    //prefix
+    std::string cmd;
+    std::string param;
+    bool isLast;
     std::vector<std::string> params;
 };
 
 class Message{
     private:
-        MessageInfo msg;        
-        bool crlf;
+        std::vector<MessageInfo> msgInfo;
     public:
-        Message(std::string msg);
+        Message();
         ~Message();
         //메세지 파싱
-        void parseMessage(std::string msg);
-        MessageInfo &getMessageInfo();
+        void setMessageInfo(std::string buf);
+        void clearMsgs();
+        std::vector<MessageInfo> &getMsgs();
+        void showInfo();
 };
 
 #endif

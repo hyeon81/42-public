@@ -3,10 +3,14 @@
 
 #include <string>
 #include <iostream>
+#include "Message.hpp"
+
+class Message;
 
 class Client{
     private:
         int fd;
+        Message *msgs;
         bool isValid;
         std::string nickname;
         std::string realname;
@@ -17,11 +21,19 @@ class Client{
     public:
         Client(int fd);
         ~Client();
-        void setValid();
+        int getSocket();
+        void setValid(bool value);
+        bool getValid();
         std::string &getReadBuf();
-        void setReadBuf(std::stirng buffer);
-        void setNickname(std::string nickname);
-        
+        void setReadBuf(std::string buffer);
+        void setMsgs(std::string buf);
+        std::vector<MessageInfo> &getMsgs();
+        void setNickname(std::string nickname);      
+        std::string &getNickname();
+        void setUsername(std::string username, std::string realname);
+
+        /* debug */
+        void showInfo();
 };
 
 #endif

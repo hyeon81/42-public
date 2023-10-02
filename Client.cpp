@@ -1,14 +1,30 @@
 #include "Client.hpp"
 
 Client::Client(int fd): fd(fd)
-{}
+{
+    std::cout << "Client constructor" << std::endl;
+    msgs = new Message();
+    this->isValid = false;
+}
 
 Client::~Client()
-{}
-
-void Client::setValid()
 {
-    this->valid = true;
+    std::cout << "Client destructor" << std::endl;
+}
+
+int Client::getSocket()
+{
+    return (this->fd);
+}
+
+void Client::setValid(bool value)
+{
+    this->isValid = value;
+}
+
+bool Client::getValid()
+{
+    return (this->isValid);
 }
 
 std::string& Client::getReadBuf()
@@ -16,7 +32,7 @@ std::string& Client::getReadBuf()
     return (this->read_buf);
 }
 
-void Client::setReadBuf(std::stirng buffer)
+void Client::setReadBuf(std::string buffer)
 {
     this->read_buf = buffer;
 }
@@ -24,4 +40,38 @@ void Client::setReadBuf(std::stirng buffer)
 void Client::setNickname(std::string nickname)
 {
     this->nickname = nickname;
+}
+
+void Client::setMsgs(std::string buf)
+{
+    //client 내부의 msgs의 메세지 설정
+    msgs->setMessageInfo(buf);
+}
+
+std::vector<MessageInfo> &Client::getMsgs()
+{
+    return (msgs->getMsgs());
+}
+
+std::string &Client::getNickname()
+{
+    return (this->nickname);
+}
+
+void Client::setUsername(std::string username, std::string realname)
+{
+    this->username = username;
+    this->realname = realname;
+}
+
+void Client::showInfo()
+{
+    std::cout << "===Client Info====" << std::endl;
+    std::cout << "fd: " << this->fd << std::endl;
+    std::cout << "nickname: " << this->nickname << std::endl;
+    std::cout << "username: " << this->username << std::endl;
+    std::cout << "realname: " << this->realname << std::endl;
+    std::cout << "read_buf: " << this->read_buf << std::endl;
+    std::cout << "send_buf: " << this->send_buf << std::endl;
+    std::cout << "isValid: " << this->isValid << std::endl;
 }
