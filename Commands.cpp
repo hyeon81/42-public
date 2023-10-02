@@ -176,9 +176,7 @@ void Server::invite(MessageInfo &msg, Client &client)
         if (msg.params.size() > 2)
         {
             Client &user = getClientWithNickname(msg.params[1]);
-            if (user != -1)
-                //없는 유저일 경우 예외처리 필요
-            addClientToChannel(msg.params[0], fd);
+            addClientToChannel(msg.params[0], user);
         }
     }
 }
