@@ -174,7 +174,12 @@ void Server::invite(MessageInfo &msg, Client &client)
     {
         //채널에 클라이언트 추가. 유저의 닉네임으로 fd 찾는 함수 만들어야
         if (msg.params.size() > 2)
-            addClientToChannel(msg.params[0], msg.params[1]);
+        {
+            Client &user = getClientWithNickname(msg.params[1]);
+            if (user != -1)
+                //없는 유저일 경우 예외처리 필요
+            addClientToChannel(msg.params[0], fd);
+        }
     }
 }
 
