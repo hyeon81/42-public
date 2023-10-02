@@ -101,6 +101,7 @@ void Server::join(MessageInfo &msg, Client &client)
 }
 
 //PART #test
+/* 채널의 경우 쉼표(,)가 들어오는 경우 체크하기*/
 void Server::part(MessageInfo &msg, Client &client)
 {
     if (!msg.params.size())
@@ -109,11 +110,10 @@ void Server::part(MessageInfo &msg, Client &client)
     {
         //채널에 클라이언트 제거
         removeClientFromChannel(msg.params[0], client);
-        //해당 클라이언트가 operator이면 다른 클라이언트를 operator로 설정?
         if (isOperator(client.getSocket()))
         {
-            //다른 클라이언트를 operator로 설정
-            //얘가 마지막 클라이언트면 채널 제거
+            //다른 클라이언트를 operator로 설정?
+            //얘가 마지막 클라이언트면 채널 제거?
         }
     }
 }
@@ -122,24 +122,60 @@ void Server::part(MessageInfo &msg, Client &client)
 void Server::names(MessageInfo &msg, Client &client)
 {
     //해당 채널의 사람들의 목록을 보여줌
+    if (isExistChannel(msg.params[0]))
+        channels[msg.params[0]].showClients();
+    //없는 채널이라면?
 }
 
-//TOPIC #test
+//TOPIC #test //채널 토픽보여줌
+//TOPIC #test :New topic //채널 토픽 변경
 void Server::topic(Client &client, MessageInfo &msg)
 {
-
+    if (isExistChannel(msg.params[0]))
+    {
+        //토픽이 없으면 보여줌
+        if (!msg.params.size() == 0)
+            std::cout << channels[msg.params[0]].getTopic(); << std::endl;
+        //토픽이 있으면 변경
+        else
+        {
+            std::string topic = msg.params[1];
+            channels[msg.params[0]].setTopic(topic);
+        }
+    }
 }
 
 //LIST
+//LIST #twilight_zone,#42
+//서버의 모든 채널 나열
+/* 매개변수 있으면 해당 채널의 상태만 표시? */
 void Server::list(MessageInfo &msg, Client &client)
 {
-
+    std::cout << "list" << std::endl;
+    std::map<std::string, Channel>::iterator iter;
+    for (iter = channels.begin(); iter != channels.end(); iter++)
+    {
+        std::cout << (iter->second).getName() << std::endl;
+    }
 }
 
 //INVITE
+//INVITE root #test
+//:Angel INVITE Wiz #Dust??
+//채널에 닉네임 초대
 void Server::invite(MessageInfo &msg, Client &client)
 {
-
+    //+i 모드일경우 초대보내는 클라이언트가 해당 채널의 채널 운영자로 인식되어야
+    //매개변수 없을 경우
+    if (!msg.params.size())
+        return;
+    //다른 유저 초대
+    if (isExistChannel(msg.params[0]))
+    {
+        //채널에 클라이언트 추가. 유저의 닉네임으로 fd 찾는 함수 만들어야
+        if (msg.params.size() > 2)
+            addClientToChannel(msg.params[0], msg.params[1]);
+    }
 }
 
 //KICK

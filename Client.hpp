@@ -25,7 +25,8 @@ class Client{
         std::string &getReadBuf();
         void setReadBuf(std::stirng buffer);
         void setNickname(std::string nickname);      
-        void setUsername(std::string username, std::string realname); 
+        std::string &getNickname();
+        void setUsername(std::string username, std::string realname);
 };
 
 #endif

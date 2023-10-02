@@ -29,10 +29,51 @@ void Channel::setOperatorFd(int fd)
     this->operatorFd = fd;
 }
 
-bool isOperator(int fd)
+bool Channel::isOperator(int fd)
 {
     std::cout << "Channel isOperator" << std::endl;
     if (this->operatorFd == fd)
         return (true);
     return (false);
 }
+
+void Channel::showClients()
+{
+    std::cout << "Channel showClients" << std::endl;
+    std::map<int, Client>::iterator iter;
+    for (iter = this->clients.begin(); iter != this->clients.end(); iter++)
+    {
+        std::cout << (iter->second).getNickname() << std::endl;
+    }
+}
+
+std::string &Channel::getTopic()
+{
+    std::cout << "Channel getTopic" << std::endl;
+    return (this->topic);
+}
+
+void Channel::setTopic(std::string topic)
+{
+    std::cout << "Channel setTopic" << std::endl;
+    this->topic = topic;
+}
+
+std::string &Channel::getName()
+{
+    std::cout << "Channel getName" << std::endl;
+    return (this->name);
+}
+
+int &Channel::getMode()
+{
+    std::cout << "Channel getMode" << std::endl;
+    return (this->mode);
+}
+
+void Channel::setMode(int mode)
+{
+    std::cout << "Channel setMode" << std::endl;
+    this->mode = mode;
+}
+

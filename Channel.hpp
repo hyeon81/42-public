@@ -16,12 +16,21 @@ class Channel{
         int operatorFd;
         
     public:
-        Channel();
+        Channel(std::string name);
         ~Channel();
+        
         void setOperatorFd(int fd);
         bool isOperator(int fd);
+        std::string &getTopic();
+        void setTopic(std::string topic);
+        std::string &Channel::getName();
+        int &getMode();
+        void setMode(int mode);
+
+        /* client */
         void addClient(Client &client);
         void removeClient(Client &client);
+        void showClients();
 };
 
 #endif

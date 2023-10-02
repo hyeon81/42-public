@@ -51,6 +51,7 @@ class Server{
         void removeChannel(std::string name);
         void addClientToChannel(std::string name, Client &client);
         void removeClientFromChannel(std::string name, Client &client);
+        int getFdWithNickname(std::string nickname);
         void sendToChannel(std::string name, std::string msg);
         
         /* cmds */
