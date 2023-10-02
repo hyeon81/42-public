@@ -18,9 +18,10 @@ class Channel{
     public:
         Channel();
         ~Channel();
-        setOperatorFd(int fd);
-        addClient(Client &client);
-        removeClient(Client &client);
+        void setOperatorFd(int fd);
+        bool isOperator(int fd);
+        void addClient(Client &client);
+        void removeClient(Client &client);
 };
 
 #endif

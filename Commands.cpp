@@ -75,13 +75,15 @@ void Server::user(MessageInfo &msg, Client &client)
 /***Channel Command ***/
 
 //JOIN #test
+//추후에 쉼표도 처리
 void Server::join(MessageInfo &msg, Client &client)
 {
     std::cout << "join" << std::endl;
     //params가 있는지 확인
     if (!msg.params.size())
         return;
-    /** 채널이 있는지 확인. 있는 채널이면 그 채널로, 없는 채널이면 새로 생성한다.*/
+    //채널이 있는지 확인. 있는 채널이면 그 채널로, 없는 채널이면 새로 생성한다.
+    /* #제거하고 찾아!!! */
     if (isExistChannel(msg.params[0]))
     {
         //채널에 클라이언트 추가
@@ -94,45 +96,65 @@ void Server::join(MessageInfo &msg, Client &client)
         //채널에 클라이언트 추가
         addClientToChannel(msg.params[0], client);
         //해당 클라이언트를 operator로 설정
-        
+        setOperatorFd(client.getSocket());
     }
 }
 
+//PART #test
 void Server::part(MessageInfo &msg, Client &client)
 {
-
+    if (!msg.params.size())
+        return;
+    if (isExistChannel(msg.params[0]))
+    {
+        //채널에 클라이언트 제거
+        removeClientFromChannel(msg.params[0], client);
+        //해당 클라이언트가 operator이면 다른 클라이언트를 operator로 설정?
+        if (isOperator(client.getSocket()))
+        {
+            //다른 클라이언트를 operator로 설정
+            //얘가 마지막 클라이언트면 채널 제거
+        }
+    }
 }
 
+//NAMES #test
 void Server::names(MessageInfo &msg, Client &client)
 {
-
+    //해당 채널의 사람들의 목록을 보여줌
 }
 
+//TOPIC #test
 void Server::topic(Client &client, MessageInfo &msg)
 {
 
 }
 
+//LIST
 void Server::list(MessageInfo &msg, Client &client)
 {
 
 }
 
+//INVITE
 void Server::invite(MessageInfo &msg, Client &client)
 {
 
 }
 
+//KICK
 void Server::kick(MessageInfo &msg, Client &client)
 {
 
 }
 
+//MODE
 void Server::mode(MessageInfo &msg, Client &client)
 {
 
 }
 
+//PRIVMSG
 void Server::privmsg(MessageInfo &msg, Client &client)
 {
 

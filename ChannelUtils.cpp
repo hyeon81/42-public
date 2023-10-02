@@ -20,12 +20,12 @@ void removeChannel(std::string name)
 
 void addClientToChannel(std::string name, Client &client)
 {
-
+    channels[name].addClient(client);
 }
 
 void removeClientFromChannel(std::string name, Client &client)
 {
-
+    channels[name].removeClient(client);
 }
 
 void sendToChannel(std::string name, std::string msg)
