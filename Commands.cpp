@@ -13,6 +13,8 @@ void Server::runCommand(MessageInfo &msg, Client &client)
         {
             if (cmds[i] == msg.cmd)
             {
+                if (i == 3)
+                    return;
                 (this->*funcs[i])(msg, client);
                 return;
             }
@@ -31,7 +33,7 @@ void Server::pass(MessageInfo &msg, Client &client)
     //비밀번호가 일치하는지 확인
     if (!msg.params.size())
         return;
-    std::string clientPw = msg.params[0];
+    std::string clientPw = msg.params[0]; 
     if (clientPw == this->password)
     {
         std::cout << "isValid" << std::endl;

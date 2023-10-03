@@ -7,11 +7,7 @@
 #include <sys/event.h>
 #include <vector>
 #include <fcntl.h>
-<<<<<<< HEAD
-const int PORT = 6667;
-=======
 const int PORT = 4242;
->>>>>>> a9671b31f7e3bcb29570c312f74497bea2665850
 const int BUFFER_SIZE = 1024;
 const int EVENTLIST_SIZE = 10;
 int main()
@@ -57,21 +53,6 @@ int main()
     EV_SET(&event, serverSocket, EVFILT_READ, EV_ADD, 0, 0, NULL); // struct kevent 배열인 events를 사용하여 EV_SET 함수를 호출하여 서버 소켓의 읽기 이벤트를 설정하고 활성화
     // EV_SET 매크로는 kqueue의 이벤트를 설정하고 구성하기 위한 함수 이 함수를 사용해 kqueue의 이벤트 필터, 이벤트 액션 및 관련 정보를 설정할 수 있다
     events.push_back(event);
-    /*EV_SET(struct kevent *event, uintptr_t ident, short filter, u_short flags, u_int fflags, intptr_t data, void *udata);
-        event: 이벤트 설정을 저장할 struct kevent 구조체에 대한 포인터입니다.
-        ident: 이벤트를 연결할 파일 디스크립터, 소켓 디스크립터 또는 식별자입니다. 이 경우 serverSocket은 서버 소켓의 파일 디스크립터입니다.
-        filter: 이벤트 필터를 나타냅니다. 이 예제에서는 EVFILT_READ를 사용하여 데이터 수신 이벤트를 나타냅니다. 이것은 데이터가 소켓으로부터 읽을 준비가 되었을 때 이벤트를 트리거합니다.
-        flags: 이벤트 설정에 대한 플래그를 설정합니다. EV_ADD 플래그는 이벤트를 추가하고 활성화한다는 것을 나타냅니다. 이 플래그가 없으면 이벤트가 비활성화됩니다.
-        fflags: 특정 이벤트 필터에 대한 추가적인 플래그입니다. 이 예제에서는 사용하지 않으므로 0으로 설정합니다.
-        data: 이벤트와 관련된 데이터를 나타냅니다. 이 예제에서는 사용하지 않으므로 0으로 설정합니다.
-        udata: 사용자 정의 데이터 포인터입니다. 이 예제에서는 사용하지 않으므로 NULL로 설정합니다.
-    */
-    // int kevent(int kq,
-    //            const struct kevent *changelist,
-    //            int nchanges,
-    //            struct kevent *eventlist,
-    //            int nevents,
-    //            const struct timespec *timeout);
     struct kevent eventList[EVENTLIST_SIZE]; // 감시하는 놈들 중에서 문제아 발생 목록을 정리
     // kevent 함수를 사용하여 kqueue로부터 이벤트를 대기 이 코드에서는 서버 소켓의 읽기 이벤트를 모니터링하고 있음
     while (1)
@@ -81,6 +62,7 @@ int main()
         int nev = kevent(kq, &events[0], events.size(), eventList, EVENTLIST_SIZE, NULL); // kevent 함수를 사용하여 새 이벤트를 기다리거나 (클라이언트 연결 시도) 이전에 등록한 이벤트를 모니터링합니다.
         // kq로 전달된 kqueue에 새로 모니터링할 이벤트를 등록하고, 발생하여 아직 처리되지 않은(pending 상태인) 이벤트의 개수를 return
         std::cout << "nev = " << nev << std::endl;
+        
         if (nev == -1)
         {
             perror("kevent");

@@ -11,18 +11,18 @@ int main(int ac, char **av)
         std::cerr << "argument is only 3" << std::endl;
         return (0);
     }
-    try 
-    {
+    // try 
+    // {
         //서버 생성
         Server server(av[1], av[2]);
         //서버 실행
-        // server.runServer();
-        server.tmpRunServer();
+        server.runServer();
+        // server.tmpRunServer();
         std::cout << "====end====" << std::endl;
-    } catch (std::exception &e)
-    {
-        std::cerr << "exception occurs: " << e.what() << std::endl;     
-    }
+    // } catch (std::exception &e)
+    // {
+    //     std::cerr << "exception occurs: " << e.what() << std::endl;     
+    // }
     
     //서버 while 클라이언트 생성, 생성 후 메세지 받아서 파싱, 실행, 출력
 }

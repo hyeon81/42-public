@@ -35,7 +35,7 @@ class Server{
         void tmpRunServer();
 
         /* Client */
-        void communicateClient();
+        void communicateClient(Client &client);
         void addClient(Client &client);
         void removeClient();
         void joinChannel();
