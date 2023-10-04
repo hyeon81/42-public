@@ -75,7 +75,12 @@ void Server::user(MessageInfo &msg, Client &client)
     //username, realname이 겹칠 경우 조치 필요
     client.setUsername(username, realname);
     // //유저가 들어왔을때 client 등록한다고 판단. pass와 nick이 먼저 들어와야함.
-    addClient(client);
+    if (client.isValid() && client.getNickname().length())
+    {
+        addClient(client);
+        //메세지 보내기
+    }
+
 }
 
 /***Channel Command ***/
@@ -87,9 +92,12 @@ void Server::join(MessageInfo &msg, Client &client)
     std::cout << "join" << std::endl;
     //params가 있는지 확인
     if (!msg.params.size())
-        return;
+    {
+        //send buffer에 에러 메세지 넣기
+
+        throw std::runtime_error("no params");
+    }
     //채널이 있는지 확인. 있는 채널이면 그 채널로, 없는 채널이면 새로 생성한다.
-    /* #제거하고 찾아!!! */
     if (isExistChannel(msg.params[0]))
     {
         //채널에 클라이언트 추가

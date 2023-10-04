@@ -112,8 +112,10 @@ int Server::runServer()
                     client.setReadBuf(buffer);
                     communicateClient(client);
                     //출력할 메세지 설정 필요
-                    send(clientSocket, buffer, bytesRead, 0);
-                    write(1, buffer, bytesRead); // 요청 데이터 출력
+                    //출력할 메세지도 buffer에 같이 쓰는건가?
+                    char* msg = ":ft_irc 001 hyeokim2 :Welcome to the <networkname> Network, <nick>[!<user>@<host>]";
+                    send(clientSocket, msg, 1000, 0);
+                    // write(1, buffer, bytesRead); // 요청 데이터 출력
                 }
                 if (bytesRead == 0)
                 {
@@ -144,7 +146,7 @@ void Server::communicateClient(Client &client)
         runCommand(msgs[i], client);
     }
     showInfo();
-    clients.at(10).showInfo();
+    client.showInfo();
 }
 
 // void Server::tmpRunServer()

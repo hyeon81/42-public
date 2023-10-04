@@ -9,7 +9,7 @@
 struct MessageInfo {
     //prefix
     std::string cmd;
-    std::string param;
+    // std::string param;
     bool isLast;
     std::vector<std::string> params;
 };

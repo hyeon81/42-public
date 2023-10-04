@@ -30,8 +30,8 @@ void Message::setMessageInfo(std::string buf)
         while (mss >> param) {
             msgInfo.params.push_back(param);
         }
-        if (msgInfo.params.size() > 1)
-            msgInfo.param = msgInfo.params[0];
+        // if (msgInfo.params.size() > 1)
+        //     msgInfo.param = msgInfo.params[0];
         //이렇게하면 하나의 MessageInfo가 생성됨
         this->msgInfo.push_back(msgInfo);
     }
