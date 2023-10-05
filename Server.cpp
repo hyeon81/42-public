@@ -105,16 +105,15 @@ int Server::runServer()
                 char buffer[BUFFER_SIZE];
                 int bytesRead;
                 /** 클라이언트 생성 **/
-                Client client(clientSocket);
                 // 클라이언트로부터 데이터를 수신하고, 그 데이터를 다시 클라이언트에게 전송
                 while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0)
                 {
-                    client.setReadBuf(buffer);
-                    communicateClient(client);
+                    communicateClient(clientSocket, buffer);
                     // write(1, buffer, bytesRead); // 요청 데이터 출력
                 }
                 if (bytesRead == 0)
                 {
+                    std::cout << "***closed connection" << std::endl;
                     close(clientSocket);
                     EV_SET(&event, clientSocket, EVFILT_READ, EV_DELETE, 0, 0, NULL);
                     events.push_back(event);
@@ -128,11 +127,12 @@ int Server::runServer()
 }
 
 
-void Server::communicateClient(Client &client)
+void Server::communicateClient(int fd, std::string buffer)
 {
 /* 메세지 파싱.. */
-    client.setMsgs(client.getReadBuf());
+    Client client(fd);
     /* 메세지 실행. msgs의 크기만큼 */
+    client.setMsgs(buffer);
     std::vector<MessageInfo> msgs = client.getMsgs();
     for (unsigned int i = 0; i < msgs.size(); i++)
     {
@@ -145,29 +145,29 @@ void Server::communicateClient(Client &client)
     // client.showInfo();
 }
 
-// void Server::tmpRunServer()
-// {
-//     int clientSocket = 10;
-//     std::string buffer = "PASS 0801\r\nNICK test2\r\nUSER test test test test\r\n";
-//     /** client 생성 */
-//     Client client(clientSocket);
-//     /**read buffer 생성*/
-//     /**얜 없어도 될 것 같기도하고...*/
-//     client.setReadBuf(buffer);
-//     /* 메세지 파싱.. */
-//     client.setMsgs(buffer);
-//     /* 메세지 실행. msgs의 크기만큼 */
-//     std::vector<MessageInfo> msgs = client.getMsgs();
-//     for (unsigned int i = 0; i < msgs.size(); i++)
-//     {
-//         std::cout << "cmd[0]: " << msgs[i].cmd << std::endl;
-//         std::cout << "params[0]: " << msgs[i].params[0] << std::endl;
-//         std::cout << "params.size: " << msgs[i].params.size() << std::endl;
-//         runCommand(msgs[i], client);
-//     }
-//     showInfo();
-//     clients.at(10).showInfo();
-// }
+void Server::runCommand(MessageInfo &msg, Client &client)
+{
+    try {
+        void (Server::*funcs[13])(MessageInfo &msg, Client &client) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
+                                            &Server::part, &Server::names, &Server::topic, &Server::list,
+                                            &Server::invite, &Server::kick, &Server::mode, &Server::privmsg,
+                                            &Server::notice};
+        std::string cmds[13] = {"PASS", "NICK", "USER", "JOIN", "PART", "NAMES", "TOPIC", "LIST", "INVITE", "KICK", "MODE", "PRIVMSG", "NOTICE"};
+
+        for (int i = 0; i < 13; i++)
+        {
+            if (cmds[i] == msg.cmd)
+            {
+                (this->*funcs[i])(msg, client);
+                return;
+            }
+        }
+        //명령어가 없을 경우. 빼도 됨.
+        throw std::runtime_error("no match command");
+    } catch (std::exception &e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+    }
+}
 
 unsigned int Server::convertPort(char *port)
 {

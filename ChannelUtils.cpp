@@ -38,8 +38,25 @@ bool Server::isOperatorClient(std::string channelName, int fd)
     return (channels[channelName].isOperator(fd));
 }
 
-void Server::setChannelMode(std::string channelName, std::string mode)
+void Server::setChannelMode(std::string channelName, int mode)
 {
     //mode에 따라서 채널 모드 변경. 채널 모드에 따라 액션 실행 필요
     channels[channelName].setMode(mode);
+}
+
+void Server::removeChannelMode(std::string channelName, int mode)
+{
+    //mode에 따라서 채널 모드 변경. 채널 모드에 따라 액션 실행 필요
+    channels[channelName].removeMode(mode);
+}
+
+bool Server::isChannelModeApplied(std::string channelName, int mode)
+{
+    return (channels[channelName].isModeApplied(mode));
+}
+
+Channel &Server::getChannel(std::string channelName)
+{
+    return (channels[channelName]);
+    throw std::runtime_error("no channel");
 }

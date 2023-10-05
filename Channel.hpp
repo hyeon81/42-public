@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <map>
+#include <vector>
 #include "Client.hpp"
 
 enum ChannelMode {
@@ -18,7 +19,7 @@ class Channel{
     private:
         std::string name;
         std::string topic;
-        std::string mode;
+        int modes[5];
         //string(realname)으로 할지, int(fd)로 할지 결정해야함
         std::map<int, Client>clients;
         int operatorFd;
@@ -33,8 +34,11 @@ class Channel{
         std::string &getTopic();
         void setTopic(std::string topic);
         std::string &getName();
-        std::string &getMode();
-        void setMode(std::string mode);
+
+        /* mode */
+        bool isModeApplied(ChannelMode mode);
+        void setMode(int mode);
+        void removeMode(int mode);
 
         /* client */
         void addClient(Client &client);

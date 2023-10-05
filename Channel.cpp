@@ -9,6 +9,8 @@ Channel::Channel(std::string name)
 {
     std::cout << "Channel constructor" << std::endl;
     this->name = name;
+    //모드 초기화
+    memset(modes, 0, sizeof(modes));
 }
 
 Channel::~Channel()
@@ -70,15 +72,22 @@ std::string &Channel::getName()
     return (this->name);
 }
 
-std::string &Channel::getMode()
+bool Channel::isModeApplied(ChannelMode mode)
 {
-    std::cout << "Channel getMode" << std::endl;
-    return (this->mode);
+    std::cout << "Channel isModeApplied" << std::endl;
+    if (this->modes[mode] == 1)
+        return (true);
+    return (false);
 }
 
-void Channel::setMode(std::string mode)
+void Channel::setMode(int mode)
 {
-    std::cout << "Channel setMode" << std::endl;
-    this->mode = mode;
+    std::cout << "Channel setMode: " << mode << std::endl;
+    modes[mode] = 1;
 }
 
+void Channel::removeMode(int mode)
+{
+    std::cout << "Channel removeMode: " << mode << std::endl;
+    modes[mode] = 0;
+}

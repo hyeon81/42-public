@@ -35,7 +35,7 @@ class Server{
         void tmpRunServer();
 
         /* Client */
-        void communicateClient(Client &client);
+        void communicateClient(int fd, std::string buffer);
         void addClient(Client &client);
         void removeClient();
         void joinChannel();
@@ -46,11 +46,14 @@ class Server{
         void removeChannel(std::string name);
         void addClientToChannel(std::string name, Client &client);
         void removeClientFromChannel(std::string name, Client &client);
-        Client &getClientWithNickname(std::string nickname);
+        Client &getClient(std::string nickname);
+        Channel &getChannel(std::string channelName);
         void sendToChannel(std::string name, std::string msg);
         bool isOperatorClient(std::string channelName, int fd);
-        void setChannelMode(std::string channelName, std::string mode);
-
+        void setChannelMode(std::string channelName, int mode);
+        void removeChannelMode(std::string channelName, int mode);
+        bool isChannelModeApplied(std::string channelName, int mode)
+    
         /* cmds */
         void runCommand(MessageInfo &msg, Client &client);
         void pass(MessageInfo &msg, Client &client);

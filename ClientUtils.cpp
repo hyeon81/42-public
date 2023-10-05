@@ -2,14 +2,16 @@
 
 void Server::addClient(Client &client)
 {
-    std::cout << "add client" << std::endl;
     if (client.getValid())
+    {
+        std::cout << "add client" << std::endl;
         this->clients.insert(std::make_pair(client.getSocket(), client));
+    }
 }
 
-Client &Server::getClientWithNickname(std::string nickname)
+Client &Server::getClient(std::string nickname)
 {
-    std::cout << "Server getClientWithNickname" << std::endl;
+    std::cout << "Server getClient" << std::endl;
     std::map<int, Client>::iterator iter;
     for (iter = this->clients.begin(); iter != this->clients.end(); iter++)
     {
