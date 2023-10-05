@@ -36,7 +36,7 @@ void Server::pass(MessageInfo &msg, Client &client)
     std::string clientPw = msg.params[0]; 
     if (clientPw == this->password)
     {
-        std::cout << "isValid" << std::endl;
+        std::cout << "valid" << std::endl;
         client.setValid(true);
     }
 }
@@ -54,6 +54,7 @@ void Server::nick(MessageInfo &msg, Client &client)
     //중복되지 않는지 체크 필요
     //닉네임 정책에 맞는지도 체크 필요
     client.setNickname(nickname);
+    
 }
 
 //USER root root 127.0.0.1 :root
@@ -75,12 +76,8 @@ void Server::user(MessageInfo &msg, Client &client)
     //username, realname이 겹칠 경우 조치 필요
     client.setUsername(username, realname);
     // //유저가 들어왔을때 client 등록한다고 판단. pass와 nick이 먼저 들어와야함.
-    if (client.isValid() && client.getNickname().length())
-    {
-        addClient(client);
-        //메세지 보내기
-    }
-
+    addClient(client);
+    sendResponse(":ft_irc 001 hyeokim2 :Welcome to the <networkname> Network, <nick>[!<user>@<host>]", client);
 }
 
 /***Channel Command ***/

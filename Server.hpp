@@ -69,6 +69,7 @@ class Server{
 
         /* utils */
         unsigned int convertPort(char *port);
+        void sendResponse(std::string msg, Client& client);
 
         /* debug */
         void showInfo();

@@ -15,7 +15,7 @@ Server::~Server()
 
 int Server::runServer()
 {
-    const int PORT = 4242;
+    const int PORT = this->port;
     const int BUFFER_SIZE = 1024;
     const int EVENTLIST_SIZE = 10;
 
@@ -111,10 +111,6 @@ int Server::runServer()
                 {
                     client.setReadBuf(buffer);
                     communicateClient(client);
-                    //출력할 메세지 설정 필요
-                    //출력할 메세지도 buffer에 같이 쓰는건가?
-                    char* msg = ":ft_irc 001 hyeokim2 :Welcome to the <networkname> Network, <nick>[!<user>@<host>]";
-                    send(clientSocket, msg, 1000, 0);
                     // write(1, buffer, bytesRead); // 요청 데이터 출력
                 }
                 if (bytesRead == 0)
@@ -140,13 +136,13 @@ void Server::communicateClient(Client &client)
     std::vector<MessageInfo> msgs = client.getMsgs();
     for (unsigned int i = 0; i < msgs.size(); i++)
     {
-        std::cout << "cmd[0]: " << msgs[i].cmd << std::endl;
-        std::cout << "params[0]: " << msgs[i].params[0] << std::endl;
-        std::cout << "params.size: " << msgs[i].params.size() << std::endl;
+        // std::cout << "cmd[0]: " << msgs[i].cmd << std::endl;
+        // std::cout << "params[0]: " << msgs[i].params[0] << std::endl;
+        // std::cout << "params.size: " << msgs[i].params.size() << std::endl;
         runCommand(msgs[i], client);
     }
-    showInfo();
-    client.showInfo();
+    // showInfo();
+    // client.showInfo();
 }
 
 // void Server::tmpRunServer()
@@ -197,4 +193,10 @@ void Server::showInfo()
     std::cout << "password: " << this->password << std::endl;
     std::cout << "clients: " << clients.size() << std::endl;
     std::cout << "channels: " << channels.size() << std::endl;
+}
+
+void Server::sendResponse(std::string msg, Client& client)
+{
+    std::cout << "***send: " << msg << std::endl;
+    send(client.getSocket(), msg.c_str(), msg.size(), 0);
 }

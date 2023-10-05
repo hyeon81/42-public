@@ -11,7 +11,7 @@ class Client{
     private:
         int fd;
         Message *msgs;
-        bool isValid;
+        bool valid;
         std::string nickname;
         std::string realname;
         std::string username;

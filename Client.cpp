@@ -4,7 +4,7 @@ Client::Client(int fd): fd(fd)
 {
     std::cout << "Client constructor" << std::endl;
     msgs = new Message();
-    this->isValid = false;
+    this->valid = false;
 }
 
 Client::~Client()
@@ -19,12 +19,12 @@ int Client::getSocket()
 
 void Client::setValid(bool value)
 {
-    this->isValid = value;
+    this->valid = value;
 }
 
 bool Client::getValid()
 {
-    return (this->isValid);
+    return (this->valid);
 }
 
 std::string& Client::getReadBuf()
@@ -73,5 +73,5 @@ void Client::showInfo()
     std::cout << "realname: " << this->realname << std::endl;
     std::cout << "read_buf: " << this->read_buf << std::endl;
     std::cout << "send_buf: " << this->send_buf << std::endl;
-    std::cout << "isValid: " << this->isValid << std::endl;
+    std::cout << "valid: " << this->valid << std::endl;
 }
