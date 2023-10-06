@@ -18,16 +18,16 @@ Channel::~Channel()
     std::cout << "Channel destructor" << std::endl;
 }
 
-void Channel::addClient(Client &client)
+void Channel::addClient(Client *client)
 {
     std::cout << "Channel addClient" << std::endl;
-    this->clients.insert(std::pair<int, Client>(client.getSocket(), client));
+    this->clients.insert(std::pair<int, Client*>(client->getSocket(), client));
 }
 
-void Channel::removeClient(Client &client)
+void Channel::removeClient(Client *client)
 {
     std::cout << "Channel removeClient" << std::endl;
-    this->clients.erase(client.getSocket());
+    this->clients.erase(client->getSocket());
 }
 
 void Channel::setOperatorFd(int fd)
@@ -47,10 +47,10 @@ bool Channel::isOperator(int fd)
 void Channel::showClients()
 {
     std::cout << "Channel showClients" << std::endl;
-    std::map<int, Client>::iterator iter;
+    std::map<int, Client*>::iterator iter;
     for (iter = this->clients.begin(); iter != this->clients.end(); iter++)
     {
-        std::cout << (iter->second).getNickname() << std::endl;
+        std::cout << (iter->second)->getNickname() << std::endl;
     }
 }
 

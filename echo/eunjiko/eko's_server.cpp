@@ -96,7 +96,7 @@ int main() {
                 // 클라이언트 소켓 이벤트 제거
                 if (clientEvents.find(closedSocket) != clientEvents.end()) {
                     struct kevent clientEvent = clientEvents[closedSocket];
-                    kevent(kq, &clientEvent, 1, nullptr, 0, nullptr);
+                    kevent(kq, *clientEvent, 1, nullptr, 0, nullptr);
                     clientEvents.erase(closedSocket);
                 }
 
@@ -111,10 +111,10 @@ int main() {
 
                 // 클라이언트 소켓의 읽기 이벤트 설정
                 struct kevent clientEvent;
-                EV_SET(&clientEvent, clientSocket, EVFILT_READ, EV_ADD, 0, 0, nullptr);
+                EV_SET(*clientEvent, clientSocket, EVFILT_READ, EV_ADD, 0, 0, nullptr);
 
                 // 클라이언트 소켓 이벤트 등록
-                if (kevent(kq, &clientEvent, 1, nullptr, 0, nullptr) == -1) {
+                if (kevent(kq, *clientEvent, 1, nullptr, 0, nullptr) == -1) {
                     perror("Error registering client socket with kqueue");
                     close(clientSocket);
                 } else {
@@ -141,7 +141,7 @@ int main() {
                     // 클라이언트 소켓 이벤트 제거
                     if (clientEvents.find(clientSocket) != clientEvents.end()) {
                         struct kevent clientEvent = clientEvents[clientSocket];
-                        kevent(kq, &clientEvent, 1, nullptr, 0, nullptr);
+                        kevent(kq, *clientEvent, 1, nullptr, 0, nullptr);
                         clientEvents.erase(clientSocket);
                     }
                 }

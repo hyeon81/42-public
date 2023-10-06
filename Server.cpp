@@ -65,7 +65,7 @@ int Server::runServer()
     while (1)
     {
         // kqueue에 이벤트 첨부
-        std::cout << "1" << std::endl;
+        std::cout << "keque 1" << std::endl;
         int nev = kevent(kq, &events[0], events.size(), eventList, EVENTLIST_SIZE, NULL); // kevent 함수를 사용하여 새 이벤트를 기다리거나 (클라이언트 연결 시도) 이전에 등록한 이벤트를 모니터링합니다.
         // kq로 전달된 kqueue에 새로 모니터링할 이벤트를 등록하고, 발생하여 아직 처리되지 않은(pending 상태인) 이벤트의 개수를 return
         std::cout << "nev = " << nev << std::endl;
@@ -130,10 +130,10 @@ int Server::runServer()
 void Server::communicateClient(int fd, std::string buffer)
 {
 /* 메세지 파싱.. */
-    Client client(fd);
+    Client *client = new Client(fd);
     /* 메세지 실행. msgs의 크기만큼 */
-    client.setMsgs(buffer);
-    std::vector<MessageInfo> msgs = client.getMsgs();
+    client->setMsgs(buffer);
+    std::vector<MessageInfo> msgs = client->getMsgs();
     for (unsigned int i = 0; i < msgs.size(); i++)
     {
         // std::cout << "cmd[0]: " << msgs[i].cmd << std::endl;
@@ -142,13 +142,13 @@ void Server::communicateClient(int fd, std::string buffer)
         runCommand(msgs[i], client);
     }
     // showInfo();
-    // client.showInfo();
+    // client->showInfo();
 }
 
-void Server::runCommand(MessageInfo &msg, Client &client)
+void Server::runCommand(MessageInfo &msg, Client *client)
 {
     try {
-        void (Server::*funcs[13])(MessageInfo &msg, Client &client) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
+        void (Server::*funcs[13])(MessageInfo &msg, Client *client) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
                                             &Server::part, &Server::names, &Server::topic, &Server::list,
                                             &Server::invite, &Server::kick, &Server::mode, &Server::privmsg,
                                             &Server::notice};
@@ -195,8 +195,8 @@ void Server::showInfo()
     std::cout << "channels: " << channels.size() << std::endl;
 }
 
-void Server::sendResponse(std::string msg, Client& client)
+void Server::sendResponse(std::string msg, Client *client)
 {
     std::cout << "***send: " << msg << std::endl;
-    send(client.getSocket(), msg.c_str(), msg.size(), 0);
+    send(client->getSocket(), msg.c_str(), msg.size(), 0);
 }

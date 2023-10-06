@@ -2,14 +2,14 @@
 
 //JOIN #test
 //추후에 쉼표도 처리
-void Server::join(MessageInfo &msg, Client &client)
+void Server::join(MessageInfo &msg, Client *client)
 {
     std::cout << "join" << std::endl;
     //params가 있는지 확인
     if (!msg.params.size())
     {
         //인자가 없는 경우
-        std::string msg = ":ft_irc 461 " + client.getNickname() + " JOIN :Not enough parameters";
+        std::string msg = ":ft_irc 461 " + client->getNickname() + " JOIN :Not enough parameters";
         sendResponse(msg, client);
         throw std::runtime_error("no params");
     }
@@ -20,8 +20,8 @@ void Server::join(MessageInfo &msg, Client &client)
     {
         //그냥 모드를 반환해야할듯 
         //INVITE, TOPIC, KEY, OPER, LIMIT
-        if (isChannelModeApplied(channelName, LIMIT))
-        {}
+        // if (isChannelModeApplied(channelName, LIMIT))
+        // {}
         //채널에 클라이언트 추가
         addClientToChannel(channelName, client);
     }
@@ -32,6 +32,6 @@ void Server::join(MessageInfo &msg, Client &client)
         //채널에 클라이언트 추가
         addClientToChannel(channelName, client);
         //해당 클라이언트를 operator로 설정
-        // setOperatorFd(client.getSocket());
+        // setOperatorFd(client->getSocket());
     }
 }

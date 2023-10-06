@@ -2,11 +2,11 @@
 
 //MODE
 //권한 있는지 없는지 확인해야
-void Server::mode(MessageInfo &msg, Client &client)
+void Server::mode(MessageInfo &msg, Client *client)
 {
     if (!msg.params.size())
     {
-        std::string msg = ":ft_irc 461 " + client.getNickname() + " :Not enough parameters";
+        std::string msg = ":ft_irc 461 " + client->getNickname() + " :Not enough parameters";
         sendResponse(msg, client);
         throw std::runtime_error("no params");
     }
@@ -15,7 +15,7 @@ void Server::mode(MessageInfo &msg, Client &client)
     std::string channelName = msg.params[0];
     if (!isExistChannel(channelName))
     {
-        std::string msg = ":ft_irc 403 " + client.getNickname() + " " + channelName + " :Not enough parameters";
+        std::string msg = ":ft_irc 403 " + client->getNickname() + " " + channelName + " :Not enough parameters";
         sendResponse(msg, client);
         throw std::runtime_error("no channel");
         //유효한 채널 아님
@@ -23,7 +23,7 @@ void Server::mode(MessageInfo &msg, Client &client)
     //인자가 하나만 있을 경우 
     if (msg.params.size() == 1)
     {
-        std::string msg = ":ft_irc 324 " + client.getNickname() + " " + channelName;
+        std::string msg = ":ft_irc 324 " + client->getNickname() + " " + channelName;
         //채널의 모드를 보여줌
     }
     //두번째 인자가 모드인지 확인

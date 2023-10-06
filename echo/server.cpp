@@ -47,7 +47,7 @@ int main (int argc, char* argv[])
     // accept()함수 호출을 해서, 실제 데이터를 보낼 수 있는 소켓 생성
     struct sockaddr_in client_addr; //accept 함수에서 사용
     int client_addr_size = sizeof(client_addr);
-    int client_sock = accept(server_sock, (struct sockaddr*)&client_addr, (socklen_t*)&client_addr_size);
+    int client_sock = accept(server_sock, (struct sockaddr*)*client_addr, (socklen_t*)*client_addr_size);
     if (client_sock == -1)
     {
         std::cout << "accept() error" << std::endl;

@@ -1,21 +1,21 @@
 #include "Server.hpp"
 
-void Server::addClient(Client &client)
+void Server::addClient(Client *client)
 {
-    if (client.getValid())
+    if (client->getValid())
     {
         std::cout << "add client" << std::endl;
-        this->clients.insert(std::make_pair(client.getSocket(), client));
+        this->clients.insert(std::make_pair(client->getSocket(), client));
     }
 }
 
-Client &Server::getClient(std::string nickname)
+Client *Server::getClient(std::string nickname)
 {
     std::cout << "Server getClient" << std::endl;
-    std::map<int, Client>::iterator iter;
+    std::map<int, Client*>::iterator iter;
     for (iter = this->clients.begin(); iter != this->clients.end(); iter++)
     {
-        if ((iter->second).getNickname() == nickname)
+        if ((iter->second)->getNickname() == nickname)
             return (iter->second);
     }
     //유저가 존재하지 않음

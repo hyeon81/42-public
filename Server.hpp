@@ -23,8 +23,8 @@ class Server{
     private:
         unsigned int port;
         std::string password;
-        std::map<int, Client>clients;
-        std::map<std::string, Channel>channels;
+        std::map<int, Client*>clients;
+        std::map<std::string, Channel*>channels;
     
     public:
         Server(char *port, char *password);
@@ -36,7 +36,7 @@ class Server{
 
         /* Client */
         void communicateClient(int fd, std::string buffer);
-        void addClient(Client &client);
+        void addClient(Client *client);
         void removeClient();
         void joinChannel();
     
@@ -44,35 +44,35 @@ class Server{
         bool isExistChannel(std::string name);
         void addChannel(std::string name);
         void removeChannel(std::string name);
-        void addClientToChannel(std::string name, Client &client);
-        void removeClientFromChannel(std::string name, Client &client);
-        Client &getClient(std::string nickname);
-        Channel &getChannel(std::string channelName);
+        void addClientToChannel(std::string name, Client *client);
+        void removeClientFromChannel(std::string name, Client *client);
+        Client *getClient(std::string nickname);
+        Channel *getChannel(std::string channelName);
         void sendToChannel(std::string name, std::string msg);
         bool isOperatorClient(std::string channelName, int fd);
         void setChannelMode(std::string channelName, int mode);
         void removeChannelMode(std::string channelName, int mode);
-        bool isChannelModeApplied(std::string channelName, int mode)
+        bool isChannelModeApplied(std::string channelName, ChannelMode mode);
     
         /* cmds */
-        void runCommand(MessageInfo &msg, Client &client);
-        void pass(MessageInfo &msg, Client &client);
-        void nick(MessageInfo &msg, Client &client);
-        void user(MessageInfo &msg, Client &client);
-        void join(MessageInfo &msg, Client &client);
-        void part(MessageInfo &msg, Client &client);
-        void names(MessageInfo &msg, Client &client);
-        void topic(MessageInfo &msg, Client &client);
-        void list(MessageInfo &msg, Client &client);
-        void invite(MessageInfo &msg, Client &client);
-        void kick(MessageInfo &msg, Client &client);
-        void mode(MessageInfo &msg, Client &client);
-        void privmsg(MessageInfo &msg, Client &client);
-        void notice(MessageInfo &msg, Client &client);
+        void runCommand(MessageInfo &msg, Client *client);
+        void pass(MessageInfo &msg, Client *client);
+        void nick(MessageInfo &msg, Client *client);
+        void user(MessageInfo &msg, Client *client);
+        void join(MessageInfo &msg, Client *client);
+        void part(MessageInfo &msg, Client *client);
+        void names(MessageInfo &msg, Client *client);
+        void topic(MessageInfo &msg, Client *client);
+        void list(MessageInfo &msg, Client *client);
+        void invite(MessageInfo &msg, Client *client);
+        void kick(MessageInfo &msg, Client *client);
+        void mode(MessageInfo &msg, Client *client);
+        void privmsg(MessageInfo &msg, Client *client);
+        void notice(MessageInfo &msg, Client *client);
 
         /* utils */
         unsigned int convertPort(char *port);
-        void sendResponse(std::string msg, Client& client);
+        void sendResponse(std::string msg, Client *client);
 
         /* debug */
         void showInfo();

@@ -27,7 +27,7 @@ void change_events(vector<struct kevent>& change_list, uintptr_t ident, int16_t 
     change_list.push_back(temp_event);
 }
 
-void disconnect_client(int client_fd, map<int, string>& clients)
+void disconnect_client(int client_fd, map<int, string> *clients)
 {
     cout << "client disconnected: " << client_fd << endl;
     close(client_fd);
