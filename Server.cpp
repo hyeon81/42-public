@@ -197,6 +197,7 @@ void Server::showInfo()
 
 void Server::sendResponse(std::string msg, Client *client)
 {
+    msg.append("\r\n");
     std::cout << "***send: " << msg << std::endl;
     send(client->getSocket(), msg.c_str(), msg.size(), 0);
 }

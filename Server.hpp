@@ -50,10 +50,11 @@ class Server{
         Channel *getChannel(std::string channelName);
         void sendToChannel(std::string name, std::string msg);
         bool isOperatorClient(std::string channelName, int fd);
-        void setChannelMode(std::string channelName, int mode);
-        void removeChannelMode(std::string channelName, int mode);
+        void setChannelMode(std::string channelName, ChannelMode mode, std::string param);
+        void removeChannelMode(std::string channelName, ChannelMode mode, std::string param);
         bool isChannelModeApplied(std::string channelName, ChannelMode mode);
-    
+        std::string getChannelModes(std::string channelName);
+        
         /* cmds */
         void runCommand(MessageInfo &msg, Client *client);
         void pass(MessageInfo &msg, Client *client);

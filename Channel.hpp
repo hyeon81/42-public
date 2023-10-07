@@ -19,8 +19,7 @@ class Channel{
     private:
         std::string name;
         std::string topic;
-        int modes[5];
-        //string(realname)으로 할지, int(fd)로 할지 결정해야함
+        ChannelMode modes[5];
         std::map<int, Client*>clients;
         int operatorFd;
         
@@ -37,8 +36,9 @@ class Channel{
 
         /* mode */
         bool isModeApplied(ChannelMode mode);
-        void setMode(int mode);
-        void removeMode(int mode);
+        void setMode(ChannelMode mode);
+        void removeMode(ChannelMode mode);
+        ChannelMode* getModes();
 
         /* client */
         void addClient(Client *client);

@@ -80,14 +80,20 @@ bool Channel::isModeApplied(ChannelMode mode)
     return (false);
 }
 
-void Channel::setMode(int mode)
+void Channel::setMode(ChannelMode mode)
 {
     std::cout << "Channel setMode: " << mode << std::endl;
     modes[mode] = 1;
 }
 
-void Channel::removeMode(int mode)
+void Channel::removeMode(ChannelMode mode)
 {
     std::cout << "Channel removeMode: " << mode << std::endl;
     modes[mode] = 0;
+}
+
+ChannelMode* Channel::getModes()
+{
+    std::cout << "Channel getModes" << std::endl;
+    return (this->modes);
 }
