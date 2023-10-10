@@ -50,11 +50,13 @@ class Server{
         Channel *getChannel(std::string channelName);
         void sendToChannel(std::string name, std::string msg);
         bool isOperatorClient(std::string channelName, int fd);
-        void setChannelMode(std::string channelName, ChannelMode mode, std::string nickname);
-        void removeChannelMode(std::string channelName, ChannelMode mode, std::string nickname);
+        void setChannelMode(std::string channelName, ChannelMode mode, std::string param);
+        void removeChannelMode(std::string channelName, ChannelMode mode, std::string param);
         bool isChannelModeApplied(std::string channelName, ChannelMode mode);
         std::string getChannelModes(std::string channelName);
-        
+        void addChannelOperator(std::string channelName, std::string nickname);
+        void addChannelInvite(std::string channelName, std::string nickname);
+
         /* cmds */
         void runCommand(MessageInfo &msg, Client *client);
         void pass(MessageInfo &msg, Client *client);
@@ -75,7 +77,10 @@ class Server{
         unsigned int convertPort(char *port);
         void sendResponse(std::string msg, Client *client);
         void noSuchNick(int fd, std::string nickname, std::string params);
-    
+        void noSuchChannel(int fd, std::string nickname, std::string params);
+        void notEnoughParams(int fd, std::string nickname, std::string params);
+        void invitingRPL(int fd, std::string nickname, std::string channelName);
+
         /* debug */
         void showInfo();
 };

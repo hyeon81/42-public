@@ -97,3 +97,21 @@ ChannelMode* Channel::getModes()
     std::cout << "Channel getModes" << std::endl;
     return (this->modes);
 }
+
+void Channel::addOperator(Client *client)
+{
+    std::cout << "Channel addOperator" << std::endl;
+    this->oClients.insert(std::pair<int, Client*>(client->getSocket(), client));
+}
+
+void Channel::addInvite(Client *client)
+{
+    std::cout << "Channel addInvite" << std::endl;
+    this->iClients.insert(std::pair<int, Client*>(client->getSocket(), client));
+}
+
+void Channel::setKey(std::string key)
+{
+    std::cout << "Channel setKey" << std::endl;
+    this->key = key;
+}

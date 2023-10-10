@@ -23,6 +23,8 @@ class Channel{
         std::map<int, Client*>clients;
         std::map<int, Client*>oClients;
         std::map<int, Client*>iClients;
+        std::string key;
+        unsigned int limit;
         int operatorFd;
         
     public:
@@ -41,11 +43,15 @@ class Channel{
         void setMode(ChannelMode mode);
         void removeMode(ChannelMode mode);
         ChannelMode* getModes();
+        void setKey(std::string key);
+        void setLimit(unsigned int limit);
 
         /* client */
         void addClient(Client *client);
         void removeClient(Client *client);
         void showClients();
+        void addOperator(Client *client);
+        void addInvite(Client *client);
 
         /* debug */
         void showInfo();
