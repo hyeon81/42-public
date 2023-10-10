@@ -50,8 +50,8 @@ class Server{
         Channel *getChannel(std::string channelName);
         void sendToChannel(std::string name, std::string msg);
         bool isOperatorClient(std::string channelName, int fd);
-        void setChannelMode(std::string channelName, ChannelMode mode, std::string param);
-        void removeChannelMode(std::string channelName, ChannelMode mode, std::string param);
+        void setChannelMode(std::string channelName, ChannelMode mode, std::string nickname);
+        void removeChannelMode(std::string channelName, ChannelMode mode, std::string nickname);
         bool isChannelModeApplied(std::string channelName, ChannelMode mode);
         std::string getChannelModes(std::string channelName);
         
@@ -70,11 +70,12 @@ class Server{
         void mode(MessageInfo &msg, Client *client);
         void privmsg(MessageInfo &msg, Client *client);
         void notice(MessageInfo &msg, Client *client);
-
+        
         /* utils */
         unsigned int convertPort(char *port);
         void sendResponse(std::string msg, Client *client);
-
+        void noSuchNick(int fd, std::string nickname, std::string params);
+    
         /* debug */
         void showInfo();
 };

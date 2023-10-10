@@ -19,8 +19,10 @@ class Channel{
     private:
         std::string name;
         std::string topic;
-        ChannelMode modes[5];
+        int modes[5];
         std::map<int, Client*>clients;
+        std::map<int, Client*>oClients;
+        std::map<int, Client*>iClients;
         int operatorFd;
         
     public:

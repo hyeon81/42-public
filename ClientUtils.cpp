@@ -19,5 +19,5 @@ Client *Server::getClient(std::string nickname)
             return (iter->second);
     }
     //유저가 존재하지 않음
-    throw std::runtime_error("no such user");
+    return (NULL);
 }

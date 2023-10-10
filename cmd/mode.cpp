@@ -16,6 +16,7 @@ bool checkModeArgu(std::string &argu)
 }
 
 //MODE 채널명 모드명 [모드매개변수]
+//MODE 모드명도 가능한듯 - 이건 나중에 확인
 //권한 있는지 없는지 확인해야
 void Server::mode(MessageInfo &msg, Client *client)
 {
