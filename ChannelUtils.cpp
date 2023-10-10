@@ -38,24 +38,31 @@ bool Server::isOperatorClient(std::string channelName, int fd)
     return (channels[channelName]->isOperator(fd));
 }
 
+// Command: MODE
+// Parameters: <target> [<modestring> [<mode arguments>...]]
+//내 생각엔 앞의 + -를 가져와서 같이 처리해야 할듯.
 void Server::setChannelMode(std::string channelName, ChannelMode mode, std::string param)
 {
     //mode에 따라서 채널 모드 변경. 채널 모드에 따라 액션 실행 필요
     if (mode == INVITE)
     {
-        //param에 해당하는 클라이언트를 초대
+        //param에 해당하는 클라이언트를 초대 (이건 invite 명령어에서)
     }
-    else if (mode == TOPIC)
+    //Set/remove the restrictions of the TOPIC command to channel operators (TOPIC 명령어의 제한 두는 것을set/remove)
+    else if (mode == TOPIC) 
     {
-        //param에 해당하는 토픽으로 변경
+        //1. 채널 이름이 맞는지 확인
+        //2. 채널 이름이 맞다면? operator 전용으로 변경 (mode의 topic이 1이라는건? topic을 operator만 제한한다는 걸로 받아들이기. 고로 여기서 설정해줄건x)
     }
     else if (mode == KEY)
     {
-        //param에 해당하는 키로 변경
+        //1. 채널 이름이 맞는지 확인
+        //2. param에 해당하는 키로 변경
     }
     else if (mode == OPER)
     {
-        //param에 해당하는 클라이언트를 오퍼레이터로 변경
+        //1. 채널 이름이 맞는지 확인
+        //2. param에 해당하는 클라이언트를 오퍼레이터로 변경 (op_client에 포함시키기)
     }
     else if (mode == LIMIT)
     {

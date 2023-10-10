@@ -42,7 +42,6 @@ void Server::mode(MessageInfo &msg, Client *client)
         sendResponse(msg, client);
         return ;
     }
-    //두번째 인자가 모드인지 확인
     //인자가 두개인데, 두번째 인자가 모드인지 확인
     if (!checkModeArgu(msg.params[1]))
     {
