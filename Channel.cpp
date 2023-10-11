@@ -115,3 +115,27 @@ void Channel::setKey(std::string key)
     std::cout << "Channel setKey" << std::endl;
     this->key = key;
 }
+
+void Channel::removeOperator(Client *client)
+{
+    std::cout << "Channel removeOperator" << std::endl;
+    this->oClients.erase(client->getSocket());
+}
+
+void Channel::removeInvite(Client *client)
+{
+    std::cout << "Channel removeInvite" << std::endl;
+    this->iClients.erase(client->getSocket());
+}
+
+void Channel::removeKey(std::string key)
+{
+    std::cout << "Channel removeKey" << std::endl;
+    this->key = "";
+}
+
+void Channel::removeLimit(unsigned int limit)
+{
+    std::cout << "Channel removeLimit" << std::endl;
+    this->limit = 0; //0으로 설정하는 게 맞나?
+}

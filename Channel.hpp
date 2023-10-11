@@ -44,7 +44,9 @@ class Channel{
         void removeMode(ChannelMode mode);
         ChannelMode* getModes();
         void setKey(std::string key);
+        void removeKey(std::string key);
         void setLimit(unsigned int limit);
+        void removeLimit(unsigned int limit);
 
         /* client */
         void addClient(Client *client);
@@ -52,6 +54,8 @@ class Channel{
         void showClients();
         void addOperator(Client *client);
         void addInvite(Client *client);
+        void removeOperator(Client *client);
+        void removeInvite(Client *client);
 
         /* debug */
         void showInfo();

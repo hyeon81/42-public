@@ -157,6 +157,57 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
 
 void Server::removeChannelMode(std::string channelName, ChannelMode mode, std::string param)
 {
-    //mode에 따라서 채널 모드 변경. 채널 모드에 따라 액션 실행 필요
+    channelName *channel = channels[channelName];
+    if (mode == INVITE)
+    {
+        if (param)
+        {
+            //유저를 invite에서 제거
+            channel.removeChannelInvite(param);
+        }
+        //없으면? 
+        else
+            notEnoughParams(client->getSocket(), client->getNickname(), "MODE");
+    }
+    //Set/remove the restrictions of the TOPIC command to channel operators (TOPIC 명령어의 제한 두는 것을set/remove)
+    else if (mode == TOPIC) 
+    {
+
+    }
+    else if (mode == KEY)
+    {
+        //키 제거
+    }
+    else if (mode == OPER)
+    {
+        //1. 채널 이름이 맞는지 확인
+        //2. param에 해당하는 클라이언트를 오퍼레이터로 변경 (op_client에 포함시키기)
+        ///MODE #irssi +o mike
+        //param에 해당하는 클라이언트를 오퍼레이터로 변경
+        if (param)
+        {
+            Client *user = getClient(param); //없는 유저면 throw 되려나?
+            if (!user)
+            {
+                noSuchNick(client->getSocket(), client->getNickname(), param);
+                throw std::runtime_error("no such user");
+            }
+            //inviteClient
+            channel.addChannelOperator(param);
+            //이후 클라이언트에게 operator 메시지 전송
+            // invitingRPL(user->getSocket(), param, channelName);
+        }
+
+    }
+    else if (mode == LIMIT)
+    {
+        //param에 해당하는 인원수로 변경
+        if (param)
+            setLimit(param);
+        else
+            notEnoughParams(client->getSocket(), client->getNickname(), "MODE"); //수정 필요
+    }
+    else
+        throw std::runtime_error("no such mode");
     channels[channelName]->removeMode(mode);
 }
