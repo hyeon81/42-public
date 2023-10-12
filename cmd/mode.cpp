@@ -78,6 +78,7 @@ void Server::mode(MessageInfo &msg, Client *client)
 //내 생각엔 앞의 + -를 가져와서 같이 처리해야 할듯.
 //근데 operator가 있어야 mode도 가능한가?
 //channelName = param[0], param = params[2]
+//모드 설정할때 response 보내나?
 void Server::setChannelMode(std::string channelName, ChannelMode mode, std::string param)
 {
     channelName *channel = channels[channelName];
@@ -106,11 +107,11 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
         //실패시 그냥 리턴
     }
     //Set/remove the restrictions of the TOPIC command to channel operators (TOPIC 명령어의 제한 두는 것을set/remove)
-    else if (mode == TOPIC) 
-    {
-        //1. 채널 이름이 맞는지 확인
-        //2. 채널 이름이 맞다면? operator 전용으로 변경 (mode의 topic이 1이라는건? topic을 operator만 제한한다는 걸로 받아들이기. 고로 여기서 설정해줄건x)
-    }
+    // else if (mode == TOPIC) 
+    // {
+    //     //1. 채널 이름이 맞는지 확인
+    //     //2. 채널 이름이 맞다면? operator 전용으로 변경 (mode의 topic이 1이라는건? topic을 operator만 제한한다는 걸로 받아들이기. 고로 여기서 설정해줄건x)
+    // }
     else if (mode == KEY)
     {
         //1. 채널 이름이 맞는지 확인
@@ -170,13 +171,14 @@ void Server::removeChannelMode(std::string channelName, ChannelMode mode, std::s
             notEnoughParams(client->getSocket(), client->getNickname(), "MODE");
     }
     //Set/remove the restrictions of the TOPIC command to channel operators (TOPIC 명령어의 제한 두는 것을set/remove)
-    else if (mode == TOPIC) 
-    {
-
-    }
+    // else if (mode == TOPIC) 
+    // {
+        
+    // }
     else if (mode == KEY)
     {
         //키 제거
+        channel.removeKey();
     }
     else if (mode == OPER)
     {
