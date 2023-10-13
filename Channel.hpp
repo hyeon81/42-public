@@ -54,6 +54,7 @@ class Channel{
         void addClient(Client *client);
         void removeClient(Client *client);
         void showClients();
+        std::vector<Client*> getChannelMembers(const std::string& channelName);
         void addOperator(Client *client);
         void addInvite(Client *client);
         void removeOperator(Client *client);

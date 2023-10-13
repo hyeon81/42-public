@@ -64,6 +64,12 @@ void Client::setUsername(std::string username, std::string realname)
     this->realname = realname;
 }
 
+std::string &Client::getUsername()
+{
+    return(this->username);
+}
+
+
 void Client::showInfo()
 {
     std::cout << "===Client Info====" << std::endl;
@@ -76,7 +82,3 @@ void Client::showInfo()
     std::cout << "valid: " << this->valid << std::endl;
 }
 
-std::string &Client::getUsername()
-{
-    return (this->username);
-}

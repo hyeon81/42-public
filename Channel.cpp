@@ -54,6 +54,19 @@ void Channel::showClients()
     }
 }
 
+std::vector<Client*> Channel::getChannelMembers(const std::string& channelName)
+{
+    std::vector<Client*> members;
+
+    // if (name == channelName) 
+    {
+        for (std::map<int, Client*>::const_iterator it = clients.begin(); it != clients.end(); ++it) 
+            members.push_back(it->second);
+    }
+
+    return members;
+}
+
 std::string &Channel::getTopic()
 {
     std::cout << "Channel getTopic" << std::endl;
@@ -116,6 +129,12 @@ void Channel::setKey(std::string key)
     this->key = key;
 }
 
+std::string Channel::getKey()
+{
+    return (this->key);
+}
+
+
 void Channel::removeOperator(Client *client)
 {
     std::cout << "Channel removeOperator" << std::endl;
@@ -138,11 +157,6 @@ void Channel::removeLimit()
 {
     std::cout << "Channel removeLimit" << std::endl;
     this->limit = 0; //0으로 설정하는 게 맞나?
-}
-
-std::string Channel::getKey()
-{
-    return (this->key);
 }
 
 void Channel::setLimit(unsigned int limit)

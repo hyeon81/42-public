@@ -18,9 +18,15 @@ void Server::removeChannel(std::string name)
     channels.erase(name);
 }
 
-void Server::addClientToChannel(std::string name, Client *client)
+void Server::addClientToChannel(std::string name, Client *client, std::string password)
 {
-    channels[name]->addClient(client);
+    if (channels[name]->getKey() != password)
+    {
+        sendResponse("error", client);
+    }
+    else
+        channels[name]->addClient(client);
+    
 }
 
 void Server::removeClientFromChannel(std::string name, Client *client)
