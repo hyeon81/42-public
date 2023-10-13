@@ -17,7 +17,7 @@ void Server::invite(MessageInfo &msg, Client *client)
         if (msg.params.size() > 2)
         {
             Client *user = getClient(msg.params[1]);
-            addClientToChannel(msg.params[0], user);
+            addClientToChannel(msg.params[0], user, "");
         }
     }
 }

@@ -44,7 +44,7 @@ class Server{
         bool isExistChannel(std::string name);
         void addChannel(std::string name);
         void removeChannel(std::string name);
-        void addClientToChannel(std::string name, Client *client);
+        void addClientToChannel(std::string name, Client *client, std::string password)
         void removeClientFromChannel(std::string name, Client *client);
         Client *getClient(std::string nickname);
         Channel *getChannel(std::string channelName);

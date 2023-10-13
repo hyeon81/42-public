@@ -54,6 +54,19 @@ void Channel::showClients()
     }
 }
 
+std::vector<Client*> Channel::getChannelMembers(const std::string& channelName)
+{
+    std::vector<Client*> members;
+
+    // if (name == channelName) 
+    {
+        for (std::map<int, Client*>::const_iterator it = clients.begin(); it != clients.end(); ++it) 
+            members.push_back(it->second);
+    }
+
+    return members;
+}
+
 std::string &Channel::getTopic()
 {
     std::cout << "Channel getTopic" << std::endl;
@@ -115,6 +128,12 @@ void Channel::setKey(std::string key)
     std::cout << "Channel setKey" << std::endl;
     this->key = key;
 }
+
+std::string Channel::getKey()
+{
+    return (this->key);
+}
+
 
 void Channel::removeOperator(Client *client)
 {
