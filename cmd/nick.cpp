@@ -91,7 +91,7 @@ void Server::nick(MessageInfo &msg, Client *client)
     {//같은 nick이 있을 경우 있다고 알려야하나 에러를 내보내야하나
         if (it->second.getNickname() == msg.params[0])
         {
-            errorMsg = "<client> <nick> :Nickname is already in use"
+            errorMsg = "<client> <nick> :Nickname is already in use";
             sendResponse(errorMsg, &client);
             return ;
         }

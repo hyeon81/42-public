@@ -81,7 +81,8 @@ void Server::join(MessageInfo &msg, Client *client)
     클라이언트에게 JOIN 명령의 끝을 알리는 메시지 전송: :ft_irc 366 <client-nickname> channel1 :End of /NAMES list.
         */
         std::string userList = ":@"; // 모든 멤버에게 '@' 표시를 표시
-        const std::vector<Client *> &members = getChannelMembers(channelName);
+        std::vector<Client*> members = channels[channelName]->getChannelMembers();
+
         for (size_t i = 0; i < members.size(); i++) 
         {
             userList += members[i]->getNickname();

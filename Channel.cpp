@@ -169,3 +169,13 @@ int Channel::getLimit()
 {
     return (this->limit);
 }
+
+std::vector<Client*> Channel::getChannelMembers()
+{
+    std::vector<Client*> members;
+
+    for (std::map<int, Client*>::const_iterator it = clients.begin(); it != clients.end(); ++it) 
+        members.push_back(it->second);
+
+    return members;
+}
