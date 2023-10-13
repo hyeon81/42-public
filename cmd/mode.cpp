@@ -3,15 +3,15 @@
 bool checkModeArgu(std::string &argu)
 {
     //모드가 플러스인지 마이너스인지 확인
-    if (argu.size() < 2)
+    if (argu.size() != 2)
         return (false);
     char oper = argu[0];
     if (oper != '+' && oper != '-')
         return (false);
     //유효한 모드인지 확인
-    char modeChar = mode[1];
+    char modeChar = argu[1];
     if (modeChar != 'i' && modeChar != 't' && modeChar != 'k' && modeChar != 'o' && modeChar != 'l')
-        return (false)
+        return (false);
     return (true);
 }
 
@@ -22,8 +22,7 @@ void Server::mode(MessageInfo &msg, Client *client)
 {
     if (!msg.params.size())
     {
-        std::string msg = ":ft_irc 461 " + client->getNickname() + " :Not enough parameters";
-        sendResponse(msg, client);
+        notEnoughParams(client->getSocket(), client->getNickname(), "MODE");
         return ;
     }
     //채널 모드 변경
@@ -31,8 +30,7 @@ void Server::mode(MessageInfo &msg, Client *client)
     std::string channelName = msg.params[0];
     if (!isExistChannel(channelName))
     {
-        std::string msg = ":ft_irc 403 " + client->getNickname() + " " + channelName + " :Not enough parameters";
-        sendResponse(msg, client);
+        noSuchChannel(client->getSocket(), client->getNickname(), channelName);
         return ;
         //유효한 채널 아님
     }
@@ -47,11 +45,10 @@ void Server::mode(MessageInfo &msg, Client *client)
     if (!checkModeArgu(msg.params[1]))
     {
         //유효한 모드 인자 아님
-        std::string msg = ":ft_irc 403 " + client->getNickname() + " " + msg.params[1] + " :is unknown mode char to me";
-        sendResponse(msg, client);
+        std::string msgs = ":ft_irc 403 " + client->getNickname() + " " + msg.params[1] + " :is unknown mode char to me";
+        sendResponse(msgs, client);
         return ;
     }
-    
     std::string modeArgu;
     if (msg.params.size() == 3)
         modeArgu = msg.params[2];
@@ -64,14 +61,13 @@ void Server::mode(MessageInfo &msg, Client *client)
         if (modeChar == modeOption[i])
         {
             //모드 적용
-            if (oper == '+')
-                setChannelMode(channelName, modeEnum[i], modeArgu);
-            else if (oper == '-')
-                removeChannelMode(channelName, modeEnum[i], modeArgu);
+            if (msg.params[1][0] == '+')
+                setChannelMode(channelName, modeEnum[i], modeArgu, client);
+            else if (msg.params[1][0] == '-')
+                removeChannelMode(channelName, modeEnum[i], modeArgu, client);
         }
     }
 }
-
 
 // Command: MODE
 // Parameters: <target> [<modestring> [<mode arguments>...]]
@@ -79,56 +75,79 @@ void Server::mode(MessageInfo &msg, Client *client)
 //근데 operator가 있어야 mode도 가능한가?
 //channelName = param[0], param = params[2]
 //모드 설정할때 response 보내나?
-void Server::setChannelMode(std::string channelName, ChannelMode mode, std::string param)
+void Server::setChannelMode(std::string channelName, ChannelMode mode, std::string param, Client *client)
 {
-    channelName *channel = channels[channelName];
+    Channel *channel = channels[channelName];
+    if (channel->isOperator(client->getSocket()) == false)
+    {
+        channelOperatorPrivilegesNeeded(client->getSocket(), client->getNickname(), channelName);
+        return ;
+    }
+    if (mode != OPER && mode != LIMIT && channel->isModeApplied(mode))
+        return ;
     //mode에 따라서 채널 모드 변경. 채널 모드에 따라 액션 실행 필요
     //이미 채널에 있는 상태여야 함.
+    //param에 해당하는 클라이언트를 초대
+    //MODE hello +i dkd
     if (mode == INVITE)
     {
-        //param에 해당하는 클라이언트를 초대
-        //MODE hello +i dkd
-        if (param)
-        {
-            Client *user = getClient(param); //없는 유저면 throw 되려나?
-            if (!user)
-            {
-                noSuchNick(client->getSocket(), client->getNickname(), param);
-                throw std::runtime_error("no such user");
-            }
-            //inviteClient
-            channel.addChannelInvite(param);
-            //이후 클라이언트에게 invite 메시지 전송
-            invitingRPL(user->getSocket(), param, channelName);
-        }
-        //없으면? 
-        else
-            notEnoughParams(client->getSocket(), client->getNickname(), "MODE");
-        //실패시 그냥 리턴
+        if (channel->isModeApplied(INVITE))
+            return ;
+        // if (param.empty() == false)
+            // return ;
+            // params이 있을시
+            // /mode +i hello 이렇게 보내면? 뒤의 hello를 붙여서 보냄
+            // 여러 인자를 처리해줘야겠다.
+            // 127.000.000.001.06667-127.000.000.001.37866: :irc.local 472 root h :is not a recognised channel mode.
+            // :irc.local 472 root e :is not a recognised channel mode.
+            // :irc.local 696 root #hello l * :You must specify a parameter for the limit mode. Syntax: <limit>.
+        //없으면?
+        //오류없다는 것이므로 +i로 set이 된다.
+        //mode가 set 되었다는 메세지 전송
+        //:root!root@127.0.0.1 MODE #hello :-i
+        sendModeMessage(client, channelName, "+i");
     }
     //Set/remove the restrictions of the TOPIC command to channel operators (TOPIC 명령어의 제한 두는 것을set/remove)
-    // else if (mode == TOPIC) 
-    // {
-    //     //1. 채널 이름이 맞는지 확인
-    //     //2. 채널 이름이 맞다면? operator 전용으로 변경 (mode의 topic이 1이라는건? topic을 operator만 제한한다는 걸로 받아들이기. 고로 여기서 설정해줄건x)
-    // }
+    else if (mode == TOPIC) 
+    {
+        //2. 채널 이름이 맞다면? operator 전용으로 변경 (mode의 topic이 1이라는건? topic을 operator만 제한한다는 걸로 받아들이기. 고로 여기서 설정해줄건x)
+        sendModeMessage(client, channelName, "+t");
+    }
+    //:root_!root@127.0.0.1 MODE #hello +k :hi
+    //한번 적용되면 바꿀 수 없나벼
     else if (mode == KEY)
     {
-        //1. 채널 이름이 맞는지 확인
-        //2. param에 해당하는 키로 변경
-        //키가 규칙에 맞는지 체크
-        if (param)
-            setKey(param);
+        if (param.empty())
+        {
+            invalidModeParam(client, channelName, "k *");
+            return ;
+        }
         else
-            notEnoughParams(client->getSocket(), client->getNickname(), "MODE"); //수정 필요
+        {
+            //키가 규칙에 맞는지 체크해야함. 어디서 볼수있지?
+            channel->setKey(param);
+            std::string modStr = "+k :" + param;
+            sendModeMessage(client, channelName, modStr);
+        }
     }
+    //MODE #hello +o root
+    //:root_!root@127.0.0.1 MODE #hello +o :root
+    //:irc.local 401 root_ djkdlsf :No such nick
+    //:irc.local 696 root_ #hello o * :You must specify a parameter for the op mode. Syntax: <nick>
     else if (mode == OPER)
     {
-        //1. 채널 이름이 맞는지 확인
         //2. param에 해당하는 클라이언트를 오퍼레이터로 변경 (op_client에 포함시키기)
         ///MODE #irssi +o mike
-        //param에 해당하는 클라이언트를 오퍼레이터로 변경
-        if (param)
+        //유저 파라미터가 없는 경우
+        //:irc.local 696 root_ #hello o * :You must specify a parameter for the op mode. Syntax: <nick>
+        //"<client> <target chan/user> <mode char> <parameter> :<description>"
+        if (param.empty())
+        {
+            invalidModeParam(client, channelName, "o *");
+            // notEnoughParams(client->getSocket(), client->getNickname(), "MODE"); //수정 필요
+            return ;       
+        }
+        else
         {
             Client *user = getClient(param); //없는 유저면 throw 되려나?
             if (!user)
@@ -137,56 +156,70 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
                 throw std::runtime_error("no such user");
             }
             //inviteClient
-            channel.addChannelOperator(param);
+            //중복되는 유저면 ? 무시
+            if (channel->isOperator(user->getSocket()))
+                return ;
+            channel->addOperator(user);
             //이후 클라이언트에게 operator 메시지 전송
-            // invitingRPL(user->getSocket(), param, channelName);
+            std::string modStr = "+o" + param;
+            sendModeMessage(client, channelName, "+o");        
         }
-
     }
     else if (mode == LIMIT)
     {
         //param에 해당하는 인원수로 변경
-        if (param)
-            setLimit(param);
+        if (param.empty())
+        {
+            invalidModeParam(client, channelName, "l *");
+            return ;
+        }
         else
-            notEnoughParams(client->getSocket(), client->getNickname(), "MODE"); //수정 필요
+        {
+            int limit = strtod(param.c_str(), NULL);
+            //:root_!root@127.0.0.1 MODE #hello +l :123
+            //가능한 숫자가 아닌경우
+            if (limit < 0)
+            {
+                std::string modStr = "l " + param;
+                invalidModeParam(client, channelName, modStr);
+                return ;
+            }
+            channel->setLimit(limit);
+            std::string modStr = "+l :" + param;
+            sendModeMessage(client, channelName, modStr);
+        }
     }
-    else
-        throw std::runtime_error("no such mode");
     channel->setMode(mode);
 }
 
-void Server::removeChannelMode(std::string channelName, ChannelMode mode, std::string param)
+void Server::removeChannelMode(std::string channelName, ChannelMode mode, std::string param, Client *client)
 {
-    channelName *channel = channels[channelName];
+    Channel *channel = channels[channelName];
+    if (!channel->isModeApplied(mode))
+        return ;
     if (mode == INVITE)
-    {
-        if (param)
-        {
-            //유저를 invite에서 제거
-            channel.removeChannelInvite(param);
-        }
-        //없으면? 
-        else
-            notEnoughParams(client->getSocket(), client->getNickname(), "MODE");
-    }
-    //Set/remove the restrictions of the TOPIC command to channel operators (TOPIC 명령어의 제한 두는 것을set/remove)
-    // else if (mode == TOPIC) 
-    // {
-        
-    // }
+        sendModeMessage(client, channelName, "-i");
+    else if (mode == TOPIC) 
+        sendModeMessage(client, channelName, "-t");        
     else if (mode == KEY)
     {
         //키 제거
-        channel.removeKey();
+        channel->removeKey();
+        std::string modStr = "-t :" + channel->getKey();
+        sendModeMessage(client, channelName, modStr);
     }
     else if (mode == OPER)
     {
         //1. 채널 이름이 맞는지 확인
         //2. param에 해당하는 클라이언트를 오퍼레이터로 변경 (op_client에 포함시키기)
-        ///MODE #irssi +o mike
+        //:root_!root@127.0.0.1 MODE #hello -o :root
         //param에 해당하는 클라이언트를 오퍼레이터로 변경
-        if (param)
+        if (param.empty())
+        {
+            invalidModeParam(client, channelName, "o *");
+            return ;
+        }
+        else
         {
             Client *user = getClient(param); //없는 유저면 throw 되려나?
             if (!user)
@@ -195,21 +228,21 @@ void Server::removeChannelMode(std::string channelName, ChannelMode mode, std::s
                 throw std::runtime_error("no such user");
             }
             //inviteClient
-            channel.addChannelOperator(param);
-            //이후 클라이언트에게 operator 메시지 전송
-            // invitingRPL(user->getSocket(), param, channelName);
+            if (!channel->isOperator(user->getSocket()))
+                return ;
+            channel->removeOperator(user);
+            std::string modStr = "-o :" + param;
+            sendModeMessage(client, channelName, modStr);
         }
-
     }
     else if (mode == LIMIT)
     {
-        //param에 해당하는 인원수로 변경
-        if (param)
-            setLimit(param);
-        else
-            notEnoughParams(client->getSocket(), client->getNickname(), "MODE"); //수정 필요
+        channel->removeLimit();
+        std::ostringstream oss;
+        oss << channel->getLimit();
+        std::string result = oss.str();
+        std::string modStr = "-l :" + result;
+        sendModeMessage(client, channelName, modStr);
     }
-    else
-        throw std::runtime_error("no such mode");
     channels[channelName]->removeMode(mode);
 }

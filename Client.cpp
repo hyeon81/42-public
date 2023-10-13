@@ -75,3 +75,8 @@ void Client::showInfo()
     std::cout << "send_buf: " << this->send_buf << std::endl;
     std::cout << "valid: " << this->valid << std::endl;
 }
+
+std::string &Client::getUsername()
+{
+    return (this->username);
+}

@@ -99,7 +99,7 @@ int main()
             {
                 if (curr_event->ident == server_socket)
                 {
-                    /* accept new client */
+                    /* accept new Client */
                     int client_socket;
                     if ((client_socket = accept(server_socket, NULL, NULL)) == -1)
                         exit_with_perror("accept() error\n" + string(strerror(errno)));
@@ -113,7 +113,7 @@ int main()
                 }
                 else if (clients.find(curr_event->ident)!= clients.end())
                 {
-                    /* read data from client */
+                    /* read data from Client */
                     char buf[1024];
                     int n = read(curr_event->ident, buf, sizeof(buf));
 
@@ -133,7 +133,7 @@ int main()
             }
             else if (curr_event->filter == EVFILT_WRITE)
             {
-                /* send data to client */
+                /* send data to Client */
                 map<int, string>::iterator it = clients.find(curr_event->ident);
                 if (it != clients.end())
                 {

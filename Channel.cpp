@@ -30,16 +30,16 @@ void Channel::removeClient(Client *client)
     this->clients.erase(client->getSocket());
 }
 
-void Channel::setOperatorFd(int fd)
+void Channel::setOperatorFd(Client *client)
 {
     std::cout << "Channel setOperatorFd" << std::endl;
-    this->operatorFd = fd;
+    oClients.insert(std::pair<int, Client*>(client->getSocket(), client));
 }
 
 bool Channel::isOperator(int fd)
 {
     std::cout << "Channel isOperator" << std::endl;
-    if (this->operatorFd == fd)
+    if (oClients.find(fd) != oClients.end())
         return (true);
     return (false);
 }
@@ -92,7 +92,7 @@ void Channel::removeMode(ChannelMode mode)
     modes[mode] = 0;
 }
 
-ChannelMode* Channel::getModes()
+int* Channel::getModes()
 {
     std::cout << "Channel getModes" << std::endl;
     return (this->modes);
@@ -128,14 +128,30 @@ void Channel::removeInvite(Client *client)
     this->iClients.erase(client->getSocket());
 }
 
-void Channel::removeKey(std::string key)
+void Channel::removeKey()
 {
     std::cout << "Channel removeKey" << std::endl;
     this->key = "";
 }
 
-void Channel::removeLimit(unsigned int limit)
+void Channel::removeLimit()
 {
     std::cout << "Channel removeLimit" << std::endl;
     this->limit = 0; //0으로 설정하는 게 맞나?
+}
+
+std::string Channel::getKey()
+{
+    return (this->key);
+}
+
+void Channel::setLimit(unsigned int limit)
+{
+    std::cout << "Channel setLimit" << std::endl;
+    this->limit = limit;
+}
+
+int Channel::getLimit()
+{
+    return (this->limit);
 }

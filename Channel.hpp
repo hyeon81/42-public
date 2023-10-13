@@ -32,7 +32,7 @@ class Channel{
         Channel(std::string name);
         ~Channel();
         
-        void setOperatorFd(int fd);
+        void setOperatorFd(Client *client);
         bool isOperator(int fd);
         std::string &getTopic();
         void setTopic(std::string topic);
@@ -42,13 +42,15 @@ class Channel{
         bool isModeApplied(ChannelMode mode);
         void setMode(ChannelMode mode);
         void removeMode(ChannelMode mode);
-        ChannelMode* getModes();
+        int* getModes();
         void setKey(std::string key);
-        void removeKey(std::string key);
+        void removeKey();
         void setLimit(unsigned int limit);
-        void removeLimit(unsigned int limit);
+        void removeLimit();
+        std::string getKey();
+        int getLimit();
 
-        /* client */
+        /* Client */
         void addClient(Client *client);
         void removeClient(Client *client);
         void showClients();

@@ -31,6 +31,7 @@ class Client{
         void setNickname(std::string nickname);      
         std::string &getNickname();
         void setUsername(std::string username, std::string realname);
+        std::string &getUsername();
 
         /* debug */
         void showInfo();
