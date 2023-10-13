@@ -173,15 +173,11 @@ unsigned int Server::convertPort(char *port)
 {
     char *stopstring;
     int res;
-    // for (unsigned int i = 0; i < port.length(); i++)
-    // {
-    //     //숫자가 맞는지 검증
-    // }
-    //이렇게하니까 0이 잘려버리네
+
     res = strtod(port, &stopstring);
     //오류 검증
-    // if (res)
-    //     throw std::runtime_error("Error: not a positive number");
+    if (stopstring)
+        throw std::runtime_error("Error: not valid port number");
     return (res);
 }
 
