@@ -151,10 +151,7 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
         {
             Client *user = getClient(param); //없는 유저면 throw 되려나?
             if (!user)
-            {
                 noSuchNick(client->getSocket(), client->getNickname(), param);
-                throw std::runtime_error("no such user");
-            }
             //inviteClient
             //중복되는 유저면 ? 무시
             if (channel->isOperator(user->getSocket()))
@@ -223,10 +220,7 @@ void Server::removeChannelMode(std::string channelName, ChannelMode mode, std::s
         {
             Client *user = getClient(param); //없는 유저면 throw 되려나?
             if (!user)
-            {
                 noSuchNick(client->getSocket(), client->getNickname(), param);
-                throw std::runtime_error("no such user");
-            }
             //inviteClient
             if (!channel->isOperator(user->getSocket()))
                 return ;

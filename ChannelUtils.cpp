@@ -20,23 +20,49 @@ void Server::removeChannel(std::string name)
 
 void Server::addClientToChannel(std::string name, Client *client, std::string password)
 {
-    if (channels[name]->getKey() != password)
+    //key확인
+    if (channels[name]->isModeApplied(KEY))
     {
-        sendResponse("error", client);
+        //:irc.local 475 root_ #hello :Cannot join channel (incorrect channel key)
+        if (channels[name]->getKey() != password)
+            badChannelKey(client, name);
     }
-    else
-        channels[name]->addClient(client);
+
+    //invite된 사람인지 확인
+    //:irc.local 473 root_ #hello :Cannot join channel (invite only)
+    if (channels[name]->isModeApplied(INVITE))
+    {
+        if (!channels[name]->isInvited(client))
+        {
+            inviteOnly(client, name);
+            throw std::runtime_error("invite only");
+        }
+    }
+
+    //limit모드인지 확인
+    if (channels[name]->isModeApplied(LIMIT))
+    {
+        if (channels[name]->getLimit() <= channels[name]->getClients().size())
+            channelIsFull(client, name);
+    }
     
+    channels[name]->addClient(client);
 }
 
 void Server::removeClientFromChannel(std::string name, Client *client)
 {
+    //모든 클라이언트에게 알림
+    //:root!root@127.0.0.1 KICK #hello root :sdjfjklsdflfds
     channels[name]->removeClient(client);
+    //밴 목록에 추가
 }
 
 void Server::sendToChannel(std::string name, std::string msg)
 {
-
+    std::vector<Client*> members = channels[channelName]->getChannelMembers();
+    for (size_t i = 0; i < members.size(); i++) {
+        sendResponse(userList, members[i]);
+    }
 }
 
 bool Server::isOperatorClient(std::string channelName, int fd)
@@ -52,7 +78,6 @@ bool Server::isChannelModeApplied(std::string channelName, ChannelMode mode)
 Channel *Server::getChannel(std::string channelName)
 {
     return (channels[channelName]);
-    throw std::runtime_error("no channel");
 }
 
 std::string Server::getChannelModes(std::string channelName)

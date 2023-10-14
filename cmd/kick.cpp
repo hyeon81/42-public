@@ -13,15 +13,14 @@ void Server::kick(MessageInfo &msg, Client *client)
             Client *user = getClient(msg.params[1]);
             //존재하지 않은 유저인지 확인
             if (!user)
-            {
                 noSuchNick(client->getSocket(), client->getNickname(), param);
-                throw std::runtime_error("no such user");
-            }
             //운영자인지 확인
             if (isOperatorClient(msg.params[0], client->getSocket()))
                 removeClientFromChannel(msg.params[0], user);
-            // else
-            //     channelOperatorPrivilegesNeeded(client->getSocket(), client->getNickname(), channelName);
+            else
+                channelOperatorPrivilegesNeeded(client->getSocket(), client->getNickname(), channelName);
         }
-    }
+    } 
+    else
+        noSuchChannel(client->getSocket(), client->getNickname(), channelName);
 }

@@ -50,9 +50,7 @@ void Server::join(MessageInfo &msg, Client *client)
     // std::cout << "join" << std::endl;
 
     if (!msg.params.size()) {
-        std::string errorMsg = ":ft_irc 461 " + client->getNickname() + " JOIN :Not enough parameters";
-        sendResponse(errorMsg, client);
-        // throw std::runtime_error("no params");
+        notEnoughParams(client->getSocket(), client->getNickname(), msg.cmd);
     }
 
     if (msg.params[0][0] != '#' && msg.params[0][0] != '&') 
@@ -61,10 +59,12 @@ void Server::join(MessageInfo &msg, Client *client)
         return;
     }
     std::string channelName = msg.params[0].erase(0, 1);
-
+    
     // 채널이 이미 존재한다면
     if (isExistChannel(channelName)) {
         std::string password = "";
+
+        //유저가 벤인지 확인 후 벤이면 아무런 액션x
 
         if (msg.params.size() == 2) {
             password = msg.params[1];
@@ -104,7 +104,8 @@ void Server::join(MessageInfo &msg, Client *client)
         addClientToChannel(channelName, client, "");
 
         // 필요한 경우 해당 클라이언트를 operator로 설정하는 코드를 추가
-
+        channels[channelName]->setOperatorFd(client);
+        
         // 새로운 채널에 클라이언트가 참가했음을 다른 사용자에게 알린다
         std::string joinMessage = ":" + client->getNickname() + "!" + client->getUsername()
                 + "@127.0.0.1 JOIN :" + channelName + "\r\n";

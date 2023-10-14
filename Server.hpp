@@ -84,7 +84,11 @@ class Server{
         void channelOperatorPrivilegesNeeded(int fd, std::string nickname, std::string channelName);
         void sendModeMessage(Client *client, std::string channelName, std::string mode);
         void invalidModeParam(Client *client, std::string channelName, std::string modeName);
-        
+        void badChannelKey(Client *client, std::string channelName);
+        void channelIsFull(Client *client, std::string channelName);
+        void inviteOnly(Client *client, std::string channelName);
+        void sendMessage(Client *client, std::string cmd, std::string msg);
+
         /* debug */
         void showInfo();
 };
