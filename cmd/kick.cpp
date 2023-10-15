@@ -16,7 +16,13 @@ void Server::kick(MessageInfo &msg, Client *client)
                 noSuchNick(client->getSocket(), client->getNickname(), param);
             //운영자인지 확인
             if (isOperatorClient(msg.params[0], client->getSocket()))
+            {
                 removeClientFromChannel(msg.params[0], user);
+                //kick 메세지 보내기
+                //:root!root@127.0.0.1 KICK #hello root_ :
+                std::string msg = "KICK " + channelName + " " + user->getNickname() + " " + user.getNickname() + " :";
+                sendMessageAll(client, msg);
+            }
             else
                 channelOperatorPrivilegesNeeded(client->getSocket(), client->getNickname(), channelName);
         }

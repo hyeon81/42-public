@@ -105,29 +105,29 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
         //오류없다는 것이므로 +i로 set이 된다.
         //mode가 set 되었다는 메세지 전송
         //:root!root@127.0.0.1 MODE #hello :-i
-        sendModeMessage(client, channelName, "+i");
+        std::string msg = "MODE " + channelName + " :+i";
+        sendMessageAll(client, msg);
     }
     //Set/remove the restrictions of the TOPIC command to channel operators (TOPIC 명령어의 제한 두는 것을set/remove)
     else if (mode == TOPIC) 
     {
         //2. 채널 이름이 맞다면? operator 전용으로 변경 (mode의 topic이 1이라는건? topic을 operator만 제한한다는 걸로 받아들이기. 고로 여기서 설정해줄건x)
-        sendModeMessage(client, channelName, "+t");
+        //:root_!root@127.0.0.1 MODE #hello :+t
+        std::string msg = "MODE " + channelName + " :+t";
+        sendMessageAll(client, msg); 
     }
     //:root_!root@127.0.0.1 MODE #hello +k :hi
     //한번 적용되면 바꿀 수 없나벼
     else if (mode == KEY)
     {
         if (param.empty())
-        {
             invalidModeParam(client, channelName, "k *");
-            return ;
-        }
         else
         {
             //키가 규칙에 맞는지 체크해야함. 어디서 볼수있지?
             channel->setKey(param);
-            std::string modStr = "+k :" + param;
-            sendModeMessage(client, channelName, modStr);
+            std::string msg = "MODE " + channelName + " +k :" + param;
+            sendMessageAll(client, msg);
         }
     }
     //MODE #hello +o root
@@ -158,8 +158,9 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
                 return ;
             channel->addOperator(user);
             //이후 클라이언트에게 operator 메시지 전송
-            std::string modStr = "+o" + param;
-            sendModeMessage(client, channelName, "+o");        
+            //:root_!root@127.0.0.1 MODE #hello +o :root
+            std::string msg = "MODE " + channelName + " +o :" + param;
+            sendMessageAll(client, msg);     
         }
     }
     else if (mode == LIMIT)
@@ -182,8 +183,8 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
                 return ;
             }
             channel->setLimit(limit);
-            std::string modStr = "+l :" + param;
-            sendModeMessage(client, channelName, modStr);
+            std::string msg = "MODE " + channelName + " +o :" + param;
+            sendMessageAll(client, msg);
         }
     }
     channel->setMode(mode);
@@ -195,15 +196,22 @@ void Server::removeChannelMode(std::string channelName, ChannelMode mode, std::s
     if (!channel->isModeApplied(mode))
         return ;
     if (mode == INVITE)
-        sendModeMessage(client, channelName, "-i");
-    else if (mode == TOPIC) 
-        sendModeMessage(client, channelName, "-t");        
+    {
+        //:root_!root@127.0.0.1 MODE #hello :-i
+        std::string msg = "MODE " + channelName + " :-i";
+        sendMessageAll(client, msg);
+    }
+    else if (mode == TOPIC)
+    {
+        std::string msg = "MODE " + channelName + " :-t";
+        sendMessageAll(client, msg);
+    }
     else if (mode == KEY)
     {
-        //키 제거
-        channel->removeKey();
-        std::string modStr = "-t :" + channel->getKey();
-        sendModeMessage(client, channelName, modStr);
+        //키 모드
+        //:root_!root@127.0.0.1 MODE #hello -k :123
+        std::string msg = "MODE " + channelName + " -k :" + getKey();
+        sendMessageAll(client, msg);
     }
     else if (mode == OPER)
     {
@@ -221,12 +229,12 @@ void Server::removeChannelMode(std::string channelName, ChannelMode mode, std::s
             Client *user = getClient(param); //없는 유저면 throw 되려나?
             if (!user)
                 noSuchNick(client->getSocket(), client->getNickname(), param);
-            //inviteClient
             if (!channel->isOperator(user->getSocket()))
-                return ;
+                throw std::runtime_error("not operator");
+            //:root_!root@127.0.0.1 MODE #hello -o :root_
             channel->removeOperator(user);
-            std::string modStr = "-o :" + param;
-            sendModeMessage(client, channelName, modStr);
+            std::string msg = "MODE " + channelName + " -o :" + param;
+            sendMessageAll(client, msg);
         }
     }
     else if (mode == LIMIT)
@@ -235,8 +243,8 @@ void Server::removeChannelMode(std::string channelName, ChannelMode mode, std::s
         std::ostringstream oss;
         oss << channel->getLimit();
         std::string result = oss.str();
-        std::string modStr = "-l :" + result;
-        sendModeMessage(client, channelName, modStr);
+        std::string msg = "MODE " + channelName + " -l :" + result;
+        sendMessageAll(client, msg);
     }
     channels[channelName]->removeMode(mode);
 }

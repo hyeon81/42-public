@@ -75,20 +75,24 @@ class Server{
         
         /* utils */
         unsigned int convertPort(char *port);
+
+        /* send */
+        void sendMessage(Client *client, std::string cmd, std::string comment);
+        void sendMessageAll(Client *client, std::string msg);
         void sendResponse(std::string msg, Client *client);
+        void invitingRPL(int fd, std::string nickname, std::string channelName);
+
+        /* error send */
         void noSuchNick(int fd, std::string nickname, std::string params);
         void noSuchChannel(int fd, std::string nickname, std::string params);
         void notEnoughParams(int fd, std::string nickname, std::string params);
-        void invitingRPL(int fd, std::string nickname, std::string channelName);
         void noPrivileges(int fd, std::string nickname, std::string params);
         void channelOperatorPrivilegesNeeded(int fd, std::string nickname, std::string channelName);
-        void sendModeMessage(Client *client, std::string channelName, std::string mode);
         void invalidModeParam(Client *client, std::string channelName, std::string modeName);
         void badChannelKey(Client *client, std::string channelName);
         void channelIsFull(Client *client, std::string channelName);
         void inviteOnly(Client *client, std::string channelName);
-        void sendMessage(Client *client, std::string cmd, std::string msg);
-
+ 
         /* debug */
         void showInfo();
 };

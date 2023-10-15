@@ -91,22 +91,35 @@ void Server::invalidModeParam(Client *client, std::string channelName, std::stri
 }
 
 
-//:root!root@127.0.0.1 MODE #hello :+i
-void Server::sendModeMessage(Client *client, std::string channelName, std::string mode)
-{
-    //<nick>!<user>@<host>
-    std::string msg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 MODE " + channelName + " :" + mode + "\r\n";
-    std::cout << "***send: " << msg << std::endl;
-    send(client->getSocket(), msg.c_str(), msg.size(), 0);
-}
+// //:root!root@127.0.0.1 MODE #hello :+i
+// void Server::sendModeMessage(Client *client, std::string channelName, std::string mode)
+// {
+//     //<nick>!<user>@<host>
+//     std::string msg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 MODE " + channelName + " :" + mode + "\r\n";
+//     std::cout << "***send: " << msg << std::endl;
+//     send(client->getSocket(), msg.c_str(), msg.size(), 0);
+// }
 
 //:root!root@127.0.0.1 KICK #hello root :sdjfjklsdflfds
 //cmd = "KICK #hello root"
 //유저들에게 보내는 메세지
-void Server::sendMessage(Client *client, std::string cmd, std::string msg)
+void Server::sendMessage(Client *client, std::string cmd, std::string comment)
 {
     //<nick>!<user>@<host>
-    std::string msg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + cmd + " :" + msg + "\r\n";
+    std::string msg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + cmd + " :" + comment + "\r\n";
     std::cout << "***send: " << msg << std::endl;
     send(client->getSocket(), msg.c_str(), msg.size(), 0);
+}
+
+//:root_!root@127.0.0.1 TOPIC #hello :124
+//모든 유저들에게 보내는 메세지
+void Server::sendMessageAll(Client *client, std::string msg)
+{
+    std::vector<Client*> members = channels[channelName]->getChannelMembers();
+
+    std::string m = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + msg "\r\n";
+    std::cout << "***send: " << m << std::endl;
+    for (size_t i = 0; i < members.size(); i++) {
+        send(members[i]->getSocket(), m.c_str(), m.size(), 0);
+    }
 }

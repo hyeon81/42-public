@@ -24,14 +24,14 @@ void Server::invite(MessageInfo &msg, Client *client)
             //메세지 전송
             //:irc.local 341 root_ root__ :#hi
             //:root_!root@127.0.0.1 INVITE root__ :#hi
-            // sendMessage(Client *client, std::string cmd, std::string msg);
+            // sendMessage(Client *client, std::string cmd, std::string comment);
 
             //초대받은 유저에게 보내기
-            std::string msgs = ":ft_irc 341 " + user->getNickname() + " " + client->getNickname() + " :" + channelName;
-            sendResponse(msgs, user);
+            std::string invite_msg = ":ft_irc 341 " + user->getNickname() + " " + client->getNickname() + " :" + channelName;
+            sendResponse(invite_msg, user);
             //모든 사람에게 보내기
-            std::string cmd = "INVITE " + user->getNickname();
-            sendMessage(client, cmd, channelName);
+            std::string allMsg = "INVITE " + user->getNickname() + " :" + channelName;
+            sendMessageAll(client, allMsg);
         }
     }
     else
