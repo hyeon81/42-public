@@ -6,10 +6,7 @@ void Server::user(MessageInfo &msg, Client *client)
 {
     //유저일때는 parmas 없어도 응답 보냄.
     if (msg.params.size() < 4)
-    {
-        std::string errorMsg = "<client> <command> :Not enough parameters";
-        sendResponse(errorMsg, client);
-    }
+        notEnoughParams(client->getSocket(), client->getNickname(), msg.cmd);
     //hostname
     std::string username = msg.params[0];
     std::string ip = msg.params[1]; // 127.0.0.1
@@ -21,11 +18,14 @@ void Server::user(MessageInfo &msg, Client *client)
     //인자가 덜 들어왔을때 처
     //username, realname이 겹칠 경우 조치 필요
     client->setUsername(username, realname);
-    client->setIp(ip);
     // //유저가 들어왔을때 client 등록한다고 판단. pass와 nick이 먼저 들어와야함.
     // client->setValid(true); 
     addClient(client);
-    sendResponse("<client> Welcome to the <networkname> Network, <nick>[!<user>@<host>]", client);
+    //RPL_WELCOME (001) 
+    //"<client> :Welcome to the <networkname> Network, <nick>[!<user>@<host>]"
+    //:irc.local 001 root :Welcome to the Localnet IRC Network root!root@127.0.0.1
+    std::string msg = ":ft_irc 001 " + client->getNickname() + " :Welcome to the Localnet IRC Network " + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1";
+    sendResponse(msg, client);
 }
 
 

@@ -53,18 +53,20 @@ void Server::join(MessageInfo &msg, Client *client)
         notEnoughParams(client->getSocket(), client->getNickname(), msg.cmd);
     }
 
-    if (msg.params[0][0] != '#' && msg.params[0][0] != '&') 
+    std::string channelName = msg.params[0];
+    if (channelName[0] != '#' && channelName[0] != '&') 
     {
-        sendResponse("channelnameerror", client);
-        return;
+        //이 경우엔 어떤 에러 메세지를 보내야 하는거지?
+        //ERR_BADCHANMASK (476) 
+        std::string msg = ":ft_irc 476 " + client->getNickname() + " " + channelName + " :Bad Channel Mask";
+        sendResponse(msg, client);
+        throw std::runtime_error("bad channel mask");
     }
     std::string channelName = msg.params[0].erase(0, 1);
     
     // 채널이 이미 존재한다면
     if (isExistChannel(channelName)) {
         std::string password = "";
-
-        //유저가 벤인지 확인 후 벤이면 아무런 액션x
 
         if (msg.params.size() == 2) {
             password = msg.params[1];
@@ -73,7 +75,7 @@ void Server::join(MessageInfo &msg, Client *client)
 
         // 새클라이언트가 채널에 참가했음을 알림
         std::string joinMessage = ":" + client->getNickname() + "!" + client->getUsername()
-                + "@127.0.0.1 JOIN :" + channelName + "\r\n";
+                + "@127.0.0.1 JOIN :" + channelName;
         sendResponse(joinMessage, client);
 
         /* 채널의 모든 멤버에게 새멤버를 알림
@@ -96,7 +98,7 @@ void Server::join(MessageInfo &msg, Client *client)
         }
 
         // JOIN 명령의 끝을 알리는 메시지
-        std::string endMessage = ":ft_irc 366 " + client->getNickname() + " " + channelName + " :End of /NAMES list.\n";
+        std::string endMessage = ":ft_irc 366 " + client->getNickname() + " " + channelName + " :End of /NAMES list.";
         sendResponse(endMessage, client);
     } 
     else {// 채널이 존재하지 않는 경우 새로운 채널을 생성
@@ -108,11 +110,11 @@ void Server::join(MessageInfo &msg, Client *client)
         
         // 새로운 채널에 클라이언트가 참가했음을 다른 사용자에게 알린다
         std::string joinMessage = ":" + client->getNickname() + "!" + client->getUsername()
-                + "@127.0.0.1 JOIN :" + channelName + "\r\n";
+                + "@127.0.0.1 JOIN :" + channelName;
         sendResponse(joinMessage, client);
 
         // JOIN 명령의 끝을 알리는 메시지
-        std::string endMessage = ":ft_irc 366 " + client->getNickname() + " " + channelName + " :End of /NAMES list.\n";
+        std::string endMessage = ":ft_irc 366 " + client->getNickname() + " " + channelName + " :End of /NAMES list.";
         sendResponse(endMessage, client);
     }
 }

@@ -179,3 +179,19 @@ std::vector<Client*> Channel::getChannelMembers()
 
     return members;
 }
+
+bool Channel::isMember(Client *client)
+{
+    std::cout << "Channel isMember" << std::endl;
+    if (clients.find(client->getSocket()) != clients.end())
+        return (true);
+    return (false);
+}
+
+bool Channel::isInvited(Client *client)
+{
+    std::cout << "Channel isInvited" << std::endl;
+    if (iClients.find(client->getSocket()) != iClients.end())
+        return (true);
+    return (false);
+}

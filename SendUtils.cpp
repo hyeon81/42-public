@@ -45,7 +45,7 @@ void Server::noPrivileges(int fd, std::string nickname, std::string params)
     //481
 }
 
-void Server::channelOperatorPrivilegesNeeded(int fd, std::string nickname, std::string channelName)
+void Server::noChannelOperPrivileges(int fd, std::string nickname, std::string channelName)
 {
     std::string msg = ":ft_irc 482 " + nickname +  " " + channelName + " :You're not channel operator\r\n";
     std::cout << "***send: " << msg << std::endl;
@@ -103,17 +103,17 @@ void Server::invalidModeParam(Client *client, std::string channelName, std::stri
 //:root!root@127.0.0.1 KICK #hello root :sdjfjklsdflfds
 //cmd = "KICK #hello root"
 //유저들에게 보내는 메세지
-void Server::sendMessage(Client *client, std::string cmd, std::string comment)
+void Server::sendMessage(Client *client, std::string cmd)
 {
     //<nick>!<user>@<host>
-    std::string msg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + cmd + " :" + comment + "\r\n";
+    std::string msg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + cmd + "\r\n";
     std::cout << "***send: " << msg << std::endl;
     send(client->getSocket(), msg.c_str(), msg.size(), 0);
 }
 
 //:root_!root@127.0.0.1 TOPIC #hello :124
 //모든 유저들에게 보내는 메세지
-void Server::sendMessageAll(Client *client, std::string msg)
+void Server::sendMessageAll(Client *client, std::string msg, std::string channelName)
 {
     std::vector<Client*> members = channels[channelName]->getChannelMembers();
 
@@ -122,4 +122,13 @@ void Server::sendMessageAll(Client *client, std::string msg)
     for (size_t i = 0; i < members.size(); i++) {
         send(members[i]->getSocket(), m.c_str(), m.size(), 0);
     }
+}
+
+//irc.local 441 root_ root #hello :They are not on that channel
+void Server::notOnChannel(Client *client, std::string channelName, std::string userName)
+{
+    std::string msg = ":ft_irc 441 " + client->getNickname() + " " + userName + " " + channelName + " :They are not on that channel\r\n";
+    std::cout << "***send: " << msg << std::endl;
+    send(client->getSocket(), msg.c_str(), msg.size(), 0);
+    throw std::runtime_error("not on channel");
 }

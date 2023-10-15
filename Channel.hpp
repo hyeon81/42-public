@@ -23,7 +23,6 @@ class Channel{
         std::map<int, Client*>clients;
         std::map<int, Client*>oClients;
         std::map<int, Client*>iClients;
-        std::map<int, Client*>bClients;
         std::string key;
         unsigned int limit;
         int operatorFd;
@@ -60,7 +59,8 @@ class Channel{
         void removeOperator(Client *client);
         void removeInvite(Client *client);
         std::vector<Client*> getChannelMembers();
-
+        bool isMember(Client *client);
+        bool isInvited(Client *client);
 
         /* debug */
         void showInfo();

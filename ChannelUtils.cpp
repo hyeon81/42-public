@@ -42,7 +42,7 @@ void Server::addClientToChannel(std::string name, Client *client, std::string pa
     //limit모드인지 확인
     if (channels[name]->isModeApplied(LIMIT))
     {
-        if (channels[name]->getLimit() <= channels[name]->getClients().size())
+        if (channels[name]->getLimit() <= channels[name]->getChannelMembers().size())
             channelIsFull(client, name);
     }
     

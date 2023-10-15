@@ -76,8 +76,8 @@ class Server{
         unsigned int convertPort(char *port);
 
         /* send */
-        void sendMessage(Client *client, std::string cmd, std::string comment);
-        void sendMessageAll(Client *client, std::string msg);
+        void sendMessage(Client *client, std::string cmd);
+        void sendMessageAll(Client *client, std::string msg, std::string channelName);
         void sendResponse(std::string msg, Client *client);
         void invitingRPL(int fd, std::string nickname, std::string channelName);
 
@@ -86,11 +86,12 @@ class Server{
         void noSuchChannel(int fd, std::string nickname, std::string params);
         void notEnoughParams(int fd, std::string nickname, std::string params);
         void noPrivileges(int fd, std::string nickname, std::string params);
-        void channelOperatorPrivilegesNeeded(int fd, std::string nickname, std::string channelName);
+        void noChannelOperPrivileges(int fd, std::string nickname, std::string channelName);
         void invalidModeParam(Client *client, std::string channelName, std::string modeName);
         void badChannelKey(Client *client, std::string channelName);
         void channelIsFull(Client *client, std::string channelName);
         void inviteOnly(Client *client, std::string channelName);
+        void notOnChannel(Client *client, std::string channelName, std::string userName);
  
         /* debug */
         void showInfo();

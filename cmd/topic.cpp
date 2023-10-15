@@ -6,6 +6,7 @@ void Server::topic(MessageInfo &msg, Client *client, Channel *channel)
 {
     if(msg.params.size() == 0)
     {
+        notEnoughParams(client->getSocket(), client->getNickname(), msg.cmd);
         //"<client> <command> :Not enough parameters"
         // or  std::cout << channels[msg.params[0]]->getTopic() << std::endl;
     }
@@ -15,9 +16,10 @@ void Server::topic(MessageInfo &msg, Client *client, Channel *channel)
         if (msg.params.size() < 2) 
         {
             // 주제를 확인하는 경우
+            //:root_!root@127.0.0.1 TOPIC #hello :mellow
             std::string topic = channel->getTopic(); 
-            std::string msg = channelName + " " + topic;
-            sendResponse(msg, client);
+            std::string msg = "TOPIC " + channelName + " :" + topic;
+            sendMessage(client, msg);
         }
         else 
         {
@@ -28,20 +30,15 @@ void Server::topic(MessageInfo &msg, Client *client, Channel *channel)
             {
                 //:irc.local 482 root #hello :You do not have access to change the topic on this channel
                 if (!channel->isOperator(client->getSocket()))
-                    channelOperatorPrivilegesNeeded(client->getSocket(), client->getNickname(), channelName);
+                    noChannelOperPrivileges(client->getSocket(), client->getNickname(), channelName);
             }
             channel->setTopic(newTopic);
             std::string msg = "TOPIC " + channelName + " :" newTopic;
             // :root_!root@127.0.0.1 TOPIC #hello :124
-            // :root_!root@127.0.0.1 TOPIC #hello :124
             //모든 유저들에게 알림
-            sendMessageAll(client, msg);
+            sendMessageAll(client, msg, channelName);
         }
     }
     else 
-    {
-        std::string msg = "<client> <channel> :No such channel";
-        sendResponse(msg, client);
-    }
-    
+        noSuchChannel(client->getSocket(), client->getNickname(), channelName);
 }

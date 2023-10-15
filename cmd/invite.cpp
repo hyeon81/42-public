@@ -21,17 +21,14 @@ void Server::invite(MessageInfo &msg, Client *client)
             if (!user)
                 noSuchNick(client->getSocket(), client->getNickname(), msg.params[1]);
             addChannelInvite(channelName, user->getNickname());
-            //메세지 전송
-            //:irc.local 341 root_ root__ :#hi
-            //:root_!root@127.0.0.1 INVITE root__ :#hi
-            // sendMessage(Client *client, std::string cmd, std::string comment);
-
             //초대받은 유저에게 보내기
+            //:irc.local 341 root_ root__ :#hi
             std::string invite_msg = ":ft_irc 341 " + user->getNickname() + " " + client->getNickname() + " :" + channelName;
             sendResponse(invite_msg, user);
             //모든 사람에게 보내기
+            //:root_!root@127.0.0.1 INVITE root__ :#hi
             std::string allMsg = "INVITE " + user->getNickname() + " :" + channelName;
-            sendMessageAll(client, allMsg);
+            sendMessageAll(client, allMsg, channelName);
         }
     }
     else

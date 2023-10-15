@@ -79,10 +79,7 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
 {
     Channel *channel = channels[channelName];
     if (channel->isOperator(client->getSocket()) == false)
-    {
-        channelOperatorPrivilegesNeeded(client->getSocket(), client->getNickname(), channelName);
-        return ;
-    }
+        noChannelOperPrivileges(client->getSocket(), client->getNickname(), channelName);
     if (mode != OPER && mode != LIMIT && channel->isModeApplied(mode))
         return ;
     //mode에 따라서 채널 모드 변경. 채널 모드에 따라 액션 실행 필요
@@ -106,7 +103,7 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
         //mode가 set 되었다는 메세지 전송
         //:root!root@127.0.0.1 MODE #hello :-i
         std::string msg = "MODE " + channelName + " :+i";
-        sendMessageAll(client, msg);
+        sendMessageAll(client, msg, channelName);
     }
     //Set/remove the restrictions of the TOPIC command to channel operators (TOPIC 명령어의 제한 두는 것을set/remove)
     else if (mode == TOPIC) 
@@ -114,7 +111,7 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
         //2. 채널 이름이 맞다면? operator 전용으로 변경 (mode의 topic이 1이라는건? topic을 operator만 제한한다는 걸로 받아들이기. 고로 여기서 설정해줄건x)
         //:root_!root@127.0.0.1 MODE #hello :+t
         std::string msg = "MODE " + channelName + " :+t";
-        sendMessageAll(client, msg); 
+        sendMessageAll(client, msg, channelName); 
     }
     //:root_!root@127.0.0.1 MODE #hello +k :hi
     //한번 적용되면 바꿀 수 없나벼
@@ -127,7 +124,7 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
             //키가 규칙에 맞는지 체크해야함. 어디서 볼수있지?
             channel->setKey(param);
             std::string msg = "MODE " + channelName + " +k :" + param;
-            sendMessageAll(client, msg);
+            sendMessageAll(client, msg, channelName);
         }
     }
     //MODE #hello +o root
@@ -142,11 +139,7 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
         //:irc.local 696 root_ #hello o * :You must specify a parameter for the op mode. Syntax: <nick>
         //"<client> <target chan/user> <mode char> <parameter> :<description>"
         if (param.empty())
-        {
             invalidModeParam(client, channelName, "o *");
-            // notEnoughParams(client->getSocket(), client->getNickname(), "MODE"); //수정 필요
-            return ;       
-        }
         else
         {
             Client *user = getClient(param); //없는 유저면 throw 되려나?
@@ -160,7 +153,7 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
             //이후 클라이언트에게 operator 메시지 전송
             //:root_!root@127.0.0.1 MODE #hello +o :root
             std::string msg = "MODE " + channelName + " +o :" + param;
-            sendMessageAll(client, msg);     
+            sendMessageAll(client, msg, channelName);
         }
     }
     else if (mode == LIMIT)
@@ -184,7 +177,7 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
             }
             channel->setLimit(limit);
             std::string msg = "MODE " + channelName + " +o :" + param;
-            sendMessageAll(client, msg);
+            sendMessageAll(client, msg, channelName);
         }
     }
     channel->setMode(mode);
@@ -199,19 +192,19 @@ void Server::removeChannelMode(std::string channelName, ChannelMode mode, std::s
     {
         //:root_!root@127.0.0.1 MODE #hello :-i
         std::string msg = "MODE " + channelName + " :-i";
-        sendMessageAll(client, msg);
+        sendMessageAll(client, msg, channelName);
     }
     else if (mode == TOPIC)
     {
         std::string msg = "MODE " + channelName + " :-t";
-        sendMessageAll(client, msg);
+        sendMessageAll(client, msg, channelName);
     }
     else if (mode == KEY)
     {
         //키 모드
         //:root_!root@127.0.0.1 MODE #hello -k :123
         std::string msg = "MODE " + channelName + " -k :" + getKey();
-        sendMessageAll(client, msg);
+        sendMessageAll(client, msg, channelName);
     }
     else if (mode == OPER)
     {
@@ -234,7 +227,7 @@ void Server::removeChannelMode(std::string channelName, ChannelMode mode, std::s
             //:root_!root@127.0.0.1 MODE #hello -o :root_
             channel->removeOperator(user);
             std::string msg = "MODE " + channelName + " -o :" + param;
-            sendMessageAll(client, msg);
+            sendMessageAll(client, msg, channelName);
         }
     }
     else if (mode == LIMIT)
@@ -244,7 +237,7 @@ void Server::removeChannelMode(std::string channelName, ChannelMode mode, std::s
         oss << channel->getLimit();
         std::string result = oss.str();
         std::string msg = "MODE " + channelName + " -l :" + result;
-        sendMessageAll(client, msg);
+        sendMessageAll(client, msg, channelName);
     }
     channels[channelName]->removeMode(mode);
 }

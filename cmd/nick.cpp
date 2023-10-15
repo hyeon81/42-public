@@ -64,46 +64,51 @@ void Server::nick(MessageInfo &msg, Client *client)
     std::string errorMsg;
     if (!msg.params.size()) // 아무것도 안들어오면 그냥 무시 
     {
-        errorMsg = "<client> :No nickname given" ; //   "<client> :No nickname given" // Error: parameters error\r\n
-        sendResponse(errorMsg, &client);
-        return ;
+        //ERR_NONICKNAMEGIVEN (431) 
+        //"<client> :No nickname given" // Error: parameters error\r\n
+        errorMsg = "ft_irc 431 :No nickname given";
+        sendResponse(errorMsg, client);
+        throw std::runtime_error("no nickname given");
     }
-
-    if(msg.params[0].length() > 9) // 9를 초과할 경우 
+    std::string nickName = msg.params[0];
+    if(nickName.length() > 9) // 9를 초과할 경우 
     {
-        errorMsg = "<client> <nick> :Erroneus nickname";
-        sendResponse(errorMsg, &client);
-        return ;
+        //ERR_ERRONEUSNICKNAME (432) 
+        //"<client> <nick> :Erroneus nickname"
+        errorMsg = "ft_irc 432 " + nickName + " :Erroneus nickname";
+        sendResponse(errorMsg, client);
+        throw std::runtime_error("erroneus nickname");
     }
 
-    for (size_t i = 0; i < msg.params[0].length(); ++i) // 허용되지 않은 문자가 있는 경우
+    for (size_t i = 0; i < nickName .length(); ++i) // 허용되지 않은 문자가 있는 경우
     { 
-        char c = msg.params[0][i]; //영숫자 대괄호( []{}), 백슬래시( \) 및 파이프( |) 문자를 허용
+        char c = nickName [i]; //영숫자 대괄호( []{}), 백슬래시( \) 및 파이프( |) 문자를 허용
         if (!(isalnum(c) || c == '[' || c == ']' || c == '{' || c == '}' || c == '\\' || c == '|'))
         {
-            errorMsg = "<client> <nick> :Erroneus nickname";
-            sendResponse(errorMsg, &client);
-            return ;
+            errorMsg = "ft_irc 432 " + nickName + " :Erroneus nickname";
+            sendResponse(errorMsg, client);
+            throw std::runtime_error("erroneus nickname");
         }
     }
 
-    for(std::map<int, Client>::iterator it = clients.begin(); it != clients.end(); ++it)
+    for(std::map<int, Client*>::iterator it = clients.begin(); it != clients.end(); ++it)
     {//같은 nick이 있을 경우 있다고 알려야하나 에러를 내보내야하나
-        if (it->second.getNickname() == msg.params[0])
+        if (it->second->getNickname() == nickName)
         {
-            errorMsg = "<client> <nick> :Nickname is already in use";
-            sendResponse(errorMsg, &client);
-            return ;
+            //ERR_NICKNAMEINUSE (433) 
+            //"<client> <nick> :Nickname is already in use"
+            errorMsg = "ft_irc 433 " + nickName + " :Nickname is already in use";
+            sendResponse(errorMsg, client);
+            throw std::runtime_error("nickname is already in use");
         }
     }
-
 
     // std::string oldNick = client.getNickname();
     //출력 -> :닉네임!사용자이름@IP NICK :새로운닉네임
 
-	std::string responseMsg = ":" + client.getNickname() + "!" + client.getUsername() + "@" + me->getIP() + " NICK :" + msg.params[0] + "\r\n";
+	std::string responseMsg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 NICK :" + nickName;
     sendResponse(responseMsg, client);
-    client.setNickname(msg.params[0]);
+    client->setNickname(nickName);
 
     //sendNicknameChangeToAllClients(oldNick, nickName); 모든 유저에게 알려야하나?
 }
