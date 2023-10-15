@@ -15,13 +15,13 @@
 void Server::privmsg(MessageInfo &msg, Client *client)
 {
     if(!msg.params.size())
-            sendResponse(client->getNickname() + "No args ", client);      
+        notEnoughParams(client->getSocket(), client->getNickname(), "");
     if(msg.params[0][0] == '#') //channel 브로드 캐스트 // 개별적으로..
     {
         if(isExistChannel(msg.params[0]))
             sendMessageAll(client, msg.params[1], msg.params[0]);
         else
-            sendResponse(client->getNickname() + "No such channel", client);
+            noSuchChannel(client->getSocket(), client->getNickname(), msg.params[0]);
     }
     else //client 401
     {

@@ -9,10 +9,7 @@
 void Server::part(MessageInfo &msg, Client *client)
 {
     if (!msg.params.size())
-    {
-        sendResponse("no params", client);
-        return;
-    }
+        notEnoughParams(client->getSocket(), client->getNickname(), "");
     if (isExistChannel(msg.params[0])) // 존재한다면
     {
         removeClientFromChannel(msg.params[0], client); // 삭제
@@ -29,5 +26,5 @@ void Server::part(MessageInfo &msg, Client *client)
         }
     }
     else
-        sendResponse("no channel", client);
+        noSuchChannel(client->getSocket(), client->getNickname(), msg.params[0]);
 }

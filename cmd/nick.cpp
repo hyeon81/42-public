@@ -1,10 +1,5 @@
 #include "../Server.hpp"
-
 /*
-
-     명령: NICK
-   매개변수: <닉네임> [ <홉수> ]
-
    NICK 메시지는 사용자에게 닉네임을 부여하거나 이전 이름을 변경하는 데 사용됩니다.
    하나. <hopcount> 매개변수는 서버에서 표시하기 위해서만 사용됩니다.
    닉이 홈 서버에서 얼마나 멀리 떨어져 있는지. 로컬 연결에는
@@ -23,6 +18,7 @@
    클라이언트에서는 NICK 명령을 삭제하고 킬을 생성하지 마십시오.
 
 */
+
 
 
 
@@ -47,8 +43,6 @@
 
 
 //이미 있는 유저가 들어오면..?
-
-
 
 
 void Server::nick(MessageInfo &msg, Client *client)
@@ -82,7 +76,7 @@ void Server::nick(MessageInfo &msg, Client *client)
 
     for (size_t i = 0; i < nickName .length(); ++i) // 허용되지 않은 문자가 있는 경우
     { 
-        char c = nickName [i]; //영숫자 대괄호( []{}), 백슬래시( \) 및 파이프( |) 문자를 허용
+        char c = nickName [i];
         if (!(isalnum(c) || c == '[' || c == ']' || c == '{' || c == '}' || c == '\\' || c == '|'))
         {
             errorMsg = "ft_irc 432 " + nickName + " :Erroneus nickname";
@@ -92,24 +86,19 @@ void Server::nick(MessageInfo &msg, Client *client)
     }
 
     for(std::map<int, Client*>::iterator it = clients.begin(); it != clients.end(); ++it)
-    {//같은 nick이 있을 경우 있다고 알려야하나 에러를 내보내야하나
-        if (it->second->getNickname() == nickName)
+    {
+        if (it->second->getNickname() == nickName) // 같을 겨우 언더바 처리
         {
-            //ERR_NICKNAMEINUSE (433) 
-            //"<client> <nick> :Nickname is already in use"
-            errorMsg = "ft_irc 433 " + nickName + " :Nickname is already in use";
-            sendResponse(errorMsg, client);
-            throw std::runtime_error("nickname is already in use");
+            client->setNickname( "-" + nickName);
+            std::string responseMsg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 NICK :" + client->getNickname();
+            sendResponse(responseMsg, client);
+            return ;
         }
     }
-
-    // std::string oldNick = client.getNickname();
-    //출력 -> :닉네임!사용자이름@IP NICK :새로운닉네임
-
+    
 	std::string responseMsg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 NICK :" + nickName;
     sendResponse(responseMsg, client);
     client->setNickname(nickName);
-
     //sendNicknameChangeToAllClients(oldNick, nickName); 모든 유저에게 알려야하나?
 }
 
