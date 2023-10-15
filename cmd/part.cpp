@@ -1,19 +1,33 @@
 #include "../Server.hpp"
 
 //PART #test
-/* 채널의 경우 쉼표(,)가 들어오는 경우 체크하기*/
+//   Command: PART
+//Parameters: <channel>{,<channel>} [<reason>]
+// PART명령은 지정된 채널에서 클라이언트를 제거합니다. 
+
+//채널에 아무도 남지 않았다면 채널 삭제..?
 void Server::part(MessageInfo &msg, Client *client)
 {
     if (!msg.params.size())
-        return;
-    if (isExistChannel(msg.params[0]))
     {
-        //채널에 클라이언트 제거
-        removeClientFromChannel(msg.params[0], client);
-        // if (isOperator(client->getSocket()))
-        // {
-        //     //다른 클라이언트를 operator로 설정?
-        //     //얘가 마지막 클라이언트면 채널 제거?
-        // }
+        sendResponse("no params", client);
+        return;
     }
+    if (isExistChannel(msg.params[0])) // 존재한다면
+    {
+        removeClientFromChannel(msg.params[0], client); // 삭제
+        std::string sendMsg = "";
+        if(msg.params[1].size())
+        {
+            sendMsg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + "PART " + msg.params[0] + " " + msg.params[1];
+            sendMessageAll(client, sendMsg, msg.params[0]);
+        }
+        else
+        {
+            sendMsg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + "PART " + msg.params[0];
+            sendMessageAll(client, sendMsg, msg.params[0]);
+        }
+    }
+    else
+        sendResponse("no channel", client);
 }
