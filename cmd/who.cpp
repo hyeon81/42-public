@@ -17,19 +17,6 @@ mask
 */
 
 
-
-
-void Server::sendMessageAll(Client *client, std::string msg, std::string channelName)
-{
-    std::vector<Client*> members = channels[channelName]->getChannelMembers();
-
-    std::string m = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + msg + "\r\n";
-    std::cout << "***send: " << m << std::endl;
-    for (size_t i = 0; i < members.size(); i++) {
-        send(members[i]->getSocket(), m.c_str(), m.size(), 0);
-    }
-}
-
 //352 클라이언트의 정보
 //315 정보의 끝
 
