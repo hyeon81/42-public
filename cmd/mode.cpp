@@ -203,7 +203,7 @@ void Server::removeChannelMode(std::string channelName, ChannelMode mode, std::s
     {
         //키 모드
         //:root_!root@127.0.0.1 MODE #hello -k :123
-        std::string msg = "MODE " + channelName + " -k :" + getKey();
+        std::string msg = "MODE " + channelName + " -k :" + channel->getKey();
         sendMessageAll(client, msg, channelName);
     }
     else if (mode == OPER)

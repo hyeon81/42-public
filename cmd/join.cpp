@@ -52,18 +52,13 @@ void Server::join(MessageInfo &msg, Client *client)
     if (!msg.params.size()) {
         notEnoughParams(client->getSocket(), client->getNickname(), msg.cmd);
     }
-
     std::string channelName = msg.params[0];
     if (channelName[0] != '#' && channelName[0] != '&') 
     {
-        //이 경우엔 어떤 에러 메세지를 보내야 하는거지?
-        //ERR_BADCHANMASK (476) 
         std::string msg = ":ft_irc 476 " + client->getNickname() + " " + channelName + " :Bad Channel Mask";
         sendResponse(msg, client);
         throw std::runtime_error("bad channel mask");
     }
-    std::string channelName = msg.params[0].erase(0, 1);
-    
     // 채널이 이미 존재한다면
     if (isExistChannel(channelName)) {
         std::string password = "";

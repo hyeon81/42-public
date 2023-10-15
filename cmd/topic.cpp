@@ -2,7 +2,7 @@
 
 //TOPIC #test //채널 토픽보여줌
 //TOPIC #test :New topic //채널 토픽 변경
-void Server::topic(MessageInfo &msg, Client *client, Channel *channel)
+void Server::topic(MessageInfo &msg, Client *client)
 {
     if(msg.params.size() == 0)
     {
@@ -11,32 +11,31 @@ void Server::topic(MessageInfo &msg, Client *client, Channel *channel)
         // or  std::cout << channels[msg.params[0]]->getTopic() << std::endl;
     }
     std::string channelName = msg.params[0];
+    Channel *channel = getChannel(channelName);
     if (isExistChannel(channelName)) // 존재한다면..?
     {
         if (msg.params.size() < 2) 
         {
             // 주제를 확인하는 경우
-            //:root_!root@127.0.0.1 TOPIC #hello :mellow
             std::string topic = channel->getTopic(); 
-            std::string msg = "TOPIC " + channelName + " :" + topic;
-            sendMessage(client, msg);
+            std::string sendMsg = "TOPIC " + channelName + " :" + topic;
+            sendMessage(client, sendMsg );
         }
         else 
         {
             //설정
-            std::string newTopic = msg.params[1];
             //권한 확인
-            if (channel.isModeApplied(TOPIC))
+            if (channel->isModeApplied(TOPIC))
             {
                 //:irc.local 482 root #hello :You do not have access to change the topic on this channel
                 if (!channel->isOperator(client->getSocket()))
                     noChannelOperPrivileges(client->getSocket(), client->getNickname(), channelName);
             }
-            channel->setTopic(newTopic);
-            std::string msg = "TOPIC " + channelName + " :" newTopic;
+            channel->setTopic(msg.params[1]);
+            std::string sendMsg  = "TOPIC " + channelName + " :" + msg.params[1];
             // :root_!root@127.0.0.1 TOPIC #hello :124
             //모든 유저들에게 알림
-            sendMessageAll(client, msg, channelName);
+            sendMessageAll(client, sendMsg , channelName);
         }
     }
     else 

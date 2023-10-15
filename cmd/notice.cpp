@@ -1,7 +1,7 @@
 #include "../Server.hpp"
 
 // <nickname> <text>
-void notice(MessageInfo &msg, Client *client) // 정확히 뭔 기능이지.. 감이 안온다...?
+void Server::notice(MessageInfo &msg, Client *client) // 정확히 뭔 기능이지.. 감이 안온다...?
 {
     if (msg.params.size() < 2) 
     {

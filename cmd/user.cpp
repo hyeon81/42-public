@@ -24,8 +24,8 @@ void Server::user(MessageInfo &msg, Client *client)
     //RPL_WELCOME (001) 
     //"<client> :Welcome to the <networkname> Network, <nick>[!<user>@<host>]"
     //:irc.local 001 root :Welcome to the Localnet IRC Network root!root@127.0.0.1
-    std::string msg = ":ft_irc 001 " + client->getNickname() + " :Welcome to the Localnet IRC Network " + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1";
-    sendResponse(msg, client);
+    std::string sendMsg = ":ft_irc 001 " + client->getNickname() + " :Welcome to the Localnet IRC Network " + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1";
+    sendResponse(sendMsg, client);
 }
 
 

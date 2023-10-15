@@ -32,7 +32,8 @@ void Server::privmsg(MessageInfo &msg, Client *client)
             sendResponse(sendMsg, client);
         }
         else
-            sendResponse(client->getNickname() + "No such nick", client);
+            // sendResponse(client->getNickname() + "No such nick", client);
+            noSuchNick(client->getSocket(), client->getNickname(), msg.params[0]);
     }
     ;
 }
