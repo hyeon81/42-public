@@ -48,7 +48,6 @@ class Server{
         void removeClientFromChannel(std::string name, Client *client);
         Client *getClient(std::string nickname);
         Channel *getChannel(std::string channelName);
-        void sendToChannel(std::string name, std::string msg);
         bool isOperatorClient(std::string channelName, int fd);
         void setChannelMode(std::string channelName, ChannelMode mode, std::string param, Client *client);
         void removeChannelMode(std::string channelName, ChannelMode mode, std::string param, Client *client);

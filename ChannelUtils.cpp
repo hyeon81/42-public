@@ -57,14 +57,6 @@ void Server::removeClientFromChannel(std::string name, Client *client)
     //밴 목록에 추가
 }
 
-void Server::sendToChannel(std::string name, std::string msg)
-{
-    std::vector<Client*> members = channels[channelName]->getChannelMembers();
-    for (size_t i = 0; i < members.size(); i++) {
-        sendResponse(userList, members[i]);
-    }
-}
-
 bool Server::isOperatorClient(std::string channelName, int fd)
 {
     return (channels[channelName]->isOperator(fd));
