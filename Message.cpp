@@ -20,7 +20,7 @@ void Message::setMessageInfo(std::string buf)
         rawMsgs = buf.substr(0, pos);
         buf.erase(0, pos + delimiter.length());
 
-        std::cout << "rawMsgs: " << rawMsgs << std::endl;
+        // std::cout << "***rawMsgs: " << rawMsgs << std::endl;
         // rawMsgs 파싱하기 (한줄씩)
         std::stringstream mss(rawMsgs);
         MessageInfo msgInfo;

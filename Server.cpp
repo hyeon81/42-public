@@ -25,8 +25,8 @@ int Server::runServer()
         perror("Socket creation failed");
         return -1;
     }
-    sockaddr_in serverAddress; // serverAddress 구조체는 서버의 주소 정보를 설정
-    memset(&serverAddress, 0, sizeof(serverAddress)); //이거 왜하는거지?
+    sockaddr_in serverAddress;                        // serverAddress 구조체는 서버의 주소 정보를 설정
+    memset(&serverAddress, 0, sizeof(serverAddress)); // 이거 왜하는거지?
 
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_addr.s_addr = INADDR_ANY;
@@ -43,7 +43,7 @@ int Server::runServer()
         perror("Listening failed");
         return -1;
     }
-    fcntl(serverSocket, F_SETFL, O_NONBLOCK); 
+    fcntl(serverSocket, F_SETFL, O_NONBLOCK);
 
     std::cout << "Server listening on port " << PORT << std::endl;
     // kqueue 생성
@@ -126,35 +126,41 @@ int Server::runServer()
     return 0;
 }
 
-
 void Server::communicateClient(int fd, std::string buffer)
 {
-/* 메세지 파싱.. */
-    Client *client = new Client(fd);
+    /* 메세지 파싱.. */
+    Client *client;
+    std::cout << "fd: " << fd << std::endl;
+    std::cout << "buffer: " << buffer << std::endl;
+    
+    if (nClients.find(fd) != nClients.end())
+        client = nClients[fd];
+    else
+        client = new Client(fd);
+    nClients.insert(std::pair<int, Client *>(fd, client));
     /* 메세지 실행. msgs의 크기만큼 */
     client->setMsgs(buffer);
     std::vector<MessageInfo> msgs = client->getMsgs();
     for (unsigned int i = 0; i < msgs.size(); i++)
     {
-        // std::cout << "cmd[0]: " << msgs[i].cmd << std::endl;
-        // std::cout << "params[0]: " << msgs[i].params[0] << std::endl;
-        // std::cout << "params.size: " << msgs[i].params.size() << std::endl;
         runCommand(msgs[i], client);
     }
     // showInfo();
     // client->showInfo();
+    std::cout << "=====end=====" << std::endl;
 }
 
 void Server::runCommand(MessageInfo &msg, Client *client)
 {
-    try {
-        void (Server::*funcs[13])(MessageInfo &msg, Client *client) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
-                                            &Server::part, &Server::names, &Server::topic, &Server::list,
-                                            &Server::invite, &Server::kick, &Server::mode, &Server::privmsg,
-                                            &Server::notice};
-        std::string cmds[13] = {"PASS", "NICK", "USER", "JOIN", "PART", "NAMES", "TOPIC", "LIST", "INVITE", "KICK", "MODE", "PRIVMSG", "NOTICE"};
+    try
+    {
+        void (Server::*funcs[14])(MessageInfo &msg, Client *client) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
+                                                                       &Server::part, &Server::names, &Server::topic, &Server::list,
+                                                                       &Server::invite, &Server::kick, &Server::mode, &Server::privmsg,
+                                                                       &Server::notice, &Server::ping};
+        std::string cmds[14] = {"PASS", "NICK", "USER", "JOIN", "PART", "NAMES", "TOPIC", "LIST", "INVITE", "KICK", "MODE", "PRIVMSG", "NOTICE", "PING"};
 
-        for (int i = 0; i < 13; i++)
+        for (int i = 0; i < 14; i++)
         {
             if (cmds[i] == msg.cmd)
             {
@@ -162,10 +168,12 @@ void Server::runCommand(MessageInfo &msg, Client *client)
                 return;
             }
         }
-        //명령어가 없을 경우. 빼도 됨.
+        // 명령어가 없을 경우. 빼도 됨.
         throw std::runtime_error("no match command");
-    } catch (std::exception &e) {
-        std::cerr << "Exception: " << e.what() << std::endl;
+    }
+    catch (std::exception &e)
+    {
+        // std::cerr << "Exception: " << e.what() << std::endl;
     }
 }
 
@@ -175,8 +183,8 @@ unsigned int Server::convertPort(char *port)
     int res;
 
     res = strtod(port, &stopstring);
-    //오류 검증
-    if (stopstring)
+    // 오류 검증
+    if (*stopstring != '\0')
         throw std::runtime_error("Error: not valid port number");
     return (res);
 }
@@ -190,4 +198,3 @@ void Server::showInfo()
     std::cout << "clients: " << clients.size() << std::endl;
     std::cout << "channels: " << channels.size() << std::endl;
 }
-

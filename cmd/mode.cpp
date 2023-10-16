@@ -28,6 +28,17 @@ void Server::mode(MessageInfo &msg, Client *client)
     //채널 모드 변경
     //맨처음 인자가 채널인지 확인
     std::string channelName = msg.params[0];
+    //:root!root@127.0.0.1 MODE root :+i
+    if (getClient(channelName))
+    {
+        if (client->getInvite() == false)
+        {
+            std::string msg = "MODE root :+i";
+            sendMessage(client, msg);
+            client->setInvite(true);
+        }
+        return ;
+    }
     if (!isExistChannel(channelName))
     {
         noSuchChannel(client->getSocket(), client->getNickname(), channelName);

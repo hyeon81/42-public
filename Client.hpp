@@ -12,6 +12,7 @@ class Client{
         int fd;
         Message *msgs;
         bool valid;
+        bool invite;
         std::string nickname;
         std::string realname;
         std::string username;
@@ -32,6 +33,8 @@ class Client{
         std::string &getNickname();
         void setUsername(std::string username, std::string realname);
         std::string &getUsername();
+        bool getInvite();
+        void setInvite(bool value);
 
         /* debug */
         void showInfo();

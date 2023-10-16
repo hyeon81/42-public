@@ -4,6 +4,12 @@
 //<username> <hostname> <servername> <realname> 
 void Server::user(MessageInfo &msg, Client *client)
 {
+    if (clients.find(client->getSocket()) != clients.end())
+    {
+         std::string msg = ":ft_irc 462 " + client->getNickname() + " USER :Unauthorized command (already registered)";
+         sendResponse(msg, client);
+         return;
+    }
     //유저일때는 parmas 없어도 응답 보냄.
     if (msg.params.size() < 4)
         notEnoughParams(client->getSocket(), client->getNickname(), msg.cmd);
@@ -26,6 +32,9 @@ void Server::user(MessageInfo &msg, Client *client)
     //:irc.local 001 root :Welcome to the Localnet IRC Network root!root@127.0.0.1
     std::string sendMsg = ":ft_irc 001 " + client->getNickname() + " :Welcome to the Localnet IRC Network " + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1";
     sendResponse(sendMsg, client);
+
+    // std::string endMsg = ":ft_irc 376 " + client->getNickname() + " :End of MOTD command";
+    // sendResponse(endMsg, client);
 }
 
 

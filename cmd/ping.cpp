@@ -3,7 +3,6 @@
 void Server::ping(MessageInfo &msg, Client *client) 
 {
     //:irc.local PONG irc.local :irc.local\r\n
-    std::string sendMsg = ":" + msg.params[0] + " PONG " + msg.params[0] \
-        + " :" + msg.params[0];
+    std::string sendMsg = ":ft_irc PONG ft_irc :ft_irc";
     sendResponse(sendMsg, client);
 }

@@ -24,6 +24,8 @@ class Server{
         unsigned int port;
         std::string password;
         std::map<int, Client*>clients;
+        //나중에 client 지울때 nClient도 지우기
+        std::map<int, Client*>nClients;
         std::map<std::string, Channel*>channels;
     
     public:

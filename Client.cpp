@@ -82,3 +82,12 @@ void Client::showInfo()
     std::cout << "valid: " << this->valid << std::endl;
 }
 
+bool Client::getInvite()
+{
+    return (this->invite);
+}
+
+void Client::setInvite(bool value)
+{
+    this->invite = value;
+}
