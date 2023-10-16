@@ -5,6 +5,7 @@ Client::Client(int fd): fd(fd)
     std::cout << "Client constructor" << std::endl;
     msgs = new Message();
     this->valid = false;
+    this->invite = false;
 }
 
 Client::~Client()

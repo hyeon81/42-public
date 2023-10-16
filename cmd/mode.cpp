@@ -20,6 +20,7 @@ bool checkModeArgu(std::string &argu)
 //권한 있는지 없는지 확인해야
 void Server::mode(MessageInfo &msg, Client *client)
 {
+    std::cout << "**mode**" << std::endl;
     if (!msg.params.size())
     {
         notEnoughParams(client->getSocket(), client->getNickname(), "MODE");
@@ -29,15 +30,19 @@ void Server::mode(MessageInfo &msg, Client *client)
     //맨처음 인자가 채널인지 확인
     std::string channelName = msg.params[0];
     //:root!root@127.0.0.1 MODE root :+i
-    if (getClient(channelName))
+    if (channelName == client->getNickname())
     {
-        if (client->getInvite() == false)
+        std::cout << "getClient" << std::endl;
+        bool isInvite = client->getInvite();
+        std::cout << "isInvite: " << isInvite << std::endl;
+        if (!client->getInvite())
         {
+            std::cout << "MODE root :+i" << std::endl;
             std::string msg = "MODE root :+i";
             sendMessage(client, msg);
             client->setInvite(true);
         }
-        return ;
+        throw std::runtime_error("is client");
     }
     if (!isExistChannel(channelName))
     {

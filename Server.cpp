@@ -136,13 +136,20 @@ void Server::communicateClient(int fd, std::string buffer)
     if (nClients.find(fd) != nClients.end())
         client = nClients[fd];
     else
+    {
         client = new Client(fd);
-    nClients.insert(std::pair<int, Client *>(fd, client));
+        nClients.insert(std::pair<int, Client *>(fd, client));
+    }
     /* 메세지 실행. msgs의 크기만큼 */
     client->setMsgs(buffer);
     std::vector<MessageInfo> msgs = client->getMsgs();
     for (unsigned int i = 0; i < msgs.size(); i++)
     {
+        std::cout << msgs[i].cmd << std::endl;
+        for (size_t j = 0; j < msgs[i].params.size(); j++)
+        {
+            std::cout << "params[" << j << "]: " << msgs[i].params[j] << std::endl;
+        }
         runCommand(msgs[i], client);
     }
     // showInfo();
