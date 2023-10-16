@@ -47,58 +47,49 @@
 
 void Server::nick(MessageInfo &msg, Client *client)
 {
-    /*먼저 클라이언트가 초기화되었는지 확인
-    클라이언트가 초기화되지 않았다면 (즉, 처음 연결될 때), 새로운 닉네임을 설정하고 초기 환영 메시지를 전송
-    
-        nickname이 없을 때, 어떤 일이 일어나는지 확인하기. 예를 들어, nickname 설정 안하고 채팅하면 username 나오는데 설정하고 나면 nickname으로
-        나온다던지 요런거 체크하가.
-    
-     */
-    // std::cout << "nick" << std::endl;
     std::string errorMsg;
     if (!msg.params.size()) // 아무것도 안들어오면 그냥 무시 
     {
-        //ERR_NONICKNAMEGIVEN (431) 
-        //"<client> :No nickname given" // Error: parameters error\r\n
         errorMsg = "ft_irc 431 :No nickname given";
         sendResponse(errorMsg, client);
-        throw std::runtime_error("no nickname given");
+        return ;
+        // throw std::runtime_error("no nickname given");
     }
     std::string nickName = msg.params[0];
     if(nickName.length() > 9) // 9를 초과할 경우 
     {
-        //ERR_ERRONEUSNICKNAME (432) 
-        //"<client> <nick> :Erroneus nickname"
         errorMsg = "ft_irc 432 " + nickName + " :Erroneus nickname";
         sendResponse(errorMsg, client);
-        throw std::runtime_error("erroneus nickname");
+        return ;
     }
-
     for (size_t i = 0; i < nickName .length(); ++i) // 허용되지 않은 문자가 있는 경우
     { 
         char c = nickName [i];
         if (!(isalnum(c) || c == '[' || c == ']' || c == '{' || c == '}' || c == '\\' || c == '|'))
         {
-            errorMsg = "ft_irc 432 " + nickName + " :Erroneus nickname";
+            errorMsg = ":ft_irc 432 " + nickName + " :Erroneus nickname";
             sendResponse(errorMsg, client);
-            throw std::runtime_error("erroneus nickname");
-        }
-    }
-
-    for(std::map<int, Client*>::iterator it = clients.begin(); it != clients.end(); ++it)
-    {
-        if (it->second->getNickname() == nickName) // 같을 겨우 언더바 처리
-        {
-            client->setNickname( "-" + nickName);
-            std::string responseMsg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 NICK :" + client->getNickname();
-            sendResponse(responseMsg, client);
             return ;
         }
     }
-    
-	std::string responseMsg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 NICK :" + nickName;
+    if(client->getNickname().empty())
+    {
+        client->setNickname(nickName);
+        return ;
+    }
+    else 
+    {
+        for(std::map<int, Client*>::iterator it = clients.begin(); it != clients.end(); ++it)
+        {
+            if (it->second->getNickname() == nickName) // 같을 경우
+            {
+                std::string responseMsg = ":ft_irc 433 " + client->getNickname() + " " + nickName + " :Nickname is already in use.\r\n";
+                sendResponse(responseMsg, client);
+                return ;
+            }
+        }
+    }
+    std::string responseMsg = "ft_irc :" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 NICK :" + nickName;
     sendResponse(responseMsg, client);
     client->setNickname(nickName);
-    //sendNicknameChangeToAllClients(oldNick, nickName); 모든 유저에게 알려야하나?
 }
-
