@@ -45,14 +45,14 @@ JOIN 메시지 전파: 서버는 JOIN 명령을 통해 채널에 참여한 클�
 
 
 
-void Server::join(MessageInfo &msg, Client *client) 
+void Server::join(MessageInfo *msg, Client *client) 
 {
     // std::cout << "join" << std::endl;
 
-    if (!msg.params.size()) {
-        notEnoughParams(client->getSocket(), client->getNickname(), msg.cmd);
+    if (!msg->params.size()) {
+        notEnoughParams(client->getSocket(), client->getNickname(), msg->cmd);
     }
-    std::string channelName = msg.params[0];
+    std::string channelName = msg->params[0];
     if (channelName[0] != '#' && channelName[0] != '&') 
     {
         std::string msg = ":ft_irc 476 " + client->getNickname() + " " + channelName + " :Bad Channel Mask";
@@ -63,8 +63,8 @@ void Server::join(MessageInfo &msg, Client *client)
     if (isExistChannel(channelName)) {
         std::string password = "";
 
-        if (msg.params.size() == 2) {
-            password = msg.params[1];
+        if (msg->params.size() == 2) {
+            password = msg->params[1];
         }
         addClientToChannel(channelName, client, password);
 

@@ -18,31 +18,21 @@ bool checkModeArgu(std::string &argu)
 //MODE 채널명 모드명 [모드매개변수]
 //MODE 모드명도 가능한듯 - 이건 나중에 확인
 //권한 있는지 없는지 확인해야
-void Server::mode(MessageInfo &msg, Client *client)
+void Server::mode(MessageInfo *msg, Client *client)
 {
     std::cout << "**mode**" << std::endl;
-    if (!msg.params.size())
+    if (!msg->params.size())
     {
         notEnoughParams(client->getSocket(), client->getNickname(), "MODE");
         return ;
     }
     //채널 모드 변경
     //맨처음 인자가 채널인지 확인
-    std::string channelName = msg.params[0];
+    std::string channelName = msg->params[0];
     //:root!root@127.0.0.1 MODE root :+i
     if (channelName == client->getNickname())
     {
-        std::cout << "getClient" << std::endl;
-        bool isInvite = client->getInvite();
-        std::cout << "isInvite: " << isInvite << std::endl;
-        if (!client->getInvite())
-        {
-            std::cout << "MODE root :+i" << std::endl;
-            std::string msg = "MODE root :+i";
-            sendMessage(client, msg);
-            client->setInvite(true);
-        }
-        throw std::runtime_error("is client");
+        return;
     }
     if (!isExistChannel(channelName))
     {
@@ -51,25 +41,25 @@ void Server::mode(MessageInfo &msg, Client *client)
         //유효한 채널 아님
     }
     //인자가 하나만 있을 경우. 즉 채널명만 있을 경우
-    if (msg.params.size() == 1)
+    if (msg->params.size() == 1)
     {
         std::string msg = ":ft_irc 324 " + client->getNickname() + " " + getChannelModes(channelName);
         sendResponse(msg, client);
         return ;
     }
     //인자가 두개인데, 두번째 인자가 모드인지 확인
-    if (!checkModeArgu(msg.params[1]))
+    if (!checkModeArgu(msg->params[1]))
     {
         //유효한 모드 인자 아님
-        std::string msgs = ":ft_irc 403 " + client->getNickname() + " " + msg.params[1] + " :is unknown mode char to me";
+        std::string msgs = ":ft_irc 403 " + client->getNickname() + " " + msg->params[1] + " :is unknown mode char to me";
         sendResponse(msgs, client);
         return ;
     }
     std::string modeArgu;
-    if (msg.params.size() == 3)
-        modeArgu = msg.params[2];
+    if (msg->params.size() == 3)
+        modeArgu = msg->params[2];
 
-    char modeChar = msg.params[1][1];
+    char modeChar = msg->params[1][1];
     char modeOption[5] = {'i', 't', 'k', 'o', 'l'};
     ChannelMode modeEnum[5] = {INVITE, TOPIC, KEY, OPER, LIMIT};
     for (int i = 0; i < 5; i++)
@@ -77,9 +67,9 @@ void Server::mode(MessageInfo &msg, Client *client)
         if (modeChar == modeOption[i])
         {
             //모드 적용
-            if (msg.params[1][0] == '+')
+            if (msg->params[1][0] == '+')
                 setChannelMode(channelName, modeEnum[i], modeArgu, client);
-            else if (msg.params[1][0] == '-')
+            else if (msg->params[1][0] == '-')
                 removeChannelMode(channelName, modeEnum[i], modeArgu, client);
         }
     }

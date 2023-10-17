@@ -20,15 +20,15 @@ mask
 //352 클라이언트의 정보
 //315 정보의 끝
 
-void Server::who(MessageInfo &msg, Client *client)
+void Server::who(MessageInfo *msg, Client *client)
 {//msg 다시 세팅 
 
     std::string sendMsg = "";
-    if(msg.params[0][0] == '#') //channel
+    if(msg->params[0][0] == '#') //channel
     {
-        if(isExistChannel(msg.params[0]))
+        if(isExistChannel(msg->params[0]))
         {
-            std::vector<Client*> members = getChannel(msg.params[0])->getChannelMembers();
+            std::vector<Client*> members = getChannel(msg->params[0])->getChannelMembers();
             for (size_t i = 0; i < members.size(); i++)
             {
                 /*
@@ -44,11 +44,11 @@ void Server::who(MessageInfo &msg, Client *client)
             }
         }
         else
-           noSuchChannel(client->getSocket(), client->getNickname(), msg.params[0]);
+           noSuchChannel(client->getSocket(), client->getNickname(), msg->params[0]);
     }
     else //client
     {
-        Client *targetClient = getClient(msg.params[0]);
+        Client *targetClient = getClient(msg->params[0]);
         if(targetClient)
         {
             /*
@@ -61,6 +61,6 @@ void Server::who(MessageInfo &msg, Client *client)
             sendResponse(sendMsg, client);
         }
         else
-            noSuchNick(client->getSocket(), client->getNickname(), msg.params[1]);
+            noSuchNick(client->getSocket(), client->getNickname(), msg->params[1]);
     }
 }

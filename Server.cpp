@@ -108,6 +108,7 @@ int Server::runServer()
                 // 클라이언트로부터 데이터를 수신하고, 그 데이터를 다시 클라이언트에게 전송
                 while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0)
                 {
+                    std::cout << "buffer" << buffer << std::endl;
                     communicateClient(clientSocket, buffer);
                     // write(1, buffer, bytesRead); // 요청 데이터 출력
                 }
@@ -130,7 +131,7 @@ void Server::communicateClient(int fd, std::string buffer)
 {
     /* 메세지 파싱.. */
     Client *client;
-    std::cout << "fd: " << fd << std::endl;
+    std::cout << "==========fd: " << fd << std::endl;
     std::cout << "buffer: " << buffer << std::endl;
     
     if (nClients.find(fd) != nClients.end())
@@ -150,18 +151,19 @@ void Server::communicateClient(int fd, std::string buffer)
         {
             std::cout << "params[" << j << "]: " << msgs[i].params[j] << std::endl;
         }
-        runCommand(msgs[i], client);
+        runCommand(&msgs[i], client);
     }
+    client->clearMsgs();
     // showInfo();
     // client->showInfo();
     std::cout << "=====end=====" << std::endl;
 }
 
-void Server::runCommand(MessageInfo &msg, Client *client)
+void Server::runCommand(MessageInfo *msg, Client *client)
 {
     try
     {
-        void (Server::*funcs[14])(MessageInfo &msg, Client *client) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
+        void (Server::*funcs[14])(MessageInfo *msg, Client *client) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
                                                                        &Server::part, &Server::names, &Server::topic, &Server::list,
                                                                        &Server::invite, &Server::kick, &Server::mode, &Server::privmsg,
                                                                        &Server::notice, &Server::ping};
@@ -169,7 +171,7 @@ void Server::runCommand(MessageInfo &msg, Client *client)
 
         for (int i = 0; i < 14; i++)
         {
-            if (cmds[i] == msg.cmd)
+            if (cmds[i] == msg->cmd)
             {
                 (this->*funcs[i])(msg, client);
                 return;

@@ -92,3 +92,8 @@ void Client::setInvite(bool value)
 {
     this->invite = value;
 }
+
+void Client::clearMsgs()
+{
+    msgs->clearMsgs();
+}

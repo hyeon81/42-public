@@ -12,28 +12,28 @@
   */
 
 
-void Server::privmsg(MessageInfo &msg, Client *client)
+void Server::privmsg(MessageInfo *msg, Client *client)
 {
-    if(!msg.params.size())
+    if(!msg->params.size())
         notEnoughParams(client->getSocket(), client->getNickname(), "");
-    if(msg.params[0][0] == '#') //channel 브로드 캐스트 // 개별적으로..
+    if(msg->params[0][0] == '#') //channel 브로드 캐스트 // 개별적으로..
     {
-        if(isExistChannel(msg.params[0]))
-            sendMessageAll(client, msg.params[1], msg.params[0]);
+        if(isExistChannel(msg->params[0]))
+            sendMessageAll(client, msg->params[1], msg->params[0]);
         else
-            noSuchChannel(client->getSocket(), client->getNickname(), msg.params[0]);
+            noSuchChannel(client->getSocket(), client->getNickname(), msg->params[0]);
     }
     else //client 401
     {
-        Client *targetClient = getClient(msg.params[0]);
+        Client *targetClient = getClient(msg->params[0]);
         if(targetClient)
         {
-            std::string sendMsg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + "PRIVMSG " + msg.params[1];
+            std::string sendMsg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + "PRIVMSG " + msg->params[1];
             sendResponse(sendMsg, client);
         }
         else
             // sendResponse(client->getNickname() + "No such nick", client);
-            noSuchNick(client->getSocket(), client->getNickname(), msg.params[0]);
+            noSuchNick(client->getSocket(), client->getNickname(), msg->params[0]);
     }
     ;
 }

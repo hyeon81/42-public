@@ -35,6 +35,7 @@ class Client{
         std::string &getUsername();
         bool getInvite();
         void setInvite(bool value);
+        void clearMsgs();
 
         /* debug */
         void showInfo();

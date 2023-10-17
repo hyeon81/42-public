@@ -59,22 +59,22 @@ class Server{
         void addChannelInvite(std::string channelName, std::string nickname);
 
         /* cmds */
-        void runCommand(MessageInfo &msg, Client *client);
-        void pass(MessageInfo &msg, Client *client);
-        void ping(MessageInfo &msg, Client *client);
-        void nick(MessageInfo &msg, Client *client);
-        void user(MessageInfo &msg, Client *client);
-        void join(MessageInfo &msg, Client *client);
-        void part(MessageInfo &msg, Client *client);
-        void names(MessageInfo &msg, Client *client);
-        void topic(MessageInfo &msg, Client *client);
-        void list(MessageInfo &msg, Client *client);
-        void invite(MessageInfo &msg, Client *client);
-        void kick(MessageInfo &msg, Client *client);
-        void mode(MessageInfo &msg, Client *client);
-        void privmsg(MessageInfo &msg, Client *client);
-        void notice(MessageInfo &msg, Client *client);
-        void who(MessageInfo &msg, Client *client);
+        void runCommand(MessageInfo *msg, Client *client);
+        void pass(MessageInfo *msg, Client *client);
+        void ping(MessageInfo *msg, Client *client);
+        void nick(MessageInfo *msg, Client *client);
+        void user(MessageInfo *msg, Client *client);
+        void join(MessageInfo *msg, Client *client);
+        void part(MessageInfo *msg, Client *client);
+        void names(MessageInfo *msg, Client *client);
+        void topic(MessageInfo *msg, Client *client);
+        void list(MessageInfo *msg, Client *client);
+        void invite(MessageInfo *msg, Client *client);
+        void kick(MessageInfo *msg, Client *client);
+        void mode(MessageInfo *msg, Client *client);
+        void privmsg(MessageInfo *msg, Client *client);
+        void notice(MessageInfo *msg, Client *client);
+        void who(MessageInfo *msg, Client *client);
 
         
         /* utils */

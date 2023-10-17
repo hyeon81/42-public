@@ -45,17 +45,17 @@
 //이미 있는 유저가 들어오면..?
 
 
-void Server::nick(MessageInfo &msg, Client *client)
+void Server::nick(MessageInfo *msg, Client *client)
 {
     std::string errorMsg;
-    if (!msg.params.size()) // 아무것도 안들어오면 그냥 무시 
+    if (!msg->params.size()) // 아무것도 안들어오면 그냥 무시 
     {
         errorMsg = "ft_irc 431 :No nickname given";
         sendResponse(errorMsg, client);
         return ;
         // throw std::runtime_error("no nickname given");
     }
-    std::string nickName = msg.params[0];
+    std::string nickName = msg->params[0];
     if(nickName.length() > 9) // 9를 초과할 경우 
     {
         errorMsg = "ft_irc 432 " + nickName + " :Erroneus nickname";
