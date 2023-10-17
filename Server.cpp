@@ -106,10 +106,13 @@ int Server::runServer()
                 int bytesRead;
                 /** 클라이언트 생성 **/
                 // 클라이언트로부터 데이터를 수신하고, 그 데이터를 다시 클라이언트에게 전송
+                memset(buffer, 0, sizeof(buffer));
                 while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0)
                 {
-                    std::cout << "buffer" << buffer << std::endl;
-                    communicateClient(clientSocket, buffer);
+                    std::string buf(buffer);
+                    std::cout << "***buf: " << buf << "======" << std::endl;
+                    communicateClient(clientSocket, buf);
+                    buf.clear();
                     // write(1, buffer, bytesRead); // 요청 데이터 출력
                 }
                 if (bytesRead == 0)
@@ -132,7 +135,6 @@ void Server::communicateClient(int fd, std::string buffer)
     /* 메세지 파싱.. */
     Client *client;
     std::cout << "==========fd: " << fd << std::endl;
-    std::cout << "buffer: " << buffer << std::endl;
     
     if (nClients.find(fd) != nClients.end())
         client = nClients[fd];
@@ -142,18 +144,21 @@ void Server::communicateClient(int fd, std::string buffer)
         nClients.insert(std::pair<int, Client *>(fd, client));
     }
     /* 메세지 실행. msgs의 크기만큼 */
-    client->setMsgs(buffer);
-    std::vector<MessageInfo> msgs = client->getMsgs();
+    std::vector<MessageInfo> msgs;
+    setMessageInfo(msgs, buffer);
+    // client->setMsgs(buffer);
+    // std::vector<MessageInfo> msgs = client->getMsgs();
     for (unsigned int i = 0; i < msgs.size(); i++)
     {
-        std::cout << msgs[i].cmd << std::endl;
-        for (size_t j = 0; j < msgs[i].params.size(); j++)
-        {
-            std::cout << "params[" << j << "]: " << msgs[i].params[j] << std::endl;
-        }
-        runCommand(&msgs[i], client);
+        // std::cout << msgs[i].cmd << std::endl;
+        // for (size_t j = 0; j < msgs[i].params.size(); j++)
+        // {
+        //     std::cout << "params[" << j << "]: " << msgs[i].params[j] << std::endl;
+        // }
+        if (client)
+            runCommand(&msgs[i], client);
     }
-    client->clearMsgs();
+    // client->clearMsgs();
     // showInfo();
     // client->showInfo();
     std::cout << "=====end=====" << std::endl;
@@ -163,13 +168,13 @@ void Server::runCommand(MessageInfo *msg, Client *client)
 {
     try
     {
-        void (Server::*funcs[14])(MessageInfo *msg, Client *client) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
+        void (Server::*funcs[15])(MessageInfo *msg, Client *client) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
                                                                        &Server::part, &Server::names, &Server::topic, &Server::list,
                                                                        &Server::invite, &Server::kick, &Server::mode, &Server::privmsg,
-                                                                       &Server::notice, &Server::ping};
-        std::string cmds[14] = {"PASS", "NICK", "USER", "JOIN", "PART", "NAMES", "TOPIC", "LIST", "INVITE", "KICK", "MODE", "PRIVMSG", "NOTICE", "PING"};
+                                                                       &Server::notice, &Server::ping, &Server::who};
+        std::string cmds[15] = {"PASS", "NICK", "USER", "JOIN", "PART", "NAMES", "TOPIC", "LIST", "INVITE", "KICK", "MODE", "PRIVMSG", "NOTICE", "PING", "WHO"};
 
-        for (int i = 0; i < 14; i++)
+        for (int i = 0; i < 15; i++)
         {
             if (cmds[i] == msg->cmd)
             {
@@ -206,4 +211,32 @@ void Server::showInfo()
     std::cout << "password: " << this->password << std::endl;
     std::cout << "clients: " << clients.size() << std::endl;
     std::cout << "channels: " << channels.size() << std::endl;
+}
+
+void Server::setMessageInfo(std::vector<MessageInfo> &msg, std::string buf)
+{
+    std::string delimiter = "\r\n";
+    size_t pos = 0;
+    std::string rawMsgs;
+
+    while ((pos = buf.find(delimiter)) != std::string::npos) {
+        rawMsgs = buf.substr(0, pos);
+        buf.erase(0, pos + delimiter.length());
+
+        std::cout << "***rawMsgs: " << rawMsgs << std::endl;
+        // rawMsgs 파싱하기 (한줄씩)
+        MessageInfo msgInfo;
+        std::stringstream mss(rawMsgs);
+        std::string cmd, param;
+        mss >> cmd;
+        msgInfo.cmd = cmd;
+        while (mss >> param) {
+            msgInfo.params.push_back(param);
+        }
+        // if (msgInfo.params.size() > 1)
+        //     msgInfo.param = msgInfo.params[0];
+        //이렇게하면 하나의 MessageInfo가 생성됨
+        msg.push_back(msgInfo);
+    }
+    //추후에 clrf로 안 끝난 문자열도 처리고려해야 (꼭 안해도 될듯?)
 }

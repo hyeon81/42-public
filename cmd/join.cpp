@@ -77,17 +77,20 @@ void Server::join(MessageInfo *msg, Client *client)
     모든 채널 멤버에게 멤버 리스트를 보냄: :@member1 member2 member3 ...
     클라이언트에게 JOIN 명령의 끝을 알리는 메시지 전송: :ft_irc 366 <client-nickname> channel1 :End of /NAMES list.
         */
-        std::string userList = ":@"; // 모든 멤버에게 '@' 표시를 표시
+        // 모든 멤버에게 멤버 리스트
+        //127.000.000.001.06667-127.000.000.001.33894: :hey!root@127.0.0.1 JOIN :#hi
+        //:irc.local 353 hey = #hi :@hey
+        //:irc.local 366 hey #hi :End of /NAMES list
+        std::string userList = ":ft_irc 353 " + client->getNickname() + " = " + channelName + " :@";
         std::vector<Client*> members = channels[channelName]->getChannelMembers();
 
         for (size_t i = 0; i < members.size(); i++) 
         {
             userList += members[i]->getNickname();
-            if (i < members.size() - 1) 
+            if (i < members.size()) 
                 userList += " ";
         }
-        userList += "\n";
-        // 모든 멤버에게 멤버 리스트
+        // userList += "\n";
         for (size_t i = 0; i < members.size(); i++) {
             sendResponse(userList, members[i]);
         }

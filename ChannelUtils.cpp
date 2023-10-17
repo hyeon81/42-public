@@ -51,10 +51,14 @@ void Server::addClientToChannel(std::string name, Client *client, std::string pa
 
 void Server::removeClientFromChannel(std::string name, Client *client)
 {
-    //모든 클라이언트에게 알림
     //:root!root@127.0.0.1 KICK #hello root :sdjfjklsdflfds
+    //해당 유저 채널에서 제거
     channels[name]->removeClient(client);
-    //밴 목록에 추가
+    channels[name]->removeOperator(client);
+    channels[name]->removeInvite(client);
+    //채널에 아무도 없으면 채널 삭제
+    if (channels[name]->getChannelMembers().size() == 0)
+        removeChannel(name);
 }
 
 bool Server::isOperatorClient(std::string channelName, int fd)
@@ -74,7 +78,7 @@ Channel *Server::getChannel(std::string channelName)
 
 std::string Server::getChannelModes(std::string channelName)
 {
-    std::string res = "";
+    std::string res = "+";
     int *modes = channels[channelName]->getModes();
     for (int i = 0; i < 5; i++)
     {

@@ -14,7 +14,7 @@ void Server::kick(MessageInfo *msg, Client *client)
         {
             Client *user = getClient(msg->params[1]);
             //존재하지 않은 유저인지 확인
-            if (!user)
+            if (user == NULL)
                 noSuchNick(client->getSocket(), client->getNickname(), msg->params[1]);
             //존재 하지만 채널에 없는 유저인지 확인
             //irc.local 441 root_ root #hello :They are not on that channel
@@ -23,11 +23,11 @@ void Server::kick(MessageInfo *msg, Client *client)
             //운영자인지 확인
             if (isOperatorClient(msg->params[0], client->getSocket()))
             {
-                removeClientFromChannel(msg->params[0], user);
                 //kick 메세지 보내기
                 //:root!root@127.0.0.1 KICK #hello root_ :
-                std::string msg = "KICK " + channelName + " " + user->getNickname() + " " + user->getNickname() + " :";
-                sendMessageAll(client, msg, channelName);
+                std::string msgs = "KICK " + channelName + " " + user->getNickname() + " :";
+                sendMessageAll(client, msgs, channelName);
+                removeClientFromChannel(msg->params[0], user);
             }
             else
                 noChannelOperPrivileges(client->getSocket(), client->getNickname(), channelName);

@@ -27,12 +27,13 @@ void Server::user(MessageInfo *msg, Client *client)
     // //유저가 들어왔을때 client 등록한다고 판단. pass와 nick이 먼저 들어와야함.
     // client->setValid(true); 
     addClient(client);
+    client->showInfo();
     //RPL_WELCOME (001) 
     //"<client> :Welcome to the <networkname> Network, <nick>[!<user>@<host>]"
     //:irc.local 001 root :Welcome to the Localnet IRC Network root!root@127.0.0.1
     //:ft_irc 001 hello :Welcome to the Localnet IRC Network hello!hyeokim2@127.0.0.1
     //  "<client> :Welcome to the <networkname> Network, <nick>[!<user>@<host>]"
-    std::string sendMsg = ":ft_irc 001 " + client->getUsername() + " :Welcome to the Localnet " + "ft_irc Network " + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1";
+    std::string sendMsg = ":ft_irc 001 " + client->getNickname() + " :Welcome to the Localnet " + "ft_irc Network " + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1";
     sendResponse(sendMsg, client);
 
     // std::string endMsg = ":ft_irc 376 " + client->getNickname() + " :End of MOTD command";

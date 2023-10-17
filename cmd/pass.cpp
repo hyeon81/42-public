@@ -17,7 +17,7 @@ void Server::pass(MessageInfo *msg, Client *client)
     {
         //ERR_PASSWDMISMATCH (464) 
         //"<client> :Password incorrect"
-        errorMsg = ":ft_irc 464 " + client->getNickname() + " :Password incorrect";
+        errorMsg = ":ft_irc 464 :Password incorrect";
         sendResponse(errorMsg, client);
         throw std::runtime_error("password incorrect");
     }

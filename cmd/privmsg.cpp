@@ -18,8 +18,22 @@ void Server::privmsg(MessageInfo *msg, Client *client)
         notEnoughParams(client->getSocket(), client->getNickname(), "");
     if(msg->params[0][0] == '#') //channel 브로드 캐스트 // 개별적으로..
     {
+        //:root__!root@127.0.0.1 PRIVMSG #hi :hihhih
+        //:root__!root@127.0.0.1 PRIVMSG #hi :hihhih
         if(isExistChannel(msg->params[0]))
-            sendMessageAll(client, msg->params[1], msg->params[0]);
+        {
+            std::cout << "send msg" << std::endl;
+            std::string resMsg = "";
+            resMsg += msg->cmd + " ";
+            for (int i = 0; i < msg->params.size(); i++)
+            {
+                std::cout << "msg->params[i]" << msg->params[i] << std::endl;
+                resMsg += msg->params[i];
+                if (i != msg->params.size() - 1)
+                    resMsg += " ";
+            }
+            sendMessageAllWithOutMe(client, resMsg, msg->params[0]);
+        }
         else
             noSuchChannel(client->getSocket(), client->getNickname(), msg->params[0]);
     }

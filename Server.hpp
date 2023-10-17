@@ -56,6 +56,7 @@ class Server{
         bool isChannelModeApplied(std::string channelName, ChannelMode mode);
         std::string getChannelModes(std::string channelName);
         void addChannelOperator(std::string channelName, std::string nickname);
+        void sendMessageAllWithOutMe(std::string channelName, std::string nickname);
         void addChannelInvite(std::string channelName, std::string nickname);
 
         /* cmds */
@@ -79,10 +80,12 @@ class Server{
         
         /* utils */
         unsigned int convertPort(char *port);
+        void setMessageInfo(std::vector<MessageInfo> &msg, std::string buf);
 
         /* send */
         void sendMessage(Client *client, std::string cmd);
         void sendMessageAll(Client *client, std::string msg, std::string channelName);
+        void sendMessageAllWithOutMe(Client *client, std::string msg, std::string channelName);
         void sendResponse(std::string msg, Client *client);
         void invitingRPL(int fd, std::string nickname, std::string channelName);
 

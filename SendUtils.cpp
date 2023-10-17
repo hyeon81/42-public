@@ -112,15 +112,36 @@ void Server::sendMessage(Client *client, std::string cmd)
 }
 
 //:root_!root@127.0.0.1 TOPIC #hello :124
-//모든 유저들에게 보내는 메세지
+//자신을 제외한 채널에 참여한 모든 유저들에게 보내는 메세지
 void Server::sendMessageAll(Client *client, std::string msg, std::string channelName)
 {
     std::vector<Client*> members = channels[channelName]->getChannelMembers();
-
+    std::cout << "members size: " << members.size() << std::endl;
     std::string m = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + msg + "\r\n";
-    std::cout << "***send: " << m << std::endl;
-    for (size_t i = 0; i < members.size(); i++) {
-        send(members[i]->getSocket(), m.c_str(), m.size(), 0);
+    
+    for (size_t i = 0; i < members.size(); i++) 
+    {
+        // if (members[i]->getSocket() != client->getSocket())
+        // {
+            std::cout << "***send: " << members[i]->getSocket() << "m: " << m << std::endl;
+            send(members[i]->getSocket(), m.c_str(), m.size(), 0);
+        // }
+    }
+}
+
+void Server::sendMessageAllWithOutMe(Client *client, std::string msg, std::string channelName)
+{
+    std::vector<Client*> members = channels[channelName]->getChannelMembers();
+    std::cout << "members size: " << members.size() << std::endl;
+    std::string m = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + msg + "\r\n";
+    
+    for (size_t i = 0; i < members.size(); i++) 
+    {
+        if (members[i]->getSocket() != client->getSocket())
+        {
+            std::cout << "***send: " << members[i]->getSocket() << "m: " << m << std::endl;
+            send(members[i]->getSocket(), m.c_str(), m.size(), 0);
+        }
     }
 }
 

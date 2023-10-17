@@ -31,7 +31,9 @@ void Server::topic(MessageInfo *msg, Client *client)
                 if (!channel->isOperator(client->getSocket()))
                     noChannelOperPrivileges(client->getSocket(), client->getNickname(), channelName);
             }
-            channel->setTopic(msg->params[1]);
+            std::string newTopic = msg->params[1];
+            newTopic.erase(0, 1);
+            channel->setTopic(newTopic);
             std::string sendMsg  = "TOPIC " + channelName + " :" + msg->params[1];
             // :root_!root@127.0.0.1 TOPIC #hello :124
             //모든 유저들에게 알림

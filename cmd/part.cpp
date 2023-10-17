@@ -12,17 +12,19 @@ void Server::part(MessageInfo *msg, Client *client)
         notEnoughParams(client->getSocket(), client->getNickname(), "");
     if (isExistChannel(msg->params[0])) // 존재한다면
     {
-        removeClientFromChannel(msg->params[0], client); // 삭제
         std::string sendMsg = "";
         if(msg->params[1].size())
         {
-            sendMsg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + "PART " + msg->params[0] + " " + msg->params[1];
+            //:hello_!hyeokim2@127.0.0.1 :hello_!hyeokim2@127.0.0.1 PART #hello
+            sendMsg = "PART " + msg->params[0] + " " + msg->params[1];
             sendMessageAll(client, sendMsg, msg->params[0]);
+            removeClientFromChannel(msg->params[0], client); // 삭제
         }
         else
         {
-            sendMsg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + "PART " + msg->params[0];
+            sendMsg = "PART " + msg->params[0];
             sendMessageAll(client, sendMsg, msg->params[0]);
+            removeClientFromChannel(msg->params[0], client); // 삭제
         }
     }
     else

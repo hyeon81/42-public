@@ -20,7 +20,6 @@ bool checkModeArgu(std::string &argu)
 //권한 있는지 없는지 확인해야
 void Server::mode(MessageInfo *msg, Client *client)
 {
-    std::cout << "**mode**" << std::endl;
     if (!msg->params.size())
     {
         notEnoughParams(client->getSocket(), client->getNickname(), "MODE");
@@ -30,7 +29,7 @@ void Server::mode(MessageInfo *msg, Client *client)
     //맨처음 인자가 채널인지 확인
     std::string channelName = msg->params[0];
     //:root!root@127.0.0.1 MODE root :+i
-    if (channelName == client->getNickname())
+    if (channelName[0] != '#')
     {
         return;
     }
@@ -182,7 +181,7 @@ void Server::setChannelMode(std::string channelName, ChannelMode mode, std::stri
                 return ;
             }
             channel->setLimit(limit);
-            std::string msg = "MODE " + channelName + " +o :" + param;
+            std::string msg = "MODE " + channelName + " +l :" + param;
             sendMessageAll(client, msg, channelName);
         }
     }
