@@ -39,7 +39,7 @@ class Server{
         /* Client */
         void communicateClient(int fd, std::string buffer);
         void addClientToServer(Client *client);
-        void removeClient();
+        void removeClient(Client *client);
         void joinChannel();
         bool isExistClient(std::string nickname);
     
@@ -77,7 +77,8 @@ class Server{
         void privmsg(MessageInfo *msg, Client *client);
         void notice(MessageInfo *msg, Client *client);
         void who(MessageInfo *msg, Client *client);
-
+        void quit(MessageInfo *msg, Client *client);
+        void whois(MessageInfo *msg, Client *client);
         
         /* utils */
         unsigned int convertPort(char *port);

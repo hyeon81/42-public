@@ -1,11 +1,13 @@
 #include "Client.hpp"
 
-Client::Client(int fd): fd(fd)
+
+Client::Client(int fd): fd(fd) , signonTime(0), idleTime(0)
 {
     std::cout << "Client constructor" << std::endl;
     msgs = new Message();
     this->valid = false;
     this->invite = false;
+    this->updateSignonTime();
 }
 
 Client::~Client()
@@ -96,4 +98,25 @@ void Client::setInvite(bool value)
 void Client::clearMsgs()
 {
     msgs->clearMsgs();
+}
+
+void Client::updateSignonTime() //Sign-on Time: 최종으로 서버에 접속한 시간
+{
+    signonTime = std::time(0);
+}
+ // 함수를 통해 휴면 시간을 업데이트할 수 있습니다.
+void Client::updateIdleTime() //Idle Time: 휴면 시간
+{
+    time_t currentTime = std::time(0);
+    idleTime = currentTime - signonTime;
+}
+
+time_t Client::getIdleTime()
+{
+    return(idleTime);
+}
+
+time_t Client::getSignonTime()
+{
+    return(signonTime);
 }

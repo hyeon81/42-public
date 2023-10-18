@@ -168,13 +168,13 @@ void Server::runCommand(MessageInfo *msg, Client *client)
 {
     try
     {
-        void (Server::*funcs[15])(MessageInfo *msg, Client *client) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
+        void (Server::*funcs[17])(MessageInfo *msg, Client *client) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
                                                                        &Server::part, &Server::names, &Server::topic, &Server::list,
                                                                        &Server::invite, &Server::kick, &Server::mode, &Server::privmsg,
-                                                                       &Server::notice, &Server::ping, &Server::who};
-        std::string cmds[15] = {"PASS", "NICK", "USER", "JOIN", "PART", "NAMES", "TOPIC", "LIST", "INVITE", "KICK", "MODE", "PRIVMSG", "NOTICE", "PING", "WHO"};
+                                                                       &Server::notice, &Server::ping, &Server::who, &Server::whois, &Server::quit};
+        std::string cmds[17] = {"PASS", "NICK", "USER", "JOIN", "PART", "NAMES", "TOPIC", "LIST", "INVITE", "KICK", "MODE", "PRIVMSG", "NOTICE", "PING", "WHO", "WHOIS", "QUIT"};
 
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 17; i++)
         {
             if (cmds[i] == msg->cmd)
             {
