@@ -22,3 +22,15 @@ Client *Server::getClient(std::string nickname)
     std::cout << "no such client" << std::endl;
     return (NULL);
 }
+
+/* remove */
+void Server::removeClient(Client *client) {
+    if (client) {
+        int fd = client->getSocket();
+        if (clients.find(fd) != clients.end()) {
+            close(fd); // 클라이언트 소켓 닫기
+            delete client; // 클라이언트 메모리 해제
+            clients.erase(fd); // 맵에서 클라이언트 제거
+        }
+    }
+}
