@@ -39,7 +39,6 @@ class Server{
         /* Client */
         void communicateClient(int fd, std::string buffer);
         void addClient(Client *client);
-        // void removeClient();
         void removeClient(Client *client);
         void joinChannel();
     
@@ -77,6 +76,7 @@ class Server{
         void privmsg(MessageInfo *msg, Client *client);
         void notice(MessageInfo *msg, Client *client);
         void who(MessageInfo *msg, Client *client);
+        void whois(MessageInfo *msg, Client *client);
         void quit(MessageInfo *msg, Client *client);
 
 

@@ -1,4 +1,4 @@
-
+#include "../Server.hpp"
 
 /* 
 
@@ -31,13 +31,21 @@ me->getNickname() + " " + nick + " " \
 :irc.local 318 _nick eko :End of /WHOIS list.
 */
 
+// bool Channel::isOperator(int fd)
+// {
+//     std::cout << "Channel isOperator" << std::endl;
+//     if (oClients.find(fd) != oClients.end())
+//         return (true);
+//     return (false);
+// }
+
 
 void Server::whois(MessageInfo *msg, Client *client)
 {
     Client *targetClient = getClient(msg->params[0]);
     if(targetClient)
     {
-        /*311*/ //* = 사용자가 서버 연결중임을 나타냄
+        /*311*/ //* = 사용자가 서버 연결중임을 나타냄 *가 접속중 아니면 채널명 어디에 속해있는지
         std::string msg311 = "ft_irc 311" + client->getNickname() + " " + targetClient->getNickname() + 
             targetClient->getUsername() + "127.0.0.1 * :" + targetClient->getRealname() + "\r\n";
         /*312*/

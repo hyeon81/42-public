@@ -61,6 +61,12 @@ std::string &Client::getNickname()
     return (this->nickname);
 }
 
+
+std::string &Client::getRealname()
+{
+    return (this->realname);
+}
+
 void Client::setUsername(std::string username, std::string realname)
 {
     this->username = username;

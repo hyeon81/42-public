@@ -25,8 +25,8 @@ int Server::runServer()
         perror("Socket creation failed");
         return -1;
     }
-    sockaddr_in serverAddress;                        // serverAddress 구조체는 서버의 주소 정보를 설정
-    memset(&serverAddress, 0, sizeof(serverAddress)); // 이거 왜하는거지?
+    sockaddr_in serverAddress; // serverAddress 구조체는 서버의 주소 정보를 설정
+    memset(&serverAddress, 0, sizeof(serverAddress)); 
 
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_addr.s_addr = INADDR_ANY;
