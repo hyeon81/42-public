@@ -22,12 +22,14 @@ void Server::part(MessageInfo *msg, Client *client)
             sendMsg = "PART " + msg->params[0] + " " + msg->params[1];
             sendMessageAll(client, sendMsg, msg->params[0]);
             removeClientFromChannel(msg->params[0], client); // 삭제
+            client->setCurrentchannel("*");
         }
         else
         {
             sendMsg = "PART " + msg->params[0];
             sendMessageAll(client, sendMsg, msg->params[0]);
             removeClientFromChannel(msg->params[0], client); // 삭제
+            client->setCurrentchannel("*");
         }
     }
     else

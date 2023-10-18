@@ -67,6 +67,19 @@ std::string &Client::getRealname()
     return (this->realname);
 }
 
+std::string &Client::getCurrentchannel() //
+{
+    return(this -> currentChannel);
+}
+
+void Client::setCurrentchannel(std:: string channelname) //
+{
+    this -> currentChannel = channelname;
+    
+}
+
+
+
 void Client::setUsername(std::string username, std::string realname)
 {
     this->username = username;

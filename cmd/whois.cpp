@@ -21,8 +21,6 @@ me->getNickname() + " " + nick + " " \
 :irc.local 317 root eko 7361 1697529362 :seconds idle, signon time
 :irc.local 318 root eko :End of /WHOIS list.
 
-
-
 :irc.local 311 _nick eko root 127.0.0.1 * :root
 사용자의 nick, (상대방 nick, 상대방 username),ip,   상대방 네임
 
@@ -39,17 +37,32 @@ me->getNickname() + " " + nick + " " \
 //     return (false);
 // }
 
+// :irc.local 311 root root root 127.0.0.1 * :root
+// :irc.local 378 root root :is connecting from root@127.0.0.1 127.0.0.1
+// :irc.local 319 root root :@#hello
+// :irc.local 312 root root irc.local :Local IRC Server
+// :irc.local 379 root root :is using modes +i
+// :irc.local 317 root root 65 1697620974 :seconds idle, signon time
+// :irc.local 318 root root :End of /WHOIS list.
+
+// :irc.local 311 root root root 127.0.0.1 * :root
+// :irc.local 378 root root :is connecting from root@127.0.0.1 127.0.0.1
+// :irc.local 319 root root :@#hello
+// :irc.local 312 root root irc.local :Local IRC Server
+// :irc.local 379 root root :is using modes +i
+// :irc.local 317 root root 231 1697620974 :seconds idle, signon time
+// :irc.local 318 root root :End of /WHOIS list.
 
 void Server::whois(MessageInfo *msg, Client *client)
 {
     Client *targetClient = getClient(msg->params[0]);
     if(targetClient)
     {
-        /*311*/ //* = 사용자가 서버 연결중임을 나타냄 *가 접속중 아니면 채널명 어디에 속해있는지
-        std::string msg311 = "ft_irc 311" + client->getNickname() + " " + targetClient->getNickname() + 
+        /*311*/
+        std::string msg311 = "ft_irc 311 " + client->getNickname() + " " + targetClient->getNickname() + 
             targetClient->getUsername() + "127.0.0.1 * :" + targetClient->getRealname() + "\r\n";
         /*312*/
-        std::string msg312 = "ft_irc 312" + client->getNickname() + " " + targetClient->getNickname() + 
+        std::string msg312 = "ft_irc 312 " + client->getNickname() + " " + targetClient->getNickname() + 
             "ft_irc :Local IRC Server" + "\r\n";
         /*317*/
         targetClient->updateIdleTime();
@@ -59,8 +72,15 @@ void Server::whois(MessageInfo *msg, Client *client)
         /*318*/
         std::string msg318 = ":ft_irc 318 " + client->getNickname() + " " + targetClient->getNickname() +
         ":End of/WHOIS list.";
-        //:irc.local 318 _nick eko :End of /WHOIS list.
-        sendResponse(msg311 + msg312 + msg317 + msg318, client);
+        if(isOperatorClient(targetClient->getCurrentchannel(), targetClient->getSocket()))
+        {
+            std::string msg319 = "ft_irc 312 " + client->getNickname() + " " + targetClient->getNickname() + " :@" +targetClient->getCurrentchannel() + "\r\n";
+            sendResponse(msg311 + msg319 + msg312 + msg317 + msg318, client);
 
+        }
+        else
+            sendResponse(msg311 + msg312 + msg317 + msg318, client);
     }
+    else
+        noSuchNick(client->getSocket(), msg->params[0], msg->cmd);
 }

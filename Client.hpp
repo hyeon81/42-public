@@ -18,6 +18,7 @@ class Client{
         std::string username;
         std::string read_buf;
         std::string send_buf;
+        std::string currentChannel; //
         time_t signonTime;
         time_t idleTime;
 
@@ -36,6 +37,9 @@ class Client{
         std::string &getRealname();
         void setUsername(std::string username, std::string realname);
         std::string &getUsername();
+        std::string &getCurrentchannel(); //
+        void setCurrentchannel(std:: string channelname); //
+
         bool getInvite();
         void setInvite(bool value);
         void clearMsgs();
