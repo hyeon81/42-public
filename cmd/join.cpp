@@ -54,7 +54,6 @@ void Server::join(MessageInfo *msg, Client *client)
     }
 
     std::string channelName = msg->params[0];
-    // client->getCurrentChannel(cannelName);
     if (channelName[0] != '#' && channelName[0] != '&') 
     {
         std::string msg = ":ft_irc 476 " + client->getNickname() + " " + channelName + " :Bad Channel Mask";

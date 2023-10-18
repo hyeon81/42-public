@@ -27,6 +27,7 @@ void Server::kick(MessageInfo *msg, Client *client)
                 //:root!root@127.0.0.1 KICK #hello root_ :
                 std::string msgs = "KICK " + channelName + " " + user->getNickname() + " :";
                 sendMessageAll(client, msgs, channelName);
+                user->setCurrentchannel("*");
                 removeClientFromChannel(msg->params[0], user);
             }
             else

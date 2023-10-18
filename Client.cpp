@@ -8,6 +8,7 @@ Client::Client(int fd): fd(fd) , signonTime(0), idleTime(0)
     this->valid = false;
     this->invite = false;
     this->updateSignonTime();
+    this->currentChannel = "*";
 }
 
 Client::~Client()
@@ -67,9 +68,9 @@ std::string &Client::getRealname()
     return (this->realname);
 }
 
-std::string &Client::getCurrentchannel() //
+std::string Client::getCurrentchannel() //
 {
-    return(this -> currentChannel);
+    return(currentChannel);
 }
 
 void Client::setCurrentchannel(std:: string channelname) //
