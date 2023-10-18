@@ -10,11 +10,15 @@ bool Server::isExistChannel(std::string name)
 
 void Server::addChannel(std::string name)
 {
+    if (isExistChannel(name))
+        return;
     channels.insert(std::make_pair(name, new Channel(name)));
 }
 
 void Server::removeChannel(std::string name)
 {
+    if (!isExistChannel(name))
+        return ;
     channels.erase(name);
 }
 
@@ -32,11 +36,8 @@ void Server::addClientToChannel(std::string name, Client *client, std::string pa
     //:irc.local 473 root_ #hello :Cannot join channel (invite only)
     if (channels[name]->isModeApplied(INVITE))
     {
-        if (!channels[name]->isInvited(client))
-        {
+        if (!(channels[name]->isInvited(client)))
             inviteOnly(client, name);
-            throw std::runtime_error("invite only");
-        }
     }
 
     //limit모드인지 확인

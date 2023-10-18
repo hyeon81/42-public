@@ -57,7 +57,7 @@ std::vector<MessageInfo> &Client::getMsgs()
     return (msgs->getMsgs());
 }
 
-std::string &Client::getNickname()
+std::string Client::getNickname()
 {
     return (this->nickname);
 }

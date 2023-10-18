@@ -38,9 +38,10 @@ class Server{
 
         /* Client */
         void communicateClient(int fd, std::string buffer);
-        void addClient(Client *client);
+        void addClientToServer(Client *client);
         void removeClient(Client *client);
         void joinChannel();
+        bool isExistClient(std::string nickname);
     
         /* Channel*/
         bool isExistChannel(std::string name);
@@ -76,10 +77,8 @@ class Server{
         void privmsg(MessageInfo *msg, Client *client);
         void notice(MessageInfo *msg, Client *client);
         void who(MessageInfo *msg, Client *client);
-        void whois(MessageInfo *msg, Client *client);
         void quit(MessageInfo *msg, Client *client);
-
-
+        void whois(MessageInfo *msg, Client *client);
         
         /* utils */
         unsigned int convertPort(char *port);
@@ -105,7 +104,7 @@ class Server{
         void channelIsFull(Client *client, std::string channelName);
         void inviteOnly(Client *client, std::string channelName);
         void notOnChannel(Client *client, std::string channelName, std::string userName);
-
+        void MeNotOnChannel(Client *client, std::string channelName, std::string userName);
         /* debug */
         void showInfo();
 };

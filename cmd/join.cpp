@@ -48,7 +48,6 @@ JOIN 메시지 전파: 서버는 JOIN 명령을 통해 채널에 참여한 클�
 void Server::join(MessageInfo *msg, Client *client) 
 {
     // std::cout << "join" << std::endl;
-
     if (!msg->params.size()) {
         notEnoughParams(client->getSocket(), client->getNickname(), msg->cmd);
     }
