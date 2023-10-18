@@ -84,6 +84,8 @@ class Server{
         /* utils */
         unsigned int convertPort(char *port);
         void setMessageInfo(std::vector<MessageInfo> &msg, std::string buf);
+        bool clientExistsWithNickname(const std::string& nickname);
+
 
         /* send */
         void sendMessage(Client *client, std::string cmd);

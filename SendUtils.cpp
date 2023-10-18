@@ -153,3 +153,13 @@ void Server::notOnChannel(Client *client, std::string channelName, std::string u
     send(client->getSocket(), msg.c_str(), msg.size(), 0);
     throw std::runtime_error("not on channel");
 }
+
+bool Server::clientExistsWithNickname(const std::string& nickname)
+{
+    for (std::map<int, Client*>::const_iterator it = clients.begin(); it != clients.end(); ++it) {
+        if (it->second->getNickname() == nickname) {
+            return true; // 같은 닉네임의 클라이언트가 이미 존재함
+        }
+    }
+    return false; // 같은 닉네임의 클라이언트가 존재하지 않음
+}

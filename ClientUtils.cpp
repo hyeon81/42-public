@@ -34,3 +34,16 @@ void Server::removeClient(Client *client) {
         }
     }
 }
+
+
+// bool Server::isNickNameInUse(const std::string &nickName)
+// {
+//     for (std::map<int, Client *>::iterator it = clients.begin(); it != clients.end(); ++it)
+//     {
+//         if (it->second->getNickname() == nickName)
+//         {
+//             return true;
+//         }
+//     }
+//     return false;
+// }
