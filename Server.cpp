@@ -65,10 +65,10 @@ int Server::runServer()
     while (1)
     {
         // kqueue에 이벤트 첨부
-        std::cout << "keque 1" << std::endl;
+        // std::cout << "keque 1" << std::endl;
         int nev = kevent(kq, &events[0], events.size(), eventList, EVENTLIST_SIZE, NULL); // kevent 함수를 사용하여 새 이벤트를 기다리거나 (클라이언트 연결 시도) 이전에 등록한 이벤트를 모니터링합니다.
         // kq로 전달된 kqueue에 새로 모니터링할 이벤트를 등록하고, 발생하여 아직 처리되지 않은(pending 상태인) 이벤트의 개수를 return
-        std::cout << "nev = " << nev << std::endl;
+        // std::cout << "nev = " << nev << std::endl;
         if (nev == -1)
         {
             perror("kevent");
@@ -76,7 +76,7 @@ int Server::runServer()
         }
         for (int i = 0; i < nev; i++)
         {
-            std::cout << "진입" << std::endl;
+            // std::cout << "진입" << std::endl;
             if (eventList[i].flags & EV_EOF)
             {                        // 이벤트의 flags 필드를 검사하여 연결이 끊어졌는지 확인 EV_EOF 플래그를 사용하여 클라이언트 연결이 종료되었는지 확인
                 close(serverSocket); // 연결이 종료된 경우, 클라이언트 소켓을 닫고 해당 클라이언트에 대한 모니터링을 중지
@@ -183,11 +183,11 @@ void Server::runCommand(MessageInfo *msg, Client *client)
             }
         }
         // 명령어가 없을 경우. 빼도 됨.
-        throw std::runtime_error("no match command");
+        // throw std::runtime_error("no match command");
     }
     catch (std::exception &e)
     {
-        std::cerr << "Exception: " << e.what() << std::endl;
+        // std::cerr << "Exception: " << e.what() << std::endl;
     }
 }
 
