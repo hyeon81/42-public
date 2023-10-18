@@ -12,6 +12,9 @@ void Server::kick(MessageInfo *msg, Client *client)
     {
         if (msg->params.size() > 2)
         {
+            //내가 채널에 있는지 확인
+            if (!(channels[channelName]->isMember(client)))
+                MeNotOnChannel(client, channelName, client->getNickname());
             Client *user = getClient(msg->params[1]);
             //존재하지 않은 유저인지 확인
             if (user == NULL)

@@ -3,16 +3,15 @@
 bool checkModeArgu(std::string &argu)
 {
     //모드가 플러스인지 마이너스인지 확인
-    if (argu.size() != 2)
-        return (false);
     char oper = argu[0];
     if (oper != '+' && oper != '-')
         return (false);
     //유효한 모드인지 확인
-    char modeChar = argu[1];
-    if (modeChar != 'i' && modeChar != 't' && modeChar != 'k' && modeChar != 'o' && modeChar != 'l')
-        return (false);
     return (true);
+    // char modeChar = argu[1];
+    // if (modeChar != 'i' && modeChar != 't' && modeChar != 'k' && modeChar != 'o' && modeChar != 'l')
+    //     return (false);
+    // return (true);
 }
 
 //MODE 채널명 모드명 [모드매개변수]
@@ -30,15 +29,12 @@ void Server::mode(MessageInfo *msg, Client *client)
     std::string channelName = msg->params[0];
     //:root!root@127.0.0.1 MODE root :+i
     if (channelName[0] != '#')
-    {
         return;
-    }
     if (!isExistChannel(channelName))
-    {
         noSuchChannel(client->getSocket(), client->getNickname(), channelName);
-        return ;
         //유효한 채널 아님
-    }
+    if (!(channels[channelName]->isMember(client)))
+        MeNotOnChannel(client, channelName, client->getNickname());
     //인자가 하나만 있을 경우. 즉 채널명만 있을 경우
     if (msg->params.size() == 1)
     {
@@ -58,20 +54,32 @@ void Server::mode(MessageInfo *msg, Client *client)
     if (msg->params.size() == 3)
         modeArgu = msg->params[2];
 
-    char modeChar = msg->params[1][1];
+    std::string modeString = msg->params[1];
     char modeOption[5] = {'i', 't', 'k', 'o', 'l'};
     ChannelMode modeEnum[5] = {INVITE, TOPIC, KEY, OPER, LIMIT};
-    for (int i = 0; i < 5; i++)
+    //하나에 대해서 실행
+    for (int j = 1; j < modeString.length(); j++)
     {
-        if (modeChar == modeOption[i])
+        for (int i = 0; i < 5; i++)
         {
-            //모드 적용
-            if (msg->params[1][0] == '+')
-                setChannelMode(channelName, modeEnum[i], modeArgu, client);
-            else if (msg->params[1][0] == '-')
-                removeChannelMode(channelName, modeEnum[i], modeArgu, client);
+            if (modeString[j] == modeOption[i])
+            {
+                //모드 적용
+                if (msg->params[1][0] == '+')
+                    setChannelMode(channelName, modeEnum[i], modeArgu, client);
+                else if (msg->params[1][0] == '-')
+                    removeChannelMode(channelName, modeEnum[i], modeArgu, client);
+                break;
+            }
+            if (i == 5)
+            {
+                //유효한 모드 인자 아님
+                std::string msgs = ":ft_irc 403 " + client->getNickname() + " " + modeString[j] + " :is unknown mode char to me";
+                sendResponse(msgs, client);
+            }
         }
     }
+    
 }
 
 // Command: MODE

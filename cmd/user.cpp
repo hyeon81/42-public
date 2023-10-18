@@ -26,7 +26,7 @@ void Server::user(MessageInfo *msg, Client *client)
     client->setUsername(username, realname);
     // //유저가 들어왔을때 client 등록한다고 판단. pass와 nick이 먼저 들어와야함.
     // client->setValid(true); 
-    addClient(client);
+    addClientToServer(client);
     client->showInfo();
     //RPL_WELCOME (001) 
     //"<client> :Welcome to the <networkname> Network, <nick>[!<user>@<host>]"

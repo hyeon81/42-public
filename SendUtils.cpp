@@ -65,7 +65,7 @@ void Server::badChannelKey(Client *client, std::string channelName)
 //:irc.local 473 root_ #hello :Cannot join channel (invite only)
 void Server::inviteOnly(Client *client, std::string channelName)
 {
-    std::string msg = ":ft_irc 473 " + channelName + " :Cannot join channel (invite only)\r\n";
+    std::string msg = ":ft_irc 473 " + client->getNickname() + " " + channelName + " :Cannot join channel (invite only)\r\n";
     std::cout << "***send: " << msg << std::endl;
     send(client->getSocket(), msg.c_str(), msg.size(), 0); 
     throw std::runtime_error("invite only"); 
@@ -73,7 +73,7 @@ void Server::inviteOnly(Client *client, std::string channelName)
 
 void Server::channelIsFull(Client *client, std::string channelName)
 {
-    std::string msg = ":ft_irc 471 " + channelName + " :Cannot join channel (channel is full)\r\n";
+    std::string msg = ":ft_irc 471 " + client->getNickname() +  " "  + channelName + " :Cannot join channel (channel is full)\r\n";
     std::cout << "***send: " << msg << std::endl;
     send(client->getSocket(), msg.c_str(), msg.size(), 0);  
     throw std::runtime_error("channel is full");
@@ -153,3 +153,12 @@ void Server::notOnChannel(Client *client, std::string channelName, std::string u
     send(client->getSocket(), msg.c_str(), msg.size(), 0);
     throw std::runtime_error("not on channel");
 }
+
+void Server::MeNotOnChannel(Client *client, std::string channelName, std::string userName)
+{
+    std::string msg = ":ft_irc 442 " + client->getNickname() + " " + channelName + " :You're not on that channel\r\n";
+    std::cout << "***send: " << msg << std::endl;
+    send(client->getSocket(), msg.c_str(), msg.size(), 0);
+    throw std::runtime_error("not on channel");
+}
+

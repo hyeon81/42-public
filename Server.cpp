@@ -187,7 +187,7 @@ void Server::runCommand(MessageInfo *msg, Client *client)
     }
     catch (std::exception &e)
     {
-        // std::cerr << "Exception: " << e.what() << std::endl;
+        std::cerr << "Exception: " << e.what() << std::endl;
     }
 }
 

@@ -38,9 +38,10 @@ class Server{
 
         /* Client */
         void communicateClient(int fd, std::string buffer);
-        void addClient(Client *client);
+        void addClientToServer(Client *client);
         void removeClient();
         void joinChannel();
+        bool isExistClient(std::string nickname);
     
         /* Channel*/
         bool isExistChannel(std::string name);
@@ -100,7 +101,7 @@ class Server{
         void channelIsFull(Client *client, std::string channelName);
         void inviteOnly(Client *client, std::string channelName);
         void notOnChannel(Client *client, std::string channelName, std::string userName);
- 
+        void MeNotOnChannel(Client *client, std::string channelName, std::string userName);
         /* debug */
         void showInfo();
 };

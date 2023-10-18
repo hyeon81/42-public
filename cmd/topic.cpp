@@ -14,6 +14,8 @@ void Server::topic(MessageInfo *msg, Client *client)
     Channel *channel = getChannel(channelName);
     if (isExistChannel(channelName)) // 존재한다면..?
     {
+        if (!(channels[channelName]->isMember(client)))
+            MeNotOnChannel(client, channelName, client->getNickname());
         if (msg->params.size() < 2) 
         {
             // 주제를 확인하는 경우
