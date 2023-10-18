@@ -52,7 +52,9 @@ void Server::join(MessageInfo *msg, Client *client)
     if (!msg->params.size()) {
         notEnoughParams(client->getSocket(), client->getNickname(), msg->cmd);
     }
+
     std::string channelName = msg->params[0];
+    // client->getCurrentChannel(cannelName);
     if (channelName[0] != '#' && channelName[0] != '&') 
     {
         std::string msg = ":ft_irc 476 " + client->getNickname() + " " + channelName + " :Bad Channel Mask";
@@ -67,6 +69,7 @@ void Server::join(MessageInfo *msg, Client *client)
             password = msg->params[1];
         }
         addClientToChannel(channelName, client, password);
+        client->setCurrentchannel(channelName);//
 
         // 새클라이언트가 채널에 참가했음을 알림
         std::string joinMessage = ":" + client->getNickname() + "!" + client->getUsername()
@@ -105,6 +108,7 @@ void Server::join(MessageInfo *msg, Client *client)
 
         // 필요한 경우 해당 클라이언트를 operator로 설정하는 코드를 추가
         channels[channelName]->setOperatorFd(client);
+        client->setCurrentchannel(channelName);//
         
         // 새로운 채널에 클라이언트가 참가했음을 다른 사용자에게 알린다
         std::string joinMessage = ":" + client->getNickname() + "!" + client->getUsername()
