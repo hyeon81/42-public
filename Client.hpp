@@ -33,6 +33,7 @@ class Client{
         std::vector<MessageInfo> &getMsgs();
         void setNickname(std::string nickname);      
         std::string &getNickname();
+        std::string &getRealname();
         void setUsername(std::string username, std::string realname);
         std::string &getUsername();
         bool getInvite();
