@@ -45,6 +45,9 @@
 //이미 있는 유저가 들어오면..?
 
 
+
+
+
 void Server::nick(MessageInfo *msg, Client *client)
 {
     std::string errorMsg;
@@ -72,20 +75,51 @@ void Server::nick(MessageInfo *msg, Client *client)
             return ;
         }
     }
-    if (client->getNickname().empty())
+
+    // if(client->getNickname().empty()) //들어올때 hello로 들어오기때문에
+    // {
+    //     for(std::map<int, Client*>::iterator it = clients.begin(); it != clients.end(); ++it)
+    //     {
+    //         if (it->second->getNickname() == nickName) // 같을 경우만 검증을 하기 때문
+    //         {
+                
+
+    //             client->setNickname(nickName + "_");
+    //             return ;
+    //         }
+
+
+            
+    //     }
+    //     client->setNickname(nickName);
+    //     return ;
+    // }
+
+    if (client->getNickname().empty()) // 새로운 클라이언트의 경우
     {
-        std::map<int, Client*>::iterator iter;
-        for (iter = this->clients.begin(); iter != this->clients.end(); iter++)
+        // 동일한 닉네임이 이미 존재하는지 확인
+        for (std::map<int, Client*>::iterator it = clients.begin(); it != clients.end(); ++it)
         {
-            if (iter->second->getNickname() == nickName) // 같을 경우
+            if (it->second->getNickname() == nickName)
             {
-                client->setNickname(nickName + "_");
-                return ;
+                // 이미 사용 중인 닉네임이라면 언더스코어 추가
+                int underscoreCount = 1;
+                std::string originalName = nickName;
+                while (clientExistsWithNickname(nickName))
+                {
+                    nickName = originalName + "_";
+                    for (int i = 0; i < underscoreCount; ++i)
+                    {
+                        nickName += "_";
+                    }
+                    underscoreCount++;
+                }
+                break;
             }
         }
         client->setNickname(nickName);
-        return ;
     }
+
     else
     {
         for(std::map<int, Client*>::iterator it = clients.begin(); it != clients.end(); it++)
@@ -102,3 +136,5 @@ void Server::nick(MessageInfo *msg, Client *client)
     sendResponse(responseMsg, client);
     client->setNickname(nickName);
 }
+
+//퀴트할때 이미 참여하고 있음 더 들어갈수없게 만들기
