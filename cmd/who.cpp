@@ -16,6 +16,12 @@ mask
 
 */
 
+/*
+127.000.000.001.06667-127.000.000.001.35666: :irc.local 352 root_ * root 127.0.0.1 irc.local root_ H :0 root
+:irc.local 352 root_ * root 127.0.0.1 irc.local root H :0 root
+:irc.local 315 root_ root :End of /WHO list.
+*/
+
 
 //352 클라이언트의 정보
 //315 정보의 끝
@@ -32,19 +38,21 @@ void Server::who(MessageInfo *msg, Client *client)
             for (size_t i = 0; i < members.size(); i++)
             {
                 /*
-                :calcium.libera.chat 352 dan #ircv3 ~emersion sourcehut/staff/emersion calcium.libera.chat emersion H :1 Simon Ser
-                :calcium.libera.chat 352 dan #ircv3 ~val limnoria/val calcium.libera.chat val H :1 Val
-                :calcium.libera.chat 315 dan #ircv3 :End of WHO list
-                                  ; Reply to WHO #ircv3
+                eko가 물어봄
+            :irc.local 352 eko #hello root 127.0.0.1 irc.local _nick H :0 root
+            :irc.local 352 eko #hello root 127.0.0.1 irc.local eko H@ :0 root
+            :irc.local 352 eko #hello root 127.0.0.1 irc.local root H :0 root
+            :irc.local 315 eko #hello :End of /WHO list.
                 */
-                //:irc.server.com 352 your-nickname #channel username hostname irc.server.com their-nickname H :0 Real Name
-                sendMsg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + \
-                    "WHO" + members[i]->getNickname() + " " + members[i]->getUsername();
-                sendResponse(sendMsg, client);
+                sendMsg = ":ft_irc 352" + client->getNickname() + " " + msg->params[0] + " " +
+                client->getUsername() + "127.0.0.1 " + "ft_irc" + members[i]->getNickname() + "H :0" + members[i]->getUsername();
+                sendResponse(sendMsg, client); //host면 @
             }
+            sendMsg = ":ft_irc 315" + client->getNickname() + " " + msg->params[0] + " :End of /WHO list.";
+            sendResponse(sendMsg, client);
         }
         else
-           noSuchChannel(client->getSocket(), client->getNickname(), msg->params[0]);
+            noSuchChannel(client->getSocket(), client->getNickname(), msg->params[0]);
     }
     else //client
     {
@@ -52,11 +60,13 @@ void Server::who(MessageInfo *msg, Client *client)
         if(targetClient)
         {
             /*
-            :calcium.libera.chat 352 dan #ircv3 ~emersion sourcehut/staff/emersion calcium.libera.chat emersion H :1 Simon Ser
-            :calcium.libera.chat 315 dan emersion :End of WHO list    
-                                  ; Reply to WHO emersion
+:irc.local 352 _nick #hello root 127.0.0.1 irc.local _nick H :0 root
+:irc.local 315 _nick _nick :End of /WHO list.
+채팅방에 없을 때 마찬가지로 호스트일땐 골뱅이에 @
+:irc.local 352 _nick * root 127.0.0.1 irc.local _nick H :0 root
+:irc.local 315 _nick _nick :End of /WHO list.
             */
-               sendMsg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + \
+            sendMsg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + \
                     "WHO" + targetClient->getNickname() + " " + targetClient->getUsername();
             sendResponse(sendMsg, client);
         }

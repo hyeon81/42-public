@@ -18,6 +18,8 @@ class Client{
         std::string username;
         std::string read_buf;
         std::string send_buf;
+        time_t signonTime;
+        time_t idleTime;
 
     public:
         Client(int fd);
@@ -39,6 +41,13 @@ class Client{
 
         /* debug */
         void showInfo();
+
+        /* time */
+        void updateSignonTime();
+        void updateIdleTime();
+        time_t getIdleTime();
+        time_t getSignonTime();
+
 };
 
 #endif
