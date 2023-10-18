@@ -37,7 +37,8 @@ class Client{
         std::string &getRealname();
         void setUsername(std::string username, std::string realname);
         std::string &getUsername();
-        std::string &getCurrentchannel(); //
+        std::string getCurrentchannel(); //
+
         void setCurrentchannel(std:: string channelname); //
 
         bool getInvite();
