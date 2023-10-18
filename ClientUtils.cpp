@@ -2,11 +2,11 @@
 
 void Server::addClientToServer(Client *client)
 {
-    if (client->getValid())
-    {
+    // if (client->getValid())
+    // {
         std::cout << "add client" << std::endl;
         this->clients.insert(std::make_pair(client->getSocket(), client));
-    }
+    // }
 }
 
 Client *Server::getClient(std::string nickname)
