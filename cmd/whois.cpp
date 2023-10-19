@@ -61,11 +61,11 @@ void Server::whois(MessageInfo *msg, Client *client)
     {
         std::cout << "targetClient 널 아닌데유" << std::endl;
         /*311*/
-        std::string msg311 = "ft_irc 311 " + client->getNickname() + " " + targetClient->getNickname() + 
-            targetClient->getUsername() + "127.0.0.1 * :" + targetClient->getRealname() + "\r\n";
+        std::string msg311 = "ft_irc 311 " + client->getNickname() + " " + targetClient->getNickname() + " " +
+            targetClient->getUsername() + " 127.0.0.1 * :" + targetClient->getRealname() + "\r\n";
         /*312*/
         std::string msg312 = "ft_irc 312 " + client->getNickname() + " " + targetClient->getNickname() + 
-            "ft_irc :Local IRC Server" + "\r\n";
+            " ft_irc :Local IRC Server" + "\r\n";
         /*317*/
         targetClient->updateIdleTime();
         std::string msg317 = ":ft_irc 317 " + client->getNickname() + " " + targetClient->getNickname() +
@@ -76,7 +76,7 @@ void Server::whois(MessageInfo *msg, Client *client)
         ":End of/WHOIS list.";
         if(isOperatorClient(targetClient->getCurrentchannel(), targetClient->getSocket()))
         {
-            std::string msg319 = "ft_irc 312 " + client->getNickname() + " " + targetClient->getNickname() + " :@" +targetClient->getCurrentchannel() + "\r\n";
+            std::string msg319 = "ft_irc 319 " + client->getNickname() + " " + targetClient->getNickname() + " :@" +targetClient->getCurrentchannel() + "\r\n";
             sendResponse(msg311 + msg319 + msg312 + msg317 + msg318, client);
 
         }
