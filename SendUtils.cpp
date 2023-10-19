@@ -56,6 +56,9 @@ void Server::noChannelOperPrivileges(int fd, std::string nickname, std::string c
 //:irc.local 475 root_ #hello :Cannot join channel (incorrect channel key)
 void Server::badChannelKey(Client *client, std::string channelName)
 {
+    if (!client)
+        return ;
+
     std::string msg = ":ft_irc 475 " + client->getNickname() + " " + channelName + " :Cannot join channel (incorrect channel key)\r\n";
     std::cout << "***send: " << msg << std::endl;
     send(client->getSocket(), msg.c_str(), msg.size(), 0);  
@@ -65,6 +68,9 @@ void Server::badChannelKey(Client *client, std::string channelName)
 //:irc.local 473 root_ #hello :Cannot join channel (invite only)
 void Server::inviteOnly(Client *client, std::string channelName)
 {
+    if (!client)
+        return ;
+
     std::string msg = ":ft_irc 473 " + client->getNickname() + " " + channelName + " :Cannot join channel (invite only)\r\n";
     std::cout << "***send: " << msg << std::endl;
     send(client->getSocket(), msg.c_str(), msg.size(), 0); 
@@ -73,6 +79,9 @@ void Server::inviteOnly(Client *client, std::string channelName)
 
 void Server::channelIsFull(Client *client, std::string channelName)
 {
+    if (!client)
+        return ;
+
     std::string msg = ":ft_irc 471 " + client->getNickname() +  " "  + channelName + " :Cannot join channel (channel is full)\r\n";
     std::cout << "***send: " << msg << std::endl;
     send(client->getSocket(), msg.c_str(), msg.size(), 0);  
@@ -84,6 +93,9 @@ void Server::channelIsFull(Client *client, std::string channelName)
 //:irc.local 696 root_ #hello o * :You must specify a parameter for the op mode. Syntax: <nick>
 void Server::invalidModeParam(Client *client, std::string channelName, std::string modeName)
 {
+    if (!client)
+        return ;
+
     std::string msg = ":ft_irc 696 " + client->getNickname() +  " " + channelName + " " + modeName + " : You must specify a parameter for the op mode.\r\n";
     std::cout << "***send: " << msg << std::endl;
     send(client->getSocket(), msg.c_str(), msg.size(), 0);
@@ -105,6 +117,9 @@ void Server::invalidModeParam(Client *client, std::string channelName, std::stri
 //유저들에게 보내는 메세지
 void Server::sendMessage(Client *client, std::string cmd)
 {
+    if (!client)
+        return ;
+
     //<nick>!<user>@<host>
     std::string msg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + cmd + "\r\n";
     std::cout << "***send: " << msg << std::endl;
@@ -119,6 +134,9 @@ void Server::sendMessageAll(Client *client, std::string msg, std::string channel
     std::cout << "members size: " << members.size() << std::endl;
     std::string m = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + msg + "\r\n";
     
+    if (!client)
+        return ;
+
     for (size_t i = 0; i < members.size(); i++) 
     {
         // if (members[i]->getSocket() != client->getSocket())
@@ -148,6 +166,9 @@ void Server::sendMessageAllWithOutMe(Client *client, std::string msg, std::strin
 //irc.local 441 root_ root #hello :They are not on that channel
 void Server::notOnChannel(Client *client, std::string channelName, std::string userName)
 {
+    if (!client)
+        return ;
+
     std::string msg = ":ft_irc 441 " + client->getNickname() + " " + userName + " " + channelName + " :They are not on that channel\r\n";
     std::cout << "***send: " << msg << std::endl;
     send(client->getSocket(), msg.c_str(), msg.size(), 0);
@@ -166,6 +187,9 @@ bool Server::clientExistsWithNickname(const std::string& nickname)
 
 void Server::MeNotOnChannel(Client *client, std::string channelName, std::string userName)
 {
+    if (!client)
+        return ;
+    
     std::string msg = ":ft_irc 442 " + client->getNickname() + " " + channelName + " :You're not on that channel\r\n";
     std::cout << "***send: " << msg << std::endl;
     send(client->getSocket(), msg.c_str(), msg.size(), 0);

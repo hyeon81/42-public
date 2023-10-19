@@ -240,6 +240,8 @@ void Server::removeChannelMode(std::string channelName, ChannelMode mode, std::s
                 noSuchNick(client->getSocket(), client->getNickname(), param);
             if (!channel->isOperator(user->getSocket()))
                 throw std::runtime_error("not operator");
+            if (channel->isMember(user) == false)
+                notOnChannel(client, channelName, user->getNickname());
             //:root_!root@127.0.0.1 MODE #hello -o :root_
             channel->removeOperator(user);
             std::string msg = "MODE " + channelName + " -o :" + param;

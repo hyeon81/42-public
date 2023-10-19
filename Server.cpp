@@ -195,6 +195,15 @@ void Server::runCommand(MessageInfo *msg, Client *client)
                 }
                 if (i != 0 && i != 1 && i != 2 && (client->getNickname().empty() || client->getUsername().empty()))
                 {
+                    if (cmds[i] == "QUIT")
+                    {
+                        std::string responseMsg = "ERROR :CLosing link: (127.0.0.1) [Quit: leaving]";
+                        sendResponse(responseMsg, client);
+                        nClients.erase(client->getSocket());
+                        delete client;
+                        close(client->getSocket());
+                        return;
+                    }
                     std::string errorMsg = ":ft_irc 451 :You have not registered";
                     sendResponse(errorMsg, client);
                     return;
