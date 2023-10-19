@@ -158,8 +158,6 @@ void Server::communicateClient(int fd, std::string buffer)
     /* 메세지 실행. msgs의 크기만큼 */
     std::vector<MessageInfo> msgs;
     setMessageInfo(msgs, buffer);
-    // client->setMsgs(buffer);
-    // std::vector<MessageInfo> msgs = client->getMsgs();
     for (unsigned int i = 0; i < msgs.size(); i++)
     {
         // std::cout << msgs[i].cmd << std::endl;
@@ -170,7 +168,6 @@ void Server::communicateClient(int fd, std::string buffer)
         if (client)
             runCommand(&msgs[i], client);
     }
-    // client->clearMsgs();
     // showInfo();
     // client->showInfo();
     std::cout << "=====end=====" << std::endl;

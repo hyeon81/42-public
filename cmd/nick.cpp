@@ -45,9 +45,6 @@
 //이미 있는 유저가 들어오면..?
 
 
-
-
-
 void Server::nick(MessageInfo *msg, Client *client)
 {
     std::string errorMsg;
@@ -75,6 +72,7 @@ void Server::nick(MessageInfo *msg, Client *client)
             return ;
         }
     }
+
     if (client->getNickname().empty()) // 새로운 클라이언트의 경우
     {
         // 동일한 닉네임이 이미 존재하는지 확인

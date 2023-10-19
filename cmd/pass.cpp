@@ -26,7 +26,6 @@ void Server::pass(MessageInfo *msg, Client *client)
         if (nClients.find(clientSocket) != nClients.end()) 
         {
             nClients.erase(clientSocket);
-            clients.erase(clientSocket);
             delete client; // 삭제된 클라이언트 객체를 해제
             close(clientSocket); // 클라이언트 소켓 닫기
             throw std::runtime_error("password incorrect");
