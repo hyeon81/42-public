@@ -23,46 +23,37 @@ int Server::runServer()
         perror("Socket creation failed");
         return -1;
     }
-    sockaddr_in serverAddress; // serverAddress 구조체는 서버의 주소 정보를 설정
+    sockaddr_in serverAddress;
     memset(&serverAddress, 0, sizeof(serverAddress));
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_addr.s_addr = INADDR_ANY;
     serverAddress.sin_port = htons(PORT);
-    // 소켓과 서버 주소를 바인딩
     if (bind(serverSocket, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) == -1)
     {
         perror("Binding failed");
         return -1;
     }
-    // 함수를 사용하여 클라이언트의 연결을 대기
-    if (listen(serverSocket, 5) == -1) // 5보다는 SOMAXCONN을 일단 추천
+    if (listen(serverSocket, 5) == -1)
     {
         perror("Listening failed");
         return -1;
     }
     fcntl(serverSocket, F_SETFL, O_NONBLOCK);
     std::cout << "Server listening on port " << PORT << std::endl;
-    // kqueue 생성
-    int kq = kqueue(); // kqueue를 초기화하고 커널에 새로운 event queue를 만들고 큐의 디스크립터를 얻음
-    // 리턴된 fd는 kevent()에서 이벤트를 등록, 모니터링하는데 사용
+    int kq = kqueue();
     if (kq == -1)
     {
         perror("kqueue initialization failed");
         return -1;
     }
     struct kevent event;
-    std::vector<struct kevent> events; // 감시해야할 목록 리스트
-    // kevent 구조를 초기화
-    EV_SET(&event, serverSocket, EVFILT_READ, EV_ADD, 0, 0, NULL); // struct kevent 배열인 events를 사용하여 EV_SET 함수를 호출하여 서버 소켓의 읽기 이벤트를 설정하고 활성화
-    // EV_SET 매크로는 kqueue의 이벤트를 설정하고 구성하기 위한 함수 이 함수를 사용해 kqueue의 이벤트 필터, 이벤트 액션 및 관련 정보를 설정할 수 있다
+    std::vector<struct kevent> events;
+    EV_SET(&event, serverSocket, EVFILT_READ, EV_ADD, 0, 0, NULL);
     events.push_back(event);
-    struct kevent eventList[EVENTLIST_SIZE]; // 감시하는 놈들 중에서 문제아 발생 목록을 정리
-    // kevent 함수를 사용하여 kqueue로부터 이벤트를 대기 이 코드에서는 서버 소켓의 읽기 이벤트를 모니터링하고 있음
+    struct kevent eventList[EVENTLIST_SIZE];
     while (1)
     {
-        // kqueue에 이벤트 첨부
-        int nev = kevent(kq, &events[0], events.size(), eventList, EVENTLIST_SIZE, NULL); // kevent 함수를 사용하여 새 이벤트를 기다리거나 (클라이언트 연결 시도) 이전에 등록한 이벤트를 모니터링합니다.
-        // kq로 전달된 kqueue에 새로 모니터링할 이벤트를 등록하고, 발생하여 아직 처리되지 않은(pending 상태인) 이벤트의 개수를 return
+        int nev = kevent(kq, &events[0], events.size(), eventList, EVENTLIST_SIZE, NULL);
         events.clear();
         if (nev == -1)
         {
@@ -71,16 +62,13 @@ int Server::runServer()
         }
         for (int i = 0; i < nev; i++)
         {
-            // std::cout << "진입" << std::endl;
             if (eventList[i].flags & EV_EOF)
-            {                        // 이벤트의 flags 필드를 검사하여 연결이 끊어졌는지 확인 EV_EOF 플래그를 사용하여 클라이언트 연결이 종료되었는지 확인
-                close(eventList[i].ident); // 연결이 종료된 경우, 클라이언트 소켓을 닫고 해당 클라이언트에 대한 모니터링을 중지
+            {                        
+                close(eventList[i].ident);
             }
             else if (eventList[i].ident == (uintptr_t)serverSocket)
-            { // ident 필드를 사용하여 이벤트가 발생한 소켓을 확인
-                // serverSocket에 대한 이벤트가 발생했다면, 새 클라이언트가 서버에 연결하려는 시도가 있음을 의미
+            {
                 int clientSocket = accept(serverSocket, nullptr, nullptr);
-                // 새로운 클라이언트 연결이 들어오면 accept를 통해 클라이언트 연결을 수락하고 새로운 클라이언트 소켓을 생성하고,
                 if (clientSocket == -1)
                 {
                     perror("Accepting client connection failed");
@@ -88,17 +76,13 @@ int Server::runServer()
                 }
                 EV_SET(&event, clientSocket, EVFILT_READ, EV_ADD, 0, 0, NULL);
                 events.push_back(event);
-                // 해당 클라이언트 소켓의 읽기 이벤트를 설정하고 활성화
-                // 이 새로운 클라이언트 소켓을 모니터링 대상으로 추가하기 위해 EV_SET을 사용하여 새 이벤트를 이벤트 배열에 추가
             }
             else if (eventList[i].filter == EVFILT_READ)
-            { // 이벤트가 serverSocket이나 연결 종료 이벤트가 아닌 경우에는 데이터를 읽고 에코하는 클라이언트와의 통신이 이루어진다
+            { 
                 int clientSocket = eventList[i].ident;
                 char buffer[BUFFER_SIZE];
                 int bytesRead;
                 std::string buf = "";
-                /** 클라이언트 생성 **/
-                // 클라이언트로부터 데이터를 수신하고, 그 데이터를 다시 클라이언트에게 전송
                 memset(buffer, 0, sizeof(buffer));
                 while ((bytesRead = recv(clientSocket, buffer , sizeof(buffer) - 1 , 0)) > 0)
                 {
