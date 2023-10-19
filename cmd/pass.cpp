@@ -13,7 +13,10 @@ void Server::pass(MessageInfo *msg, Client *client)
     std::string clientPw = msg->params[0]; // 들어왔다면 첫번째 애를 저장
     if (clientPw == this->password)
     {
+<<<<<<< HEAD
         std::cout << "password correct" << std::endl;
+=======
+>>>>>>> 5b193db54ae90844f74c8ddba0ce2dab8e03e2f8
         client->setValid(true);
         return ;
     }
@@ -27,7 +30,7 @@ void Server::pass(MessageInfo *msg, Client *client)
         if (nClients.find(clientSocket) != nClients.end()) 
         {
             nClients.erase(clientSocket);
-            // delete nClient; // 삭제된 클라이언트 객체를 해제
+            delete client; // 삭제된 클라이언트 객체를 해제
             close(clientSocket); // 클라이언트 소켓 닫기
 
             

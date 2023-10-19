@@ -15,6 +15,8 @@ Client *Server::getClient(std::string nickname)
     std::map<int, Client*>::iterator iter;
     for (iter = this->clients.begin(); iter != this->clients.end(); iter++)
     {
+        std::cout << "(iter->second)->getNickname() = " << (iter->second)->getNickname() << std::endl;
+        std::cout << " nickname  =  " << nickname << std::endl;
         if ((iter->second)->getNickname() == nickname)
             return (iter->second);
     }
