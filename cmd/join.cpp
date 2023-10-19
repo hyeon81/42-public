@@ -53,10 +53,6 @@ void Server::join(MessageInfo *msg, Client *client)
     }
 
     std::string channelName = msg->params[0];
-<<<<<<< HEAD
-=======
-    // std::cout << "client->getCurrentchannel() = " << client->getCurrentchannel() << std::endl;
->>>>>>> 5b193db54ae90844f74c8ddba0ce2dab8e03e2f8
     if (client->getCurrentchannel() != "*")
     {
         std::string sendMsg = ":ft_irc 405 " + client->getNickname() + " " + channelName + " :You have joined too many channels";
