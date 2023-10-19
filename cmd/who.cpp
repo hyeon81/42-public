@@ -1,7 +1,7 @@
 #include "../Server.hpp"
 
 void Server::who(MessageInfo *msg, Client *client)
-{//msg 다시 세팅 
+{
 
     std::string sendMsg = "";
     std::string isO = "";

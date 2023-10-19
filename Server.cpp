@@ -10,7 +10,6 @@ Server::Server(char *port, char *password)
 
 Server::~Server()
 {
-    std::cout << "Server destructor" << std::endl;
 }
 
 int Server::runServer()
@@ -18,7 +17,6 @@ int Server::runServer()
     const int PORT = this->port;
     const int BUFFER_SIZE = 1024;
     const int EVENTLIST_SIZE = 10;
-
     int serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == -1)
     {
@@ -26,8 +24,7 @@ int Server::runServer()
         return -1;
     }
     sockaddr_in serverAddress; // serverAddress 구조체는 서버의 주소 정보를 설정
-    memset(&serverAddress, 0, sizeof(serverAddress)); 
-
+    memset(&serverAddress, 0, sizeof(serverAddress));
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_addr.s_addr = INADDR_ANY;
     serverAddress.sin_port = htons(PORT);
@@ -44,7 +41,6 @@ int Server::runServer()
         return -1;
     }
     fcntl(serverSocket, F_SETFL, O_NONBLOCK);
-
     std::cout << "Server listening on port " << PORT << std::endl;
     // kqueue 생성
     int kq = kqueue(); // kqueue를 초기화하고 커널에 새로운 event queue를 만들고 큐의 디스크립터를 얻음
@@ -62,15 +58,11 @@ int Server::runServer()
     events.push_back(event);
     struct kevent eventList[EVENTLIST_SIZE]; // 감시하는 놈들 중에서 문제아 발생 목록을 정리
     // kevent 함수를 사용하여 kqueue로부터 이벤트를 대기 이 코드에서는 서버 소켓의 읽기 이벤트를 모니터링하고 있음
-    try {
-
     while (1)
     {
         // kqueue에 이벤트 첨부
-        // std::cout << "keque 1" << std::endl;
         int nev = kevent(kq, &events[0], events.size(), eventList, EVENTLIST_SIZE, NULL); // kevent 함수를 사용하여 새 이벤트를 기다리거나 (클라이언트 연결 시도) 이전에 등록한 이벤트를 모니터링합니다.
         // kq로 전달된 kqueue에 새로 모니터링할 이벤트를 등록하고, 발생하여 아직 처리되지 않은(pending 상태인) 이벤트의 개수를 return
-        // std::cout << "nev = " << nev << std::endl;
         events.clear();
         if (nev == -1)
         {
@@ -83,9 +75,8 @@ int Server::runServer()
             if (eventList[i].flags & EV_EOF)
             {                        // 이벤트의 flags 필드를 검사하여 연결이 끊어졌는지 확인 EV_EOF 플래그를 사용하여 클라이언트 연결이 종료되었는지 확인
                 close(eventList[i].ident); // 연결이 종료된 경우, 클라이언트 소켓을 닫고 해당 클라이언트에 대한 모니터링을 중지
-                std::cout << eventList[i].ident << " : closed connection" << std::endl;
             }
-            else if (eventList[i].ident == serverSocket)
+            else if (eventList[i].ident == (uintptr_t)serverSocket)
             { // ident 필드를 사용하여 이벤트가 발생한 소켓을 확인
                 // serverSocket에 대한 이벤트가 발생했다면, 새 클라이언트가 서버에 연결하려는 시도가 있음을 의미
                 int clientSocket = accept(serverSocket, nullptr, nullptr);
@@ -97,48 +88,40 @@ int Server::runServer()
                 }
                 EV_SET(&event, clientSocket, EVFILT_READ, EV_ADD, 0, 0, NULL);
                 events.push_back(event);
-                std::cout << eventList[i].ident << " : connected" << std::endl;
                 // 해당 클라이언트 소켓의 읽기 이벤트를 설정하고 활성화
                 // 이 새로운 클라이언트 소켓을 모니터링 대상으로 추가하기 위해 EV_SET을 사용하여 새 이벤트를 이벤트 배열에 추가
             }
-            else
+            else if (eventList[i].filter == EVFILT_READ)
             { // 이벤트가 serverSocket이나 연결 종료 이벤트가 아닌 경우에는 데이터를 읽고 에코하는 클라이언트와의 통신이 이루어진다
                 int clientSocket = eventList[i].ident;
                 char buffer[BUFFER_SIZE];
                 int bytesRead;
+                std::string buf = "";
                 /** 클라이언트 생성 **/
                 // 클라이언트로부터 데이터를 수신하고, 그 데이터를 다시 클라이언트에게 전송
                 memset(buffer, 0, sizeof(buffer));
-                while ((bytesRead = recv(clientSocket, buffer, sizeof(buffer), 0)) > 0)
+                while ((bytesRead = recv(clientSocket, buffer , sizeof(buffer) - 1 , 0)) > 0)
                 {
-                    std::string buf(buffer);
-                    std::cout << "***buf: " << buf << "======" << std::endl;
-                    communicateClient(clientSocket, buf);
-                    buf.clear();
-                    std::cout << "***clear buf ======" << std::endl;
-                    // write(1, buffer, bytesRead); // 요청 데이터 출력
+                    buffer[bytesRead] = '\0';
+                    buf.append(buffer);
+                    if (bytesRead < BUFFER_SIZE - 1)
+                        break;
                 }
-                    // EV_SET(&event, clientSocket, EVFILT_WRITE, EV_ADD, 0, 0, NULL);
-                    // events.push_back(event);
-                // if (bytesRead == 0)
-                // {
-                //     std::cout << "***closed connection" << std::endl;
-                //     close(clientSocket);
-                //     EV_SET(&event, clientSocket, EVFILT_READ, EV_DELETE, 0, 0, NULL);
-                //     events.push_back(event);
-                //     // 데이터가 더 이상 수신되지 않으면 클라이언트 소켓을 닫고, 해당 클라이언트 소켓의 읽기 이벤트를 EV_DELETE를 사용하여 제거
-                //     // 만약 클라이언트가 연결을 종료하면, 해당 클라이언트 소켓을 닫고 모니터링 대상에서 제거
-                // }
+                Udata *udata = new Udata();
+                udata->buf = buf;
+                struct kevent newEvent;
+                EV_SET(&newEvent, clientSocket, EVFILT_WRITE, EV_ADD | EV_ONESHOT, 0, 0, udata);
+                events.push_back(newEvent);
+            }
+            else if (eventList[i].filter == EVFILT_WRITE)
+            {
+                int clientSocket = eventList[i].ident;
+                Udata *tmp = static_cast<Udata *>(eventList[i].udata);
+                communicateClient(clientSocket, tmp->buf);
+                delete tmp;
             }
         }
     }
-
-    } catch (std::exception &err){
-        std::cout << err.what() << std::endl;
-        std::cout << "넌 발생하면 안돼1"<< std::endl;
-    }
-    std::cout << "넌 발생하면 안돼2"<< std::endl;
-
     return 0;
 }
 
@@ -146,7 +129,6 @@ void Server::communicateClient(int fd, std::string buffer)
 {
     /* 메세지 파싱.. */
     Client *client;
-    std::cout << "==========fd: " << fd << std::endl;
     
     if (nClients.find(fd) != nClients.end())
         client = nClients[fd];
@@ -155,45 +137,35 @@ void Server::communicateClient(int fd, std::string buffer)
         client = new Client(fd);
         nClients.insert(std::pair<int, Client *>(fd, client));
     }
-    /* 메세지 실행. msgs의 크기만큼 */
     std::vector<MessageInfo> msgs;
     setMessageInfo(msgs, buffer);
     for (unsigned int i = 0; i < msgs.size(); i++)
     {
-        // std::cout << msgs[i].cmd << std::endl;
-        // for (size_t j = 0; j < msgs[i].params.size(); j++)
-        // {
-        //     std::cout << "params[" << j << "]: " << msgs[i].params[j] << std::endl;
-        // }
         if (client)
             runCommand(&msgs[i], client);
     }
-    // showInfo();
-    // client->showInfo();
-    std::cout << "=====end=====" << std::endl;
 }
 
 void Server::runCommand(MessageInfo *msg, Client *client)
 {
     try
     {
-        void (Server::*funcs[17])(MessageInfo *msg, Client *client) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
-                                                                       &Server::part, &Server::names, &Server::topic, &Server::list,
-                                                                       &Server::invite, &Server::kick, &Server::mode, &Server::privmsg,
-                                                                       &Server::notice, &Server::ping, &Server::who, &Server::whois, &Server::quit};
-        std::string cmds[17] = {"PASS", "NICK", "USER", "JOIN", "PART", "NAMES", "TOPIC", "LIST", "INVITE", "KICK", "MODE", "PRIVMSG", "NOTICE", "PING", "WHO", "WHOIS", "QUIT"};
+        void (Server::*funcs[14])(MessageInfo *msg, Client *client) = {&Server::pass, &Server::nick, &Server::user, &Server::join,
+                                                                       &Server::part, &Server::topic, &Server::invite, &Server::kick, &Server::mode, 
+                                                                       &Server::privmsg, &Server::ping, &Server::who, &Server::whois, &Server::quit};
+        std::string cmds[14] = {"PASS", "NICK", "USER", "JOIN", "PART", "TOPIC", "INVITE", "KICK", "MODE", "PRIVMSG", "PING", "WHO", "WHOIS", "QUIT"};
 
-        for (int i = 0; i < 17; i++)
+        for (int i = 0; i < 14; i++)
         {
             if (cmds[i] == msg->cmd)
             {
-                if (i != 0 && client->getValid() == false)
+                if (cmds[i] != "PASS" && client->getValid() == false)
                 {
                     std::string errorMsg = ":ft_irc 451 :You have not registered";
                     sendResponse(errorMsg, client);
                     return;
                 }
-                if (i != 0 && i != 1 && i != 2 && (client->getNickname().empty() || client->getUsername().empty()))
+                if (cmds[i] != "PASS" && cmds[i] != "NICK" && cmds[i] != "USER" && (client->getNickname().empty() || client->getUsername().empty()))
                 {
                     if (cmds[i] == "QUIT")
                     {
@@ -212,8 +184,6 @@ void Server::runCommand(MessageInfo *msg, Client *client)
                 return;
             }
         }
-        // 명령어가 없을 경우. 빼도 됨.
-        // throw std::runtime_error("no match command");
     }
     catch (std::exception &e)
     {}
@@ -233,16 +203,6 @@ unsigned int Server::convertPort(char *port)
     return (res);
 }
 
-void Server::showInfo()
-{
-    std::cout << "===Server Info====" << std::endl;
-
-    std::cout << "port: " << this->port << std::endl;
-    std::cout << "password: " << this->password << std::endl;
-    std::cout << "clients: " << clients.size() << std::endl;
-    std::cout << "channels: " << channels.size() << std::endl;
-}
-
 void Server::setMessageInfo(std::vector<MessageInfo> &msg, std::string buf)
 {
     std::string delimiter = "\r\n";
@@ -254,7 +214,6 @@ void Server::setMessageInfo(std::vector<MessageInfo> &msg, std::string buf)
         buf.erase(0, pos + delimiter.length());
 
         std::cout << "***rawMsgs: " << rawMsgs << std::endl;
-        // rawMsgs 파싱하기 (한줄씩)
         MessageInfo msgInfo;
         std::stringstream mss(rawMsgs);
         std::string cmd, param;
@@ -263,11 +222,7 @@ void Server::setMessageInfo(std::vector<MessageInfo> &msg, std::string buf)
         while (mss >> param) {
             msgInfo.params.push_back(param);
         }
-        // if (msgInfo.params.size() > 1)
-        //     msgInfo.param = msgInfo.params[0];
-        //이렇게하면 하나의 MessageInfo가 생성됨
         msg.push_back(msgInfo);
     }
-    //추후에 clrf로 안 끝난 문자열도 처리고려해야 (꼭 안해도 될듯?)
 }
 

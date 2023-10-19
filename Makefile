@@ -2,11 +2,11 @@ NAME = ircserv
 
 CPP = c++
 
-CFLAGS = #-Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRCS = main.cpp Server.cpp Client.cpp Channel.cpp ChannelUtils.cpp ClientUtils.cpp SendUtils.cpp\
-./cmd/nick.cpp ./cmd/user.cpp ./cmd/join.cpp ./cmd/part.cpp ./cmd/names.cpp ./cmd/topic.cpp\
-./cmd/invite.cpp ./cmd/kick.cpp ./cmd/mode.cpp ./cmd/privmsg.cpp ./cmd/notice.cpp ./cmd/pass.cpp ./cmd/list.cpp\
+./cmd/nick.cpp ./cmd/user.cpp ./cmd/join.cpp ./cmd/part.cpp ./cmd/topic.cpp\
+./cmd/invite.cpp ./cmd/kick.cpp ./cmd/mode.cpp ./cmd/privmsg.cpp ./cmd/pass.cpp\
 ./cmd/ping.cpp ./cmd/who.cpp ./cmd/whois.cpp ./cmd/quit.cpp 
 
 OBJS = $(SRCS:.cpp=.o)

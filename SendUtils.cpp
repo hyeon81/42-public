@@ -1,6 +1,5 @@
 #include "Server.hpp"
 
-//요청에 대한 응답
 void Server::sendResponse(std::string msg, Client *client)
 {
     msg.append("\r\n");
@@ -38,11 +37,6 @@ void Server::invitingRPL(int fd, std::string nickname, std::string channelName)
     std::string msg = ":ft_irc 341 " + nickname + " " + channelName + " :Inviting to channel\r\n";
     std::cout << "***send: " << msg << std::endl;
     send(fd, msg.c_str(), msg.size(), 0);
-}
-
-void Server::noPrivileges(int fd, std::string nickname, std::string params)
-{
-    //481
 }
 
 void Server::noChannelOperPrivileges(int fd, std::string nickname, std::string channelName)
@@ -88,8 +82,6 @@ void Server::channelIsFull(Client *client, std::string channelName)
     throw std::runtime_error("channel is full");
 }
 
-//INVALIDMODEPARAM
-// "<client> <target chan/user> <mode char> <parameter> :<description>"
 //:irc.local 696 root_ #hello o * :You must specify a parameter for the op mode. Syntax: <nick>
 void Server::invalidModeParam(Client *client, std::string channelName, std::string modeName)
 {
@@ -102,19 +94,7 @@ void Server::invalidModeParam(Client *client, std::string channelName, std::stri
     throw std::runtime_error("invalid mode param");
 }
 
-
-// //:root!root@127.0.0.1 MODE #hello :+i
-// void Server::sendModeMessage(Client *client, std::string channelName, std::string mode)
-// {
-//     //<nick>!<user>@<host>
-//     std::string msg = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 MODE " + channelName + " :" + mode + "\r\n";
-//     std::cout << "***send: " << msg << std::endl;
-//     send(client->getSocket(), msg.c_str(), msg.size(), 0);
-// }
-
 //:root!root@127.0.0.1 KICK #hello root :sdjfjklsdflfds
-//cmd = "KICK #hello root"
-//유저들에게 보내는 메세지
 void Server::sendMessage(Client *client, std::string cmd)
 {
     if (!client)
@@ -127,11 +107,9 @@ void Server::sendMessage(Client *client, std::string cmd)
 }
 
 //:root_!root@127.0.0.1 TOPIC #hello :124
-//자신을 제외한 채널에 참여한 모든 유저들에게 보내는 메세지
 void Server::sendMessageAll(Client *client, std::string msg, std::string channelName)
 {
     std::vector<Client*> members = channels[channelName]->getChannelMembers();
-    std::cout << "members size: " << members.size() << std::endl;
     std::string m = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + msg + "\r\n";
     
     if (!client)
@@ -139,25 +117,21 @@ void Server::sendMessageAll(Client *client, std::string msg, std::string channel
 
     for (size_t i = 0; i < members.size(); i++) 
     {
-        // if (members[i]->getSocket() != client->getSocket())
-        // {
-            std::cout << "***send: " << members[i]->getSocket() << "m: " << m << std::endl;
-            send(members[i]->getSocket(), m.c_str(), m.size(), 0);
-        // }
+        std::cout << "***send: " << members[i]->getSocket() << "m: " << m << std::endl;
+        send(members[i]->getSocket(), m.c_str(), m.size(), 0);
     }
 }
 
 void Server::sendMessageAllWithOutMe(Client *client, std::string msg, std::string channelName)
 {
     std::vector<Client*> members = channels[channelName]->getChannelMembers();
-    std::cout << "members size: " << members.size() << std::endl;
     std::string m = ":" + client->getNickname() + "!" + client->getUsername() + "@127.0.0.1 " + msg + "\r\n";
     
     for (size_t i = 0; i < members.size(); i++) 
     {
         if (members[i]->getSocket() != client->getSocket())
         {
-            std::cout << "***send: " << members[i]->getSocket() << "m: " << m << std::endl;
+            std::cout << "***send: " << m << std::endl;
             send(members[i]->getSocket(), m.c_str(), m.size(), 0);
         }
     }
@@ -185,7 +159,7 @@ bool Server::clientExistsWithNickname(const std::string& nickname)
     return false; // 같은 닉네임의 클라이언트가 존재하지 않음
 }
 
-void Server::MeNotOnChannel(Client *client, std::string channelName, std::string userName)
+void Server::MeNotOnChannel(Client *client, std::string channelName)
 {
     if (!client)
         return ;

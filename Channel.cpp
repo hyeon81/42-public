@@ -2,20 +2,16 @@
 
 Channel::Channel()
 {
-    std::cout << "Channel default constructor" << std::endl;
 }
 
 Channel::Channel(std::string name)
 {
-    std::cout << "Channel constructor" << std::endl;
     this->name = name;
-    //모드 초기화
     memset(modes, 0, sizeof(modes));
 }
 
 Channel::~Channel()
 {
-    std::cout << "Channel destructor" << std::endl;
 }
 
 void Channel::addClient(Client *client)
@@ -48,7 +44,6 @@ void Channel::showClients()
         std::cout << (iter->second)->getNickname() << std::endl;
     }
 }
-
 
 std::string &Channel::getTopic()
 {
@@ -125,7 +120,7 @@ void Channel::removeKey()
 
 void Channel::removeLimit()
 {
-    this->limit = 0; //0으로 설정하는 게 맞나?
+    this->limit = 0;
 }
 
 void Channel::setLimit(unsigned int limit)
@@ -151,7 +146,9 @@ std::vector<Client*> Channel::getChannelMembers()
 bool Channel::isMember(Client *client)
 {
     if (clients.find(client->getSocket()) != clients.end())
+    {
         return (true);
+    }
     return (false);
 }
 

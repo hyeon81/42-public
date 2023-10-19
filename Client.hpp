@@ -6,10 +6,7 @@
 #include <vector>
 
 struct MessageInfo {
-    //prefix
     std::string cmd;
-    // std::string param;
-    bool isLast;
     std::vector<std::string> params;
 };
 
@@ -21,8 +18,6 @@ class Client{
         std::string nickname;
         std::string realname;
         std::string username;
-        std::string read_buf;
-        std::string send_buf;
         std::string currentChannel;
         time_t signonTime;
         time_t idleTime;
@@ -33,18 +28,13 @@ class Client{
         int getSocket();
         void setValid(bool value);
         bool getValid();
-        std::string &getReadBuf();
-        void setReadBuf(std::string buffer);
-        void setMsgs(std::string buf);
         void setNickname(std::string nickname);      
         std::string getNickname();
         std::string &getRealname();
         void setUsername(std::string username, std::string realname);
         std::string &getUsername();
         std::string getCurrentchannel(); //
-
-        void setCurrentchannel(std:: string channelname); //
-
+        void setCurrentchannel(std:: string channelname);
         bool getInvite();
         void setInvite(bool value);
 

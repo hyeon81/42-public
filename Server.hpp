@@ -19,12 +19,16 @@
 #include <sys/event.h>
 #include <fcntl.h>
 
+struct Udata
+{
+    std::string buf;
+};
+
 class Server{
     private:
         unsigned int port;
         std::string password;
         std::map<int, Client*>clients;
-        //나중에 client 지울때 nClient도 지우기
         std::map<int, Client*>nClients;
         std::map<std::string, Channel*>channels;
     
@@ -34,7 +38,6 @@ class Server{
 
         /* action*/
         int runServer();
-        void tmpRunServer();
 
         /* Client */
         void communicateClient(int fd, std::string buffer);
@@ -102,9 +105,7 @@ class Server{
         void channelIsFull(Client *client, std::string channelName);
         void inviteOnly(Client *client, std::string channelName);
         void notOnChannel(Client *client, std::string channelName, std::string userName);
-        void MeNotOnChannel(Client *client, std::string channelName, std::string userName);
-        /* debug */
-        void showInfo();
+        void MeNotOnChannel(Client *client, std::string channelName);
 };
 
 #endif

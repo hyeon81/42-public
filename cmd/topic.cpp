@@ -5,17 +5,13 @@
 void Server::topic(MessageInfo *msg, Client *client)
 {
     if(msg->params.size() == 0)
-    {
         notEnoughParams(client->getSocket(), client->getNickname(), msg->cmd);
-        //"<client> <command> :Not enough parameters"
-        // or  std::cout << channels[msg->params[0]]->getTopic() << std::endl;
-    }
     std::string channelName = msg->params[0];
-    if (isExistChannel(channelName)) // 존재한다면..?
+    if (isExistChannel(channelName))
     {
         Channel *channel = getChannel(channelName);
         if (!(channel->isMember(client)))
-            MeNotOnChannel(client, channelName, client->getNickname());
+            MeNotOnChannel(client, channelName);
         if (msg->params.size() < 2) 
         {
             // 주제를 확인하는 경우
@@ -25,7 +21,6 @@ void Server::topic(MessageInfo *msg, Client *client)
         }
         else 
         {
-            //설정
             //권한 확인
             if (channel->isModeApplied(TOPIC))
             {
@@ -38,7 +33,6 @@ void Server::topic(MessageInfo *msg, Client *client)
             channel->setTopic(newTopic);
             std::string sendMsg  = "TOPIC " + channelName + " :" + msg->params[1];
             // :root_!root@127.0.0.1 TOPIC #hello :124
-            //모든 유저들에게 알림
             sendMessageAll(client, sendMsg , channelName);
         }
     }

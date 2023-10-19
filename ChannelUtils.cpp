@@ -2,7 +2,6 @@
 
 bool Server::isExistChannel(std::string name)
 {
-    //존재한다면 true
     if (this->channels.find(name) != this->channels.end())
         return (true);
     return (false);
@@ -21,7 +20,6 @@ void Server::removeChannel(std::string name)
         return ;
     delete channels[name];
     channels.erase(name);
-    std::cout << "**remove channel**" << std::endl;
 }
 
 void Server::addClientToChannel(std::string name, Client *client, std::string password)
@@ -45,7 +43,7 @@ void Server::addClientToChannel(std::string name, Client *client, std::string pa
     //limit모드인지 확인
     if (channels[name]->isModeApplied(LIMIT))
     {
-        if (channels[name]->getLimit() != 0 && (channels[name]->getLimit() <= channels[name]->getChannelMembers().size()))
+        if (channels[name]->getLimit() != 0 && (channels[name]->getLimit() <= (int)(channels[name]->getChannelMembers().size())))
             channelIsFull(client, name);
     }
     
