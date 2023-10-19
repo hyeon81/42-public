@@ -203,11 +203,11 @@ void Server::runCommand(MessageInfo *msg, Client *client)
                 return;
             }
         }
+        // 명령어가 없을 경우. 빼도 됨.
+        // throw std::runtime_error("no match command");
     }
     catch (std::exception &e)
-    {
-        std::cout << "Error: " << e.what() << std::endl;
-    }
+    {}
 }
 
 unsigned int Server::convertPort(char *port)

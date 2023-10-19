@@ -73,27 +73,6 @@ void Server::nick(MessageInfo *msg, Client *client)
         }
     }
 
-
-
-    // if(client->getNickname().empty()) //들어올때 hello로 들어오기때문에
-    // {
-    //     for(std::map<int, Client*>::iterator it = clients.begin(); it != clients.end(); ++it)
-    //     {
-    //         if (it->second->getNickname() == nickName) // 같을 경우만 검증을 하기 때문
-    //         {
-                
-
-    //             client->setNickname(nickName + "_");
-    //             return ;
-    //         }
-
-
-            
-    //     }
-    //     client->setNickname(nickName);
-    //     return ;
-    // }
-
     if (client->getNickname().empty()) // 새로운 클라이언트의 경우
     {
         // 동일한 닉네임이 이미 존재하는지 확인
