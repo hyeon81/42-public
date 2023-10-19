@@ -25,7 +25,7 @@ void Server::who(MessageInfo *msg, Client *client)
             sendResponse(sendMsg, client);
         }
         else
-            noSuchChannel(client->getSocket(), client->getNickname(), msg->params[0]);
+            noSuchChannel(client->getSocket(), client->getNickname(), msg->cmd);
     }
     else //client
     {
@@ -43,6 +43,6 @@ void Server::who(MessageInfo *msg, Client *client)
             sendResponse(sendMsg, client);
         }
         else
-            noSuchNick(client->getSocket(), client->getNickname(), msg->params[1]);
+            noSuchNick(client->getSocket(), client->getNickname(), msg->cmd);
     }
 }

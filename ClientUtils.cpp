@@ -15,6 +15,8 @@ Client *Server::getClient(std::string nickname)
     std::map<int, Client*>::iterator iter;
     for (iter = this->clients.begin(); iter != this->clients.end(); iter++)
     {
+        std::cout << "(iter->second)->getNickname() = " << (iter->second)->getNickname() << std::endl;
+        std::cout << " nickname  =  " << nickname << std::endl;
         if ((iter->second)->getNickname() == nickname)
             return (iter->second);
     }
@@ -40,9 +42,10 @@ void Server::removeClient(Client *client) {
     if (client) {
         int fd = client->getSocket();
         if (clients.find(fd) != clients.end()) {
-            close(fd); // 클라이언트 소켓 닫기
+            close(fd); // 클라이언트 소켓 닫기 eof가 올거기때문
             delete client; // 클라이언트 메모리 해제
             clients.erase(fd); // 맵에서 클라이언트 제거
+            nClients.erase(fd);
         }
     }
 }

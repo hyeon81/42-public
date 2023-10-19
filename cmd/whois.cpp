@@ -56,8 +56,10 @@ me->getNickname() + " " + nick + " " \
 void Server::whois(MessageInfo *msg, Client *client)
 {
     Client *targetClient = getClient(msg->params[0]);
+
     if(targetClient)
     {
+        std::cout << "targetClient 널 아닌데유" << std::endl;
         /*311*/
         std::string msg311 = "ft_irc 311 " + client->getNickname() + " " + targetClient->getNickname() + 
             targetClient->getUsername() + "127.0.0.1 * :" + targetClient->getRealname() + "\r\n";
@@ -82,5 +84,9 @@ void Server::whois(MessageInfo *msg, Client *client)
             sendResponse(msg311 + msg312 + msg317 + msg318, client);
     }
     else
+    {
+        std::cout << "targetClient 널 인데유" << std::endl;
+        
         noSuchNick(client->getSocket(), msg->params[0], msg->cmd);
+    }
 }

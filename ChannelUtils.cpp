@@ -65,7 +65,11 @@ void Server::removeClientFromChannel(std::string name, Client *client)
 
 bool Server::isOperatorClient(std::string channelName, int fd)
 {
-    return (channels[channelName]->isOperator(fd));
+    if (channels.find(channelName) != channels.end())
+    {
+        return channels[channelName]->isOperator(fd);
+    }
+    return (false);
 }
 
 bool Server::isChannelModeApplied(std::string channelName, ChannelMode mode)

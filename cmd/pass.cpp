@@ -12,7 +12,10 @@ void Server::pass(MessageInfo *msg, Client *client)
     }
     std::string clientPw = msg->params[0]; // 들어왔다면 첫번째 애를 저장
     if (clientPw == this->password)
+    {
+        client->setValid(true);
         return ;
+    }
     else // 들어가지면 안돼 왜 생성이 돼 근데 어차피 pass가... 
     {
         errorMsg = ":ft_irc 464 :Password incorrect";
@@ -23,7 +26,7 @@ void Server::pass(MessageInfo *msg, Client *client)
         if (nClients.find(clientSocket) != nClients.end()) 
         {
             nClients.erase(clientSocket);
-            // delete nClient; // 삭제된 클라이언트 객체를 해제
+            delete client; // 삭제된 클라이언트 객체를 해제
             close(clientSocket); // 클라이언트 소켓 닫기
 
             
