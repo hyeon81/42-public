@@ -37,21 +37,15 @@ bool Server::isExistClient(std::string nickname)
 
 /* remove */
 void Server::removeClient(Client *client) {
-    std::cout << "remove client" << std::endl;
     if (client) {
         int fd = client->getSocket();
         if (clients.find(fd) != clients.end()) {
-            clients.erase(fd); // 맵에서 클라이언트 제거
-            nClients.erase(fd); // nClients에서 클라이언트 제거
-            // close(fd); // 클라이언트 소켓 닫기
+            close(fd); // 클라이언트 소켓 닫기
             delete client; // 클라이언트 메모리 해제
-
-
-            //채널에 있었으면 채널에서 제거
+            clients.erase(fd); // 맵에서 클라이언트 제거
         }
     }
 }
-
 
 // bool Server::isNickNameInUse(const std::string &nickName)
 // {
