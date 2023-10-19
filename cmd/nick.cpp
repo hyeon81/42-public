@@ -59,13 +59,13 @@ void Server::nick(MessageInfo *msg, Client *client)
         // throw std::runtime_error("no nickname given");
     }
     std::string nickName = msg->params[0];
-    if (nickName.length() > 9)
+    if(nickName.length() > 9)
     {
         errorMsg = "ft_irc 432 " + nickName + " :Erroneus nickname";
         sendResponse(errorMsg, client);
         return ;
     }
-    for (size_t i = 0; i < nickName.length(); ++i) // 허용되지 않은 문자가 있는 경우
+    for (size_t i = 0; i < nickName .length(); ++i) // 허용되지 않은 문자가 있는 경우
     { 
         char c = nickName [i];
         if (!(isalnum(c) || c == '[' || c == ']' || c == '{' || c == '}' || c == '\\' || c == '|'))
@@ -75,6 +75,8 @@ void Server::nick(MessageInfo *msg, Client *client)
             return ;
         }
     }
+
+
 
     // if(client->getNickname().empty()) //들어올때 hello로 들어오기때문에
     // {
@@ -122,7 +124,7 @@ void Server::nick(MessageInfo *msg, Client *client)
 
     else
     {
-        for(std::map<int, Client*>::iterator it = clients.begin(); it != clients.end(); it++)
+        for(std::map<int, Client*>::iterator it = clients.begin(); it != clients.end(); ++it)
         {
             if (it->second->getNickname() == nickName) // 같을 경우
             {
