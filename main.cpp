@@ -18,7 +18,7 @@ int main(int ac, char **av)
         //서버 실행
         server.runServer();
         // server.tmpRunServer();
-        std::cout << "====end====" << std::endl;
+        std::cout << "==== main end====" << std::endl;
     // } catch (std::exception &e)
     // {
     //     std::cerr << "exception occurs: " << e.what() << std::endl;     

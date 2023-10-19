@@ -23,7 +23,7 @@ void Server::invite(MessageInfo *msg, Client *client)
             addChannelInvite(channelName, user->getNickname());
             //초대받은 유저에게 보내기
             //:irc.local 341 root_ root__ :#hi
-            std::string invite_msg = ":ft_irc 341 " + user->getNickname() + " " + client->getNickname() + " :" + channelName;
+            std::string invite_msg = ":ft_irc 341 " + client->getNickname() + " " + user->getNickname() + " :" + channelName;
             sendResponse(invite_msg, user);
             //모든 사람에게 보내기
             //:root_!root@127.0.0.1 INVITE root__ :#hi

@@ -53,6 +53,14 @@ void Server::join(MessageInfo *msg, Client *client)
     }
 
     std::string channelName = msg->params[0];
+    // std::cout << "client->getCurrentchannel() = " << client->getCurrentchannel() << std::endl;
+    if (client->getCurrentchannel() != "*")
+    {
+        std::string sendMsg = ":ft_irc 405 " + client->getNickname() + " " + channelName + " :You have joined too many channels";
+        sendResponse(sendMsg, client);
+        throw std::runtime_error("too many channels");
+    }
+
     if (channelName[0] != '#' && channelName[0] != '&') 
     {
         std::string msg = ":ft_irc 476 " + client->getNickname() + " " + channelName + " :Bad Channel Mask";
@@ -67,7 +75,7 @@ void Server::join(MessageInfo *msg, Client *client)
             password = msg->params[1];
         }
         addClientToChannel(channelName, client, password);
-        client->setCurrentchannel(channelName);//
+        client->setCurrentchannel(channelName);
 
         // 새클라이언트가 채널에 참가했음을 알림
         std::string joinMessage = ":" + client->getNickname() + "!" + client->getUsername()

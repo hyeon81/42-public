@@ -62,13 +62,16 @@ int Server::runServer()
     events.push_back(event);
     struct kevent eventList[EVENTLIST_SIZE]; // 감시하는 놈들 중에서 문제아 발생 목록을 정리
     // kevent 함수를 사용하여 kqueue로부터 이벤트를 대기 이 코드에서는 서버 소켓의 읽기 이벤트를 모니터링하고 있음
+    try {
+
     while (1)
     {
         // kqueue에 이벤트 첨부
-        std::cout << "keque 1" << std::endl;
+        // std::cout << "keque 1" << std::endl;
         int nev = kevent(kq, &events[0], events.size(), eventList, EVENTLIST_SIZE, NULL); // kevent 함수를 사용하여 새 이벤트를 기다리거나 (클라이언트 연결 시도) 이전에 등록한 이벤트를 모니터링합니다.
         // kq로 전달된 kqueue에 새로 모니터링할 이벤트를 등록하고, 발생하여 아직 처리되지 않은(pending 상태인) 이벤트의 개수를 return
-        std::cout << "nev = " << nev << std::endl;
+        // std::cout << "nev = " << nev << std::endl;
+        events.clear();
         if (nev == -1)
         {
             perror("kevent");
@@ -76,12 +79,11 @@ int Server::runServer()
         }
         for (int i = 0; i < nev; i++)
         {
-            std::cout << "진입" << std::endl;
+            // std::cout << "진입" << std::endl;
             if (eventList[i].flags & EV_EOF)
             {                        // 이벤트의 flags 필드를 검사하여 연결이 끊어졌는지 확인 EV_EOF 플래그를 사용하여 클라이언트 연결이 종료되었는지 확인
-                close(serverSocket); // 연결이 종료된 경우, 클라이언트 소켓을 닫고 해당 클라이언트에 대한 모니터링을 중지
+                close(eventList[i].ident); // 연결이 종료된 경우, 클라이언트 소켓을 닫고 해당 클라이언트에 대한 모니터링을 중지
                 std::cout << eventList[i].ident << " : closed connection" << std::endl;
-                return 0;
             }
             else if (eventList[i].ident == serverSocket)
             { // ident 필드를 사용하여 이벤트가 발생한 소켓을 확인
@@ -113,20 +115,30 @@ int Server::runServer()
                     std::cout << "***buf: " << buf << "======" << std::endl;
                     communicateClient(clientSocket, buf);
                     buf.clear();
+                    std::cout << "***clear buf ======" << std::endl;
                     // write(1, buffer, bytesRead); // 요청 데이터 출력
                 }
-                if (bytesRead == 0)
-                {
-                    std::cout << "***closed connection" << std::endl;
-                    close(clientSocket);
-                    EV_SET(&event, clientSocket, EVFILT_READ, EV_DELETE, 0, 0, NULL);
-                    events.push_back(event);
-                    // 데이터가 더 이상 수신되지 않으면 클라이언트 소켓을 닫고, 해당 클라이언트 소켓의 읽기 이벤트를 EV_DELETE를 사용하여 제거
-                    // 만약 클라이언트가 연결을 종료하면, 해당 클라이언트 소켓을 닫고 모니터링 대상에서 제거
-                }
+                    // EV_SET(&event, clientSocket, EVFILT_WRITE, EV_ADD, 0, 0, NULL);
+                    // events.push_back(event);
+                // if (bytesRead == 0)
+                // {
+                //     std::cout << "***closed connection" << std::endl;
+                //     close(clientSocket);
+                //     EV_SET(&event, clientSocket, EVFILT_READ, EV_DELETE, 0, 0, NULL);
+                //     events.push_back(event);
+                //     // 데이터가 더 이상 수신되지 않으면 클라이언트 소켓을 닫고, 해당 클라이언트 소켓의 읽기 이벤트를 EV_DELETE를 사용하여 제거
+                //     // 만약 클라이언트가 연결을 종료하면, 해당 클라이언트 소켓을 닫고 모니터링 대상에서 제거
+                // }
             }
         }
     }
+
+    } catch (std::exception &err){
+        std::cout << err.what() << std::endl;
+        std::cout << "넌 발생하면 안돼1"<< std::endl;
+    }
+    std::cout << "넌 발생하면 안돼2"<< std::endl;
+
     return 0;
 }
 
@@ -178,16 +190,28 @@ void Server::runCommand(MessageInfo *msg, Client *client)
         {
             if (cmds[i] == msg->cmd)
             {
+                if (i != 0 && client->getValid() == false)
+                {
+                    std::string errorMsg = ":ft_irc 451 :You have not registered";
+                    sendResponse(errorMsg, client);
+                    return;
+                }
+                if (i != 0 && i != 1 && i != 2 && (client->getNickname().empty() || client->getUsername().empty()))
+                {
+                    std::string errorMsg = ":ft_irc 451 :You have not registered";
+                    sendResponse(errorMsg, client);
+                    return;
+                }
                 (this->*funcs[i])(msg, client);
                 return;
             }
         }
         // 명령어가 없을 경우. 빼도 됨.
-        throw std::runtime_error("no match command");
+        // throw std::runtime_error("no match command");
     }
     catch (std::exception &e)
     {
-        std::cerr << "Exception: " << e.what() << std::endl;
+        // std::cerr << "Exception: " << e.what() << std::endl;
     }
 }
 
@@ -240,3 +264,4 @@ void Server::setMessageInfo(std::vector<MessageInfo> &msg, std::string buf)
     }
     //추후에 clrf로 안 끝난 문자열도 처리고려해야 (꼭 안해도 될듯?)
 }
+

@@ -38,7 +38,10 @@ void Server::mode(MessageInfo *msg, Client *client)
     //인자가 하나만 있을 경우. 즉 채널명만 있을 경우
     if (msg->params.size() == 1)
     {
-        std::string msg = ":ft_irc 324 " + client->getNickname() + " " + getChannelModes(channelName);
+        std::string channelModes = getChannelModes(channelName);
+        if (channelModes.length() == 1 && channelModes[0] == '+')
+            return ;
+        std::string msg = ":ft_irc 324 " + client->getNickname() + " " + channelModes;
         sendResponse(msg, client);
         return ;
     }

@@ -59,13 +59,13 @@ void Server::nick(MessageInfo *msg, Client *client)
         // throw std::runtime_error("no nickname given");
     }
     std::string nickName = msg->params[0];
-    if (nickName.length() > 9)
+    if(nickName.length() > 9)
     {
         errorMsg = "ft_irc 432 " + nickName + " :Erroneus nickname";
         sendResponse(errorMsg, client);
         return ;
     }
-    for (size_t i = 0; i < nickName.length(); ++i) // 허용되지 않은 문자가 있는 경우
+    for (size_t i = 0; i < nickName .length(); ++i) // 허용되지 않은 문자가 있는 경우
     { 
         char c = nickName [i];
         if (!(isalnum(c) || c == '[' || c == ']' || c == '{' || c == '}' || c == '\\' || c == '|'))
@@ -75,26 +75,6 @@ void Server::nick(MessageInfo *msg, Client *client)
             return ;
         }
     }
-
-    // if(client->getNickname().empty()) //들어올때 hello로 들어오기때문에
-    // {
-    //     for(std::map<int, Client*>::iterator it = clients.begin(); it != clients.end(); ++it)
-    //     {
-    //         if (it->second->getNickname() == nickName) // 같을 경우만 검증을 하기 때문
-    //         {
-                
-
-    //             client->setNickname(nickName + "_");
-    //             return ;
-    //         }
-
-
-            
-    //     }
-    //     client->setNickname(nickName);
-    //     return ;
-    // }
-
     if (client->getNickname().empty()) // 새로운 클라이언트의 경우
     {
         // 동일한 닉네임이 이미 존재하는지 확인
@@ -103,7 +83,7 @@ void Server::nick(MessageInfo *msg, Client *client)
             if (it->second->getNickname() == nickName)
             {
                 // 이미 사용 중인 닉네임이라면 언더스코어 추가
-                int underscoreCount = 1;
+                int underscoreCount = 0;
                 std::string originalName = nickName;
                 while (clientExistsWithNickname(nickName))
                 {
@@ -122,7 +102,7 @@ void Server::nick(MessageInfo *msg, Client *client)
 
     else
     {
-        for(std::map<int, Client*>::iterator it = clients.begin(); it != clients.end(); it++)
+        for(std::map<int, Client*>::iterator it = clients.begin(); it != clients.end(); ++it)
         {
             if (it->second->getNickname() == nickName) // 같을 경우
             {

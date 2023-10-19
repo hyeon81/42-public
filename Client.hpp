@@ -18,7 +18,7 @@ class Client{
         std::string username;
         std::string read_buf;
         std::string send_buf;
-        std::string currentChannel; //
+        std::string currentChannel;
         time_t signonTime;
         time_t idleTime;
 
