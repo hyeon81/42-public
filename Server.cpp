@@ -187,25 +187,27 @@ void Server::runCommand(MessageInfo *msg, Client *client)
         {
             if (cmds[i] == msg->cmd)
             {
-                // if (i != 0 && client->getValid() == false)
-                // {
-                //     std::string errorMsg = ":ft_irc 451 :You have not registered";
-                //     sendResponse(errorMsg, client);
-                //     return;
-                // }
-                // if (i != 0 && i != 1 && i != 2 && (client->getNickname().empty() || client->getUsername().empty()))
-                // {
-                //     std::string errorMsg = ":ft_irc 451 :You have not registered";
-                //     sendResponse(errorMsg, client);
-                //     return;
-                // }
+                if (i != 0 && client->getValid() == false)
+                {
+                    std::string errorMsg = ":ft_irc 451 :You have not registered";
+                    sendResponse(errorMsg, client);
+                    return;
+                }
+                if (i != 0 && i != 1 && i != 2 && (client->getNickname().empty() || client->getUsername().empty()))
+                {
+                    std::string errorMsg = ":ft_irc 451 :You have not registered";
+                    sendResponse(errorMsg, client);
+                    return;
+                }
                 (this->*funcs[i])(msg, client);
                 return;
             }
         }
     }
     catch (std::exception &e)
-    {}
+    {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
 }
 
 unsigned int Server::convertPort(char *port)

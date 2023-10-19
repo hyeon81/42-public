@@ -17,6 +17,8 @@ void Server::invite(MessageInfo *msg, Client *client)
         //채널에 클라이언트 추가. 유저의 닉네임으로 fd 찾는 함수 만들어야
         if (msg->params.size() > 1)
         {
+            if ((channels[channelName]->isMember(client)) == false)
+                MeNotOnChannel(client, channelName, client->getNickname());
             Client *user = getClient(msg->params[0]);
             if (!user)
                 noSuchNick(client->getSocket(), client->getNickname(), msg->params[0]);

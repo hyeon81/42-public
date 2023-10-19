@@ -102,7 +102,7 @@ void Server::nick(MessageInfo *msg, Client *client)
             if (it->second->getNickname() == nickName)
             {
                 // 이미 사용 중인 닉네임이라면 언더스코어 추가
-                int underscoreCount = 1;
+                int underscoreCount = 0;
                 std::string originalName = nickName;
                 while (clientExistsWithNickname(nickName))
                 {

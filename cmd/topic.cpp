@@ -11,10 +11,10 @@ void Server::topic(MessageInfo *msg, Client *client)
         // or  std::cout << channels[msg->params[0]]->getTopic() << std::endl;
     }
     std::string channelName = msg->params[0];
-    Channel *channel = getChannel(channelName);
     if (isExistChannel(channelName)) // 존재한다면..?
     {
-        if (!(channels[channelName]->isMember(client)))
+        Channel *channel = getChannel(channelName);
+        if (!(channel->isMember(client)))
             MeNotOnChannel(client, channelName, client->getNickname());
         if (msg->params.size() < 2) 
         {

@@ -19,6 +19,7 @@ void Server::removeChannel(std::string name)
 {
     if (!isExistChannel(name))
         return ;
+    delete channels[name];
     channels.erase(name);
     std::cout << "**remove channel**" << std::endl;
 }
@@ -55,6 +56,8 @@ void Server::removeClientFromChannel(std::string name, Client *client)
 {
     //:root!root@127.0.0.1 KICK #hello root :sdjfjklsdflfds
     //해당 유저 채널에서 제거
+    if (!channels[name]->isMember(client))
+        return ;
     channels[name]->removeClient(client);
     channels[name]->removeOperator(client);
     channels[name]->removeInvite(client);
