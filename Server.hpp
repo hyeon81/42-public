@@ -57,7 +57,6 @@ class Server{
         bool isChannelModeApplied(std::string channelName, ChannelMode mode);
         std::string getChannelModes(std::string channelName);
         void addChannelOperator(std::string channelName, std::string nickname);
-        void sendMessageAllWithOutMe(std::string channelName, std::string nickname);
         void addChannelInvite(std::string channelName, std::string nickname);
 
         /* cmds */
@@ -84,7 +83,6 @@ class Server{
         unsigned int convertPort(char *port);
         void setMessageInfo(std::vector<MessageInfo> &msg, std::string buf);
         bool clientExistsWithNickname(const std::string& nickname);
-
 
         /* send */
         void sendMessage(Client *client, std::string cmd);

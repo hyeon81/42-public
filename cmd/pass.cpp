@@ -12,7 +12,10 @@ void Server::pass(MessageInfo *msg, Client *client)
     }
     std::string clientPw = msg->params[0]; // 들어왔다면 첫번째 애를 저장
     if (clientPw == this->password)
+    {
+        client->setValid(true);
         return ;
+    }
     else
     {
         errorMsg = ":ft_irc 464 :Password incorrect";

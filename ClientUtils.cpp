@@ -2,11 +2,11 @@
 
 void Server::addClientToServer(Client *client)
 {
-    // if (client->getValid())
-    // {
+    if (client->getValid())
+    {
         std::cout << "add client" << std::endl;
         this->clients.insert(std::make_pair(client->getSocket(), client));
-    // }
+    }
 }
 
 Client *Server::getClient(std::string nickname)
@@ -43,7 +43,7 @@ void Server::removeClient(Client *client) {
         if (clients.find(fd) != clients.end()) {
             clients.erase(fd); // 맵에서 클라이언트 제거
             nClients.erase(fd); // nClients에서 클라이언트 제거
-            close(fd); // 클라이언트 소켓 닫기
+            // close(fd); // 클라이언트 소켓 닫기
             delete client; // 클라이언트 메모리 해제
 
 

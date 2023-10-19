@@ -20,6 +20,7 @@ void Server::removeChannel(std::string name)
     if (!isExistChannel(name))
         return ;
     channels.erase(name);
+    std::cout << "**remove channel**" << std::endl;
 }
 
 void Server::addClientToChannel(std::string name, Client *client, std::string password)

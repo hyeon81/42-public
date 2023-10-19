@@ -113,6 +113,7 @@ int Server::runServer()
                     std::cout << "***buf: " << buf << "======" << std::endl;
                     communicateClient(clientSocket, buf);
                     buf.clear();
+                    std::cout << "***clear buf ======" << std::endl;
                     // write(1, buffer, bytesRead); // 요청 데이터 출력
                 }
                 if (bytesRead == 0)
@@ -176,8 +177,20 @@ void Server::runCommand(MessageInfo *msg, Client *client)
 
         for (int i = 0; i < 17; i++)
         {
-            if (cmds[i] == msg->cmd)
+            if (cmds[i] == msg->cmd && i != 15)
             {
+                if (i != 0 && client->getValid() == false)
+                {
+                    std::string errorMsg = ":ft_irc 451 :You have not registered";
+                    sendResponse(errorMsg, client);
+                    return;
+                }
+                if (i != 0 && i != 1 && i != 2 && (client->getNickname().empty() || client->getUsername().empty()))
+                {
+                    std::string errorMsg = ":ft_irc 451 :You have not registered";
+                    sendResponse(errorMsg, client);
+                    return;
+                }
                 (this->*funcs[i])(msg, client);
                 return;
             }
