@@ -219,6 +219,8 @@ unsigned int Server::convertPort(char *port)
     // 오류 검증
     if (*stopstring != '\0')
         throw std::runtime_error("Error: not valid port number");
+    if (res < 0 || res > 65535)
+        throw std::runtime_error("Error: not valid port number");
     return (res);
 }
 
