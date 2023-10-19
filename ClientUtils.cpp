@@ -38,11 +38,14 @@ bool Server::isExistClient(std::string nickname)
 /* remove */
 void Server::removeClient(Client *client) {
     if (client) {
+        if (client->getCurrentchannel() != "*")
+            removeClientFromChannel(client->getCurrentchannel(), client);
         int fd = client->getSocket();
         if (clients.find(fd) != clients.end()) {
+            clients.erase(fd); // 맵에서 클라이언트 제거
+            nClients.erase(fd);
             close(fd); // 클라이언트 소켓 닫기
             delete client; // 클라이언트 메모리 해제
-            clients.erase(fd); // 맵에서 클라이언트 제거
         }
     }
 }

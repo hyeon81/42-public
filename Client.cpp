@@ -4,7 +4,6 @@
 Client::Client(int fd): fd(fd) , signonTime(0), idleTime(0)
 {
     std::cout << "Client constructor" << std::endl;
-    msgs = new Message();
     this->valid = false;
     this->invite = false;
     this->updateSignonTime();
@@ -44,17 +43,6 @@ void Client::setReadBuf(std::string buffer)
 void Client::setNickname(std::string nickname)
 {
     this->nickname = nickname;
-}
-
-void Client::setMsgs(std::string buf)
-{
-    //client 내부의 msgs의 메세지 설정
-    msgs->setMessageInfo(buf);
-}
-
-std::vector<MessageInfo> &Client::getMsgs()
-{
-    return (msgs->getMsgs());
 }
 
 std::string Client::getNickname()
@@ -113,11 +101,6 @@ bool Client::getInvite()
 void Client::setInvite(bool value)
 {
     this->invite = value;
-}
-
-void Client::clearMsgs()
-{
-    msgs->clearMsgs();
 }
 
 void Client::updateSignonTime() //Sign-on Time: 최종으로 서버에 접속한 시간

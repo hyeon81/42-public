@@ -3,14 +3,19 @@
 
 #include <string>
 #include <iostream>
-#include "Message.hpp"
+#include <vector>
 
-class Message;
+struct MessageInfo {
+    //prefix
+    std::string cmd;
+    // std::string param;
+    bool isLast;
+    std::vector<std::string> params;
+};
 
 class Client{
     private:
         int fd;
-        Message *msgs;
         bool valid;
         bool invite;
         std::string nickname;
@@ -31,7 +36,6 @@ class Client{
         std::string &getReadBuf();
         void setReadBuf(std::string buffer);
         void setMsgs(std::string buf);
-        std::vector<MessageInfo> &getMsgs();
         void setNickname(std::string nickname);      
         std::string getNickname();
         std::string &getRealname();
@@ -43,7 +47,6 @@ class Client{
 
         bool getInvite();
         void setInvite(bool value);
-        void clearMsgs();
 
         /* debug */
         void showInfo();

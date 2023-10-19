@@ -45,9 +45,6 @@
 //이미 있는 유저가 들어오면..?
 
 
-
-
-
 void Server::nick(MessageInfo *msg, Client *client)
 {
     std::string errorMsg;

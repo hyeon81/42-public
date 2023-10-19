@@ -7,8 +7,8 @@
 #include <map>
 #include <vector>
 #include <stdexcept>
+#include <sstream>
 #include "Client.hpp"
-#include "Message.hpp"
 #include "Channel.hpp"
 
 /* socket */

@@ -12,7 +12,11 @@ void Server::pass(MessageInfo *msg, Client *client)
     }
     std::string clientPw = msg->params[0]; // 들어왔다면 첫번째 애를 저장
     if (clientPw == this->password)
+    {
+        std::cout << "password correct" << std::endl;
+        client->setValid(true);
         return ;
+    }
     else // 들어가지면 안돼 왜 생성이 돼 근데 어차피 pass가... 
     {
         errorMsg = ":ft_irc 464 :Password incorrect";
