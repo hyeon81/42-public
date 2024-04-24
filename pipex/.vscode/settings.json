@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "unistd.h": "c",
+        "pipex.h": "c",
+        "stdlib.h": "c",
+        "errno.h": "c",
+        "stdio.h": "c",
+        "get_next_line.h": "c",
+        "locale": "c"
+    }
+}
