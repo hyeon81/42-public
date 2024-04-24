@@ -1,0 +1,118 @@
+version: '3.9'
+
+services:
+  postgresql:
+    container_name: postgresql
+    image: postgresql
+    build:
+      context: ./service/postgresql
+      dockerfile: Dockerfile
+    env_file:
+      - ./service/postgresql/.env
+    volumes:
+      - postgresql_data_volume:/var/lib/postgresql/data
+    networks:
+      - ft_transcendence
+    restart: unless-stopped
+    tty: true
+  nestjs:
+    container_name: nestjs
+    image: nestjs
+    build:
+      context: ./service/nestjs
+      dockerfile: Dockerfile
+    env_file:
+      - ./service/nestjs/.env
+    volumes:
+      - nestjs_src_volume:/app/src
+      - nestjs_prisma_volume:/app/prisma
+      - nestjs_upload_volume:/app/upload
+    networks:
+      - ft_transcendence
+    depends_on:
+      - postgresql
+    restart: unless-stopped
+    tty: true
+  nextjs:
+    container_name: nextjs
+    image: nextjs
+    build:
+      context: ./service/nextjs
+      dockerfile: Dockerfile
+    env_file:
+      - ./service/nextjs/.env
+    volumes:
+      - nextjs_src_volume:/app/src
+    networks:
+      - ft_transcendence
+    depends_on:
+      - nestjs
+    restart: unless-stopped
+    tty: true
+  nginx:
+    container_name: nginx
+    image: nginx
+    build:
+      context: ./service/nginx
+      dockerfile: Dockerfile
+    env_file:
+      - ./service/nginx/.env
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - nginx_log_volume:/var/log/nginx
+    networks:
+      - ft_transcendence
+    depends_on:
+      - nextjs
+    restart: unless-stopped
+    tty: true
+
+volumes:
+  postgresql_data_volume:
+    name: postgresql_data_volume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '${PWD}/service/postgresql/data'
+  nestjs_src_volume:
+    name: nestjs_src_volume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '${PWD}/service/nestjs/src'
+  nestjs_prisma_volume:
+    name: nestjs_prisma_volume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '${PWD}/service/nestjs/prisma'
+  nestjs_upload_volume:
+    name: nestjs_upload_volume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '${PWD}/service/nestjs/upload'
+  nextjs_src_volume:
+    name: nextjs_src_volume
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '${PWD}/service/nextjs/src'
+  nginx_log_volume:
+    name: nginx_log_volume
+    driver: local
+    driver_opts:
+      device: '${PWD}/service/nginx/log'
+      type: none
+      o: bind
+
+networks:
+  ft_transcendence:
+    name: ft_transcendence
