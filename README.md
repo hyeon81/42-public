@@ -40,3 +40,4 @@
     - 채팅 서버 프로토콜인 RFC를 준수하여 채팅 서버 만들기.
     - 소켓 통신에 대한 공부
 - **ft_transcendence (핑퐁 채팅 게임 사이트 구현 / 5인)**
+    - https://github.com/hyeon81/ft_transcendence.git
